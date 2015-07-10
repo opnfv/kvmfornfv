@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa3479d7_7bd0b353",
+        "filename": "INFO",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1453
+      },
+      "writtenOn": "2015-07-10T17:37:34Z",
+      "side": 1,
+      "message": "I can live the git project name being kvmfornfv but I really don\u0027t like that for the mailing list \u0026 IRC channel.  Can we change the mailing list prefix and IRC channel to just kvm",
+      "revId": "4e24e99bdbe02a05723ae26236366832724ba36c",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}

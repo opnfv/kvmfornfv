@@ -5,9 +5,9 @@ Lifecycle State:
 Primary Contact: donald.d.dugger@intel.com
 Project Lead: donald.d.dugger@intel.com
 Jira Project Name: NFV Hypervisors-KVM
-Jira Project Prefix: KVMFORNFV
-Mailing list tag: [kvmfornfv]
-IRC: #opnfv-kvmfornfv
+Jira Project Prefix: KVM
+Mailing list tag: [kvm]
+IRC: #opnfv-kvm
 Repository: kvmfornfv
 
 Committers:

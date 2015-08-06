@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ba3e81b7_9047b44b",
+        "filename": "tools/rtlinux-build.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1453
+      },
+      "writtenOn": "2015-08-06T14:28:08Z",
+      "side": 1,
+      "message": "I\u0027m not in favor of excessive validation.  If the user specifies conflicting parameters then just let the last one win.",
+      "revId": "95cfc72f5e51386f5ab7084bf428940b096868da",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba3e81b7_b04ab853",
+        "filename": "tools/rtlinux-build.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1453
+      },
+      "writtenOn": "2015-08-06T14:28:08Z",
+      "side": 1,
+      "message": "Command scripts that ask questions (meaning they can\u0027t be used in an automated environment) are bad and require strong justification.  Scripts that sometimes ask questions are even worse.  You don\u0027t need this check at all, trust the user to know when the config file has changed and the user can act accordingly",
+      "revId": "95cfc72f5e51386f5ab7084bf428940b096868da",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ba3e81b7_1081844a",
+        "filename": "tools/rtlinux-build.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2015-08-06T21:32:27Z",
+      "side": 1,
+      "message": "This is just from my usage, that I wrongly overwrite my config file changed.",
+      "parentUuid": "ba3e81b7_9047b44b",
+      "revId": "95cfc72f5e51386f5ab7084bf428940b096868da",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ba3e81b7_b04ab853",
         "filename": "tools/rtlinux-build.sh",
         "patchSetId": 5
@@ -30,6 +48,24 @@
       "writtenOn": "2015-08-06T14:28:08Z",
       "side": 1,
       "message": "Command scripts that ask questions (meaning they can\u0027t be used in an automated environment) are bad and require strong justification.  Scripts that sometimes ask questions are even worse.  You don\u0027t need this check at all, trust the user to know when the config file has changed and the user can act accordingly",
+      "revId": "95cfc72f5e51386f5ab7084bf428940b096868da",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba3e81b7_d0c09c7e",
+        "filename": "tools/rtlinux-build.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2015-08-06T21:32:27Z",
+      "side": 1,
+      "message": "With -f or -n parameter, there is no asking question. So if any script want to use this, it should be ok to simply passing -f/-n parameter.\n\nSometimes we are trying some new config, and we forgot the last changes or, changed too much and may forgot one. I\u0027d support a chance to avoid forcely overwrite",
+      "parentUuid": "ba3e81b7_b04ab853",
       "revId": "95cfc72f5e51386f5ab7084bf428940b096868da",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false

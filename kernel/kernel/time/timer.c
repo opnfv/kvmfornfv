@@ -1425,15 +1425,21 @@ unsigned long get_next_timer_interrupt(unsigned long now)
 	 * the base lock to check when the next timer is pending and so
 	 * we assume the next jiffy.
 	 */
-	return now + 1;
-#endif
+	if (!spin_do_trylock(&base->lock))
+		return now + 1;
+#else
 	spin_lock(&base->lock);
+#endif
 	if (base->active_timers) {
 		if (time_before_eq(base->next_timer, base->timer_jiffies))
 			base->next_timer = __next_timer_interrupt(base);
 		expires = base->next_timer;
 	}
+#ifdef CONFIG_PREEMPT_RT_FULL
+	rt_spin_unlock(&base->lock);
+#else
 	spin_unlock(&base->lock);
+#endif
 
 	if (time_before_eq(expires, now))
 		return now;

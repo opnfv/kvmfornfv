@@ -352,7 +352,7 @@ static int vfio_msi_set_vector_signal(struct vfio_pci_device *vdev,
 		pci_write_msi_msg(irq, &msg);
 	}
 
-	ret = request_irq(irq, vfio_msihandler, 0,
+	ret = request_irq(irq, vfio_msihandler, IRQF_NO_THREAD,
 			  vdev->ctx[vector].name, trigger);
 	if (ret) {
 		kfree(vdev->ctx[vector].name);

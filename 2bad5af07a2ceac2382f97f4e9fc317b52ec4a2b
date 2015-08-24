@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7a288981_b74d0ac7",
+        "filename": "ci/build.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 254
+      },
+      "writtenOn": "2015-08-24T09:18:13Z",
+      "side": 1,
+      "message": "Can we please exclude daily stuff for the timebeing and only focus on verify? Above directory is not correct and we need to have a short discussion regarding where the things are currently stored for other projects, such as the installers and how to handle versioning of the artifacts.\n\nI\u0027ll start a discussion on mailing list.",
+      "range": {
+        "startLine": 61,
+        "startChar": 0,
+        "endLine": 61,
+        "endChar": 63
+      },
+      "revId": "2bad5af07a2ceac2382f97f4e9fc317b52ec4a2b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a288981_974a0eab",
+        "filename": "ci/build.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 254
+      },
+      "writtenOn": "2015-08-24T09:18:13Z",
+      "side": 1,
+      "message": "same here, please do not do artifact storage for daily for the timebeing.",
+      "range": {
+        "startLine": 72,
+        "startChar": 0,
+        "endLine": 75,
+        "endChar": 69
+      },
+      "revId": "2bad5af07a2ceac2382f97f4e9fc317b52ec4a2b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a288981_77c7a213",
+        "filename": "ci/build.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 254
+      },
+      "writtenOn": "2015-08-24T09:18:13Z",
+      "side": 1,
+      "message": "please exclude artifact storage from merge jobs; first need to decide how to handle merge/daily artifacts.\n\nremoval of the verify artifacts below can stay as it is.",
+      "range": {
+        "startLine": 77,
+        "startChar": 0,
+        "endLine": 79,
+        "endChar": 77
+      },
+      "revId": "2bad5af07a2ceac2382f97f4e9fc317b52ec4a2b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}

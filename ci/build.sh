@@ -1,13 +1,23 @@
 #!/bin/bash
 
-export PATH=$PATH:/usr/local/bin/
-
-if [ ! -d kernel ] ; then
-    echo ${0}: Directory \'kernel\' does not exist, run this script from the root of kvmfornfv source tree
+if [ ${#} -ne 1 ] ; then
+    echo "usage: ${0} output_dir"
     exit -1
 fi
 
-cd kernel
+if [ ! -d ${1} ] ; then
+    echo ${0}: Output directory \'${1}\' does not exist
+    exit -1
+fi
+output_dir=${1}
+
+kernel_src_dir=kernel
+if [ ! -d ${kernel_src_dir} ] ; then
+    echo ${0}: Directory \'${kernel_src_dir}\' does not exist, run this script from the root of kvmfornfv source tree
+    exit -1
+fi
+
+cd ${kernel_src_dir}
 
 echo
 echo "Build"
@@ -44,46 +54,4 @@ if [ ${RPMs} -ne 3 ] ; then
     exit -1
 fi
 
-echo
-echo "Upload"
-echo "------"
-echo
-
-set -e
-set -o pipefail
-
-# NOTE: make sure source parameters for GS paths are not empty.
-[[ $GERRIT_CHANGE_NUMBER =~ .+ ]]
-[[ $GERRIT_PROJECT =~ .+ ]]
-[[ $GERRIT_BRANCH =~ .+ ]]
-
-gs_path_review="artifacts.opnfv.org/review/$GERRIT_CHANGE_NUMBER"
-gs_path_daily="artifacts.opnfv.org/daily/$GERRIT_CHANGE_NUMBER"
-if [[ $GERRIT_BRANCH = "master" ]] ; then
-    gs_path_branch="artifacts.opnfv.org/$GERRIT_PROJECT"
-else
-    gs_path_branch="artifacts.opnfv.org/$GERRIT_PROJECT/${GERRIT_BRANCH}"
-fi
-
-if [[ $JOB_NAME =~ "verify" ]] ; then
-    gsutil cp -r ${artifact_dir}/* "gs://$gs_path_review/"
-    echo
-    echo "Kernel RPM packages are available at http://$gs_path_review"
-elif [[ $JOB_NAME =~ "daily" ]] ; then
-    gsutil cp -r ${artifact_dir}/* "gs://$gs_path_daily/"
-    echo
-    echo "Kernel RPM packages are available at http://$gs_path_daily"
-elif [[ $JOB_NAME =~ "merge" ]] ; then
-    gsutil cp -r ${artifact_dir}/* "gs://$gs_path_branch/"
-    echo
-    echo "Latest kernel RPM packages are available at http://$gs_path_branch"
-
-    if gsutil ls "gs://$gs_path_review" > /dev/null 2>&1 ; then
-        echo
-        echo "Deleting Out-of-dated kernel RPM packages"
-        gsutil rm -r "gs://$gs_path_review"
-    fi
-else
-    echo ${0}: Unknown job ${JOB_NAME}
-    exit -1
-fi
+cp -f ${artifact_dir}/* ${output_dir}

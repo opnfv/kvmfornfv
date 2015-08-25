@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7a288981_5d63a7b1",
+        "filename": "ci/build.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1453
+      },
+      "writtenOn": "2015-08-25T14:31:05Z",
+      "side": 1,
+      "message": "Really bad things will happen if two different people run this script at the same time.  I avoid this problem with something like:\n\nrpmbuild_dir\u003d/tmp/kvmfornfv_rpmbuild.$$",
+      "revId": "721a9ddefb29ce95dbb888def3274faa7de6682f",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a288981_7d5e63eb",
+        "filename": "ci/build.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1453
+      },
+      "writtenOn": "2015-08-25T14:31:05Z",
+      "side": 1,
+      "message": "I\u0027d remove this check since it should be pointless.  If the prior check on the return code from `make\u0027 is good then there\u0027s no reason this directory wouldn\u0027t be created. (Also, I\u0027m not a big fan of excessive error checking, I find it causes more trouble than it solves.)",
+      "revId": "721a9ddefb29ce95dbb888def3274faa7de6682f",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a288981_1d463f24",
+        "filename": "ci/build.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1453
+      },
+      "writtenOn": "2015-08-25T14:31:05Z",
+      "side": 1,
+      "message": "I\u0027d also remove this check.  What if the build changes and is supposed to create 4 RPMs?  The user will find out soon enough if any RPMs are missing.",
+      "revId": "721a9ddefb29ce95dbb888def3274faa7de6682f",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a288981_bd54cbca",
+        "filename": "ci/build.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1453
+      },
+      "writtenOn": "2015-08-25T14:31:05Z",
+      "side": 1,
+      "message": "You need to do an `rm -rf $rpmbuild_dir\u0027.",
+      "revId": "721a9ddefb29ce95dbb888def3274faa7de6682f",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}

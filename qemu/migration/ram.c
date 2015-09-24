@@ -1024,7 +1024,7 @@ void free_xbzrle_decoded_buf(void)
     xbzrle_decoded_buf = NULL;
 }
 
-static void migration_end(void)
+static void ram_migration_cleanup(void *opaque)
 {
     /* caller have hold iothread lock or is in a bh, so there is
      * no writing race against this migration_bitmap
@@ -1047,11 +1047,6 @@ static void migration_end(void)
         XBZRLE.current_buf = NULL;
     }
     XBZRLE_cache_unlock();
-}
-
-static void ram_migration_cancel(void *opaque)
-{
-    migration_end();
 }
 
 static void reset_ram_globals(void)
@@ -1610,7 +1605,7 @@ static SaveVMHandlers savevm_ram_handlers = {
     .save_live_complete = ram_save_complete,
     .save_live_pending = ram_save_pending,
     .load_state = ram_load,
-    .cleanup = ram_migration_cancel,
+    .cleanup = ram_migration_cleanup,
 };
 
 void ram_mig_init(void)

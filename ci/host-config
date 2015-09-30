@@ -1,0 +1,10 @@
+# Isolated cpus for nfv, must be delimited with ','
+host_isolcpus=3,4
+
+# Number of huge pages to create and on which NUMA node
+numa_node=0
+huge_pages=2
+
+# QEMU executable path and number of cpus for guest
+qemu=/usr/libexec/qemu-kvm
+guest_cpus=2

@@ -1,0 +1,6 @@
+# Isolated cpus for nfv, must be delimited with ','
+guest_isolcpus=1
+
+# cyclictest parameters
+cyclictest_interval=1000
+cyclictest_loop=600000

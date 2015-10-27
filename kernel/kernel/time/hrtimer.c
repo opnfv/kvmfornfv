@@ -583,6 +583,12 @@ static int hrtimer_reprogram(struct hrtimer *timer,
 	if (hrtimer_callback_running(timer))
 		return 0;
 
+        if (base->cpu_base != cpu_base)
+		return 0;
+
+       if (cpu_base->in_hrtirq)
+               return 0;
+
 	/*
 	 * CLOCK_REALTIME timer might be requested with an absolute
 	 * expiry time which is less than base->offset. Nothing wrong
@@ -613,12 +619,11 @@ static int hrtimer_reprogram(struct hrtimer *timer,
 	if (cpu_base->hang_detected)
 		return 0;
 
+	cpu_base->expires_next = expires;
 	/*
 	 * Clockevents returns -ETIME, when the event was in the past.
 	 */
-	res = tick_program_event(expires, 0);
-	if (!IS_ERR_VALUE(res))
-		cpu_base->expires_next = expires;
+	res = tick_program_event(expires, 1);
 	return res;
 }
 

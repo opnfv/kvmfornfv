@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9a5c5d37_3c6d8505",
+        "filename": "ci/README.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1597
+      },
+      "writtenOn": "2015-11-04T01:22:35Z",
+      "side": 1,
+      "message": "No, all the guest side scripts are invoked by the main verify script, just like the host side scripts.  See ssh_guest function in verify.sh.",
+      "parentUuid": "9a5c5d37_bca97526",
+      "revId": "4faf20845b06e232525512f53508056eedcd3b4d",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a5c5d37_9ca6b152",
         "filename": "ci/host-config",
         "patchSetId": 4
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "9a5c5d37_1c72c1e5",
+        "filename": "ci/host-config",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1597
+      },
+      "writtenOn": "2015-11-04T01:22:35Z",
+      "side": 1,
+      "message": "This is where CentOS installs qemu and it\u0027s not in the path (I guess it\u0027s not meant for end user to run qemu directly).  Once the qemu in kvmfornfv tree is fully integrated with the CI infrastructure, we can change this line to point to wherever qemu for opnfv is installed on the host.",
+      "parentUuid": "9a5c5d37_9ca6b152",
+      "revId": "4faf20845b06e232525512f53508056eedcd3b4d",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a5c5d37_7c63fd1a",
         "filename": "ci/host-run-qemu.sh",
         "patchSetId": 4
@@ -47,6 +83,24 @@
       "writtenOn": "2015-11-04T00:17:39Z",
       "side": 1,
       "message": "I didn\u0027t think clearly how will the guest image be uploaded to the test machine. Will any script do the upload? Sorry if I missed anything.",
+      "revId": "4faf20845b06e232525512f53508056eedcd3b4d",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a5c5d37_7c4add84",
+        "filename": "ci/host-run-qemu.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1597
+      },
+      "writtenOn": "2015-11-04T01:22:35Z",
+      "side": 1,
+      "message": "The guest image we use is about 4.6GB in size.  I\u0027m not sure if we can upload it to gerrit and have it reviewed.  My current plan is to upload it to opnfv artificatory (or any public file sharing service), and have host-setup1.sh download it to the host.  Suggestions welcome.",
+      "parentUuid": "9a5c5d37_7c63fd1a",
       "revId": "4faf20845b06e232525512f53508056eedcd3b4d",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false

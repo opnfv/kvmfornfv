@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a5c5d37_bca97526",
+        "filename": "ci/README.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2015-11-04T00:17:39Z",
+      "side": 1,
+      "message": "Will these guest script be invoked by host side script? If yes, it will be good to state in this Readme document.",
+      "revId": "4faf20845b06e232525512f53508056eedcd3b4d",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a5c5d37_9ca6b152",
+        "filename": "ci/host-config",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2015-11-04T00:17:39Z",
+      "side": 1,
+      "message": "I\u0027m not sure if we want to hardcode the qemu execution. I assume the qemu will be installed from the qemu tree and it will be in the path?",
+      "revId": "4faf20845b06e232525512f53508056eedcd3b4d",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a5c5d37_7c63fd1a",
+        "filename": "ci/host-run-qemu.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2015-11-04T00:17:39Z",
+      "side": 1,
+      "message": "I didn\u0027t think clearly how will the guest image be uploaded to the test machine. Will any script do the upload? Sorry if I missed anything.",
+      "revId": "4faf20845b06e232525512f53508056eedcd3b4d",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}

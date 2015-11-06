@@ -509,11 +509,7 @@ ram_addr_t migration_bitmap_find_and_reset_dirty(MemoryRegion *mr,
     unsigned long next;
 
     bitmap = atomic_rcu_read(&migration_bitmap);
-    if (ram_bulk_stage && nr > base) {
-        next = nr + 1;
-    } else {
-        next = find_next_bit(bitmap, size, nr);
-    }
+    next = find_next_bit(bitmap, size, nr);
 
     if (next < size) {
         clear_bit(next, bitmap);
@@ -1146,15 +1142,22 @@ static int ram_save_setup(QEMUFile *f, void *opaque)
 
     ram_bitmap_pages = last_ram_offset() >> TARGET_PAGE_BITS;
     migration_bitmap = bitmap_new(ram_bitmap_pages);
-    bitmap_set(migration_bitmap, 0, ram_bitmap_pages);
+    bitmap_clear(migration_bitmap, 0, ram_bitmap_pages);
 
+    QLIST_FOREACH_RCU(block, &ram_list.blocks, next) {
+       if (!strcmp(block->idstr, "pc.ram")) {
+           cpu_physical_memory_test_and_clear_dirty(block->mr->ram_addr,
+                                                    block->used_length,
+                                                    DIRTY_MEMORY_MIGRATION);
+       }
+
+    }
     /*
      * Count the total number of pages used by ram blocks not including any
      * gaps due to alignment or unplugs.
      */
-    migration_dirty_pages = ram_bytes_total() >> TARGET_PAGE_BITS;
+    migration_dirty_pages = 0;
 
-    memory_global_dirty_log_start();
     migration_bitmap_sync();
     qemu_mutex_unlock_ramlist();
     qemu_mutex_unlock_iothread();
@@ -1279,7 +1282,6 @@ static uint64_t ram_save_pending(QEMUFile *f, void *opaque, uint64_t max_size)
     uint64_t remaining_size;
 
     remaining_size = ram_save_remaining() * TARGET_PAGE_SIZE;
-
     if (remaining_size < max_size) {
         qemu_mutex_lock_iothread();
         rcu_read_lock();

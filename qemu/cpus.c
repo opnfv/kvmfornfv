@@ -973,7 +973,7 @@ static void *qemu_kvm_cpu_thread_fn(void *arg)
     /* signal CPU creation */
     cpu->created = true;
     qemu_cond_signal(&qemu_cpu_cond);
-
+    memory_global_dirty_log_start();
     while (1) {
         if (cpu_can_run(cpu)) {
             r = kvm_cpu_exec(cpu);

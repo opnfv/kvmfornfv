@@ -308,6 +308,7 @@ smartcard_nss=""
 libusb=""
 usb_redir=""
 opengl=""
+avx2="yes"
 zlib="yes"
 lzo=""
 snappy=""
@@ -1058,6 +1059,8 @@ for opt do
   ;;
   --enable-usb-redir) usb_redir="yes"
   ;;
+  --enable-avx2) avx2="yes"
+  ;;
   --disable-zlib-test) zlib="no"
   ;;
   --disable-lzo) lzo="no"
@@ -1361,6 +1364,7 @@ disabled with --disable-FEATURE, default is enabled if available:
   smartcard-nss   smartcard nss support
   libusb          libusb (for usb passthrough)
   usb-redir       usb network redirection support
+  avx2            support of avx2 instruction
   lzo             support of lzo compression library
   snappy          support of snappy compression library
   bzip2           support of bzip2 compression library
@@ -1748,6 +1752,24 @@ EOF
   if ! compile_object ; then
     feature_not_found "nptl" "Install glibc and linux kernel headers."
   fi
+fi
+
+########################################
+# avx2 check
+
+if test "$avx2" != "no" ; then
+    cat > $TMPC << EOF
+int main(void) { return 0; }
+EOF
+    if compile_prog "" "-mavx2" ; then
+        avx2="yes"
+    else
+        avx2="no"
+    fi
+fi
+
+if test "$avx2" = "yes" ; then
+    CFLAGS="$CFLAGS -mavx2"
 fi
 
 ##########################################
@@ -4584,6 +4606,7 @@ echo "libssh2 support   $libssh2"
 echo "TPM passthrough   $tpm_passthrough"
 echo "QOM debugging     $qom_cast_debug"
 echo "vhdx              $vhdx"
+echo "avx2 support      $avx2"
 echo "lzo support       $lzo"
 echo "snappy support    $snappy"
 echo "bzip2 support     $bzip2"
@@ -4955,6 +4978,10 @@ if test "$opengl" = "yes" ; then
   echo "CONFIG_OPENGL=y" >> $config_host_mak
   echo "OPENGL_CFLAGS=$opengl_cflags" >> $config_host_mak
   echo "OPENGL_LIBS=$opengl_libs" >> $config_host_mak
+fi
+
+if test "$avx2" = "yes" ; then
+  echo "CONFIG_AVX2=y" >> $config_host_mak
 fi
 
 if test "$lzo" = "yes" ; then

@@ -569,6 +569,13 @@ void qemu_hexdump(const char *buf, FILE *fp, const char *prefix, size_t size);
 /* altivec.h may redefine the bool macro as vector type.
  * Reset it to POSIX semantics. */
 #define bool _Bool
+#elif defined __AVX2__
+#include <immintrin.h>
+#define VECTYPE        __m256i
+#define SPLAT(p)       _mm256_set1_epi8(*(p))
+#define ALL_EQ(v1, v2) \
+    (_mm256_movemask_epi8(_mm256_cmpeq_epi8(v1, v2)) == 0xFFFFFFFF)
+#define VEC_OR(v1, v2) (_mm256_or_si256(v1, v2))
 #elif defined __SSE2__
 #include <emmintrin.h>
 #define VECTYPE        __m128i

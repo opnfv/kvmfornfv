@@ -945,8 +945,8 @@ static int qemu_savevm_state(QEMUFile *f, Error **errp)
         qemu_savevm_state_complete(f);
         ret = qemu_file_get_error(f);
     }
+    qemu_savevm_state_cancel();
     if (ret != 0) {
-        qemu_savevm_state_cancel();
         error_setg_errno(errp, -ret, "Error while writing VM state");
     }
     return ret;

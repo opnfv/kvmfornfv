@@ -149,7 +149,7 @@ static __init int iommu_setup(char *p)
 	iommu_merge = 1;
 
 	if (!p)
-		return -EINVAL;
+		p = CONFIG_IOMMU_DEFAULT;
 
 	while (*p) {
 		if (!strncmp(p, "off", 3))

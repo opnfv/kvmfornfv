@@ -77,6 +77,82 @@ config IOMMU_PGTABLES_L2
 	def_bool y
 	depends on MSM_IOMMU && MMU && SMP && CPU_DCACHE_DISABLE=n
 
+choice
+        prompt "Default IOMMU setup"
+        default IOMMU_DEFAULT_ON
+	depends on IOMMU_SUPPORT
+        help
+          Select the default setup for IOMMU.
+
+        config IOMMU_DEFAULT_ON
+                bool "on" if IOMMU_SUPPORT=y
+
+        config IOMMU_DEFAULT_OFF
+                bool "off" if IOMMU_SUPPORT=n
+
+        config IOMMU_DEFAULT_FORCE
+                bool "force"
+
+        config IOMMU_DEFAULT_NOFORCE
+                bool "noforce"
+
+        config IOMMU_DEFAULT_BIOMERGE
+                bool "biomerge"
+
+        config IOMMU_DEFAULT_PANIC
+                bool "panic"
+
+        config IOMMU_DEFAULT_NOPANIC
+		bool "nopanic"
+
+        config IOMMU_DEFAULT_MERGE
+                bool "merge"
+
+        config IOMMU_DEFAULT_NOMERGE
+		bool "nomerge"
+
+        config IOMMU_DEFAULT_FORCESAC
+                bool "forcesac"
+
+	config IOMMU_DEFAULT_ALLOWDAC
+		bool "allowdac"
+
+	config IOMMU_DEFAULT_NODAC
+		bool "nodac"
+
+	config IOMMU_DEFAULT_USEDAC
+		bool "usedac"
+
+	config IOMMU_DEFAULT_SOFT
+		bool "soft" if SWIOTLB=y
+
+	config IOMMU_DEFAULT_PT
+		bool "pt"
+
+	config IOMMU_DEFAULT_CALGARY
+		bool "calgary" if CALGARY_IOMMU=y
+
+endchoice
+
+config IOMMU_DEFAULT
+	string
+	default "on" if IOMMU_DEFAULT_ON
+	default "off" if IOMMU_DEFAULT_OFF
+	default "force" if IOMMU_DEFAULT_FORCE
+	default "noforce" if IOMMU_DEFAULT_NOFORCE
+	default "biomerge" if IOMMU_DEFAULT_BIOMERGE
+	default "panic" if IOMMU_DEFAULT_PANIC
+	default "nopanic" if IOMMU_DEFAULT_NOPANIC
+	default "merge" if IOMMU_DEFAULT_MERGE
+	default "nomerge" if IOMMU_DEFAULT_NOMERGE
+	default "forcesac" if IOMMU_DEFAULT_FORCESAC
+	default "allowdac" if IOMMU_DEFAULT_ALLOWDAC
+	default "nodac" if IOMMU_DEFAULT_NODAC
+	default "usedac" if IOMMU_DEFAULT_USEDAC
+	default "soft" if IOMMU_DEFAULT_SOFT
+	default "pt" if IOMMU_DEFAULT_PT
+	default "calgary" if IOMMU_DEFAULT_CALGARY
+
 # AMD IOMMU support
 config AMD_IOMMU
 	bool "AMD IOMMU support"

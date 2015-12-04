@@ -163,6 +163,49 @@ config INTEL_IOMMU_FLOPPY_WA
 	  workaround will setup a 1:1 mapping for the first
 	  16MiB to make floppy (an ISA device) work.
 
+choice
+        prompt "Default IOMMU setup"
+        default DEFAULT_ON
+	depends on INTEL_IOMMU_DEFAULT_ON
+        help
+          Select the default setup for Intel IOMMU
+
+        config INTEL_IOMMU_DEFAULT_ON
+                bool "on" if INTEL_IOMMU_DEFAULT_ON=y
+
+        config INTEL_IOMMU_DEFAULT_OFF
+                bool "off" if INTEL_IOMMU_DEFAULT_ON=n
+
+        config INTEL_IOMMU_DEFAULT_PASSTHROUGH
+                bool "pt"
+
+        config INTEL_IOMMU_DEFAULT_IGFX_OFF
+                bool "igfx_off" if INTEL_IOMMU_BROKEN_GFX_WA=y
+
+        config INTEL_IOMMU_DEFAULT_FORCE_DAC
+		bool "forcedac"
+
+	config INTEL_IOMMU_DEFAULT_STRICT
+		bool "strict" if INTEL_IOMMU_FLOPPY_WA=y
+
+	config INTEL_IOMMU_DEFAULT_SP_OFF
+		bool "sp_off"
+
+	config INTEL_IOMMU_DEFAULT_ECS_OFF
+		bool "ecs_off"
+endchoice
+
+config INTEL_IOMMU_DEFAULT
+	string
+	default "on" if INTEL_IOMMU_DEFAULT_ON
+	default "off" if INTEL_IOMMU_DEFAULT_OFF
+	default "pt" if INTEL_IOMMU_DEFAULT_PASSTHROUGH
+	default "igfx_off" if INTEL_IOMMU_DEFAULT_IGFX_OFF
+	default "forcedac" if INTEL_IOMMU_DEFAULT_FORCE_DAC
+	default "strict" if INTEL_IOMMU_DEFAULT_STRICT
+	default "sp_off" if INTEL_IOMMU_DEFAULT_SP_OFF
+	default "ecs_off" if INTEL_IOMMU_DEFAULT_ECS_OFF
+
 config IRQ_REMAP
 	bool "Support for Interrupt Remapping"
 	depends on X86_64 && X86_IO_APIC && PCI_MSI && ACPI

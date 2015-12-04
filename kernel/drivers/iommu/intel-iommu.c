@@ -448,40 +448,39 @@ static struct dmar_domain *to_dmar_domain(struct iommu_domain *dom)
 
 static int __init intel_iommu_setup(char *str)
 {
-	if (!str)
-		return -EINVAL;
-	while (*str) {
-		if (!strncmp(str, "on", 2)) {
+	char *def_setup = str ? str : DEFAULT_IOMMU_SETUP;
+	while (*def_setup) {
+		if (!strncmp(def_setup, "on", 2)) {
 			dmar_disabled = 0;
 			printk(KERN_INFO "Intel-IOMMU: enabled\n");
-		} else if (!strncmp(str, "off", 3)) {
+		} else if (!strncmp(def_setup, "off", 3)) {
 			dmar_disabled = 1;
 			printk(KERN_INFO "Intel-IOMMU: disabled\n");
-		} else if (!strncmp(str, "igfx_off", 8)) {
+		} else if (!strncmp(def_setup, "igfx_off", 8)) {
 			dmar_map_gfx = 0;
 			printk(KERN_INFO
 				"Intel-IOMMU: disable GFX device mapping\n");
-		} else if (!strncmp(str, "forcedac", 8)) {
+		} else if (!strncmp(def_setup, "forcedac", 8)) {
 			printk(KERN_INFO
 				"Intel-IOMMU: Forcing DAC for PCI devices\n");
 			dmar_forcedac = 1;
-		} else if (!strncmp(str, "strict", 6)) {
+		} else if (!strncmp(def_setup, "strict", 6)) {
 			printk(KERN_INFO
 				"Intel-IOMMU: disable batched IOTLB flush\n");
 			intel_iommu_strict = 1;
-		} else if (!strncmp(str, "sp_off", 6)) {
+		} else if (!strncmp(def_setup, "sp_off", 6)) {
 			printk(KERN_INFO
 				"Intel-IOMMU: disable supported super page\n");
 			intel_iommu_superpage = 0;
-		} else if (!strncmp(str, "ecs_off", 7)) {
+		} else if (!strncmp(def_setup, "ecs_off", 7)) {
 			printk(KERN_INFO
 				"Intel-IOMMU: disable extended context table support\n");
 			intel_iommu_ecs = 0;
 		}
 
-		str += strcspn(str, ",");
-		while (*str == ',')
-			str++;
+		def_setup += strcspn(def_setup, ",");
+		while (*def_setup == ',')
+			def_setup++;
 	}
 	return 0;
 }

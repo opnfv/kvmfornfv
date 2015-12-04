@@ -1,0 +1,7 @@
+nodes:
+-
+    name: kvm
+    role: BareMetal
+    ip: 172.25.112.9 
+    user: root
+    key_filename: /opt/yardstick_key

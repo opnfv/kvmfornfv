@@ -1,0 +1,26 @@
+/******************************************************************************* 
+ * * Copyright (c) 2015 Intel Corp.
+ * * 
+ * * All rights reserved. This program and the accompanying materials 
+ * * are made available under the terms of the Apache License, Version 2.0 
+ * * which accompanies this distribution, and is available at 
+ * * http://www.apache.org/licenses/LICENSE-2.0 
+ * *******************************************************************************/ 
+
+diff --git a/Makefile b/Makefile
+index 1e4b7d1b0d3a..98968b94a57f 100644
+--- a/Makefile
++++ b/Makefile
+@@ -198,10 +198,10 @@ release: distclean changelog
+ 	cp -r Makefile COPYING ChangeLog MAINTAINERS doc README.markdown src tmp/rt-tests
+ 	rm -f rt-tests-$(VERSION).tar rt-tests-$(VERSION).tar.asc
+ 	tar -C tmp -cf rt-tests-$(VERSION).tar rt-tests
+-	gpg2 --default-key clrkwllms@kernel.org --detach-sign --armor rt-tests-$(VERSION).tar
++	#gpg2 --default-key clrkwllms@kernel.org --detach-sign --armor rt-tests-$(VERSION).tar
+ 	gzip rt-tests-$(VERSION).tar
+ 	rm -f ChangeLog
+-	cp rt-tests-$(VERSION).tar.gz rt-tests-$(VERSION).tar.asc releases
++	cp rt-tests-$(VERSION).tar.gz  releases
+ 
+ .PHONY: tarball
+ tarball:

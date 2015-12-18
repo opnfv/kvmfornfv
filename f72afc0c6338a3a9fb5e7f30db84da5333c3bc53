@@ -16,6 +16,23 @@
       "revId": "f72afc0c6338a3a9fb5e7f30db84da5333c3bc53",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a5c5d37_a16fdf91",
+        "filename": "ci/envs/host-run-qemu.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1453
+      },
+      "writtenOn": "2015-12-18T23:09:55Z",
+      "side": 1,
+      "message": "What happens if 2 people run this script at the same time?  (hint - bad things).  I\u0027d use something like:\n\nqmp_sock\u003d\"/tmp/qmp-sock-$$\"",
+      "revId": "f72afc0c6338a3a9fb5e7f30db84da5333c3bc53",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }

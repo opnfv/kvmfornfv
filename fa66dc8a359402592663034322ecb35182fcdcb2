@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a5c5d37_0127cb65",
+        "filename": "ci/envs/host-config",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1453
+      },
+      "writtenOn": "2015-12-18T23:57:06Z",
+      "side": 1,
+      "message": "I\u0027m nervous about hard coded specifiers.  Can you guarantee that these CPUs will always be 3 \u0026 4?",
+      "revId": "fa66dc8a359402592663034322ecb35182fcdcb2",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a5c5d37_8103bbb7",
+        "filename": "ci/envs/host-setup0.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1453
+      },
+      "writtenOn": "2015-12-18T23:57:06Z",
+      "side": 1,
+      "message": "Again, this area needs to be redone such that the RPM name is configurable, don\u0027t assume ~, and don\u0027t use `find\u0027.",
+      "revId": "fa66dc8a359402592663034322ecb35182fcdcb2",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a5c5d37_6100c7aa",
+        "filename": "ci/envs/host-setup1.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1453
+      },
+      "writtenOn": "2015-12-18T23:57:06Z",
+      "side": 1,
+      "message": "Again, what happens if 2 people run this script at the same time?  You could change the mount point to `/mnt/hugetlbfs-lg-$$\u0027 but then you have to have a way to remove the directory when your scripts are done.",
+      "revId": "fa66dc8a359402592663034322ecb35182fcdcb2",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}

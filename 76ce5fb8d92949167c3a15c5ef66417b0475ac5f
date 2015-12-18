@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a5c5d37_e15dd7ea",
+        "filename": "kernel/arch/x86/kernel/pci-dma.c",
+        "patchSetId": 3
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1453
+      },
+      "writtenOn": "2015-12-18T23:01:54Z",
+      "side": 1,
+      "message": "If, rather than defining this new variable, you changed the first check to\n  if (!ip)\n    ip \u003d CONFIG_IOMMU_DEFAULT;\n\nyou wouldn\u0027t have to make any other changes to this file.",
+      "revId": "76ce5fb8d92949167c3a15c5ef66417b0475ac5f",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}

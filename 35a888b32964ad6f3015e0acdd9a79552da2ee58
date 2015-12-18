@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a5c5d37_4106e3cf",
+        "filename": "ci/envs/guest-setup0.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1453
+      },
+      "writtenOn": "2015-12-18T23:42:01Z",
+      "side": 1,
+      "message": "Not feeling comforatable with hard coded path names in the script, you should have a way to have `/root/workspace\u0027 be the default path but get the user a way to override it, either with an environment variable or a parameter.",
+      "revId": "35a888b32964ad6f3015e0acdd9a79552da2ee58",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a5c5d37_210befd7",
+        "filename": "ci/envs/guest-setup0.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1453
+      },
+      "writtenOn": "2015-12-18T23:42:01Z",
+      "side": 1,
+      "message": "You need to completely redo this area.  Again, hard coded file names are bad and using `find\u0027 a single file name is almost always the wrong choice (what if there\u0027s an RPM of the right name in a sub-directory of ~/workspace?  Also, using ~ in a script is not good, there\u0027s no guarantee the caller will have logged in as root.",
+      "revId": "35a888b32964ad6f3015e0acdd9a79552da2ee58",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a5c5d37_6169e78a",
+        "filename": "ci/envs/guest-setup1.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1453
+      },
+      "writtenOn": "2015-12-18T23:42:01Z",
+      "side": 1,
+      "message": "What IRQs do you think you are assigning here?  I checked on two of my machines and on one 14\u002615 were the ATA disk interrupt and on the other 14\u002615 weren\u0027t even used.",
+      "revId": "35a888b32964ad6f3015e0acdd9a79552da2ee58",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}

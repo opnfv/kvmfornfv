@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a5c5d37_21d9af57",
+        "filename": "tests/testexec.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1453
+      },
+      "writtenOn": "2015-12-19T00:24:20Z",
+      "side": 1,
+      "message": "Sorry, this is not an Intel project so we can\u0027t bake a proxy setup into the script.  You have to make any proxy optional (defaulting to no proxy) and provide a means to specify a proxy outside the script.",
+      "revId": "ac2968bf0086dc89319c55fb8370ee182c01412a",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a5c5d37_01deab3f",
+        "filename": "tests/testexec.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1453
+      },
+      "writtenOn": "2015-12-19T00:24:20Z",
+      "side": 1,
+      "message": "You need to make this file name unique and make sure you delete it when the script is done.",
+      "revId": "ac2968bf0086dc89319c55fb8370ee182c01412a",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a5c5d37_c1e77311",
+        "filename": "ci/envs/guest-modify.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1453
+      },
+      "writtenOn": "2015-12-19T00:40:14Z",
+      "side": 1,
+      "message": "Again, can\u0027t hard code an Intel proxy.  Need to make it optional (default no proxy).",
+      "revId": "e6346f10ecd5202eb501c21f7f20643520f5074b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a5c5d37_81f17bcf",
+        "filename": "ci/envs/guest-modify.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1453
+      },
+      "writtenOn": "2015-12-19T00:40:14Z",
+      "side": 1,
+      "message": "Are you sure this is needed?  I\u0027m guessing any system that doesn\u0027t have the dev entries for the loopback driver doesn\u0027t have the driver at all so this will either do nothing or create dev entries that don\u0027t work.",
+      "revId": "e6346f10ecd5202eb501c21f7f20643520f5074b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a5c5d37_a1e47f0d",
+        "filename": "ci/envs/guest-modify.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1453
+      },
+      "writtenOn": "2015-12-19T00:40:14Z",
+      "side": 1,
+      "message": "you don\u0027t need the `basename\u0027, `cp $cmd $mountdir\u0027 does the same thing.",
+      "revId": "e6346f10ecd5202eb501c21f7f20643520f5074b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a5c5d37_61ee87ee",
+        "filename": "ci/envs/guest-modify.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1453
+      },
+      "writtenOn": "2015-12-19T00:40:14Z",
+      "side": 1,
+      "message": "I don\u0027t see any reference to `nameserver_ip\u0027, is this dead code that should be removed?",
+      "revId": "e6346f10ecd5202eb501c21f7f20643520f5074b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a5c5d37_41bb83e5",
+        "filename": "ci/envs/guest-modify.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1453
+      },
+      "writtenOn": "2015-12-19T00:40:14Z",
+      "side": 1,
+      "message": "As a stylistic choice I think that defining a function `main\u0027 so that you can immediately call it is silly and adds no value, I\u0027d just put in the code from `main\u0027 without defining a function but that\u0027s just me, do it this way if you want.",
+      "revId": "e6346f10ecd5202eb501c21f7f20643520f5074b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}

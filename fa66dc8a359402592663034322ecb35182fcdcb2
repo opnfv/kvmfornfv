@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9a5c5d37_2832ac10",
+        "filename": "ci/envs/host-config",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2015-12-23T01:07:17Z",
+      "side": 1,
+      "message": "This is a config file instead of script, so I think it\u0027s OK for hard coded specifier.If end user want to use, they can provide their value.\n\nOf course, we can do the work better. For example, we can have the script to detect the platform\u0027s CPU structure and NUMA, and use some algorithm to calculate the to-be-isolated CPUs. But that\u0027s too much for this simple work, especially if we plan to run our test on fixed environemnt, like always on one PoD.",
+      "parentUuid": "9a5c5d37_0127cb65",
+      "revId": "fa66dc8a359402592663034322ecb35182fcdcb2",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a5c5d37_8103bbb7",
         "filename": "ci/envs/host-setup0.sh",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "9a5c5d37_c8179050",
+        "filename": "ci/envs/host-setup0.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2015-12-23T01:07:17Z",
+      "side": 1,
+      "message": "So that means we need update the script every time the kernel version changed? Especially currently the build.sh will get a random file name.\n\nBut I can change the directory to be configurable, the default value will be ~/workspace/rpm/, which is the one for yardstick.",
+      "parentUuid": "9a5c5d37_8103bbb7",
+      "revId": "fa66dc8a359402592663034322ecb35182fcdcb2",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a5c5d37_6100c7aa",
         "filename": "ci/envs/host-setup1.sh",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2015-12-18T23:57:06Z",
       "side": 1,
       "message": "Again, what happens if 2 people run this script at the same time?  You could change the mount point to `/mnt/hugetlbfs-lg-$$\u0027 but then you have to have a way to remove the directory when your scripts are done.",
+      "revId": "fa66dc8a359402592663034322ecb35182fcdcb2",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a5c5d37_4803a00f",
+        "filename": "ci/envs/host-setup1.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2015-12-23T01:07:17Z",
+      "side": 1,
+      "message": "We didn\u0027t assume multiple runner of this script. After all, this is only for testing purpose.\n\nThe mount point should be ok. Mount multiple times does not hurt.",
+      "parentUuid": "9a5c5d37_6100c7aa",
       "revId": "fa66dc8a359402592663034322ecb35182fcdcb2",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false

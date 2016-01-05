@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a5c5d37_4cc0467c",
+        "filename": "ci/envs/host-run-qemu.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1597
+      },
+      "writtenOn": "2016-01-05T01:58:09Z",
+      "side": 1,
+      "message": "Need below to specify huge page path:\n\n    -mem-path /mnt/hugetlbfs-1g \\",
+      "revId": "09fc88ec882c5930ceea5e2924223b38ba15bec8",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}

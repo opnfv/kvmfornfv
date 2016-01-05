@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a5c5d37_42fecf39",
+        "filename": "tests/cyclictest.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1453
+      },
+      "writtenOn": "2016-01-05T23:22:13Z",
+      "side": 1,
+      "message": "I hate having to do cleanup in the face of user interrupts but sometimes you have no choice.",
+      "revId": "f2c9d7f2413dbd3152e8795fe6a9cfa8e0a3407c",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}

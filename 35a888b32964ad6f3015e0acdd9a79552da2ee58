@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9a5c5d37_6f8429d4",
+        "filename": "ci/envs/guest-setup0.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2016-01-05T00:41:42Z",
+      "side": 1,
+      "message": "Yes, that makes sense. Will do that.",
+      "parentUuid": "9a5c5d37_4106e3cf",
+      "revId": "35a888b32964ad6f3015e0acdd9a79552da2ee58",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a5c5d37_210befd7",
         "filename": "ci/envs/guest-setup0.sh",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "9a5c5d37_4f8725d8",
+        "filename": "ci/envs/guest-setup0.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2016-01-05T00:41:42Z",
+      "side": 1,
+      "message": "Changed the \"~\" to absolute path.\n\nFor the rpms, I\u0027d take the rpms in the directory as build.sh\u0027s output, so basically it\u0027s an interface.",
+      "parentUuid": "9a5c5d37_210befd7",
+      "revId": "35a888b32964ad6f3015e0acdd9a79552da2ee58",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a5c5d37_6169e78a",
         "filename": "ci/envs/guest-setup1.sh",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2015-12-18T23:42:01Z",
       "side": 1,
       "message": "What IRQs do you think you are assigning here?  I checked on two of my machines and on one 14\u002615 were the ATA disk interrupt and on the other 14\u002615 weren\u0027t even used.",
+      "revId": "35a888b32964ad6f3015e0acdd9a79552da2ee58",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a5c5d37_2f6e3130",
+        "filename": "ci/envs/guest-setup1.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2016-01-05T00:41:42Z",
+      "side": 1,
+      "message": "This is for the guest and basically we want to assign all device interrupt to CPU0. But agree that hard code 14/15 is not good. Will do it cleaner by scan the /proc/irq.",
+      "parentUuid": "9a5c5d37_6169e78a",
       "revId": "35a888b32964ad6f3015e0acdd9a79552da2ee58",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false

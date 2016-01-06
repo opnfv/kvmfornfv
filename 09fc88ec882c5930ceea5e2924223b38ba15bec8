@@ -16,6 +16,24 @@
       "revId": "09fc88ec882c5930ceea5e2924223b38ba15bec8",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a5c5d37_5d146e43",
+        "filename": "ci/envs/host-run-qemu.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2016-01-06T02:35:35Z",
+      "side": 1,
+      "message": "I noticed that once I added this line, the guest launch seems failed. Can this be done as bug fixing late? After all, the guest still works.",
+      "parentUuid": "9a5c5d37_4cc0467c",
+      "revId": "09fc88ec882c5930ceea5e2924223b38ba15bec8",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }

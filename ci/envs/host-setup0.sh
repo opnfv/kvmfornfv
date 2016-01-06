@@ -70,7 +70,6 @@ config_grub 'idle' 'poll'
 ## Disable clocksource verification at runtime
 config_grub 'tsc' 'reliable'
 
-sed -i s/GRUB_DEFAULT=saved/GRUB_DEFAULT=0/ /etc/default/grub
 grub2-mkconfig -o /boot/grub2/grub.cfg
 
 install_kernel

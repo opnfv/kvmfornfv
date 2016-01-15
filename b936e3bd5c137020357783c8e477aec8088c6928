@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a5c5d37_4306b587",
+        "filename": "docs/all/live_migration.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2016-01-15T22:03:02Z",
+      "side": 1,
+      "message": "Raghu, should this be \"Optimization included\"? \n\n--jyh",
+      "revId": "b936e3bd5c137020357783c8e477aec8088c6928",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}

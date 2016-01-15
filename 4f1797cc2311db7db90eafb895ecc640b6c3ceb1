@@ -1,0 +1,191 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a5c5d37_8a3de2bd",
+        "filename": "docs/all/environment-setup.rst",
+        "patchSetId": 4
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1085
+      },
+      "writtenOn": "2016-01-15T01:32:53Z",
+      "side": 1,
+      "message": "run-time",
+      "revId": "4f1797cc2311db7db90eafb895ecc640b6c3ceb1",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a5c5d37_6a63cedc",
+        "filename": "docs/all/environment-setup.rst",
+        "patchSetId": 4
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1085
+      },
+      "writtenOn": "2016-01-15T01:32:53Z",
+      "side": 1,
+      "message": "I recommend to reword this paragraph, perhaps something like:\n\nBIOS setup plays an important role to achieve real-time latency. A collection of relevant settings, used on the platform where the baseline performance data was collected, is detailed below:",
+      "revId": "4f1797cc2311db7db90eafb895ecc640b6c3ceb1",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a5c5d37_8aaba2d5",
+        "filename": "docs/all/tunning.rst",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1085
+      },
+      "writtenOn": "2016-01-15T01:32:53Z",
+      "side": 1,
+      "message": "carefully",
+      "revId": "4f1797cc2311db7db90eafb895ecc640b6c3ceb1",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a5c5d37_0aa0d2f2",
+        "filename": "docs/all/tunning.rst",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1085
+      },
+      "writtenOn": "2016-01-15T01:32:53Z",
+      "side": 1,
+      "message": "configurations",
+      "revId": "4f1797cc2311db7db90eafb895ecc640b6c3ceb1",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a5c5d37_4ab5aa2f",
+        "filename": "docs/all/tunning.rst",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1085
+      },
+      "writtenOn": "2016-01-15T01:32:53Z",
+      "side": 1,
+      "message": "normally",
+      "revId": "4f1797cc2311db7db90eafb895ecc640b6c3ceb1",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a5c5d37_8a92829d",
+        "filename": "docs/all/tunning.rst",
+        "patchSetId": 4
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1085
+      },
+      "writtenOn": "2016-01-15T01:32:53Z",
+      "side": 1,
+      "message": "features",
+      "revId": "4f1797cc2311db7db90eafb895ecc640b6c3ceb1",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a5c5d37_8ad96285",
+        "filename": "docs/all/tunning.rst",
+        "patchSetId": 4
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1085
+      },
+      "writtenOn": "2016-01-15T01:32:53Z",
+      "side": 1,
+      "message": "random",
+      "revId": "4f1797cc2311db7db90eafb895ecc640b6c3ceb1",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a5c5d37_eacb3ea3",
+        "filename": "docs/all/tunning.rst",
+        "patchSetId": 4
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1085
+      },
+      "writtenOn": "2016-01-15T01:32:53Z",
+      "side": 1,
+      "message": "should be affinitized",
+      "revId": "4f1797cc2311db7db90eafb895ecc640b6c3ceb1",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a5c5d37_cace3ab4",
+        "filename": "docs/all/tunning.rst",
+        "patchSetId": 4
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1085
+      },
+      "writtenOn": "2016-01-15T01:32:53Z",
+      "side": 1,
+      "message": "daemon which balances",
+      "revId": "4f1797cc2311db7db90eafb895ecc640b6c3ceb1",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a5c5d37_8ac0427d",
+        "filename": "docs/all/tunning.rst",
+        "patchSetId": 4
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1085
+      },
+      "writtenOn": "2016-01-15T01:32:53Z",
+      "side": 1,
+      "message": "passthrough",
+      "revId": "4f1797cc2311db7db90eafb895ecc640b6c3ceb1",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a5c5d37_6abf4efc",
+        "filename": "docs/all/tunning.rst",
+        "patchSetId": 4
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1085
+      },
+      "writtenOn": "2016-01-15T01:32:53Z",
+      "side": 1,
+      "message": "to continuously enable",
+      "revId": "4f1797cc2311db7db90eafb895ecc640b6c3ceb1",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9a5c5d37_d22144a0",
+        "filename": "docs/all/live_migration.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2016-01-19T18:49:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a5c5d37_19bf0ad2",
+      "revId": "dbd533f7c74fb63827825f589f99c3d0c14f8cee",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a5c5d37_f9b556ee",
         "filename": "docs/all/live_migration.rst",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2016-01-17T06:29:19Z",
       "side": 1,
       "message": "s/load,/load and observed that/\ns/is/was/\ns/VM/the VM/",
+      "revId": "dbd533f7c74fb63827825f589f99c3d0c14f8cee",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a5c5d37_b22490af",
+        "filename": "docs/all/live_migration.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2016-01-19T18:49:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a5c5d37_f9b556ee",
       "revId": "dbd533f7c74fb63827825f589f99c3d0c14f8cee",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "9a5c5d37_923bccd0",
+        "filename": "docs/all/live_migration.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2016-01-19T18:49:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a5c5d37_d9b852e7",
+      "revId": "dbd533f7c74fb63827825f589f99c3d0c14f8cee",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a5c5d37_99cada6c",
         "filename": "docs/all/live_migration.rst",
         "patchSetId": 3
@@ -64,6 +118,24 @@
       "writtenOn": "2016-01-17T06:29:19Z",
       "side": 1,
       "message": "I\u0027d change this paragraph to:\n\nThe following 4 features have been developed over the years to make the live migration process faster.",
+      "revId": "dbd533f7c74fb63827825f589f99c3d0c14f8cee",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a5c5d37_723618e9",
+        "filename": "docs/all/live_migration.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2016-01-19T18:49:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a5c5d37_99cada6c",
       "revId": "dbd533f7c74fb63827825f589f99c3d0c14f8cee",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "9a5c5d37_523554d8",
+        "filename": "docs/all/live_migration.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2016-01-19T18:49:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a5c5d37_b9cfde7e",
+      "revId": "dbd533f7c74fb63827825f589f99c3d0c14f8cee",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a5c5d37_79c96677",
         "filename": "docs/all/live_migration.rst",
         "patchSetId": 3
@@ -98,6 +188,24 @@
       "writtenOn": "2016-01-17T06:29:19Z",
       "side": 1,
       "message": "s/updated//",
+      "revId": "dbd533f7c74fb63827825f589f99c3d0c14f8cee",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a5c5d37_3230a0e7",
+        "filename": "docs/all/live_migration.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2016-01-19T18:49:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a5c5d37_79c96677",
       "revId": "dbd533f7c74fb63827825f589f99c3d0c14f8cee",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "9a5c5d37_729298a0",
+        "filename": "docs/all/live_migration.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2016-01-19T18:49:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a5c5d37_59c4625e",
+      "revId": "dbd533f7c74fb63827825f589f99c3d0c14f8cee",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a5c5d37_39a3eeb3",
         "filename": "docs/all/live_migration.rst",
         "patchSetId": 3
@@ -132,6 +258,24 @@
       "writtenOn": "2016-01-17T06:29:19Z",
       "side": 1,
       "message": "s/transportation/transmission/",
+      "revId": "dbd533f7c74fb63827825f589f99c3d0c14f8cee",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a5c5d37_5291d497",
+        "filename": "docs/all/live_migration.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2016-01-19T18:49:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a5c5d37_39a3eeb3",
       "revId": "dbd533f7c74fb63827825f589f99c3d0c14f8cee",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
@@ -155,6 +299,24 @@
     },
     {
       "key": {
+        "uuid": "9a5c5d37_328c207f",
+        "filename": "docs/all/live_migration.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2016-01-19T18:49:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a5c5d37_19a6eac1",
+      "revId": "dbd533f7c74fb63827825f589f99c3d0c14f8cee",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a5c5d37_f9ac36a2",
         "filename": "docs/all/live_migration.rst",
         "patchSetId": 3
@@ -166,6 +328,24 @@
       "writtenOn": "2016-01-17T06:29:19Z",
       "side": 1,
       "message": "s/It reduces/\ns/s/to reduce/which reduces/",
+      "revId": "dbd533f7c74fb63827825f589f99c3d0c14f8cee",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a5c5d37_3219c079",
+        "filename": "docs/all/live_migration.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2016-01-19T18:49:08Z",
+      "side": 1,
+      "message": "Didn\u0027t get the comments, so change it simply to \"Reduces the data rate of dirty page\"",
+      "parentUuid": "9a5c5d37_f9ac36a2",
       "revId": "dbd533f7c74fb63827825f589f99c3d0c14f8cee",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
@@ -189,6 +369,24 @@
     },
     {
       "key": {
+        "uuid": "9a5c5d37_124fdc6c",
+        "filename": "docs/all/live_migration.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2016-01-19T18:49:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a5c5d37_d9af3293",
+      "revId": "dbd533f7c74fb63827825f589f99c3d0c14f8cee",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a5c5d37_b9cb5e52",
         "filename": "docs/all/live_migration.rst",
         "patchSetId": 3
@@ -200,6 +398,24 @@
       "writtenOn": "2016-01-17T06:29:19Z",
       "side": 1,
       "message": "s/in pure software way they/entirely in software and/\ns/in/in a/",
+      "revId": "dbd533f7c74fb63827825f589f99c3d0c14f8cee",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a5c5d37_f251e80e",
+        "filename": "docs/all/live_migration.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2016-01-19T18:49:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a5c5d37_b9cb5e52",
       "revId": "dbd533f7c74fb63827825f589f99c3d0c14f8cee",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
@@ -223,6 +439,24 @@
     },
     {
       "key": {
+        "uuid": "9a5c5d37_d2582434",
+        "filename": "docs/all/live_migration.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2016-01-19T18:49:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a5c5d37_b996be4a",
+      "revId": "dbd533f7c74fb63827825f589f99c3d0c14f8cee",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a5c5d37_9991ba54",
         "filename": "docs/all/live_migration.rst",
         "patchSetId": 3
@@ -234,6 +468,24 @@
       "writtenOn": "2016-01-17T06:29:19Z",
       "side": 1,
       "message": "s/the//",
+      "revId": "dbd533f7c74fb63827825f589f99c3d0c14f8cee",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a5c5d37_b25b702d",
+        "filename": "docs/all/live_migration.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2016-01-19T18:49:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a5c5d37_9991ba54",
       "revId": "dbd533f7c74fb63827825f589f99c3d0c14f8cee",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
@@ -257,6 +509,24 @@
     },
     {
       "key": {
+        "uuid": "9a5c5d37_9242ac3c",
+        "filename": "docs/all/live_migration.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2016-01-19T18:49:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a5c5d37_3991ae47",
+      "revId": "dbd533f7c74fb63827825f589f99c3d0c14f8cee",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a5c5d37_1994aa35",
         "filename": "docs/all/live_migration.rst",
         "patchSetId": 3
@@ -268,6 +538,24 @@
       "writtenOn": "2016-01-17T06:29:19Z",
       "side": 1,
       "message": "s/is/are/\ns/, the/. The/",
+      "revId": "dbd533f7c74fb63827825f589f99c3d0c14f8cee",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a5c5d37_723df8ba",
+        "filename": "docs/all/live_migration.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2016-01-19T18:49:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a5c5d37_1994aa35",
       "revId": "dbd533f7c74fb63827825f589f99c3d0c14f8cee",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
@@ -291,6 +579,24 @@
     },
     {
       "key": {
+        "uuid": "9a5c5d37_524c3470",
+        "filename": "docs/all/live_migration.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2016-01-19T18:49:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a5c5d37_f99af661",
+      "revId": "dbd533f7c74fb63827825f589f99c3d0c14f8cee",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a5c5d37_d99df25a",
         "filename": "docs/all/live_migration.rst",
         "patchSetId": 3
@@ -302,6 +608,24 @@
       "writtenOn": "2016-01-17T06:29:19Z",
       "side": 1,
       "message": "Change the above 2 lines to:\n\ndeferring these operations until the data transmission is completed the VM down time is reduced to about 5-7ms.",
+      "revId": "dbd533f7c74fb63827825f589f99c3d0c14f8cee",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a5c5d37_3247804d",
+        "filename": "docs/all/live_migration.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2016-01-19T18:49:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a5c5d37_d99df25a",
       "revId": "dbd533f7c74fb63827825f589f99c3d0c14f8cee",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
@@ -325,6 +649,24 @@
     },
     {
       "key": {
+        "uuid": "9a5c5d37_1276bca4",
+        "filename": "docs/all/live_migration.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2016-01-19T18:49:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a5c5d37_b9a47ea6",
+      "revId": "dbd533f7c74fb63827825f589f99c3d0c14f8cee",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a5c5d37_999f7a50",
         "filename": "docs/all/live_migration.rst",
         "patchSetId": 3
@@ -336,6 +678,24 @@
       "writtenOn": "2016-01-17T06:29:19Z",
       "side": 1,
       "message": "s/the/The/",
+      "revId": "dbd533f7c74fb63827825f589f99c3d0c14f8cee",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a5c5d37_f278c890",
+        "filename": "docs/all/live_migration.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2016-01-19T18:49:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a5c5d37_999f7a50",
       "revId": "dbd533f7c74fb63827825f589f99c3d0c14f8cee",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
@@ -359,6 +719,24 @@
     },
     {
       "key": {
+        "uuid": "9a5c5d37_d26f04c4",
+        "filename": "docs/all/live_migration.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2016-01-19T18:49:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a5c5d37_79ae0687",
+      "revId": "dbd533f7c74fb63827825f589f99c3d0c14f8cee",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a5c5d37_59a9027a",
         "filename": "docs/all/live_migration.rst",
         "patchSetId": 3
@@ -370,6 +748,24 @@
       "writtenOn": "2016-01-17T06:29:19Z",
       "side": 1,
       "message": "Change this section to:\n\nc. Remove unnecessary context synchronization.\nThe CPU context was being synchronized twice during live migration.  Removing this unnecessary synchronization shortened the VM downtime by about 100us.",
+      "revId": "dbd533f7c74fb63827825f589f99c3d0c14f8cee",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a5c5d37_b27250ab",
+        "filename": "docs/all/live_migration.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2016-01-19T18:49:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a5c5d37_59a9027a",
       "revId": "dbd533f7c74fb63827825f589f99c3d0c14f8cee",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
@@ -393,6 +789,24 @@
     },
     {
       "key": {
+        "uuid": "9a5c5d37_92698cc0",
+        "filename": "docs/all/live_migration.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2016-01-19T18:49:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a5c5d37_19bb8ac5",
+      "revId": "dbd533f7c74fb63827825f589f99c3d0c14f8cee",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a5c5d37_39b88ec7",
         "filename": "docs/all/live_migration.rst",
         "patchSetId": 3
@@ -404,6 +818,24 @@
       "writtenOn": "2016-01-17T06:29:19Z",
       "side": 1,
       "message": "s/guest/runs/a guest running/",
+      "revId": "dbd533f7c74fb63827825f589f99c3d0c14f8cee",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a5c5d37_7264d8e4",
+        "filename": "docs/all/live_migration.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2016-01-19T18:49:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a5c5d37_39b88ec7",
       "revId": "dbd533f7c74fb63827825f589f99c3d0c14f8cee",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
@@ -427,6 +859,24 @@
     },
     {
       "key": {
+        "uuid": "9a5c5d37_526314dc",
+        "filename": "docs/all/live_migration.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2016-01-19T18:49:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a5c5d37_f9b1d6e1",
+      "revId": "dbd533f7c74fb63827825f589f99c3d0c14f8cee",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a5c5d37_d9b4d2d2",
         "filename": "docs/all/live_migration.rst",
         "patchSetId": 3
@@ -438,6 +888,24 @@
       "writtenOn": "2016-01-17T06:29:19Z",
       "side": 1,
       "message": "s/guest runs/a guest running/",
+      "revId": "dbd533f7c74fb63827825f589f99c3d0c14f8cee",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a5c5d37_325e6013",
+        "filename": "docs/all/live_migration.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2016-01-19T18:49:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a5c5d37_d9b4d2d2",
       "revId": "dbd533f7c74fb63827825f589f99c3d0c14f8cee",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false

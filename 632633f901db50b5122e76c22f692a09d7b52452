@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a5c5d37_d564894a",
+        "filename": "qemu/util/cutils.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1085
+      },
+      "writtenOn": "2016-01-21T12:21:01Z",
+      "side": 1,
+      "message": "This is almost same code than can_use_buffer_find_nonzero_offset_inner. Perhaps it\u0027s better to pass a parameter to the other function to change the vector type from the default one?",
+      "range": {
+        "startLine": 244,
+        "startChar": 0,
+        "endLine": 250,
+        "endChar": 1
+      },
+      "revId": "632633f901db50b5122e76c22f692a09d7b52452",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}

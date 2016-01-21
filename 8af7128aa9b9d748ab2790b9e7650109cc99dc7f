@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a5c5d37_3f07441e",
+        "filename": "docs/all/environment-setup.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1085
+      },
+      "writtenOn": "2016-01-21T07:47:20Z",
+      "side": 1,
+      "message": ", etc,",
+      "range": {
+        "startLine": 19,
+        "startChar": 11,
+        "endLine": 19,
+        "endChar": 14
+      },
+      "revId": "8af7128aa9b9d748ab2790b9e7650109cc99dc7f",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a5c5d37_1f02400b",
+        "filename": "docs/all/environment-setup.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1085
+      },
+      "writtenOn": "2016-01-21T07:47:20Z",
+      "side": 1,
+      "message": "reduction",
+      "range": {
+        "startLine": 61,
+        "startChar": 44,
+        "endLine": 61,
+        "endChar": 54
+      },
+      "revId": "8af7128aa9b9d748ab2790b9e7650109cc99dc7f",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a5c5d37_9a0d1e3a",
+        "filename": "docs/all/environment-setup.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1085
+      },
+      "writtenOn": "2016-01-21T07:47:20Z",
+      "side": 1,
+      "message": "detailed",
+      "range": {
+        "startLine": 123,
+        "startChar": 29,
+        "endLine": 123,
+        "endChar": 36
+      },
+      "revId": "8af7128aa9b9d748ab2790b9e7650109cc99dc7f",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a5c5d37_ba2102a1",
+        "filename": "docs/all/index.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1085
+      },
+      "writtenOn": "2016-01-21T07:47:20Z",
+      "side": 1,
+      "message": "While",
+      "range": {
+        "startLine": 29,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 4
+      },
+      "revId": "8af7128aa9b9d748ab2790b9e7650109cc99dc7f",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a5c5d37_9a5bde2d",
+        "filename": "docs/all/tunning.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1085
+      },
+      "writtenOn": "2016-01-21T07:47:20Z",
+      "side": 1,
+      "message": "that can",
+      "range": {
+        "startLine": 25,
+        "startChar": 44,
+        "endLine": 25,
+        "endChar": 48
+      },
+      "revId": "8af7128aa9b9d748ab2790b9e7650109cc99dc7f",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a5c5d37_3a4cf26f",
+        "filename": "docs/all/tunning.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1085
+      },
+      "writtenOn": "2016-01-21T07:47:20Z",
+      "side": 1,
+      "message": "daemon",
+      "range": {
+        "startLine": 59,
+        "startChar": 2,
+        "endLine": 59,
+        "endChar": 8
+      },
+      "revId": "8af7128aa9b9d748ab2790b9e7650109cc99dc7f",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}

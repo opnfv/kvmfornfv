@@ -127,9 +127,6 @@ verifiy()
 
     export YARDSTICK_VERSION=$(git rev-parse HEAD)
 
-    # fetch patch
-    git fetch https://QiLiang@gerrit.opnfv.org/gerrit/yardstick refs/changes/33/3633/1 && git checkout FETCH_HEAD
-
     # If any change needed for yardstick, applied here.
     if [ -e /opt/yardstick.patch ]
     then

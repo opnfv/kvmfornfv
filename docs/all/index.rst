@@ -26,7 +26,7 @@ looking at the following areas
     * Minimal packet latency variation for data-plane VNFs
 + Fast live migration
 
-hile these items require software development and/or specific hardware features
+While these items require software development and/or specific hardware features
 there are also some adjustments that need to be made to system configuration
 information, like hardware, BIOS, OS, etc.
 

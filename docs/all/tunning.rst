@@ -22,7 +22,7 @@ but others may not be configurable (e.g. SMI on most platforms).
   expensive of latency. These features include: Intel®Turbo Boost Technology,
   Enhanced Intel®SpeedStep, Processor C state and P state. Normally they should
   be disabled but, depending on the real-time application design and latency
-  requirements, there might be some features can be enabled if the impact on
+  requirements, there might be some features that can be enabled if the impact on
   deterministic execution of the workload is small.
 
 * **Hyper-Threading:**
@@ -56,7 +56,7 @@ Operating System Configuration
 * **IRQ affinity:**
   All the non-realtime IRQs should be affinitized to non realtime CPUs to
   reduce the impact on realtime CPUs. Some OS distributions contain an irqbalance
-  deamon which balances the IRQs among all the cores dynamically. It should be
+  daemon which balances the IRQs among all the cores dynamically. It should be
   disabled as well.
 
 * **Device assignment for VM:**

@@ -16,7 +16,7 @@ CPU Features
 ~~~~~~~~~~~~
 
 Some special CPU features like TSC-deadline timer, invariant TSC and Process posted
-interrupts etc are helpful for latency reduction.
+interrupts, etc, are helpful for latency reduction.
 
 Below is the CPU information on the baseline test platform.
 ::
@@ -58,7 +58,7 @@ Below is the CPU information on the baseline test platform.
 CPU Topology
 ~~~~~~~~~~~~
 
-NUMA topology is also important for latency reducation.
+NUMA topology is also important for latency reduction.
 
 Below is the CPU topology on the baseline test platform.
 ::
@@ -120,7 +120,7 @@ Software Environment Setup
 --------------------------
 Both the host and the guest environment need to be configured properly to
 reduce latency variations.  Below are some suggested kernel configurations.
-The ci/envs/ directory gives etailed implementation on how to setup the
+The ci/envs/ directory gives detailed implementation on how to setup the
 environment.
 
 Kernel Parameter

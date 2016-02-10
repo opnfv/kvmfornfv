@@ -1,3 +1,7 @@
+.. This work is licensed under a Creative Commons Attribution 4.0 International License.
+.. http://creativecommons.org/licenses/by/4.0
+.. (c) <optionally add copywriters name>
+
 Low Latency Tunning Suggestion
 ==============================
 
@@ -95,3 +99,4 @@ Operating System Configuration
 * **NUMA configuration:**
   To achieve the best latency. CPU/Memory and device allocated for realtime
   application/VM should be in the same NUMA node.
+

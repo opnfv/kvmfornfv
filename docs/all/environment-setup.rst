@@ -1,3 +1,7 @@
+.. This work is licensed under a Creative Commons Attribution 4.0 International License.
+.. http://creativecommons.org/licenses/by/4.0
+.. (c) <optionally add copywriters name>
+
 Low Latency Environment
 =======================
 
@@ -145,3 +149,4 @@ Run-time Environment Setup
 Not only are special kernel parameters needed but a special run-time
 environment is also required. Please refer to :doc:`tunning` for more
 explanation.
+

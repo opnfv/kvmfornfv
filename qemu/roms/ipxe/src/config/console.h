@@ -10,7 +10,7 @@
  *
  */
 
-FILE_LICENCE ( GPL2_OR_LATER );
+FILE_LICENCE ( GPL2_OR_LATER_OR_UBDL );
 
 #include <config/defaults.h>
 
@@ -23,6 +23,7 @@ FILE_LICENCE ( GPL2_OR_LATER );
 //#define	CONSOLE_VMWARE		/* VMware logfile console */
 //#define	CONSOLE_DEBUGCON	/* Debug port console */
 //#define	CONSOLE_VESAFB		/* VESA framebuffer console */
+//#define	CONSOLE_INT13		/* INT13 disk log console */
 
 #define	KEYBOARD_MAP	us
 

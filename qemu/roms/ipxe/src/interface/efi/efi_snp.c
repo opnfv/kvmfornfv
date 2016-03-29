@@ -32,14 +32,49 @@ FILE_LICENCE ( GPL2_OR_LATER );
 #include <ipxe/efi/efi_driver.h>
 #include <ipxe/efi/efi_strings.h>
 #include <ipxe/efi/efi_utils.h>
+#include <ipxe/efi/efi_watchdog.h>
 #include <ipxe/efi/efi_snp.h>
 #include <usr/autoboot.h>
+#include <config/general.h>
 
 /** List of SNP devices */
 static LIST_HEAD ( efi_snp_devices );
 
 /** Network devices are currently claimed for use by iPXE */
 static int efi_snp_claimed;
+
+/* Downgrade user experience if configured to do so
+ *
+ * The default UEFI user experience for network boot is somewhat
+ * excremental: only TFTP is available as a download protocol, and if
+ * anything goes wrong the user will be shown just a dot on an
+ * otherwise blank screen.  (Some programmer was clearly determined to
+ * win a bet that they could outshine Apple at producing uninformative
+ * error messages.)
+ *
+ * For comparison, the default iPXE user experience provides the
+ * option to use protocols designed more recently than 1980 (such as
+ * HTTP and iSCSI), and if anything goes wrong the the user will be
+ * shown one of over 1200 different error messages, complete with a
+ * link to a wiki page describing that specific error.
+ *
+ * We default to upgrading the user experience to match that available
+ * in a "legacy" BIOS environment, by installing our own instance of
+ * EFI_LOAD_FILE_PROTOCOL.
+ *
+ * Note that unfortunately we can't sensibly provide the choice of
+ * both options to the user in the same build, because the UEFI boot
+ * menu ignores the multitude of ways in which a network device handle
+ * can be described and opaquely labels both menu entries as just "EFI
+ * Network".
+ */
+#ifdef EFI_DOWNGRADE_UX
+static EFI_GUID dummy_load_file_protocol_guid = {
+	0x6f6c7323, 0x2077, 0x7523,
+	{ 0x6e, 0x68, 0x65, 0x6c, 0x70, 0x66, 0x75, 0x6c }
+};
+#define efi_load_file_protocol_guid dummy_load_file_protocol_guid
+#endif
 
 /**
  * Set EFI SNP mode state
@@ -98,28 +133,43 @@ static void efi_snp_set_mode ( struct efi_snp_device *snpdev ) {
 }
 
 /**
+ * Flush transmit ring and receive queue
+ *
+ * @v snpdev		SNP device
+ */
+static void efi_snp_flush ( struct efi_snp_device *snpdev ) {
+	struct io_buffer *iobuf;
+	struct io_buffer *tmp;
+
+	/* Reset transmit completion ring */
+	snpdev->tx_prod = 0;
+	snpdev->tx_cons = 0;
+
+	/* Discard any queued receive buffers */
+	list_for_each_entry_safe ( iobuf, tmp, &snpdev->rx, list ) {
+		list_del ( &iobuf->list );
+		free_iob ( iobuf );
+	}
+}
+
+/**
  * Poll net device and count received packets
  *
  * @v snpdev		SNP device
  */
 static void efi_snp_poll ( struct efi_snp_device *snpdev ) {
+	EFI_BOOT_SERVICES *bs = efi_systab->BootServices;
 	struct io_buffer *iobuf;
-	unsigned int before = 0;
-	unsigned int after = 0;
-	unsigned int arrived;
 
-	/* We have to report packet arrivals, and this is the easiest
-	 * way to fake it.
-	 */
-	list_for_each_entry ( iobuf, &snpdev->netdev->rx_queue, list )
-		before++;
+	/* Poll network device */
 	netdev_poll ( snpdev->netdev );
-	list_for_each_entry ( iobuf, &snpdev->netdev->rx_queue, list )
-		after++;
-	arrived = ( after - before );
 
-	snpdev->rx_count_interrupts += arrived;
-	snpdev->rx_count_events += arrived;
+	/* Retrieve any received packets */
+	while ( ( iobuf = netdev_rx_dequeue ( snpdev->netdev ) ) ) {
+		list_add_tail ( &iobuf->list, &snpdev->rx );
+		snpdev->interrupts |= EFI_SIMPLE_NETWORK_RECEIVE_INTERRUPT;
+		bs->SignalEvent ( &snpdev->snp.WaitForPacket );
+	}
 }
 
 /**
@@ -221,6 +271,7 @@ efi_snp_reset ( EFI_SIMPLE_NETWORK_PROTOCOL *snp, BOOLEAN ext_verify ) {
 
 	netdev_close ( snpdev->netdev );
 	efi_snp_set_state ( snpdev );
+	efi_snp_flush ( snpdev );
 
 	if ( ( rc = netdev_open ( snpdev->netdev ) ) != 0 ) {
 		DBGC ( snpdev, "SNPDEV %p could not reopen %s: %s\n",
@@ -251,6 +302,7 @@ efi_snp_shutdown ( EFI_SIMPLE_NETWORK_PROTOCOL *snp ) {
 
 	netdev_close ( snpdev->netdev );
 	efi_snp_set_state ( snpdev );
+	efi_snp_flush ( snpdev );
 
 	return 0;
 }
@@ -446,20 +498,22 @@ efi_snp_nvdata ( EFI_SIMPLE_NETWORK_PROTOCOL *snp, BOOLEAN read,
  *
  * @v snp		SNP interface
  * @v interrupts	Interrupt status, or NULL
- * @v txbufs		Recycled transmit buffer address, or NULL
+ * @v txbuf		Recycled transmit buffer address, or NULL
  * @ret efirc		EFI status code
  */
 static EFI_STATUS EFIAPI
 efi_snp_get_status ( EFI_SIMPLE_NETWORK_PROTOCOL *snp,
-		     UINT32 *interrupts, VOID **txbufs ) {
+		     UINT32 *interrupts, VOID **txbuf ) {
 	struct efi_snp_device *snpdev =
 		container_of ( snp, struct efi_snp_device, snp );
 
 	DBGC2 ( snpdev, "SNPDEV %p GET_STATUS", snpdev );
 
 	/* Fail if net device is currently claimed for use by iPXE */
-	if ( efi_snp_claimed )
+	if ( efi_snp_claimed ) {
+		DBGC2 ( snpdev, "\n" );
 		return EFI_NOT_READY;
+	}
 
 	/* Poll the network device */
 	efi_snp_poll ( snpdev );
@@ -468,47 +522,19 @@ efi_snp_get_status ( EFI_SIMPLE_NETWORK_PROTOCOL *snp,
 	 * to detect TX completions.
 	 */
 	if ( interrupts ) {
-		*interrupts = 0;
-		/* Report TX completions once queue is empty; this
-		 * avoids having to add hooks in the net device layer.
-		 */
-		if ( snpdev->tx_count_interrupts &&
-		     list_empty ( &snpdev->netdev->tx_queue ) ) {
-			*interrupts |= EFI_SIMPLE_NETWORK_TRANSMIT_INTERRUPT;
-			snpdev->tx_count_interrupts--;
-		}
-		/* Report RX */
-		if ( snpdev->rx_count_interrupts ) {
-			*interrupts |= EFI_SIMPLE_NETWORK_RECEIVE_INTERRUPT;
-			snpdev->rx_count_interrupts--;
-		}
+		*interrupts = snpdev->interrupts;
 		DBGC2 ( snpdev, " INTS:%02x", *interrupts );
+		snpdev->interrupts = 0;
 	}
 
-	/* TX completions.  It would be possible to design a more
-	 * idiotic scheme for this, but it would be a challenge.
-	 * According to the UEFI header file, txbufs will be filled in
-	 * with a list of "recycled transmit buffers" (i.e. completed
-	 * TX buffers).  Observant readers may care to note that
-	 * *txbufs is a void pointer.  Precisely how a list of
-	 * completed transmit buffers is meant to be represented as an
-	 * array of voids is left as an exercise for the reader.
-	 *
-	 * The only users of this interface (MnpDxe/MnpIo.c and
-	 * PxeBcDxe/Bc.c within the EFI dev kit) both just poll until
-	 * seeing a non-NULL result return in txbufs.  This is valid
-	 * provided that they do not ever attempt to transmit more
-	 * than one packet concurrently (and that TX never times out).
-	 */
-	if ( txbufs ) {
-		if ( snpdev->tx_count_txbufs &&
-		     list_empty ( &snpdev->netdev->tx_queue ) ) {
-			*txbufs = "Which idiot designed this API?";
-			snpdev->tx_count_txbufs--;
+	/* TX completions */
+	if ( txbuf ) {
+		if ( snpdev->tx_prod != snpdev->tx_cons ) {
+			*txbuf = snpdev->tx[snpdev->tx_cons++ % EFI_SNP_NUM_TX];
 		} else {
-			*txbufs = NULL;
+			*txbuf = NULL;
 		}
-		DBGC2 ( snpdev, " TX:%s", ( *txbufs ? "some" : "none" ) );
+		DBGC2 ( snpdev, " TX:%p", *txbuf );
 	}
 
 	DBGC2 ( snpdev, "\n" );
@@ -537,6 +563,7 @@ efi_snp_transmit ( EFI_SIMPLE_NETWORK_PROTOCOL *snp,
 	struct ll_protocol *ll_protocol = snpdev->netdev->ll_protocol;
 	struct io_buffer *iobuf;
 	size_t payload_len;
+	unsigned int tx_fill;
 	int rc;
 
 	DBGC2 ( snpdev, "SNPDEV %p TRANSMIT %p+%lx", snpdev, data,
@@ -624,12 +651,27 @@ efi_snp_transmit ( EFI_SIMPLE_NETWORK_PROTOCOL *snp,
 		goto err_tx;
 	}
 
-	/* Record transmission as outstanding */
-	snpdev->tx_count_interrupts++;
-	snpdev->tx_count_txbufs++;
+	/* Record in transmit completion ring.  If we run out of
+	 * space, report the failure even though we have already
+	 * transmitted the packet.
+	 *
+	 * This allows us to report completions only for packets for
+	 * which we had reported successfully initiating transmission,
+	 * while continuing to support clients that never poll for
+	 * transmit completions.
+	 */
+	tx_fill = ( snpdev->tx_prod - snpdev->tx_cons );
+	if ( tx_fill >= EFI_SNP_NUM_TX ) {
+		DBGC ( snpdev, "SNPDEV %p TX completion ring full\n", snpdev );
+		rc = -ENOBUFS;
+		goto err_ring_full;
+	}
+	snpdev->tx[ snpdev->tx_prod++ % EFI_SNP_NUM_TX ] = data;
+	snpdev->interrupts |= EFI_SIMPLE_NETWORK_TRANSMIT_INTERRUPT;
 
 	return 0;
 
+ err_ring_full:
  err_tx:
  err_ll_push:
 	free_iob ( iobuf );
@@ -676,12 +718,13 @@ efi_snp_receive ( EFI_SIMPLE_NETWORK_PROTOCOL *snp,
 	efi_snp_poll ( snpdev );
 
 	/* Dequeue a packet, if one is available */
-	iobuf = netdev_rx_dequeue ( snpdev->netdev );
+	iobuf = list_first_entry ( &snpdev->rx, struct io_buffer, list );
 	if ( ! iobuf ) {
 		DBGC2 ( snpdev, "\n" );
 		rc = -EAGAIN;
 		goto out_no_packet;
 	}
+	list_del ( &iobuf->list );
 	DBGC2 ( snpdev, "+%zx\n", iob_len ( iobuf ) );
 
 	/* Return packet to caller */
@@ -721,9 +764,8 @@ efi_snp_receive ( EFI_SIMPLE_NETWORK_PROTOCOL *snp,
  * @v event		Event
  * @v context		Event context
  */
-static VOID EFIAPI efi_snp_wait_for_packet ( EFI_EVENT event,
+static VOID EFIAPI efi_snp_wait_for_packet ( EFI_EVENT event __unused,
 					     VOID *context ) {
-	EFI_BOOT_SERVICES *bs = efi_systab->BootServices;
 	struct efi_snp_device *snpdev = context;
 
 	DBGCP ( snpdev, "SNPDEV %p WAIT_FOR_PACKET\n", snpdev );
@@ -738,14 +780,6 @@ static VOID EFIAPI efi_snp_wait_for_packet ( EFI_EVENT event,
 
 	/* Poll the network device */
 	efi_snp_poll ( snpdev );
-
-	/* Fire event if packets have been received */
-	if ( snpdev->rx_count_events != 0 ) {
-		DBGC2 ( snpdev, "SNPDEV %p firing WaitForPacket event\n",
-			snpdev );
-		bs->SignalEvent ( event );
-		snpdev->rx_count_events--;
-	}
 }
 
 /** SNP interface */
@@ -837,6 +871,7 @@ efi_snp_load_file ( EFI_LOAD_FILE_PROTOCOL *load_file,
 	struct efi_snp_device *snpdev =
 		container_of ( load_file, struct efi_snp_device, load_file );
 	struct net_device *netdev = snpdev->netdev;
+	int rc;
 
 	/* Fail unless this is a boot attempt */
 	if ( ! booting ) {
@@ -848,14 +883,17 @@ efi_snp_load_file ( EFI_LOAD_FILE_PROTOCOL *load_file,
 	/* Claim network devices for use by iPXE */
 	efi_snp_claim();
 
+	/* Start watchdog holdoff timer */
+	efi_watchdog_start();
+
 	/* Boot from network device */
-	ipxe ( netdev );
+	if ( ( rc = ipxe ( netdev ) ) != 0 )
+		goto err_ipxe;
 
-	/* Release network devices for use via SNP */
+ err_ipxe:
+	efi_watchdog_stop();
 	efi_snp_release();
-
-	/* Assume boot process was aborted */
-	return EFI_ABORTED;
+	return EFIRC ( rc );
 }
 
 /** Load file protocol */
@@ -922,6 +960,7 @@ static int efi_snp_probe ( struct net_device *netdev ) {
 	}
 	snpdev->netdev = netdev_get ( netdev );
 	snpdev->efidev = efidev;
+	INIT_LIST_HEAD ( &snpdev->rx );
 
 	/* Sanity check */
 	if ( netdev->ll_protocol->ll_addr_len > sizeof ( EFI_MAC_ADDRESS ) ) {

@@ -824,7 +824,7 @@ int ebus_config_cb(const pci_config_t *config)
         ncells += pci_encode_phys_addr(props + ncells,
                                        flags, space_code, config->dev,
                                        PCI_BASE_ADDR_0 + (i * sizeof(uint32_t)),
-                                       0);
+                                       config->assigned[i] & ~mask);
 
         props[ncells++] = config->sizes[i];
     }
@@ -1418,6 +1418,12 @@ static void ob_pci_host_set_interrupt_map(phandle_t host)
         set_int_property(target_node, "interrupt-parent", dnode);
 
         target_node = find_dev("/pci/mac-io/escc/ch-b");
+        set_int_property(target_node, "interrupt-parent", dnode);
+
+        target_node = find_dev("/pci/mac-io/escc-legacy/ch-a");
+        set_int_property(target_node, "interrupt-parent", dnode);
+
+        target_node = find_dev("/pci/mac-io/escc-legacy/ch-b");
         set_int_property(target_node, "interrupt-parent", dnode);
 
         /* QEMU only emulates 2 of the 3 ata buses currently */

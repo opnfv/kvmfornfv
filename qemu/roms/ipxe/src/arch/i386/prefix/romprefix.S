@@ -6,9 +6,10 @@
  * table so using a noticeable amount of stack space is a no-no.
  */
 
-FILE_LICENCE ( GPL2_OR_LATER )
+FILE_LICENCE ( GPL2_OR_LATER_OR_UBDL )
 
 #include <config/general.h>
+#include <config/branding.h>
 
 #define PNP_SIGNATURE ( '$' + ( 'P' << 8 ) + ( 'n' << 16 ) + ( 'P' << 24 ) )
 #define PMM_SIGNATURE ( '$' + ( 'P' << 8 ) + ( 'M' << 16 ) + ( 'M' << 24 ) )
@@ -90,7 +91,7 @@ pciheader:
 	.ascii	"PCIR"			/* Signature */
 	.word	pci_vendor_id		/* Vendor identification */ 
 	.word	pci_device_id		/* Device identification */
-	.word	0x0000			/* Device list pointer */
+	.word	( pci_devlist - pciheader ) /* Device list pointer */
 	.word	pciheader_len		/* PCI data structure length */
 	.byte	0x03			/* PCI data structure revision */
 	.byte	0x02, 0x00, 0x00	/* Class code */
@@ -105,6 +106,17 @@ pciheader_runtime_length:
 	.word	0x0000			/* DMTF CLP entry point */
 	.equ pciheader_len, . - pciheader
 	.size pciheader, . - pciheader
+
+	/* PCI additional device list (filled in by linker) */
+	.section ".pci_devlist.00000000", "a", @progbits
+pci_devlist:
+	.previous
+	.section ".pci_devlist.ffffffff", "a", @progbits
+pci_devlist_end:
+	.short	0x0000 /* List terminator */
+	.previous
+	/* Ensure that terminator is always present */
+	.reloc pciheader, RELOC_TYPE_NONE, pci_devlist_end
 
 	.section ".zinfo.fixup", "a", @progbits	/* Compressor fixups */
 	.ascii	ZINFO_TYPE_ADxW
@@ -573,7 +585,7 @@ get_pmm_decompress_to:
  * Note to hardware vendors:
  *
  * If you wish to brand this boot ROM, please do so by defining the
- * strings PRODUCT_NAME and PRODUCT_SHORT_NAME in config/general.h.
+ * strings PRODUCT_NAME and PRODUCT_SHORT_NAME in config/branding.h.
  *
  * While nothing in the GPL prevents you from removing all references
  * to iPXE or http://ipxe.org, we prefer you not to do so.
@@ -589,7 +601,10 @@ init_message:
 	.ascii	"\n"
 	.ascii	PRODUCT_NAME
 	.ascii	"\n"
-	.asciz	"iPXE (http://ipxe.org)"
+	.ascii	PRODUCT_SHORT_NAME
+	.ascii	" ("
+	.ascii	PRODUCT_URI
+	.asciz	")"
 	.size	init_message, . - init_message
 .ifeqs	BUSTYPE, "PCIR"
 init_message_pci:
@@ -771,7 +786,9 @@ exec:	/* Set %ds = %cs */
 
 	/* Store PCI bus:dev.fn, if applicable */
 .ifeqs	BUSTYPE, "PCIR"
+#ifdef AUTOBOOT_ROM_FILTER
 	movw	%ax, autoboot_busdevfn
+#endif /* AUTOBOOT_ROM_FILTER */
 .endif
 
 	/* Call main() */
@@ -870,3 +887,9 @@ wait_for_tick:
 	popl	%eax
 	ret
 	.size wait_for_tick, . - wait_for_tick
+
+/* Drag in objects via _rom_start */
+REQUIRING_SYMBOL ( _rom_start )
+
+/* Drag in ROM configuration */
+REQUIRE_OBJECT ( config_romprefix )

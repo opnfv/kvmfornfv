@@ -11,6 +11,7 @@ Index
 2.2 Overview of the source code
 2.4 Extending the Forth engine
 3.0 Limitations
+4.0 Submitting patches
 
 
 1.0 Introduction to Slimline Open Firmware
@@ -236,6 +237,16 @@ To add primitives:
  On a JS21 all memory configurations should work.
 
 
+4.0 Submitting patches
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Patches for SLOF should be made against https://github.com/aik/SLOF,
+the master branch and posted to slof@lists.ozlabs.org.
+The patches must be signed using "Signed-off-by" tag with a real name to
+confirm that you certify the Developer Certificate of Origin  Version 1.1,
+see [3] for details.
+
+
 Documentation
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
@@ -244,3 +255,6 @@ Documentation
 
 [2] PAPR Standard, Power.org(TM) Standard for Power Architecture(R) Platform
     Requirements (Workstation, Server), Version 2.4, December 7, 2009
+
+[3] Developer Certificate of Origin Version 1.1
+    http://developercertificate.org/

@@ -1488,6 +1488,28 @@ int ob_ide_init(const char *path, uint32_t io_port0, uint32_t ctl_port0,
 	return 0;
 }
 
+void ob_ide_quiesce(void)
+{
+	struct ide_channel *channel;
+	int i;
+
+	channel = channels;
+	while (channel) {
+		for (i = 0; i < 2; i++) {
+			struct ide_drive *drive = &channel->drives[i];
+
+			if (!drive->present)
+				continue;
+
+			ob_ide_select_drive(drive);
+			ob_ide_software_reset(drive);
+			ob_ide_device_type_check(drive);
+		}
+
+		channel = channel->next;
+	}
+}
+
 #if defined(CONFIG_DRIVER_MACIO)
 static unsigned char
 macio_ide_inb(struct ide_channel *chan, unsigned int port)
@@ -1581,6 +1603,12 @@ int macio_ide_init(const char *path, uint32_t addr, int nb_channels)
 		set_property(dnode, "compatible", (is_oldworld() ?
 			     "heathrow-ata" : "keylargo-ata"), 13);
 
+		set_property(dnode, "model", ((current_channel == 3) ?
+			     "ata-3" : "ata-4"), strlen("ata-*") + 1);
+
+		set_property(dnode, "AAPL,connector", "ata",
+                             strlen("ata") + 1);
+
 		props[0] = 0x00000526;
 		props[1] = 0x00000085;
 		props[2] = 0x00000025;
@@ -1589,8 +1617,8 @@ int macio_ide_init(const char *path, uint32_t addr, int nb_channels)
 		props[5] = 0x00000000;
 		props[6] = 0x00000000;
 		props[7] = 0x00000000;
-		OLDWORLD(set_property(dnode, "AAPL,pio-timing",
-				      (char *)&props, 8*sizeof(props[0])));
+		set_property(dnode, "AAPL,pio-timing",
+				      (char *)&props, 8*sizeof(props[0]));
 
 		/* The first interrupt entry is the ide interrupt, the second
 		   the dbdma interrupt */
@@ -1634,8 +1662,8 @@ int macio_ide_init(const char *path, uint32_t addr, int nb_channels)
 				      (char *)&props, 2*sizeof(props[0])));
 
 		props[0] = 0;
-		OLDWORLD(set_property(dnode, "AAPL,bus-id", (char*)props,
-			 1 * sizeof(props[0])));
+		set_property(dnode, "AAPL,bus-id", (char*)props,
+			 1 * sizeof(props[0]));
 		IDE_DPRINTF(DEV_NAME": [io ports 0x%lx]\n",
 		            current_channel, chan->mmio);
 

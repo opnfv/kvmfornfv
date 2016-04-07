@@ -1629,8 +1629,13 @@ static netdev_tx_t bdx_tx_transmit(struct sk_buff *skb,
 	unsigned long flags;
 
 	ENTER;
-
-	spin_lock_irqsave(&priv->tx_lock, flags);
+	local_irq_save(flags);
+	if (!spin_trylock(&priv->tx_lock)) {
+		local_irq_restore(flags);
+		DBG("%s[%s]: TX locked, returning NETDEV_TX_LOCKED\n",
+		    BDX_DRV_NAME, ndev->name);
+		return NETDEV_TX_LOCKED;
+	}
 
 	/* build tx descriptor */
 	BDX_ASSERT(f->m.wptr >= f->m.memsz);	/* started with valid wptr */
@@ -2177,11 +2182,6 @@ bdx_get_drvinfo(struct net_device *netdev, struct ethtool_drvinfo *drvinfo)
 	strlcpy(drvinfo->fw_version, "N/A", sizeof(drvinfo->fw_version));
 	strlcpy(drvinfo->bus_info, pci_name(priv->pdev),
 		sizeof(drvinfo->bus_info));
-
-	drvinfo->n_stats = ((priv->stats_flag) ? ARRAY_SIZE(bdx_stat_names) : 0);
-	drvinfo->testinfo_len = 0;
-	drvinfo->regdump_len = 0;
-	drvinfo->eedump_len = 0;
 }
 
 /*

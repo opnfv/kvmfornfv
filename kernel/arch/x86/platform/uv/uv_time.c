@@ -32,8 +32,7 @@
 
 static cycle_t uv_read_rtc(struct clocksource *cs);
 static int uv_rtc_next_event(unsigned long, struct clock_event_device *);
-static void uv_rtc_timer_setup(enum clock_event_mode,
-				struct clock_event_device *);
+static int uv_rtc_shutdown(struct clock_event_device *evt);
 
 static struct clocksource clocksource_uv = {
 	.name		= RTC_NAME,
@@ -44,21 +43,21 @@ static struct clocksource clocksource_uv = {
 };
 
 static struct clock_event_device clock_event_device_uv = {
-	.name		= RTC_NAME,
-	.features	= CLOCK_EVT_FEAT_ONESHOT,
-	.shift		= 20,
-	.rating		= 400,
-	.irq		= -1,
-	.set_next_event	= uv_rtc_next_event,
-	.set_mode	= uv_rtc_timer_setup,
-	.event_handler	= NULL,
+	.name			= RTC_NAME,
+	.features		= CLOCK_EVT_FEAT_ONESHOT,
+	.shift			= 20,
+	.rating			= 400,
+	.irq			= -1,
+	.set_next_event		= uv_rtc_next_event,
+	.set_state_shutdown	= uv_rtc_shutdown,
+	.event_handler		= NULL,
 };
 
 static DEFINE_PER_CPU(struct clock_event_device, cpu_ced);
 
 /* There is one of these allocated per node */
 struct uv_rtc_timer_head {
-	raw_spinlock_t	lock;
+	spinlock_t	lock;
 	/* next cpu waiting for timer, local node relative: */
 	int		next_cpu;
 	/* number of cpus on this node: */
@@ -178,7 +177,7 @@ static __init int uv_rtc_allocate_timers(void)
 				uv_rtc_deallocate_timers();
 				return -ENOMEM;
 			}
-			raw_spin_lock_init(&head->lock);
+			spin_lock_init(&head->lock);
 			head->ncpus = uv_blade_nr_possible_cpus(bid);
 			head->next_cpu = -1;
 			blade_info[bid] = head;
@@ -232,7 +231,7 @@ static int uv_rtc_set_timer(int cpu, u64 expires)
 	unsigned long flags;
 	int next_cpu;
 
-	raw_spin_lock_irqsave(&head->lock, flags);
+	spin_lock_irqsave(&head->lock, flags);
 
 	next_cpu = head->next_cpu;
 	*t = expires;
@@ -244,12 +243,12 @@ static int uv_rtc_set_timer(int cpu, u64 expires)
 		if (uv_setup_intr(cpu, expires)) {
 			*t = ULLONG_MAX;
 			uv_rtc_find_next_timer(head, pnode);
-			raw_spin_unlock_irqrestore(&head->lock, flags);
+			spin_unlock_irqrestore(&head->lock, flags);
 			return -ETIME;
 		}
 	}
 
-	raw_spin_unlock_irqrestore(&head->lock, flags);
+	spin_unlock_irqrestore(&head->lock, flags);
 	return 0;
 }
 
@@ -268,7 +267,7 @@ static int uv_rtc_unset_timer(int cpu, int force)
 	unsigned long flags;
 	int rc = 0;
 
-	raw_spin_lock_irqsave(&head->lock, flags);
+	spin_lock_irqsave(&head->lock, flags);
 
 	if ((head->next_cpu == bcpu && uv_read_rtc(NULL) >= *t) || force)
 		rc = 1;
@@ -280,7 +279,7 @@ static int uv_rtc_unset_timer(int cpu, int force)
 			uv_rtc_find_next_timer(head, pnode);
 	}
 
-	raw_spin_unlock_irqrestore(&head->lock, flags);
+	spin_unlock_irqrestore(&head->lock, flags);
 
 	return rc;
 }
@@ -300,18 +299,13 @@ static int uv_rtc_unset_timer(int cpu, int force)
 static cycle_t uv_read_rtc(struct clocksource *cs)
 {
 	unsigned long offset;
-	cycle_t cycles;
 
-	preempt_disable();
 	if (uv_get_min_hub_revision_id() == 1)
 		offset = 0;
 	else
 		offset = (uv_blade_processor_id() * L1_CACHE_BYTES) % PAGE_SIZE;
 
-	cycles = (cycle_t)uv_read_local_mmr(UVH_RTC | offset);
-	preempt_enable();
-
-	return cycles;
+	return (cycle_t)uv_read_local_mmr(UVH_RTC | offset);
 }
 
 /*
@@ -326,24 +320,14 @@ static int uv_rtc_next_event(unsigned long delta,
 }
 
 /*
- * Setup the RTC timer in oneshot mode
+ * Shutdown the RTC timer
  */
-static void uv_rtc_timer_setup(enum clock_event_mode mode,
-			       struct clock_event_device *evt)
+static int uv_rtc_shutdown(struct clock_event_device *evt)
 {
 	int ced_cpu = cpumask_first(evt->cpumask);
 
-	switch (mode) {
-	case CLOCK_EVT_MODE_PERIODIC:
-	case CLOCK_EVT_MODE_ONESHOT:
-	case CLOCK_EVT_MODE_RESUME:
-		/* Nothing to do here yet */
-		break;
-	case CLOCK_EVT_MODE_UNUSED:
-	case CLOCK_EVT_MODE_SHUTDOWN:
-		uv_rtc_unset_timer(ced_cpu, 1);
-		break;
-	}
+	uv_rtc_unset_timer(ced_cpu, 1);
+	return 0;
 }
 
 static void uv_rtc_interrupt(void)

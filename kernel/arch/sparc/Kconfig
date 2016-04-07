@@ -25,6 +25,7 @@ config SPARC
 	select ARCH_HAS_ATOMIC64_DEC_IF_POSITIVE
 	select RTC_CLASS
 	select RTC_DRV_M48T59
+	select RTC_SYSTOHC
 	select HAVE_DMA_ATTRS
 	select HAVE_DMA_API_DEBUG
 	select HAVE_ARCH_JUMP_LABEL if SPARC64
@@ -35,7 +36,6 @@ config SPARC
 	select HAVE_BPF_JIT
 	select HAVE_DEBUG_BUGVERBOSE
 	select GENERIC_SMP_IDLE_THREAD
-	select GENERIC_CMOS_UPDATE
 	select GENERIC_CLOCKEVENTS
 	select GENERIC_STRNCPY_FROM_USER
 	select GENERIC_STRNLEN_USER
@@ -189,10 +189,12 @@ config NR_CPUS
 source kernel/Kconfig.hz
 
 config RWSEM_GENERIC_SPINLOCK
-	def_bool PREEMPT_RT_FULL
+	bool
+	default y if SPARC32
 
 config RWSEM_XCHGADD_ALGORITHM
-	def_bool !RWSEM_GENERIC_SPINLOCK && !PREEMPT_RT_FULL
+	bool
+	default y if SPARC64
 
 config GENERIC_HWEIGHT
 	bool

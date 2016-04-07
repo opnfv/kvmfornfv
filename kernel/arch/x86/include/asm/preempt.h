@@ -30,12 +30,9 @@ static __always_inline void preempt_count_set(int pc)
 /*
  * must be macros to avoid header recursion hell
  */
-#define init_task_preempt_count(p) do { \
-	task_thread_info(p)->saved_preempt_count = PREEMPT_DISABLED; \
-} while (0)
+#define init_task_preempt_count(p) do { } while (0)
 
 #define init_idle_preempt_count(p, cpu) do { \
-	task_thread_info(p)->saved_preempt_count = PREEMPT_ENABLED; \
 	per_cpu(__preempt_count, (cpu)) = PREEMPT_ENABLED; \
 } while (0)
 
@@ -82,44 +79,26 @@ static __always_inline void __preempt_count_sub(int val)
  * a decrement which hits zero means we have no preempt_count and should
  * reschedule.
  */
-static __always_inline bool ____preempt_count_dec_and_test(void)
-{
-	GEN_UNARY_RMWcc("decl", __preempt_count, __percpu_arg(0), "e");
-}
-
 static __always_inline bool __preempt_count_dec_and_test(void)
 {
-	if (____preempt_count_dec_and_test())
-		return true;
-#ifdef CONFIG_PREEMPT_LAZY
-	return test_thread_flag(TIF_NEED_RESCHED_LAZY);
-#else
-	return false;
-#endif
+	GEN_UNARY_RMWcc("decl", __preempt_count, __percpu_arg(0), "e");
 }
 
 /*
  * Returns true when we need to resched and can (barring IRQ state).
  */
-static __always_inline bool should_resched(void)
+static __always_inline bool should_resched(int preempt_offset)
 {
-#ifdef CONFIG_PREEMPT_LAZY
-	return unlikely(!raw_cpu_read_4(__preempt_count) || \
-			test_thread_flag(TIF_NEED_RESCHED_LAZY));
-#else
-	return unlikely(!raw_cpu_read_4(__preempt_count));
-#endif
+	return unlikely(raw_cpu_read_4(__preempt_count) == preempt_offset);
 }
 
 #ifdef CONFIG_PREEMPT
   extern asmlinkage void ___preempt_schedule(void);
 # define __preempt_schedule() asm ("call ___preempt_schedule")
   extern asmlinkage void preempt_schedule(void);
-# ifdef CONFIG_CONTEXT_TRACKING
-    extern asmlinkage void ___preempt_schedule_context(void);
-#   define __preempt_schedule_context() asm ("call ___preempt_schedule_context")
-    extern asmlinkage void preempt_schedule_context(void);
-# endif
+  extern asmlinkage void ___preempt_schedule_notrace(void);
+# define __preempt_schedule_notrace() asm ("call ___preempt_schedule_notrace")
+  extern asmlinkage void preempt_schedule_notrace(void);
 #endif
 
 #endif /* __ASM_PREEMPT_H */

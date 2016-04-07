@@ -492,7 +492,7 @@ struct uv_blade_info {
 	unsigned short	nr_online_cpus;
 	unsigned short	pnode;
 	short		memory_nid;
-	raw_spinlock_t	nmi_lock;	/* obsolete, see uv_hub_nmi */
+	spinlock_t	nmi_lock;	/* obsolete, see uv_hub_nmi */
 	unsigned long	nmi_count;	/* obsolete, see uv_hub_nmi */
 };
 extern struct uv_blade_info *uv_blade_info;
@@ -609,7 +609,7 @@ struct uv_cpu_nmi_s {
 
 DECLARE_PER_CPU(struct uv_cpu_nmi_s, uv_cpu_nmi);
 
-#define uv_hub_nmi			(uv_cpu_nmi.hub)
+#define uv_hub_nmi			this_cpu_read(uv_cpu_nmi.hub)
 #define uv_cpu_nmi_per(cpu)		(per_cpu(uv_cpu_nmi, cpu))
 #define uv_hub_nmi_per(cpu)		(uv_cpu_nmi_per(cpu).hub)
 

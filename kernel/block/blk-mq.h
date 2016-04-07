@@ -25,12 +25,9 @@ struct blk_mq_ctx {
 	struct kobject		kobj;
 } ____cacheline_aligned_in_smp;
 
-void __blk_mq_complete_request(struct request *rq);
 void blk_mq_run_hw_queue(struct blk_mq_hw_ctx *hctx, bool async);
 void blk_mq_freeze_queue(struct request_queue *q);
 void blk_mq_free_queue(struct request_queue *q);
-void blk_mq_clone_flush_request(struct request *flush_rq,
-		struct request *orig_rq);
 int blk_mq_update_nr_requests(struct request_queue *q, unsigned int nr);
 void blk_mq_wake_waiters(struct request_queue *q);
 
@@ -51,7 +48,8 @@ void blk_mq_disable_hotplug(void);
  * CPU -> queue mappings
  */
 extern unsigned int *blk_mq_make_queue_map(struct blk_mq_tag_set *set);
-extern int blk_mq_update_queue_map(unsigned int *map, unsigned int nr_queues);
+extern int blk_mq_update_queue_map(unsigned int *map, unsigned int nr_queues,
+				   const struct cpumask *online_mask);
 extern int blk_mq_hw_queue_to_node(unsigned int *map, unsigned int);
 
 /*
@@ -76,10 +74,7 @@ struct blk_align_bitmap {
 static inline struct blk_mq_ctx *__blk_mq_get_ctx(struct request_queue *q,
 					   unsigned int cpu)
 {
-	struct blk_mq_ctx *ctx;
-
-	ctx = per_cpu_ptr(q->queue_ctx, cpu);
-	return ctx;
+	return per_cpu_ptr(q->queue_ctx, cpu);
 }
 
 /*
@@ -90,12 +85,12 @@ static inline struct blk_mq_ctx *__blk_mq_get_ctx(struct request_queue *q,
  */
 static inline struct blk_mq_ctx *blk_mq_get_ctx(struct request_queue *q)
 {
-	return __blk_mq_get_ctx(q, get_cpu_light());
+	return __blk_mq_get_ctx(q, get_cpu());
 }
 
 static inline void blk_mq_put_ctx(struct blk_mq_ctx *ctx)
 {
-	put_cpu_light();
+	put_cpu();
 }
 
 struct blk_mq_alloc_data {

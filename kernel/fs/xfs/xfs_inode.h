@@ -328,7 +328,7 @@ static inline int xfs_isiflocked(struct xfs_inode *ip)
  * 5		PARENT subclass (not nestable)
  * 6		RTBITMAP subclass (not nestable)
  * 7		RTSUM subclass (not nestable)
- *
+ * 
  */
 #define XFS_IOLOCK_SHIFT		16
 #define XFS_IOLOCK_PARENT_VAL		4

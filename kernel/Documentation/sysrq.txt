@@ -59,16 +59,9 @@ On PowerPC - Press 'ALT - Print Screen (or F13) - <command key>,
 On other - If you know of the key combos for other architectures, please
            let me know so I can add them to this section.
 
-On all -  write a character to /proc/sysrq-trigger, e.g.:
+On all -  write a character to /proc/sysrq-trigger.  e.g.:
+
 		echo t > /proc/sysrq-trigger
-
-On all - Enable network SysRq by writing a cookie to icmp_echo_sysrq, e.g.
-		echo 0x01020304 >/proc/sys/net/ipv4/icmp_echo_sysrq
-	 Send an ICMP echo request with this pattern plus the particular
-	 SysRq command key. Example:
-		# ping -c1 -s57 -p0102030468
-	 will trigger the SysRq-H (help) command.
-
 
 *  What are the 'command' keys?
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -82,7 +75,8 @@ On all - Enable network SysRq by writing a cookie to icmp_echo_sysrq, e.g.
 
 'e'     - Send a SIGTERM to all processes, except for init.
 
-'f'	- Will call oom_kill to kill a memory hog process.
+'f'	- Will call the oom killer to kill a memory hog process, but do not
+	  panic if nothing can be killed.
 
 'g'	- Used by kgdb (kernel debugger)
 
@@ -126,6 +120,7 @@ On all - Enable network SysRq by writing a cookie to icmp_echo_sysrq, e.g.
 
 'x'	- Used by xmon interface on ppc/powerpc platforms.
           Show global PMU Registers on sparc64.
+          Dump all TLB entries on MIPS.
 
 'y'	- Show global CPU Registers [SPARC-64 specific]
 

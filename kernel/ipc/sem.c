@@ -401,7 +401,7 @@ static inline struct sem_array *sem_obtain_lock(struct ipc_namespace *ns,
 	struct kern_ipc_perm *ipcp;
 	struct sem_array *sma;
 
-	ipcp = ipc_obtain_object(&sem_ids(ns), id);
+	ipcp = ipc_obtain_object_idr(&sem_ids(ns), id);
 	if (IS_ERR(ipcp))
 		return ERR_CAST(ipcp);
 
@@ -420,7 +420,7 @@ static inline struct sem_array *sem_obtain_lock(struct ipc_namespace *ns,
 
 static inline struct sem_array *sem_obtain_object(struct ipc_namespace *ns, int id)
 {
-	struct kern_ipc_perm *ipcp = ipc_obtain_object(&sem_ids(ns), id);
+	struct kern_ipc_perm *ipcp = ipc_obtain_object_idr(&sem_ids(ns), id);
 
 	if (IS_ERR(ipcp))
 		return ERR_CAST(ipcp);
@@ -690,13 +690,6 @@ undo:
 static void wake_up_sem_queue_prepare(struct list_head *pt,
 				struct sem_queue *q, int error)
 {
-#ifdef CONFIG_PREEMPT_RT_BASE
-	struct task_struct *p = q->sleeper;
-	get_task_struct(p);
-	q->status = error;
-	wake_up_process(p);
-	put_task_struct(p);
-#else
 	if (list_empty(pt)) {
 		/*
 		 * Hold preempt off so that we don't get preempted and have the
@@ -708,7 +701,6 @@ static void wake_up_sem_queue_prepare(struct list_head *pt,
 	q->pid = error;
 
 	list_add_tail(&q->list, pt);
-#endif
 }
 
 /**
@@ -722,7 +714,6 @@ static void wake_up_sem_queue_prepare(struct list_head *pt,
  */
 static void wake_up_sem_queue_do(struct list_head *pt)
 {
-#ifndef CONFIG_PREEMPT_RT_BASE
 	struct sem_queue *q, *t;
 	int did_something;
 
@@ -735,7 +726,6 @@ static void wake_up_sem_queue_do(struct list_head *pt)
 	}
 	if (did_something)
 		preempt_enable();
-#endif
 }
 
 static void unlink_queue(struct sem_array *sma, struct sem_queue *q)
@@ -2143,9 +2133,11 @@ void exit_sem(struct task_struct *tsk)
 		ipc_assert_locked_object(&sma->sem_perm);
 		list_del(&un->list_id);
 
-		spin_lock(&ulp->lock);
+		/* we are the last process using this ulp, acquiring ulp->lock
+		 * isn't required. Besides that, we are also protected against
+		 * IPC_RMID as we hold sma->sem_perm lock now
+		 */
 		list_del_rcu(&un->list_proc);
-		spin_unlock(&ulp->lock);
 
 		/* perform adjustments registered in un */
 		for (i = 0; i < sma->sem_nsems; i++) {

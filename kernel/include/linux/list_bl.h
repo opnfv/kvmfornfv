@@ -2,7 +2,6 @@
 #define _LINUX_LIST_BL_H
 
 #include <linux/list.h>
-#include <linux/spinlock.h>
 #include <linux/bit_spinlock.h>
 
 /*
@@ -33,22 +32,13 @@
 
 struct hlist_bl_head {
 	struct hlist_bl_node *first;
-#ifdef CONFIG_PREEMPT_RT_BASE
-	raw_spinlock_t lock;
-#endif
 };
 
 struct hlist_bl_node {
 	struct hlist_bl_node *next, **pprev;
 };
-
-static inline void INIT_HLIST_BL_HEAD(struct hlist_bl_head *h)
-{
-	h->first = NULL;
-#ifdef CONFIG_PREEMPT_RT_BASE
-	raw_spin_lock_init(&h->lock);
-#endif
-}
+#define INIT_HLIST_BL_HEAD(ptr) \
+	((ptr)->first = NULL)
 
 static inline void INIT_HLIST_BL_NODE(struct hlist_bl_node *h)
 {
@@ -103,9 +93,10 @@ static inline void __hlist_bl_del(struct hlist_bl_node *n)
 	LIST_BL_BUG_ON((unsigned long)n & LIST_BL_LOCKMASK);
 
 	/* pprev may be `first`, so be careful not to lose the lock bit */
-	*pprev = (struct hlist_bl_node *)
+	WRITE_ONCE(*pprev,
+		   (struct hlist_bl_node *)
 			((unsigned long)next |
-			 ((unsigned long)*pprev & LIST_BL_LOCKMASK));
+			 ((unsigned long)*pprev & LIST_BL_LOCKMASK)));
 	if (next)
 		next->pprev = pprev;
 }
@@ -127,26 +118,12 @@ static inline void hlist_bl_del_init(struct hlist_bl_node *n)
 
 static inline void hlist_bl_lock(struct hlist_bl_head *b)
 {
-#ifndef CONFIG_PREEMPT_RT_BASE
 	bit_spin_lock(0, (unsigned long *)b);
-#else
-	raw_spin_lock(&b->lock);
-#if defined(CONFIG_SMP) || defined(CONFIG_DEBUG_SPINLOCK)
-	__set_bit(0, (unsigned long *)b);
-#endif
-#endif
 }
 
 static inline void hlist_bl_unlock(struct hlist_bl_head *b)
 {
-#ifndef CONFIG_PREEMPT_RT_BASE
 	__bit_spin_unlock(0, (unsigned long *)b);
-#else
-#if defined(CONFIG_SMP) || defined(CONFIG_DEBUG_SPINLOCK)
-	__clear_bit(0, (unsigned long *)b);
-#endif
-	raw_spin_unlock(&b->lock);
-#endif
 }
 
 static inline bool hlist_bl_is_locked(struct hlist_bl_head *b)

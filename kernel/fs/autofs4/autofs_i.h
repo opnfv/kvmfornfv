@@ -34,7 +34,6 @@
 #include <linux/sched.h>
 #include <linux/mount.h>
 #include <linux/namei.h>
-#include <linux/delay.h>
 #include <asm/current.h>
 #include <asm/uaccess.h>
 
@@ -237,11 +236,6 @@ static inline u32 autofs4_get_dev(struct autofs_sb_info *sbi)
 static inline u64 autofs4_get_ino(struct autofs_sb_info *sbi)
 {
 	return d_inode(sbi->sb->s_root)->i_ino;
-}
-
-static inline int simple_positive(struct dentry *dentry)
-{
-	return d_really_is_positive(dentry) && !d_unhashed(dentry);
 }
 
 static inline void __autofs4_add_expiring(struct dentry *dentry)

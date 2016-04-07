@@ -423,7 +423,7 @@ static ssize_t __ffs_ep0_read_events(struct ffs_data *ffs, char __user *buf,
 	spin_unlock_irq(&ffs->ev.waitq.lock);
 	mutex_unlock(&ffs->mutex);
 
-	return unlikely(__copy_to_user(buf, events, size)) ? -EFAULT : size;
+	return unlikely(copy_to_user(buf, events, size)) ? -EFAULT : size;
 }
 
 static ssize_t ffs_ep0_read(struct file *file, char __user *buf,
@@ -513,7 +513,7 @@ static ssize_t ffs_ep0_read(struct file *file, char __user *buf,
 
 		/* unlocks spinlock */
 		ret = __ffs_ep0_queue_wait(ffs, data, len);
-		if (likely(ret > 0) && unlikely(__copy_to_user(buf, data, len)))
+		if (likely(ret > 0) && unlikely(copy_to_user(buf, data, len)))
 			ret = -EFAULT;
 		goto done_mutex;
 
@@ -1405,7 +1405,7 @@ static void ffs_data_put(struct ffs_data *ffs)
 		pr_info("%s(): freeing\n", __func__);
 		ffs_data_clear(ffs);
 		BUG_ON(waitqueue_active(&ffs->ev.waitq) ||
-		       swaitqueue_active(&ffs->ep0req_completion.wait));
+		       waitqueue_active(&ffs->ep0req_completion.wait));
 		kfree(ffs->dev_name);
 		kfree(ffs);
 	}
@@ -2897,11 +2897,17 @@ static int ffs_func_bind(struct usb_configuration *c,
 			 struct usb_function *f)
 {
 	struct f_fs_opts *ffs_opts = ffs_do_functionfs_bind(f, c);
+	struct ffs_function *func = ffs_func_from_usb(f);
+	int ret;
 
 	if (IS_ERR(ffs_opts))
 		return PTR_ERR(ffs_opts);
 
-	return _ffs_func_bind(c, f);
+	ret = _ffs_func_bind(c, f);
+	if (ret && !--ffs_opts->refcnt)
+		functionfs_unbind(func->ffs);
+
+	return ret;
 }
 
 
@@ -3487,7 +3493,7 @@ static char *ffs_prepare_buffer(const char __user *buf, size_t len)
 	if (unlikely(!data))
 		return ERR_PTR(-ENOMEM);
 
-	if (unlikely(__copy_from_user(data, buf, len))) {
+	if (unlikely(copy_from_user(data, buf, len))) {
 		kfree(data);
 		return ERR_PTR(-EFAULT);
 	}

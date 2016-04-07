@@ -186,7 +186,7 @@ static ide_startstop_t task_no_data_intr(ide_drive_t *drive)
 	    tf->command == ATA_CMD_CHK_POWER) {
 		struct request *rq = hwif->rq;
 
-		if (blk_pm_request(rq))
+		if (ata_pm_request(rq))
 			ide_complete_pm_rq(drive, rq);
 		else
 			ide_finish_cmd(drive, cmd, stat);
@@ -250,7 +250,7 @@ void ide_pio_bytes(ide_drive_t *drive, struct ide_cmd *cmd,
 
 		page_is_high = PageHighMem(page);
 		if (page_is_high)
-			local_irq_save_nort(flags);
+			local_irq_save(flags);
 
 		buf = kmap_atomic(page) + offset;
 
@@ -271,7 +271,7 @@ void ide_pio_bytes(ide_drive_t *drive, struct ide_cmd *cmd,
 		kunmap_atomic(buf);
 
 		if (page_is_high)
-			local_irq_restore_nort(flags);
+			local_irq_restore(flags);
 
 		len -= nr_bytes;
 	}
@@ -414,7 +414,7 @@ static ide_startstop_t pre_task_out_intr(ide_drive_t *drive,
 	}
 
 	if ((drive->dev_flags & IDE_DFLAG_UNMASK) == 0)
-		local_irq_disable_nort();
+		local_irq_disable();
 
 	ide_set_handler(drive, &task_pio_intr, WAIT_WORSTCASE);
 
@@ -430,7 +430,7 @@ int ide_raw_taskfile(ide_drive_t *drive, struct ide_cmd *cmd, u8 *buf,
 	int error;
 	int rw = !(cmd->tf_flags & IDE_TFLAG_WRITE) ? READ : WRITE;
 
-	rq = blk_get_request(drive->queue, rw, __GFP_WAIT);
+	rq = blk_get_request(drive->queue, rw, __GFP_RECLAIM);
 	rq->cmd_type = REQ_TYPE_ATA_TASKFILE;
 
 	/*
@@ -441,7 +441,7 @@ int ide_raw_taskfile(ide_drive_t *drive, struct ide_cmd *cmd, u8 *buf,
 	 */
 	if (nsect) {
 		error = blk_rq_map_kern(drive->queue, rq, buf,
-					nsect * SECTOR_SIZE, __GFP_WAIT);
+					nsect * SECTOR_SIZE, __GFP_RECLAIM);
 		if (error)
 			goto put_req;
 	}

@@ -15,8 +15,9 @@
 #include <linux/clkdev.h>
 #include <linux/slab.h>
 #include <linux/err.h>
+#include <linux/pm_runtime.h>
 
-#ifdef CONFIG_PM
+#ifdef CONFIG_PM_CLK
 
 enum pce_status {
 	PCE_STATUS_NONE = 0,
@@ -65,7 +66,8 @@ static void pm_clk_acquire(struct device *dev, struct pm_clock_entry *ce)
 	} else {
 		clk_prepare(ce->clk);
 		ce->status = PCE_STATUS_ACQUIRED;
-		dev_dbg(dev, "Clock %s managed by runtime PM.\n", ce->con_id);
+		dev_dbg(dev, "Clock %pC con_id %s managed by runtime PM.\n",
+			ce->clk, ce->con_id);
 	}
 }
 
@@ -91,7 +93,7 @@ static int __pm_clk_add(struct device *dev, const char *con_id,
 			return -ENOMEM;
 		}
 	} else {
-		if (IS_ERR(clk) || !__clk_get(clk)) {
+		if (IS_ERR(clk)) {
 			kfree(ce);
 			return -ENOENT;
 		}
@@ -125,7 +127,9 @@ int pm_clk_add(struct device *dev, const char *con_id)
  * @clk: Clock pointer
  *
  * Add the clock to the list of clocks used for the power management of @dev.
- * It will increment refcount on clock pointer, use clk_put() on it when done.
+ * The power-management code will take control of the clock reference, so
+ * callers should not call clk_put() on @clk after this function sucessfully
+ * returned.
  */
 int pm_clk_add_clk(struct device *dev, struct clk *clk)
 {
@@ -365,7 +369,44 @@ static int pm_clk_notify(struct notifier_block *nb,
 	return 0;
 }
 
-#else /* !CONFIG_PM */
+int pm_clk_runtime_suspend(struct device *dev)
+{
+	int ret;
+
+	dev_dbg(dev, "%s\n", __func__);
+
+	ret = pm_generic_runtime_suspend(dev);
+	if (ret) {
+		dev_err(dev, "failed to suspend device\n");
+		return ret;
+	}
+
+	ret = pm_clk_suspend(dev);
+	if (ret) {
+		dev_err(dev, "failed to suspend clock\n");
+		pm_generic_runtime_resume(dev);
+		return ret;
+	}
+
+	return 0;
+}
+
+int pm_clk_runtime_resume(struct device *dev)
+{
+	int ret;
+
+	dev_dbg(dev, "%s\n", __func__);
+
+	ret = pm_clk_resume(dev);
+	if (ret) {
+		dev_err(dev, "failed to resume clock\n");
+		return ret;
+	}
+
+	return pm_generic_runtime_resume(dev);
+}
+
+#else /* !CONFIG_PM_CLK */
 
 /**
  * enable_clock - Enable a device clock.
@@ -445,7 +486,7 @@ static int pm_clk_notify(struct notifier_block *nb,
 	return 0;
 }
 
-#endif /* !CONFIG_PM */
+#endif /* !CONFIG_PM_CLK */
 
 /**
  * pm_clk_add_notifier - Add bus type notifier for power management clocks.

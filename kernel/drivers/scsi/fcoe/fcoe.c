@@ -287,7 +287,6 @@ static struct scsi_host_template fcoe_shost_template = {
 	.use_clustering = ENABLE_CLUSTERING,
 	.sg_tablesize = SG_ALL,
 	.max_sectors = 0xffff,
-	.use_blk_tags = 1,
 	.track_queue_depth = 1,
 };
 
@@ -364,7 +363,7 @@ static int fcoe_interface_setup(struct fcoe_interface *fcoe,
 	 * on the ethertype for the given device
 	 */
 	fcoe->fcoe_packet_type.func = fcoe_rcv;
-	fcoe->fcoe_packet_type.type = __constant_htons(ETH_P_FCOE);
+	fcoe->fcoe_packet_type.type = htons(ETH_P_FCOE);
 	fcoe->fcoe_packet_type.dev = netdev;
 	dev_add_pack(&fcoe->fcoe_packet_type);
 
@@ -1287,7 +1286,7 @@ static void fcoe_percpu_thread_destroy(unsigned int cpu)
 	struct sk_buff *skb;
 #ifdef CONFIG_SMP
 	struct fcoe_percpu_s *p0;
-	unsigned targ_cpu = get_cpu_light();
+	unsigned targ_cpu = get_cpu();
 #endif /* CONFIG_SMP */
 
 	FCOE_DBG("Destroying receive thread for CPU %d\n", cpu);
@@ -1343,7 +1342,7 @@ static void fcoe_percpu_thread_destroy(unsigned int cpu)
 			kfree_skb(skb);
 		spin_unlock_bh(&p->fcoe_rx_list.lock);
 	}
-	put_cpu_light();
+	put_cpu();
 #else
 	/*
 	 * This a non-SMP scenario where the singular Rx thread is
@@ -1567,11 +1566,11 @@ err2:
 static int fcoe_alloc_paged_crc_eof(struct sk_buff *skb, int tlen)
 {
 	struct fcoe_percpu_s *fps;
-	int rc, cpu = get_cpu_light();
+	int rc;
 
-	fps = &per_cpu(fcoe_percpu, cpu);
+	fps = &get_cpu_var(fcoe_percpu);
 	rc = fcoe_get_paged_crc_eof(skb, tlen, fps);
-	put_cpu_light();
+	put_cpu_var(fcoe_percpu);
 
 	return rc;
 }
@@ -1767,11 +1766,11 @@ static inline int fcoe_filter_frames(struct fc_lport *lport,
 		return 0;
 	}
 
-	stats = per_cpu_ptr(lport->stats, get_cpu_light());
+	stats = per_cpu_ptr(lport->stats, get_cpu());
 	stats->InvalidCRCCount++;
 	if (stats->InvalidCRCCount < 5)
 		printk(KERN_WARNING "fcoe: dropping frame with CRC error\n");
-	put_cpu_light();
+	put_cpu();
 	return -EINVAL;
 }
 
@@ -1847,13 +1846,13 @@ static void fcoe_recv_frame(struct sk_buff *skb)
 		goto drop;
 
 	if (!fcoe_filter_frames(lport, fp)) {
-		put_cpu_light();
+		put_cpu();
 		fc_exch_recv(lport, fp);
 		return;
 	}
 drop:
 	stats->ErrorFrames++;
-	put_cpu_light();
+	put_cpu();
 	kfree_skb(skb);
 }
 
@@ -1873,7 +1872,6 @@ static int fcoe_percpu_receive_thread(void *arg)
 
 	set_user_nice(current, MIN_NICE);
 
-retry:
 	while (!kthread_should_stop()) {
 
 		spin_lock_bh(&p->fcoe_rx_list.lock);
@@ -1883,7 +1881,7 @@ retry:
 			set_current_state(TASK_INTERRUPTIBLE);
 			spin_unlock_bh(&p->fcoe_rx_list.lock);
 			schedule();
-			goto retry;
+			continue;
 		}
 
 		spin_unlock_bh(&p->fcoe_rx_list.lock);

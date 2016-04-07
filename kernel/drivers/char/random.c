@@ -409,6 +409,9 @@ static DECLARE_WAIT_QUEUE_HEAD(random_write_wait);
 static DECLARE_WAIT_QUEUE_HEAD(urandom_init_wait);
 static struct fasync_struct *fasync;
 
+static DEFINE_SPINLOCK(random_ready_list_lock);
+static LIST_HEAD(random_ready_list);
+
 /**********************************************************************
  *
  * OS independent entropy store.   Here are the functions which handle
@@ -589,6 +592,22 @@ static void fast_mix(struct fast_pool *f)
 	f->count++;
 }
 
+static void process_random_ready_list(void)
+{
+	unsigned long flags;
+	struct random_ready_callback *rdy, *tmp;
+
+	spin_lock_irqsave(&random_ready_list_lock, flags);
+	list_for_each_entry_safe(rdy, tmp, &random_ready_list, list) {
+		struct module *owner = rdy->owner;
+
+		list_del_init(&rdy->list);
+		rdy->func(rdy);
+		module_put(owner);
+	}
+	spin_unlock_irqrestore(&random_ready_list_lock, flags);
+}
+
 /*
  * Credit (or debit) the entropy store with n bits of entropy.
  * Use credit_entropy_bits_safe() if the value comes from userspace
@@ -660,7 +679,8 @@ retry:
 		r->entropy_total = 0;
 		if (r == &nonblocking_pool) {
 			prandom_reseed_late();
-			wake_up_interruptible(&urandom_init_wait);
+			process_random_ready_list();
+			wake_up_all(&urandom_init_wait);
 			pr_notice("random: %s pool is initialized\n", r->name);
 		}
 	}
@@ -776,6 +796,8 @@ static void add_timer_randomness(struct timer_rand_state *state, unsigned num)
 	} sample;
 	long delta, delta2, delta3;
 
+	preempt_disable();
+
 	sample.jiffies = jiffies;
 	sample.cycles = random_get_entropy();
 	sample.num = num;
@@ -816,6 +838,7 @@ static void add_timer_randomness(struct timer_rand_state *state, unsigned num)
 		 */
 		credit_entropy_bits(r, min_t(int, fls(delta>>1), 11));
 	}
+	preempt_enable();
 }
 
 void add_input_randomness(unsigned int type, unsigned int code,
@@ -868,27 +891,28 @@ static __u32 get_reg(struct fast_pool *f, struct pt_regs *regs)
 	return *(ptr + f->reg_idx++);
 }
 
-void add_interrupt_randomness(int irq, int irq_flags, __u64 ip)
+void add_interrupt_randomness(int irq, int irq_flags)
 {
 	struct entropy_store	*r;
 	struct fast_pool	*fast_pool = this_cpu_ptr(&irq_randomness);
+	struct pt_regs		*regs = get_irq_regs();
 	unsigned long		now = jiffies;
 	cycles_t		cycles = random_get_entropy();
 	__u32			c_high, j_high;
+	__u64			ip;
 	unsigned long		seed;
 	int			credit = 0;
 
 	if (cycles == 0)
-		cycles = get_reg(fast_pool, NULL);
+		cycles = get_reg(fast_pool, regs);
 	c_high = (sizeof(cycles) > 4) ? cycles >> 32 : 0;
 	j_high = (sizeof(now) > 4) ? now >> 32 : 0;
 	fast_pool->pool[0] ^= cycles ^ j_high ^ irq;
 	fast_pool->pool[1] ^= now ^ c_high;
-	if (!ip)
-		ip = _RET_IP_;
+	ip = regs ? instruction_pointer(regs) : _RET_IP_;
 	fast_pool->pool[2] ^= ip;
 	fast_pool->pool[3] ^= (sizeof(ip) > 4) ? ip >> 32 :
-		get_reg(fast_pool, NULL);
+		get_reg(fast_pool, regs);
 
 	fast_mix(fast_pool);
 	add_interrupt_bench(cycles);
@@ -1239,6 +1263,64 @@ void get_random_bytes(void *buf, int nbytes)
 	extract_entropy(&nonblocking_pool, buf, nbytes, 0, 0);
 }
 EXPORT_SYMBOL(get_random_bytes);
+
+/*
+ * Add a callback function that will be invoked when the nonblocking
+ * pool is initialised.
+ *
+ * returns: 0 if callback is successfully added
+ *	    -EALREADY if pool is already initialised (callback not called)
+ *	    -ENOENT if module for callback is not alive
+ */
+int add_random_ready_callback(struct random_ready_callback *rdy)
+{
+	struct module *owner;
+	unsigned long flags;
+	int err = -EALREADY;
+
+	if (likely(nonblocking_pool.initialized))
+		return err;
+
+	owner = rdy->owner;
+	if (!try_module_get(owner))
+		return -ENOENT;
+
+	spin_lock_irqsave(&random_ready_list_lock, flags);
+	if (nonblocking_pool.initialized)
+		goto out;
+
+	owner = NULL;
+
+	list_add(&rdy->list, &random_ready_list);
+	err = 0;
+
+out:
+	spin_unlock_irqrestore(&random_ready_list_lock, flags);
+
+	module_put(owner);
+
+	return err;
+}
+EXPORT_SYMBOL(add_random_ready_callback);
+
+/*
+ * Delete a previously registered readiness callback function.
+ */
+void del_random_ready_callback(struct random_ready_callback *rdy)
+{
+	unsigned long flags;
+	struct module *owner = NULL;
+
+	spin_lock_irqsave(&random_ready_list_lock, flags);
+	if (!list_empty(&rdy->list)) {
+		list_del_init(&rdy->list);
+		owner = rdy->owner;
+	}
+	spin_unlock_irqrestore(&random_ready_list_lock, flags);
+
+	module_put(owner);
+}
+EXPORT_SYMBOL(del_random_ready_callback);
 
 /*
  * This function will use the architecture-specific hardware random

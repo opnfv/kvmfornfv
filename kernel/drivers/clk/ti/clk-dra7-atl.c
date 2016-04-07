@@ -16,6 +16,7 @@
  */
 
 #include <linux/module.h>
+#include <linux/clk.h>
 #include <linux/clk-provider.h>
 #include <linux/slab.h>
 #include <linux/io.h>
@@ -155,7 +156,7 @@ static int atl_clk_set_rate(struct clk_hw *hw, unsigned long rate,
 	return 0;
 }
 
-const struct clk_ops atl_clk_ops = {
+static const struct clk_ops atl_clk_ops = {
 	.enable		= atl_clk_enable,
 	.disable	= atl_clk_disable,
 	.is_enabled	= atl_clk_is_enabled,
@@ -167,7 +168,7 @@ const struct clk_ops atl_clk_ops = {
 static void __init of_dra7_atl_clock_setup(struct device_node *node)
 {
 	struct dra7_atl_desc *clk_hw = NULL;
-	struct clk_init_data init = { 0 };
+	struct clk_init_data init = { NULL };
 	const char **parent_names = NULL;
 	struct clk *clk;
 

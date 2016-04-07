@@ -1160,13 +1160,17 @@ void hidinput_hid_event(struct hid_device *hid, struct hid_field *field, struct 
 		return;
 
 	/* report the usage code as scancode if the key status has changed */
-	if (usage->type == EV_KEY && !!test_bit(usage->code, input->key) != value)
+	if (usage->type == EV_KEY &&
+	    (!test_bit(usage->code, input->key)) == value)
 		input_event(input, EV_MSC, MSC_SCAN, usage->hid);
 
 	input_event(input, usage->type, usage->code, value);
 
-	if ((field->flags & HID_MAIN_ITEM_RELATIVE) && (usage->type == EV_KEY))
+	if ((field->flags & HID_MAIN_ITEM_RELATIVE) &&
+	    usage->type == EV_KEY && value) {
+		input_sync(input);
 		input_event(input, usage->type, usage->code, 0);
+	}
 }
 
 void hidinput_report_event(struct hid_device *hid, struct hid_report *report)
@@ -1506,8 +1510,9 @@ int hidinput_connect(struct hid_device *hid, unsigned int force)
 				 * UGCI) cram a lot of unrelated inputs into the
 				 * same interface. */
 				hidinput->report = report;
-				if (drv->input_configured)
-					drv->input_configured(hid, hidinput);
+				if (drv->input_configured &&
+				    drv->input_configured(hid, hidinput))
+					goto out_cleanup;
 				if (input_register_device(hidinput->input))
 					goto out_cleanup;
 				hidinput = NULL;
@@ -1528,8 +1533,9 @@ int hidinput_connect(struct hid_device *hid, unsigned int force)
 	}
 
 	if (hidinput) {
-		if (drv->input_configured)
-			drv->input_configured(hid, hidinput);
+		if (drv->input_configured &&
+		    drv->input_configured(hid, hidinput))
+			goto out_cleanup;
 		if (input_register_device(hidinput->input))
 			goto out_cleanup;
 	}

@@ -20,7 +20,7 @@
 #include <linux/idr.h>
 #include <linux/pci.h>
 #include <asm/cputable.h>
-#include <misc/cxl.h>
+#include <misc/cxl-base.h>
 
 #include "cxl.h"
 #include "trace.h"
@@ -222,6 +222,7 @@ static void exit_cxl(void)
 	cxl_debugfs_exit();
 	cxl_file_exit();
 	unregister_cxl_calls(&cxl_calls);
+	idr_destroy(&cxl_adapter_idr);
 }
 
 module_init(init_cxl);

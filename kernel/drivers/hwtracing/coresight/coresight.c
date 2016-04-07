@@ -240,6 +240,11 @@ static int coresight_enable_path(struct list_head *path)
 	int ret = 0;
 	struct coresight_device *cd;
 
+	/*
+	 * At this point we have a full @path, from source to sink.  The
+	 * sink is the first entry and the source the last one.  Go through
+	 * all the components and enable them one by one.
+	 */
 	list_for_each_entry(cd, path, path_link) {
 		if (cd == list_first_entry(path, struct coresight_device,
 					   path_link)) {
@@ -543,7 +548,7 @@ static int coresight_name_match(struct device *dev, void *data)
 	to_match = data;
 	i_csdev = to_coresight_device(dev);
 
-	if (!strcmp(to_match, dev_name(&i_csdev->dev)))
+	if (to_match && !strcmp(to_match, dev_name(&i_csdev->dev)))
 		return 1;
 
 	return 0;

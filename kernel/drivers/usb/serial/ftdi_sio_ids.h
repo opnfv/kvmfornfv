@@ -615,6 +615,7 @@
  */
 #define RATOC_VENDOR_ID		0x0584
 #define RATOC_PRODUCT_ID_USB60F	0xb020
+#define RATOC_PRODUCT_ID_SCU18	0xb03a
 
 /*
  * Infineon Technologies
@@ -1373,7 +1374,7 @@
 #define FTDI_CTI_NANO_PID	0xF60B
 
 /*
- * ZeitControl cardsystems GmbH rfid-readers http://zeitconrol.de
+ * ZeitControl cardsystems GmbH rfid-readers http://zeitcontrol.de
  */
 /* TagTracer MIFARE*/
 #define FTDI_ZEITCONTROL_TAGTRACE_MIFARE_PID	0xF7C0

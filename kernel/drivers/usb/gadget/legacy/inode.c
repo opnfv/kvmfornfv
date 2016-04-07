@@ -345,7 +345,7 @@ ep_io (struct ep_data *epdata, void *buf, unsigned len)
 	spin_unlock_irq (&epdata->dev->lock);
 
 	if (likely (value == 0)) {
-		value = swait_event_interruptible (done.wait, done.done);
+		value = wait_event_interruptible (done.wait, done.done);
 		if (value != 0) {
 			spin_lock_irq (&epdata->dev->lock);
 			if (likely (epdata->ep != NULL)) {
@@ -354,7 +354,7 @@ ep_io (struct ep_data *epdata, void *buf, unsigned len)
 				usb_ep_dequeue (epdata->ep, epdata->req);
 				spin_unlock_irq (&epdata->dev->lock);
 
-				swait_event (done.wait, done.done);
+				wait_event (done.wait, done.done);
 				if (epdata->status == -ECONNRESET)
 					epdata->status = -EINTR;
 			} else {
@@ -769,9 +769,12 @@ ep_config (struct ep_data *data, const char *buf, size_t len)
 	if (data->dev->state == STATE_DEV_UNBOUND) {
 		value = -ENOENT;
 		goto gone;
-	} else if ((ep = data->ep) == NULL) {
-		value = -ENODEV;
-		goto gone;
+	} else {
+		ep = data->ep;
+		if (ep == NULL) {
+			value = -ENODEV;
+			goto gone;
+		}
 	}
 	switch (data->dev->gadget->speed) {
 	case USB_SPEED_LOW:

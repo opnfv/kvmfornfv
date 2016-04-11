@@ -487,8 +487,8 @@ enum ata_tf_protocols {
 };
 
 enum ata_ioctls {
-	ATA_IOC_GET_IO32	= 0x309,
-	ATA_IOC_SET_IO32	= 0x324,
+	ATA_IOC_GET_IO32	= 0x309, /* HDIO_GET_32BIT */
+	ATA_IOC_SET_IO32	= 0x324, /* HDIO_SET_32BIT */
 };
 
 /* core structures */
@@ -701,9 +701,19 @@ static inline bool ata_id_wcache_enabled(const u16 *id)
 
 static inline bool ata_id_has_read_log_dma_ext(const u16 *id)
 {
+	/* Word 86 must have bit 15 set */
 	if (!(id[ATA_ID_CFS_ENABLE_2] & (1 << 15)))
 		return false;
-	return id[ATA_ID_COMMAND_SET_3] & (1 << 3);
+
+	/* READ LOG DMA EXT support can be signaled either from word 119
+	 * or from word 120. The format is the same for both words: Bit
+	 * 15 must be cleared, bit 14 set and bit 3 set.
+	 */
+	if ((id[ATA_ID_COMMAND_SET_3] & 0xC008) == 0x4008 ||
+	    (id[ATA_ID_COMMAND_SET_4] & 0xC008) == 0x4008)
+		return true;
+
+	return false;
 }
 
 /**

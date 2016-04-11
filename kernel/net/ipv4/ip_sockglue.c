@@ -249,6 +249,8 @@ int ip_cmsg_send(struct net *net, struct msghdr *msg, struct ipcm_cookie *ipc,
 		switch (cmsg->cmsg_type) {
 		case IP_RETOPTS:
 			err = cmsg->cmsg_len - CMSG_ALIGN(sizeof(struct cmsghdr));
+
+			/* Our caller is responsible for freeing ipc->opt */
 			err = ip_options_get(net, &ipc->opt, CMSG_DATA(cmsg),
 					     err < 40 ? err : 40);
 			if (err)
@@ -591,6 +593,7 @@ static int do_ip_setsockopt(struct sock *sk, int level,
 	case IP_TRANSPARENT:
 	case IP_MINTTL:
 	case IP_NODEFRAG:
+	case IP_BIND_ADDRESS_NO_PORT:
 	case IP_UNICAST_IF:
 	case IP_MULTICAST_TTL:
 	case IP_MULTICAST_ALL:
@@ -740,6 +743,9 @@ static int do_ip_setsockopt(struct sock *sk, int level,
 			break;
 		}
 		inet->nodefrag = val ? 1 : 0;
+		break;
+	case IP_BIND_ADDRESS_NO_PORT:
+		inet->bind_address_no_port = val ? 1 : 0;
 		break;
 	case IP_MTU_DISCOVER:
 		if (val < IP_PMTUDISC_DONT || val > IP_PMTUDISC_OMIT)
@@ -1247,11 +1253,22 @@ EXPORT_SYMBOL(compat_ip_setsockopt);
  *	the _received_ ones. The set sets the _sent_ ones.
  */
 
+static bool getsockopt_needs_rtnl(int optname)
+{
+	switch (optname) {
+	case IP_MSFILTER:
+	case MCAST_MSFILTER:
+		return true;
+	}
+	return false;
+}
+
 static int do_ip_getsockopt(struct sock *sk, int level, int optname,
 			    char __user *optval, int __user *optlen, unsigned int flags)
 {
 	struct inet_sock *inet = inet_sk(sk);
-	int val;
+	bool needs_rtnl = getsockopt_needs_rtnl(optname);
+	int val, err = 0;
 	int len;
 
 	if (level != SOL_IP)
@@ -1265,6 +1282,8 @@ static int do_ip_getsockopt(struct sock *sk, int level, int optname,
 	if (len < 0)
 		return -EINVAL;
 
+	if (needs_rtnl)
+		rtnl_lock();
 	lock_sock(sk);
 
 	switch (optname) {
@@ -1333,6 +1352,9 @@ static int do_ip_getsockopt(struct sock *sk, int level, int optname,
 	case IP_NODEFRAG:
 		val = inet->nodefrag;
 		break;
+	case IP_BIND_ADDRESS_NO_PORT:
+		val = inet->bind_address_no_port;
+		break;
 	case IP_MTU_DISCOVER:
 		val = inet->pmtudisc;
 		break;
@@ -1379,39 +1401,35 @@ static int do_ip_getsockopt(struct sock *sk, int level, int optname,
 	case IP_MSFILTER:
 	{
 		struct ip_msfilter msf;
-		int err;
 
 		if (len < IP_MSFILTER_SIZE(0)) {
-			release_sock(sk);
-			return -EINVAL;
+			err = -EINVAL;
+			goto out;
 		}
 		if (copy_from_user(&msf, optval, IP_MSFILTER_SIZE(0))) {
-			release_sock(sk);
-			return -EFAULT;
+			err = -EFAULT;
+			goto out;
 		}
 		err = ip_mc_msfget(sk, &msf,
 				   (struct ip_msfilter __user *)optval, optlen);
-		release_sock(sk);
-		return err;
+		goto out;
 	}
 	case MCAST_MSFILTER:
 	{
 		struct group_filter gsf;
-		int err;
 
 		if (len < GROUP_FILTER_SIZE(0)) {
-			release_sock(sk);
-			return -EINVAL;
+			err = -EINVAL;
+			goto out;
 		}
 		if (copy_from_user(&gsf, optval, GROUP_FILTER_SIZE(0))) {
-			release_sock(sk);
-			return -EFAULT;
+			err = -EFAULT;
+			goto out;
 		}
 		err = ip_mc_gsfget(sk, &gsf,
 				   (struct group_filter __user *)optval,
 				   optlen);
-		release_sock(sk);
-		return err;
+		goto out;
 	}
 	case IP_MULTICAST_ALL:
 		val = inet->mc_all;
@@ -1478,6 +1496,12 @@ static int do_ip_getsockopt(struct sock *sk, int level, int optname,
 			return -EFAULT;
 	}
 	return 0;
+
+out:
+	release_sock(sk);
+	if (needs_rtnl)
+		rtnl_unlock();
+	return err;
 }
 
 int ip_getsockopt(struct sock *sk, int level,

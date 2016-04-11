@@ -488,17 +488,17 @@ again:
 	/* Just to make sure we have enough space */
 	prealloc += 8 * PAGE_CACHE_SIZE;
 
-	ret = btrfs_delalloc_reserve_space(inode, prealloc);
+	ret = btrfs_delalloc_reserve_space(inode, 0, prealloc);
 	if (ret)
 		goto out_put;
 
 	ret = btrfs_prealloc_file_range_trans(inode, trans, 0, 0, prealloc,
 					      prealloc, prealloc, &alloc_hint);
 	if (ret) {
-		btrfs_delalloc_release_space(inode, prealloc);
+		btrfs_delalloc_release_space(inode, 0, prealloc);
 		goto out_put;
 	}
-	btrfs_free_reserved_data_space(inode, prealloc);
+	btrfs_free_reserved_data_space(inode, 0, prealloc);
 
 	ret = btrfs_write_out_ino_cache(root, trans, path, inode);
 out_put:
@@ -515,7 +515,7 @@ out:
 	return ret;
 }
 
-static int btrfs_find_highest_objectid(struct btrfs_root *root, u64 *objectid)
+int btrfs_find_highest_objectid(struct btrfs_root *root, u64 *objectid)
 {
 	struct btrfs_path *path;
 	int ret;
@@ -554,13 +554,6 @@ int btrfs_find_free_objectid(struct btrfs_root *root, u64 *objectid)
 {
 	int ret;
 	mutex_lock(&root->objectid_mutex);
-
-	if (unlikely(root->highest_objectid < BTRFS_FIRST_FREE_OBJECTID)) {
-		ret = btrfs_find_highest_objectid(root,
-						  &root->highest_objectid);
-		if (ret)
-			goto out;
-	}
 
 	if (unlikely(root->highest_objectid >= BTRFS_LAST_FREE_OBJECTID)) {
 		ret = -ENOSPC;

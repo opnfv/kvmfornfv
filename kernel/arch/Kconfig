@@ -2,6 +2,9 @@
 # General architecture dependent options
 #
 
+config KEXEC_CORE
+	bool
+
 config OPROFILE
 	tristate "OProfile system profiling"
 	depends on PROFILING
@@ -50,6 +53,7 @@ config KPROBES
 config JUMP_LABEL
        bool "Optimize very unlikely/likely branches"
        depends on HAVE_ARCH_JUMP_LABEL
+       depends on (!INTERRUPT_OFF_HIST && !PREEMPT_OFF_HIST && !WAKEUP_LATENCY_HIST && !MISSED_TIMER_OFFSETS_HIST)
        help
          This option enables a transparent branch optimization that
 	 makes certain almost-always-true or almost-always-false branch
@@ -72,6 +76,12 @@ config JUMP_LABEL
 	 ( On 32-bit x86, the necessary options added to the compiler
 	   flags may increase the size of the kernel slightly. )
 
+config STATIC_KEYS_SELFTEST
+	bool "Static key selftest"
+	depends on JUMP_LABEL
+	help
+	  Boot time self-test of the branch patching code.
+
 config OPTPROBES
 	def_bool y
 	depends on KPROBES && HAVE_OPTPROBES
@@ -88,7 +98,6 @@ config KPROBES_ON_FTRACE
 
 config UPROBES
 	def_bool n
-	select PERCPU_RWSEM
 	help
 	  Uprobes is the user-space counterpart to kprobes: they
 	  enable instrumentation applications (such as 'perf probe')
@@ -220,6 +229,10 @@ config ARCH_TASK_STRUCT_ALLOCATOR
 
 # Select if arch has its private alloc_thread_info() function
 config ARCH_THREAD_INFO_ALLOCATOR
+	bool
+
+# Select if arch wants to size task_struct dynamically via arch_task_struct_size:
+config ARCH_WANTS_DYNAMIC_TASK_STRUCT
 	bool
 
 config HAVE_REGS_AND_STACK_ACCESS_API
@@ -499,6 +512,13 @@ config ARCH_HAS_ELF_RANDOMIZE
 	  stack, mmap, brk, and ET_DYN. Defined functions:
 	  - arch_mmap_rnd()
 	  - arch_randomize_brk()
+
+config HAVE_COPY_THREAD_TLS
+	bool
+	help
+	  Architecture provides copy_thread_tls to accept tls argument via
+	  normal C parameter passing, rather than extracting the syscall
+	  argument from pt_regs.
 
 #
 # ABI hall of shame

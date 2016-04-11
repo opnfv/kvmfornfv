@@ -46,6 +46,37 @@ static DEFINE_PER_CPU(struct idr_layer *, idr_preload_head);
 static DEFINE_PER_CPU(int, idr_preload_cnt);
 static DEFINE_SPINLOCK(simple_ida_lock);
 
+#ifdef CONFIG_PREEMPT_RT_FULL
+static DEFINE_LOCAL_IRQ_LOCK(idr_lock);
+
+static inline void idr_preload_lock(void)
+{
+	local_lock(idr_lock);
+}
+
+static inline void idr_preload_unlock(void)
+{
+	local_unlock(idr_lock);
+}
+
+void idr_preload_end(void)
+{
+	idr_preload_unlock();
+}
+EXPORT_SYMBOL(idr_preload_end);
+#else
+static inline void idr_preload_lock(void)
+{
+	preempt_disable();
+}
+
+static inline void idr_preload_unlock(void)
+{
+	preempt_enable();
+}
+#endif
+
+
 /* the maximum ID which can be allocated given idr->layers */
 static int idr_max(int layers)
 {
@@ -116,14 +147,14 @@ static struct idr_layer *idr_layer_alloc(gfp_t gfp_mask, struct idr *layer_idr)
 	 * context.  See idr_preload() for details.
 	 */
 	if (!in_interrupt()) {
-		preempt_disable();
+		idr_preload_lock();
 		new = __this_cpu_read(idr_preload_head);
 		if (new) {
 			__this_cpu_write(idr_preload_head, new->ary[0]);
 			__this_cpu_dec(idr_preload_cnt);
 			new->ary[0] = NULL;
 		}
-		preempt_enable();
+		idr_preload_unlock();
 		if (new)
 			return new;
 	}
@@ -367,36 +398,6 @@ static void idr_fill_slot(struct idr *idr, void *ptr, int id,
 	idr_mark_full(pa, id);
 }
 
-#ifdef CONFIG_PREEMPT_RT_FULL
-static DEFINE_LOCAL_IRQ_LOCK(idr_lock);
-
-static inline void idr_preload_lock(void)
-{
-	local_lock(idr_lock);
-}
-
-static inline void idr_preload_unlock(void)
-{
-	local_unlock(idr_lock);
-}
-
-void idr_preload_end(void)
-{
-	idr_preload_unlock();
-}
-EXPORT_SYMBOL(idr_preload_end);
-#else
-static inline void idr_preload_lock(void)
-{
-	preempt_disable();
-}
-
-static inline void idr_preload_unlock(void)
-{
-	preempt_enable();
-}
-#endif
-
 /**
  * idr_preload - preload for idr_alloc()
  * @gfp_mask: allocation mask to use for preloading
@@ -429,7 +430,7 @@ void idr_preload(gfp_t gfp_mask)
 	 * allocation guarantee.  Disallow usage from those contexts.
 	 */
 	WARN_ON_ONCE(in_interrupt());
-	might_sleep_if(gfp_mask & __GFP_WAIT);
+	might_sleep_if(gfpflags_allow_blocking(gfp_mask));
 
 	idr_preload_lock();
 
@@ -483,7 +484,7 @@ int idr_alloc(struct idr *idr, void *ptr, int start, int end, gfp_t gfp_mask)
 	struct idr_layer *pa[MAX_IDR_LEVEL + 1];
 	int id;
 
-	might_sleep_if(gfp_mask & __GFP_WAIT);
+	might_sleep_if(gfpflags_allow_blocking(gfp_mask));
 
 	/* sanity checks */
 	if (WARN_ON_ONCE(start < 0))

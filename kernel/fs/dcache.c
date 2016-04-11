@@ -270,9 +270,6 @@ static inline int dname_external(const struct dentry *dentry)
 	return dentry->d_name.name != dentry->d_iname;
 }
 
-/*
- * Make sure other CPUs see the inode attached before the type is set.
- */
 static inline void __d_set_inode_and_type(struct dentry *dentry,
 					  struct inode *inode,
 					  unsigned type_flags)
@@ -280,28 +277,18 @@ static inline void __d_set_inode_and_type(struct dentry *dentry,
 	unsigned flags;
 
 	dentry->d_inode = inode;
-	smp_wmb();
 	flags = READ_ONCE(dentry->d_flags);
 	flags &= ~(DCACHE_ENTRY_TYPE | DCACHE_FALLTHRU);
 	flags |= type_flags;
 	WRITE_ONCE(dentry->d_flags, flags);
 }
 
-/*
- * Ideally, we want to make sure that other CPUs see the flags cleared before
- * the inode is detached, but this is really a violation of RCU principles
- * since the ordering suggests we should always set inode before flags.
- *
- * We should instead replace or discard the entire dentry - but that sucks
- * performancewise on mass deletion/rename.
- */
 static inline void __d_clear_type_and_inode(struct dentry *dentry)
 {
 	unsigned flags = READ_ONCE(dentry->d_flags);
 
 	flags &= ~(DCACHE_ENTRY_TYPE | DCACHE_FALLTHRU);
 	WRITE_ONCE(dentry->d_flags, flags);
-	smp_wmb();
 	dentry->d_inode = NULL;
 }
 
@@ -323,17 +310,17 @@ static void dentry_free(struct dentry *dentry)
 }
 
 /**
- * dentry_rcuwalk_barrier - invalidate in-progress rcu-walk lookups
+ * dentry_rcuwalk_invalidate - invalidate in-progress rcu-walk lookups
  * @dentry: the target dentry
  * After this call, in-progress rcu-walk path lookup will fail. This
  * should be called after unhashing, and after changing d_inode (if
  * the dentry has not already been unhashed).
  */
-static inline void dentry_rcuwalk_barrier(struct dentry *dentry)
+static inline void dentry_rcuwalk_invalidate(struct dentry *dentry)
 {
-	assert_spin_locked(&dentry->d_lock);
-	/* Go through a barrier */
-	write_seqcount_barrier(&dentry->d_seq);
+	lockdep_assert_held(&dentry->d_lock);
+	/* Go through am invalidation barrier */
+	write_seqcount_invalidate(&dentry->d_seq);
 }
 
 /*
@@ -371,9 +358,11 @@ static void dentry_unlink_inode(struct dentry * dentry)
 	__releases(dentry->d_inode->i_lock)
 {
 	struct inode *inode = dentry->d_inode;
+
+	raw_write_seqcount_begin(&dentry->d_seq);
 	__d_clear_type_and_inode(dentry);
 	hlist_del_init(&dentry->d_u.d_alias);
-	dentry_rcuwalk_barrier(dentry);
+	raw_write_seqcount_end(&dentry->d_seq);
 	spin_unlock(&dentry->d_lock);
 	spin_unlock(&inode->i_lock);
 	if (!inode->i_nlink)
@@ -495,7 +484,7 @@ void __d_drop(struct dentry *dentry)
 		__hlist_bl_del(&dentry->d_hash);
 		dentry->d_hash.pprev = NULL;
 		hlist_bl_unlock(b);
-		dentry_rcuwalk_barrier(dentry);
+		dentry_rcuwalk_invalidate(dentry);
 	}
 }
 EXPORT_SYMBOL(__d_drop);
@@ -1677,7 +1666,8 @@ void d_set_d_op(struct dentry *dentry, const struct dentry_operations *op)
 				DCACHE_OP_COMPARE	|
 				DCACHE_OP_REVALIDATE	|
 				DCACHE_OP_WEAK_REVALIDATE	|
-				DCACHE_OP_DELETE ));
+				DCACHE_OP_DELETE	|
+				DCACHE_OP_SELECT_INODE));
 	dentry->d_op = op;
 	if (!op)
 		return;
@@ -1693,6 +1683,8 @@ void d_set_d_op(struct dentry *dentry, const struct dentry_operations *op)
 		dentry->d_flags |= DCACHE_OP_DELETE;
 	if (op->d_prune)
 		dentry->d_flags |= DCACHE_OP_PRUNE;
+	if (op->d_select_inode)
+		dentry->d_flags |= DCACHE_OP_SELECT_INODE;
 
 }
 EXPORT_SYMBOL(d_set_d_op);
@@ -1755,8 +1747,9 @@ static void __d_instantiate(struct dentry *dentry, struct inode *inode)
 	spin_lock(&dentry->d_lock);
 	if (inode)
 		hlist_add_head(&dentry->d_u.d_alias, &inode->i_dentry);
+	raw_write_seqcount_begin(&dentry->d_seq);
 	__d_set_inode_and_type(dentry, inode, add_flags);
-	dentry_rcuwalk_barrier(dentry);
+	raw_write_seqcount_end(&dentry->d_seq);
 	spin_unlock(&dentry->d_lock);
 	fsnotify_d_instantiate(dentry, inode);
 }
@@ -2716,7 +2709,7 @@ struct dentry *d_ancestor(struct dentry *p1, struct dentry *p2)
  * This helper attempts to cope with remotely renamed directories
  *
  * It assumes that the caller is already holding
- * dentry->d_parent->d_inode->i_mutex, inode->i_lock and rename_lock
+ * dentry->d_parent->d_inode->i_mutex, and rename_lock
  *
  * Note: If ever the locking in lock_rename() changes, then please
  * remember to update this too...
@@ -2742,7 +2735,6 @@ out_unalias:
 	__d_move(alias, dentry, false);
 	ret = 0;
 out_err:
-	spin_unlock(&inode->i_lock);
 	if (m2)
 		mutex_unlock(m2);
 	if (m1)
@@ -2788,10 +2780,11 @@ struct dentry *d_splice_alias(struct inode *inode, struct dentry *dentry)
 	if (S_ISDIR(inode->i_mode)) {
 		struct dentry *new = __d_find_any_alias(inode);
 		if (unlikely(new)) {
+			/* The reference to new ensures it remains an alias */
+			spin_unlock(&inode->i_lock);
 			write_seqlock(&rename_lock);
 			if (unlikely(d_ancestor(new, dentry))) {
 				write_sequnlock(&rename_lock);
-				spin_unlock(&inode->i_lock);
 				dput(new);
 				new = ERR_PTR(-ELOOP);
 				pr_warn_ratelimited(
@@ -2810,7 +2803,6 @@ struct dentry *d_splice_alias(struct inode *inode, struct dentry *dentry)
 			} else {
 				__d_move(new, dentry, false);
 				write_sequnlock(&rename_lock);
-				spin_unlock(&inode->i_lock);
 				security_d_instantiate(new, inode);
 			}
 			iput(inode);
@@ -2924,6 +2916,13 @@ restart:
 
 		if (dentry == vfsmnt->mnt_root || IS_ROOT(dentry)) {
 			struct mount *parent = ACCESS_ONCE(mnt->mnt_parent);
+			/* Escaped? */
+			if (dentry != vfsmnt->mnt_root) {
+				bptr = *buffer;
+				blen = *buflen;
+				error = 3;
+				break;
+			}
 			/* Global root? */
 			if (mnt != parent) {
 				dentry = ACCESS_ONCE(mnt->mnt_mountpoint);
@@ -3440,22 +3439,15 @@ void __init vfs_caches_init_early(void)
 	inode_init_early();
 }
 
-void __init vfs_caches_init(unsigned long mempages)
+void __init vfs_caches_init(void)
 {
-	unsigned long reserve;
-
-	/* Base hash sizes on available memory, with a reserve equal to
-           150% of current kernel size */
-
-	reserve = min((mempages - nr_free_pages()) * 3/2, mempages - 1);
-	mempages -= reserve;
-
 	names_cachep = kmem_cache_create("names_cache", PATH_MAX, 0,
 			SLAB_HWCACHE_ALIGN|SLAB_PANIC, NULL);
 
 	dcache_init();
 	inode_init();
-	files_init(mempages);
+	files_init();
+	files_maxfiles_init();
 	mnt_init();
 	bdev_cache_init();
 	chrdev_init();

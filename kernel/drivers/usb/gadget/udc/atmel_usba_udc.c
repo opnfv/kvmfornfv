@@ -17,12 +17,13 @@
 #include <linux/device.h>
 #include <linux/dma-mapping.h>
 #include <linux/list.h>
+#include <linux/mfd/syscon.h>
 #include <linux/platform_device.h>
+#include <linux/regmap.h>
 #include <linux/usb/ch9.h>
 #include <linux/usb/gadget.h>
 #include <linux/usb/atmel_usba_udc.h>
 #include <linux/delay.h>
-#include <linux/platform_data/atmel.h>
 #include <linux/of.h>
 #include <linux/of_gpio.h>
 
@@ -704,8 +705,8 @@ static int queue_dma(struct usba_udc *udc, struct usba_ep *ep,
 	unsigned long flags;
 	int ret;
 
-	DBG(DBG_DMA, "%s: req l/%u d/%08x %c%c%c\n",
-		ep->ep.name, req->req.length, req->req.dma,
+	DBG(DBG_DMA, "%s: req l/%u d/%pad %c%c%c\n",
+		ep->ep.name, req->req.length, &req->req.dma,
 		req->req.zero ? 'Z' : 'z',
 		req->req.short_not_ok ? 'S' : 's',
 		req->req.no_interrupt ? 'I' : 'i');
@@ -1634,7 +1635,7 @@ static irqreturn_t usba_udc_irq(int irq, void *devid)
 	spin_lock(&udc->lock);
 
 	int_enb = usba_int_enb_get(udc);
-	status = usba_readl(udc, INT_STA) & int_enb;
+	status = usba_readl(udc, INT_STA) & (int_enb | USBA_HIGH_SPEED);
 	DBG(DBG_INT, "irq, status=%#08x\n", status);
 
 	if (status & USBA_DET_SUSPEND) {
@@ -1889,20 +1890,15 @@ static int atmel_usba_stop(struct usb_gadget *gadget)
 #ifdef CONFIG_OF
 static void at91sam9rl_toggle_bias(struct usba_udc *udc, int is_on)
 {
-	unsigned int uckr = at91_pmc_read(AT91_CKGR_UCKR);
-
-	if (is_on)
-		at91_pmc_write(AT91_CKGR_UCKR, uckr | AT91_PMC_BIASEN);
-	else
-		at91_pmc_write(AT91_CKGR_UCKR, uckr & ~(AT91_PMC_BIASEN));
+	regmap_update_bits(udc->pmc, AT91_CKGR_UCKR, AT91_PMC_BIASEN,
+			   is_on ? AT91_PMC_BIASEN : 0);
 }
 
 static void at91sam9g45_pulse_bias(struct usba_udc *udc)
 {
-	unsigned int uckr = at91_pmc_read(AT91_CKGR_UCKR);
-
-	at91_pmc_write(AT91_CKGR_UCKR, uckr & ~(AT91_PMC_BIASEN));
-	at91_pmc_write(AT91_CKGR_UCKR, uckr | AT91_PMC_BIASEN);
+	regmap_update_bits(udc->pmc, AT91_CKGR_UCKR, AT91_PMC_BIASEN, 0);
+	regmap_update_bits(udc->pmc, AT91_CKGR_UCKR, AT91_PMC_BIASEN,
+			   AT91_PMC_BIASEN);
 }
 
 static const struct usba_udc_errata at91sam9rl_errata = {
@@ -1939,6 +1935,9 @@ static struct usba_ep * atmel_udc_of_init(struct platform_device *pdev,
 		return ERR_PTR(-EINVAL);
 
 	udc->errata = match->data;
+	udc->pmc = syscon_regmap_lookup_by_compatible("atmel,at91sam9g45-pmc");
+	if (udc->errata && IS_ERR(udc->pmc))
+		return ERR_CAST(udc->pmc);
 
 	udc->num_ep = 0;
 
@@ -1989,6 +1988,10 @@ static struct usba_ep * atmel_udc_of_init(struct platform_device *pdev,
 		ep->can_isoc = of_property_read_bool(pp, "atmel,can-isoc");
 
 		ret = of_property_read_string(pp, "name", &name);
+		if (ret) {
+			dev_err(&pdev->dev, "of_probe: name error(%d)\n", ret);
+			goto err;
+		}
 		ep->ep.name = name;
 
 		ep->ep_regs = udc->regs + USBA_EPT_BASE(i);
@@ -1998,6 +2001,17 @@ static struct usba_ep * atmel_udc_of_init(struct platform_device *pdev,
 		usb_ep_set_maxpacket_limit(&ep->ep, ep->fifo_size);
 		ep->udc = udc;
 		INIT_LIST_HEAD(&ep->queue);
+
+		if (ep->index == 0) {
+			ep->ep.caps.type_control = true;
+		} else {
+			ep->ep.caps.type_iso = ep->can_isoc;
+			ep->ep.caps.type_bulk = true;
+			ep->ep.caps.type_int = true;
+		}
+
+		ep->ep.caps.dir_in = true;
+		ep->ep.caps.dir_out = true;
 
 		if (i)
 			list_add_tail(&ep->ep.ep_list, &udc->gadget.ep_list);
@@ -2062,6 +2076,17 @@ static struct usba_ep * usba_udc_pdata(struct platform_device *pdev,
 		ep->index = pdata->ep[i].index;
 		ep->can_dma = pdata->ep[i].can_dma;
 		ep->can_isoc = pdata->ep[i].can_isoc;
+
+		if (i == 0) {
+			ep->ep.caps.type_control = true;
+		} else {
+			ep->ep.caps.type_iso = ep->can_isoc;
+			ep->ep.caps.type_bulk = true;
+			ep->ep.caps.type_int = true;
+		}
+
+		ep->ep.caps.dir_in = true;
+		ep->ep.caps.dir_out = true;
 
 		if (i)
 			list_add_tail(&ep->ep.ep_list, &udc->gadget.ep_list);
@@ -2203,7 +2228,7 @@ static int usba_udc_remove(struct platform_device *pdev)
 	return 0;
 }
 
-#ifdef CONFIG_PM
+#ifdef CONFIG_PM_SLEEP
 static int usba_udc_suspend(struct device *dev)
 {
 	struct usba_udc *udc = dev_get_drvdata(dev);

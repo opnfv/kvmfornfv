@@ -557,7 +557,7 @@ int hibernation_platform_enter(void)
 
 	error = disable_nonboot_cpus();
 	if (error)
-		goto Platform_finish;
+		goto Enable_cpus;
 
 	local_irq_disable();
 	system_state = SYSTEM_SUSPEND;
@@ -575,6 +575,8 @@ int hibernation_platform_enter(void)
 	syscore_resume();
 	system_state = SYSTEM_RUNNING;
 	local_irq_enable();
+
+ Enable_cpus:
 	enable_nonboot_cpus();
 
  Platform_finish:
@@ -646,6 +648,10 @@ static void power_down(void)
 		cpu_relax();
 }
 
+#ifndef CONFIG_SUSPEND
+bool pm_in_action;
+#endif
+
 /**
  * hibernate - Carry out system hibernation, including saving the image.
  */
@@ -657,6 +663,8 @@ int hibernate(void)
 		pr_debug("PM: Hibernation not available.\n");
 		return -EPERM;
 	}
+
+	pm_in_action = true;
 
 	lock_system_sleep();
 	/* The snapshot device should not be opened while we're running */
@@ -723,6 +731,7 @@ int hibernate(void)
 	atomic_inc(&snapshot_device_available);
  Unlock:
 	unlock_system_sleep();
+	pm_in_action = false;
 	return error;
 }
 
@@ -738,7 +747,7 @@ int hibernate(void)
  * contents of memory is restored from the saved image.
  *
  * If this is successful, control reappears in the restored target kernel in
- * hibernation_snaphot() which returns to hibernate().  Otherwise, the routine
+ * hibernation_snapshot() which returns to hibernate().  Otherwise, the routine
  * attempts to recover gracefully and make the kernel return to the normal mode
  * of operation.
  */

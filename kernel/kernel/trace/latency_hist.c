@@ -115,9 +115,9 @@ static DEFINE_PER_CPU(struct hist_data, wakeup_latency_hist_sharedprio);
 static char *wakeup_latency_hist_dir = "wakeup";
 static char *wakeup_latency_hist_dir_sharedprio = "sharedprio";
 static notrace void probe_wakeup_latency_hist_start(void *v,
-	struct task_struct *p, int success);
+	struct task_struct *p);
 static notrace void probe_wakeup_latency_hist_stop(void *v,
-	struct task_struct *prev, struct task_struct *next);
+	bool preempt, struct task_struct *prev, struct task_struct *next);
 static notrace void probe_sched_migrate_task(void *,
 	struct task_struct *task, int cpu);
 static struct enable_data wakeup_latency_enabled_data = {
@@ -869,7 +869,7 @@ static notrace void probe_sched_migrate_task(void *v, struct task_struct *task,
 }
 
 static notrace void probe_wakeup_latency_hist_start(void *v,
-	struct task_struct *p, int success)
+	struct task_struct *p)
 {
 	unsigned long flags;
 	struct task_struct *curr = current;
@@ -907,7 +907,7 @@ out:
 }
 
 static notrace void probe_wakeup_latency_hist_stop(void *v,
-	struct task_struct *prev, struct task_struct *next)
+	bool preempt, struct task_struct *prev, struct task_struct *next)
 {
 	unsigned long flags;
 	int cpu = task_cpu(next);

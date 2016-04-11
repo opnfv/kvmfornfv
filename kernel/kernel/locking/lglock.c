@@ -10,7 +10,7 @@
 # define lg_do_unlock(l)	arch_spin_unlock(l)
 #else
 # define lg_lock_ptr		struct rt_mutex
-# define lg_do_lock(l)		__rt_spin_lock(l)
+# define lg_do_lock(l)		__rt_spin_lock__no_mg(l)
 # define lg_do_unlock(l)	__rt_spin_unlock(l)
 #endif
 /*
@@ -77,6 +77,28 @@ void lg_local_unlock_cpu(struct lglock *lg, int cpu)
 	preempt_enable_nort();
 }
 EXPORT_SYMBOL(lg_local_unlock_cpu);
+
+void lg_double_lock(struct lglock *lg, int cpu1, int cpu2)
+{
+	BUG_ON(cpu1 == cpu2);
+
+	/* lock in cpu order, just like lg_global_lock */
+	if (cpu2 < cpu1)
+		swap(cpu1, cpu2);
+
+	preempt_disable_nort();
+	lock_acquire_shared(&lg->lock_dep_map, 0, 0, NULL, _RET_IP_);
+	lg_do_lock(per_cpu_ptr(lg->lock, cpu1));
+	lg_do_lock(per_cpu_ptr(lg->lock, cpu2));
+}
+
+void lg_double_unlock(struct lglock *lg, int cpu1, int cpu2)
+{
+	lock_release(&lg->lock_dep_map, 1, _RET_IP_);
+	lg_do_unlock(per_cpu_ptr(lg->lock, cpu1));
+	lg_do_unlock(per_cpu_ptr(lg->lock, cpu2));
+	preempt_enable_nort();
+}
 
 void lg_global_lock(struct lglock *lg)
 {

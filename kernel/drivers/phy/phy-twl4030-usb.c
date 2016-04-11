@@ -396,8 +396,6 @@ static int twl4030_usb_runtime_suspend(struct device *dev)
 	struct twl4030_usb *twl = dev_get_drvdata(dev);
 
 	dev_dbg(twl->dev, "%s\n", __func__);
-	if (pm_runtime_suspended(dev))
-		return 0;
 
 	__twl4030_phy_power(twl, 0);
 	regulator_disable(twl->usb1v5);
@@ -413,8 +411,6 @@ static int twl4030_usb_runtime_resume(struct device *dev)
 	int res;
 
 	dev_dbg(twl->dev, "%s\n", __func__);
-	if (pm_runtime_active(dev))
-		return 0;
 
 	res = regulator_enable(twl->usb3v1);
 	if (res)
@@ -719,6 +715,7 @@ static int twl4030_usb_probe(struct platform_device *pdev)
 	pm_runtime_use_autosuspend(&pdev->dev);
 	pm_runtime_set_autosuspend_delay(&pdev->dev, 2000);
 	pm_runtime_enable(&pdev->dev);
+	pm_runtime_get_sync(&pdev->dev);
 
 	/* Our job is to use irqs and status from the power module
 	 * to keep the transceiver disabled when nothing's connected.
@@ -754,12 +751,20 @@ static int twl4030_usb_remove(struct platform_device *pdev)
 	struct twl4030_usb *twl = platform_get_drvdata(pdev);
 	int val;
 
+	usb_remove_phy(&twl->phy);
 	pm_runtime_get_sync(twl->dev);
 	cancel_delayed_work(&twl->id_workaround_work);
 	device_remove_file(twl->dev, &dev_attr_vbus);
 
 	/* set transceiver mode to power on defaults */
 	twl4030_usb_set_mode(twl, -1);
+
+	/* idle ulpi before powering off */
+	if (cable_present(twl->linkstat))
+		pm_runtime_put_noidle(twl->dev);
+	pm_runtime_mark_last_busy(twl->dev);
+	pm_runtime_put_sync_suspend(twl->dev);
+	pm_runtime_disable(twl->dev);
 
 	/* autogate 60MHz ULPI clock,
 	 * clear dpll clock request for i2c access,
@@ -774,11 +779,6 @@ static int twl4030_usb_remove(struct platform_device *pdev)
 
 	/* disable complete OTG block */
 	twl4030_usb_clear_bits(twl, POWER_CTRL, POWER_CTRL_OTG_ENAB);
-
-	if (cable_present(twl->linkstat))
-		pm_runtime_put_noidle(twl->dev);
-	pm_runtime_mark_last_busy(twl->dev);
-	pm_runtime_put(twl->dev);
 
 	return 0;
 }

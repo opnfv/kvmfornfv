@@ -32,7 +32,7 @@ typedef struct {
  * TIF_NOTIFY_RESUME and set up the signal to be sent on exit of the
  * trap.
  */
-#if defined(CONFIG_PREEMPT_RT_FULL) && defined(CONFIG_X86_64)
+#if defined(CONFIG_PREEMPT_RT_FULL)
 #define ARCH_RT_DELAYS_SIGNAL_SEND
 #endif
 
@@ -43,11 +43,11 @@ typedef sigset_t compat_sigset_t;
 #endif /* __ASSEMBLY__ */
 #include <uapi/asm/signal.h>
 #ifndef __ASSEMBLY__
-extern void do_notify_resume(struct pt_regs *, void *, __u32);
+extern void do_signal(struct pt_regs *regs);
 
 #define __ARCH_HAS_SA_RESTORER
 
-#include <asm/sigcontext.h>
+#include <uapi/asm/sigcontext.h>
 
 #ifdef __i386__
 

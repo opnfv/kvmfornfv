@@ -263,7 +263,18 @@ static inline void ftrace_kill(void) { }
 #endif /* CONFIG_FUNCTION_TRACER */
 
 #ifdef CONFIG_STACK_TRACER
+
+#define STACK_TRACE_ENTRIES 500
+
+struct stack_trace;
+
+extern unsigned stack_trace_index[];
+extern struct stack_trace stack_trace_max;
+extern unsigned long stack_trace_max_size;
+extern arch_spinlock_t stack_trace_max_lock;
+
 extern int stack_tracer_enabled;
+void stack_trace_print(void);
 int
 stack_trace_sysctl(struct ctl_table *table, int write,
 		   void __user *buffer, size_t *lenp,
@@ -575,6 +586,7 @@ extern int ftrace_arch_read_dyn_info(char *buf, int size);
 
 extern int skip_trace(unsigned long ip);
 extern void ftrace_module_init(struct module *mod);
+extern void ftrace_release_mod(struct module *mod);
 
 extern void ftrace_disable_daemon(void);
 extern void ftrace_enable_daemon(void);
@@ -681,6 +693,18 @@ static inline void __ftrace_enabled_restore(int enabled)
 #define CALLER_ADDR4 ((unsigned long)ftrace_return_address(4))
 #define CALLER_ADDR5 ((unsigned long)ftrace_return_address(5))
 #define CALLER_ADDR6 ((unsigned long)ftrace_return_address(6))
+
+static inline unsigned long get_lock_parent_ip(void)
+{
+	unsigned long addr = CALLER_ADDR0;
+
+	if (!in_lock_functions(addr))
+		return addr;
+	addr = CALLER_ADDR1;
+	if (!in_lock_functions(addr))
+		return addr;
+	return CALLER_ADDR2;
+}
 
 #ifdef CONFIG_IRQSOFF_TRACER
   extern void time_hardirqs_on(unsigned long a0, unsigned long a1);

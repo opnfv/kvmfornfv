@@ -27,6 +27,8 @@
 #include <linux/time.h>
 #include <linux/atomic.h>
 
+#include <uapi/asm/eeh.h>
+
 struct pci_dev;
 struct pci_bus;
 struct pci_dn;
@@ -79,6 +81,7 @@ struct pci_dn;
 #define EEH_PE_KEEP		(1 << 8)	/* Keep PE on hotplug	*/
 #define EEH_PE_CFG_RESTRICTED	(1 << 9)	/* Block config on error */
 #define EEH_PE_REMOVED		(1 << 10)	/* Removed permanently	*/
+#define EEH_PE_PRI_BUS		(1 << 11)	/* Cached primary bus   */
 
 struct eeh_pe {
 	int type;			/* PE type: PHB/Bus/Device	*/
@@ -185,11 +188,6 @@ enum {
 #define EEH_STATE_DMA_ACTIVE	(1 << 4)	/* Active DMA		*/
 #define EEH_STATE_MMIO_ENABLED	(1 << 5)	/* MMIO enabled		*/
 #define EEH_STATE_DMA_ENABLED	(1 << 6)	/* DMA enabled		*/
-#define EEH_PE_STATE_NORMAL		0	/* Normal state		*/
-#define EEH_PE_STATE_RESET		1	/* PE reset asserted	*/
-#define EEH_PE_STATE_STOPPED_IO_DMA	2	/* Frozen PE		*/
-#define EEH_PE_STATE_STOPPED_DMA	4	/* Stopped DMA, Enabled IO */
-#define EEH_PE_STATE_UNAVAIL		5	/* Unavailable		*/
 #define EEH_RESET_DEACTIVATE	0	/* Deactivate the PE reset	*/
 #define EEH_RESET_HOT		1	/* Hot reset			*/
 #define EEH_RESET_FUNDAMENTAL	3	/* Fundamental reset		*/
@@ -294,6 +292,8 @@ int eeh_pe_set_option(struct eeh_pe *pe, int option);
 int eeh_pe_get_state(struct eeh_pe *pe);
 int eeh_pe_reset(struct eeh_pe *pe, int option);
 int eeh_pe_configure(struct eeh_pe *pe);
+int eeh_pe_inject_err(struct eeh_pe *pe, int type, int func,
+		      unsigned long addr, unsigned long mask);
 
 /**
  * EEH_POSSIBLE_ERROR() -- test for possible MMIO failure.

@@ -35,6 +35,75 @@
 #include "evergreen_blit_shaders.h"
 #include "radeon_ucode.h"
 
+/*
+ * Indirect registers accessor
+ */
+u32 eg_cg_rreg(struct radeon_device *rdev, u32 reg)
+{
+	unsigned long flags;
+	u32 r;
+
+	spin_lock_irqsave(&rdev->cg_idx_lock, flags);
+	WREG32(EVERGREEN_CG_IND_ADDR, ((reg) & 0xffff));
+	r = RREG32(EVERGREEN_CG_IND_DATA);
+	spin_unlock_irqrestore(&rdev->cg_idx_lock, flags);
+	return r;
+}
+
+void eg_cg_wreg(struct radeon_device *rdev, u32 reg, u32 v)
+{
+	unsigned long flags;
+
+	spin_lock_irqsave(&rdev->cg_idx_lock, flags);
+	WREG32(EVERGREEN_CG_IND_ADDR, ((reg) & 0xffff));
+	WREG32(EVERGREEN_CG_IND_DATA, (v));
+	spin_unlock_irqrestore(&rdev->cg_idx_lock, flags);
+}
+
+u32 eg_pif_phy0_rreg(struct radeon_device *rdev, u32 reg)
+{
+	unsigned long flags;
+	u32 r;
+
+	spin_lock_irqsave(&rdev->pif_idx_lock, flags);
+	WREG32(EVERGREEN_PIF_PHY0_INDEX, ((reg) & 0xffff));
+	r = RREG32(EVERGREEN_PIF_PHY0_DATA);
+	spin_unlock_irqrestore(&rdev->pif_idx_lock, flags);
+	return r;
+}
+
+void eg_pif_phy0_wreg(struct radeon_device *rdev, u32 reg, u32 v)
+{
+	unsigned long flags;
+
+	spin_lock_irqsave(&rdev->pif_idx_lock, flags);
+	WREG32(EVERGREEN_PIF_PHY0_INDEX, ((reg) & 0xffff));
+	WREG32(EVERGREEN_PIF_PHY0_DATA, (v));
+	spin_unlock_irqrestore(&rdev->pif_idx_lock, flags);
+}
+
+u32 eg_pif_phy1_rreg(struct radeon_device *rdev, u32 reg)
+{
+	unsigned long flags;
+	u32 r;
+
+	spin_lock_irqsave(&rdev->pif_idx_lock, flags);
+	WREG32(EVERGREEN_PIF_PHY1_INDEX, ((reg) & 0xffff));
+	r = RREG32(EVERGREEN_PIF_PHY1_DATA);
+	spin_unlock_irqrestore(&rdev->pif_idx_lock, flags);
+	return r;
+}
+
+void eg_pif_phy1_wreg(struct radeon_device *rdev, u32 reg, u32 v)
+{
+	unsigned long flags;
+
+	spin_lock_irqsave(&rdev->pif_idx_lock, flags);
+	WREG32(EVERGREEN_PIF_PHY1_INDEX, ((reg) & 0xffff));
+	WREG32(EVERGREEN_PIF_PHY1_DATA, (v));
+	spin_unlock_irqrestore(&rdev->pif_idx_lock, flags);
+}
+
 static const u32 crtc_offsets[6] =
 {
 	EVERGREEN_CRTC0_REGISTER_OFFSET,
@@ -1335,44 +1404,20 @@ void dce4_wait_for_vblank(struct radeon_device *rdev, int crtc)
  * @crtc_id: crtc to cleanup pageflip on
  * @crtc_base: new address of the crtc (GPU MC address)
  *
- * Does the actual pageflip (evergreen+).
- * During vblank we take the crtc lock and wait for the update_pending
- * bit to go high, when it does, we release the lock, and allow the
- * double buffered update to take place.
- * Returns the current update pending status.
+ * Triggers the actual pageflip by updating the primary
+ * surface base address (evergreen+).
  */
 void evergreen_page_flip(struct radeon_device *rdev, int crtc_id, u64 crtc_base)
 {
 	struct radeon_crtc *radeon_crtc = rdev->mode_info.crtcs[crtc_id];
-	u32 tmp = RREG32(EVERGREEN_GRPH_UPDATE + radeon_crtc->crtc_offset);
-	int i;
-
-	/* Lock the graphics update lock */
-	tmp |= EVERGREEN_GRPH_UPDATE_LOCK;
-	WREG32(EVERGREEN_GRPH_UPDATE + radeon_crtc->crtc_offset, tmp);
 
 	/* update the scanout addresses */
-	WREG32(EVERGREEN_GRPH_SECONDARY_SURFACE_ADDRESS_HIGH + radeon_crtc->crtc_offset,
-	       upper_32_bits(crtc_base));
-	WREG32(EVERGREEN_GRPH_SECONDARY_SURFACE_ADDRESS + radeon_crtc->crtc_offset,
-	       (u32)crtc_base);
-
 	WREG32(EVERGREEN_GRPH_PRIMARY_SURFACE_ADDRESS_HIGH + radeon_crtc->crtc_offset,
 	       upper_32_bits(crtc_base));
 	WREG32(EVERGREEN_GRPH_PRIMARY_SURFACE_ADDRESS + radeon_crtc->crtc_offset,
 	       (u32)crtc_base);
-
-	/* Wait for update_pending to go high. */
-	for (i = 0; i < rdev->usec_timeout; i++) {
-		if (RREG32(EVERGREEN_GRPH_UPDATE + radeon_crtc->crtc_offset) & EVERGREEN_GRPH_SURFACE_UPDATE_PENDING)
-			break;
-		udelay(1);
-	}
-	DRM_DEBUG("Update pending now high. Unlocking vupdate_lock.\n");
-
-	/* Unlock the lock, so double-buffering can take place inside vblank */
-	tmp &= ~EVERGREEN_GRPH_UPDATE_LOCK;
-	WREG32(EVERGREEN_GRPH_UPDATE + radeon_crtc->crtc_offset, tmp);
+	/* post the write */
+	RREG32(EVERGREEN_GRPH_PRIMARY_SURFACE_ADDRESS + radeon_crtc->crtc_offset);
 }
 
 /**
@@ -2327,6 +2372,9 @@ static void evergreen_program_watermarks(struct radeon_device *rdev,
 		c.full = dfixed_div(c, a);
 		priority_b_mark = dfixed_trunc(c);
 		priority_b_cnt |= priority_b_mark & PRIORITY_MARK_MASK;
+
+		/* Save number of lines the linebuffer leads before the scanout */
+		radeon_crtc->lb_vblank_lead_lines = DIV_ROUND_UP(lb_size, mode->crtc_hdisplay);
 	}
 
 	/* select wm A */
@@ -5299,7 +5347,7 @@ restart_ih:
 	if (queue_dp)
 		schedule_work(&rdev->dp_work);
 	if (queue_hotplug)
-		schedule_work(&rdev->hotplug_work);
+		schedule_delayed_work(&rdev->hotplug_work, 0);
 	if (queue_hdmi)
 		schedule_work(&rdev->audio_work);
 	if (queue_thermal && rdev->pm.dpm_enabled)

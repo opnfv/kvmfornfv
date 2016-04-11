@@ -70,7 +70,8 @@ static int expand_corename(struct core_name *cn, int size)
 	return 0;
 }
 
-static int cn_vprintf(struct core_name *cn, const char *fmt, va_list arg)
+static __printf(2, 0) int cn_vprintf(struct core_name *cn, const char *fmt,
+				     va_list arg)
 {
 	int free, need;
 	va_list arg_copy;
@@ -93,7 +94,7 @@ again:
 	return -ENOMEM;
 }
 
-static int cn_printf(struct core_name *cn, const char *fmt, ...)
+static __printf(2, 3) int cn_printf(struct core_name *cn, const char *fmt, ...)
 {
 	va_list arg;
 	int ret;
@@ -105,7 +106,8 @@ static int cn_printf(struct core_name *cn, const char *fmt, ...)
 	return ret;
 }
 
-static int cn_esc_printf(struct core_name *cn, const char *fmt, ...)
+static __printf(2, 3)
+int cn_esc_printf(struct core_name *cn, const char *fmt, ...)
 {
 	int cur = cn->used;
 	va_list arg;
@@ -138,7 +140,7 @@ static int cn_print_exe_file(struct core_name *cn)
 		goto put_exe_file;
 	}
 
-	path = d_path(&exe_file->f_path, pathbuf, PATH_MAX);
+	path = file_path(exe_file, pathbuf, PATH_MAX);
 	if (IS_ERR(path)) {
 		ret = PTR_ERR(path);
 		goto free_buf;
@@ -209,11 +211,15 @@ static int format_corename(struct core_name *cn, struct coredump_params *cprm)
 				break;
 			/* uid */
 			case 'u':
-				err = cn_printf(cn, "%d", cred->uid);
+				err = cn_printf(cn, "%u",
+						from_kuid(&init_user_ns,
+							  cred->uid));
 				break;
 			/* gid */
 			case 'g':
-				err = cn_printf(cn, "%d", cred->gid);
+				err = cn_printf(cn, "%u",
+						from_kgid(&init_user_ns,
+							  cred->gid));
 				break;
 			case 'd':
 				err = cn_printf(cn, "%d",
@@ -221,7 +227,8 @@ static int format_corename(struct core_name *cn, struct coredump_params *cprm)
 				break;
 			/* signal that caused the coredump */
 			case 's':
-				err = cn_printf(cn, "%ld", cprm->siginfo->si_signo);
+				err = cn_printf(cn, "%d",
+						cprm->siginfo->si_signo);
 				break;
 			/* UNIX time of coredump */
 			case 't': {
@@ -273,23 +280,24 @@ out:
 	return ispipe;
 }
 
-static int zap_process(struct task_struct *start, int exit_code)
+static int zap_process(struct task_struct *start, int exit_code, int flags)
 {
 	struct task_struct *t;
 	int nr = 0;
 
+	/* ignore all signals except SIGKILL, see prepare_signal() */
+	start->signal->flags = SIGNAL_GROUP_COREDUMP | flags;
 	start->signal->group_exit_code = exit_code;
 	start->signal->group_stop_count = 0;
 
-	t = start;
-	do {
+	for_each_thread(start, t) {
 		task_clear_jobctl_pending(t, JOBCTL_PENDING_MASK);
 		if (t != current && t->mm) {
 			sigaddset(&t->pending.signal, SIGKILL);
 			signal_wake_up(t, 1);
 			nr++;
 		}
-	} while_each_thread(start, t);
+	}
 
 	return nr;
 }
@@ -304,10 +312,8 @@ static int zap_threads(struct task_struct *tsk, struct mm_struct *mm,
 	spin_lock_irq(&tsk->sighand->siglock);
 	if (!signal_group_exit(tsk->signal)) {
 		mm->core_state = core_state;
-		nr = zap_process(tsk, exit_code);
 		tsk->signal->group_exit_task = tsk;
-		/* ignore all signals except SIGKILL, see prepare_signal() */
-		tsk->signal->flags = SIGNAL_GROUP_COREDUMP;
+		nr = zap_process(tsk, exit_code, 0);
 		clear_tsk_thread_flag(tsk, TIF_SIGPENDING);
 	}
 	spin_unlock_irq(&tsk->sighand->siglock);
@@ -353,18 +359,18 @@ static int zap_threads(struct task_struct *tsk, struct mm_struct *mm,
 			continue;
 		if (g->flags & PF_KTHREAD)
 			continue;
-		p = g;
-		do {
-			if (p->mm) {
-				if (unlikely(p->mm == mm)) {
-					lock_task_sighand(p, &flags);
-					nr += zap_process(p, exit_code);
-					p->signal->flags = SIGNAL_GROUP_EXIT;
-					unlock_task_sighand(p, &flags);
-				}
-				break;
+
+		for_each_thread(g, p) {
+			if (unlikely(!p->mm))
+				continue;
+			if (unlikely(p->mm == mm)) {
+				lock_task_sighand(p, &flags);
+				nr += zap_process(p, exit_code,
+							SIGNAL_GROUP_EXIT);
+				unlock_task_sighand(p, &flags);
 			}
-		} while_each_thread(g, p);
+			break;
+		}
 	}
 	rcu_read_unlock();
 done:

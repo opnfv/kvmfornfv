@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da87b5cf_24ca1ca2",
+        "filename": "kernel/arch/x86/configs/opnfv.config",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085
+      },
+      "writtenOn": "2016-04-26T07:36:57Z",
+      "side": 1,
+      "message": "Overall it should be worthy to consider which modules to compile in-kernel so that they get better performance.",
+      "revId": "27f09ac5d0dc2cafccfc6deec56cc039cd23a809",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da87b5cf_a48f0c75",
+        "filename": "kernel/arch/x86/configs/opnfv.config",
+        "patchSetId": 1
+      },
+      "lineNbr": 2117,
+      "author": {
+        "id": 1085
+      },
+      "writtenOn": "2016-04-26T07:36:57Z",
+      "side": 1,
+      "message": "Joystick support on servers? Are you sure you are deploying openstack?",
+      "revId": "27f09ac5d0dc2cafccfc6deec56cc039cd23a809",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da87b5cf_c48c9082",
+        "filename": "kernel/arch/x86/configs/opnfv.config",
+        "patchSetId": 1
+      },
+      "lineNbr": 2346,
+      "author": {
+        "id": 1085
+      },
+      "writtenOn": "2016-04-26T07:36:57Z",
+      "side": 1,
+      "message": "cups might be happy without this anyways, if this is what you need.",
+      "revId": "27f09ac5d0dc2cafccfc6deec56cc039cd23a809",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da87b5cf_a4e62c43",
+        "filename": "kernel/arch/x86/configs/opnfv.config",
+        "patchSetId": 1
+      },
+      "lineNbr": 3225,
+      "author": {
+        "id": 1085
+      },
+      "writtenOn": "2016-04-26T07:36:57Z",
+      "side": 1,
+      "message": "Hummm... This is getting interesting.",
+      "revId": "27f09ac5d0dc2cafccfc6deec56cc039cd23a809",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da87b5cf_64e9041a",
+        "filename": "kernel/arch/x86/configs/opnfv.config",
+        "patchSetId": 1
+      },
+      "lineNbr": 3560,
+      "author": {
+        "id": 1085
+      },
+      "writtenOn": "2016-04-26T07:36:57Z",
+      "side": 1,
+      "message": "This sounds to be for development purposes.",
+      "revId": "27f09ac5d0dc2cafccfc6deec56cc039cd23a809",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da87b5cf_84ee8821",
+        "filename": "kernel/arch/x86/configs/opnfv.config",
+        "patchSetId": 1
+      },
+      "lineNbr": 3601,
+      "author": {
+        "id": 1085
+      },
+      "writtenOn": "2016-04-26T07:36:57Z",
+      "side": 1,
+      "message": "This section are mostly laptop specific stuff. It might not be activated at all.",
+      "revId": "27f09ac5d0dc2cafccfc6deec56cc039cd23a809",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da87b5cf_24f3fc0b",
+        "filename": "kernel/arch/x86/configs/opnfv.config",
+        "patchSetId": 1
+      },
+      "lineNbr": 4160,
+      "author": {
+        "id": 1085
+      },
+      "writtenOn": "2016-04-26T07:36:57Z",
+      "side": 1,
+      "message": "More testing stuff. This might not be needed unless you develop raid6 support.",
+      "revId": "27f09ac5d0dc2cafccfc6deec56cc039cd23a809",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da87b5cf_e4dc3477",
+        "filename": "kernel/arch/x86/configs/opnfv.config",
+        "patchSetId": 1
+      },
+      "lineNbr": 4438,
+      "author": {
+        "id": 1085
+      },
+      "writtenOn": "2016-04-26T07:36:57Z",
+      "side": 1,
+      "message": "Isn\u0027t it better to have these in kernel? That way it\u0027s possible to reduce the kernel an get performance.",
+      "revId": "27f09ac5d0dc2cafccfc6deec56cc039cd23a809",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}

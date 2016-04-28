@@ -38,7 +38,7 @@ EOF
 }
 
 KVM_COMMIT=""
-OVS_COMMIT=""
+OVS_COMMIT="4ff6642f3c1dd8949c2f42b3310ee2523ee970a6"
 KEEP=no
 for i
 do
@@ -821,6 +821,19 @@ fi
 	else
 		git reset --hard
 	fi
+
+	#
+	# Apply out of tree patches
+	#
+	for i in $SRC/kvmfornfv/patches/ovs/*.patch
+	do
+		if [ -f "$i" ]
+		then
+			echo "Applying: $i"
+			patch -p1 <$i
+		fi
+	done
+
 	./boot.sh
 	./configure --with-linux=$SRC/kvmfornfv/kernel
 	make

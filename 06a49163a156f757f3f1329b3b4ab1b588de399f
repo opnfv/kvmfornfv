@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a91bd0f_d9e31332",
+        "filename": "fuel-plugin/Dockerfile",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2016-04-29T23:01:28Z",
+      "side": 1,
+      "message": "Can I confirm that this docker file is used only for the kvm debian package build?\n\nIf yes, I\u0027m considering that possibly it should be part of the build directory. Currently we are building the rpm package there. We have a plan to enhance it to support both debian and rpm, and the fuel plugin simply invoke the scripts there. That will make thing clear.\n\nI\u0027m not against the change on this patchset (i.e. I\u0027m +1 for this file although I may -1 for other part of the patch), just want to get some clarification, so that in future when we enhance the build scripts, we know how to handle this part. Or, it will be better if you can have some comments on the file.\n\nThanks\n--jyh",
+      "revId": "06a49163a156f757f3f1329b3b4ab1b588de399f",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a91bd0f_79d0c753",
+        "filename": "fuel-plugin/build_kvm.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2016-04-29T23:01:28Z",
+      "side": 1,
+      "message": "IMHO, this is really a little bit hacky. I totally understand that it\u0027s because we were rushing for the B release, however, possibly we should do a little bit cleanup now since we have more time now? For example, we can simply keep the changes to xfs_super.c as a separated patch (or, if needed, we can submit a patch to the gerrit), and the config file be another patch?",
+      "revId": "06a49163a156f757f3f1329b3b4ab1b588de399f",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a91bd0f_19dadb78",
+        "filename": "fuel-plugin/repositories/ubuntu/.gitkeep",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2016-04-29T23:01:28Z",
+      "side": 1,
+      "message": "Why do we need this file here? And, why do we need the \"repositories\" directory here? Can you please give me some hints?",
+      "revId": "06a49163a156f757f3f1329b3b4ab1b588de399f",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}

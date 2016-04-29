@@ -36,6 +36,41 @@
     },
     {
       "key": {
+        "uuid": "9a91bd0f_59cf03b1",
+        "filename": "fuel-plugin/build_kvm.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1453
+      },
+      "writtenOn": "2016-04-29T23:51:41Z",
+      "side": 1,
+      "message": "Indeed.  This quirks code was only put in to deal with the Brahmaputra release but my thought was to get this working version of the script checked in and then we can update it to reflect the Colorado needs.  This code will be removed but only after we put in the appropriate patch to our kernel sources.",
+      "parentUuid": "9a91bd0f_79d0c753",
+      "revId": "06a49163a156f757f3f1329b3b4ab1b588de399f",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a91bd0f_f9c37788",
+        "filename": "fuel-plugin/build_kvm.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1453
+      },
+      "writtenOn": "2016-04-29T23:51:41Z",
+      "side": 1,
+      "message": "Similarly to the quirks code these changes to the config file can be deleted after we update the kernel tree to incorporate these changes.",
+      "revId": "06a49163a156f757f3f1329b3b4ab1b588de399f",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a91bd0f_19dadb78",
         "filename": "fuel-plugin/repositories/ubuntu/.gitkeep",
         "patchSetId": 2

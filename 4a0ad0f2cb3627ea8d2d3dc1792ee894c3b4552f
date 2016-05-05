@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a91bd0f_fe6cb838",
+        "filename": "patches/ovs/0001-Add-Linux-4.4-support.patch",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2016-05-05T23:42:59Z",
+      "side": 1,
+      "message": "Hi, Don, some clarification needed. So this is the patch for the OVS tree, not for the kernel tree, right? If yes, do you know the upstream OVS\u0027s plan to support 4.4 kernel? Or, the OVS4NFV project\u0027s plan? And how can we change the OVS user space tools on our project?\n\nThanks\n--jyh",
+      "revId": "4a0ad0f2cb3627ea8d2d3dc1792ee894c3b4552f",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}

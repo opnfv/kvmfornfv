@@ -23,7 +23,8 @@
 #include <hw/virtio/virtio-balloon.h>
 #include <hw/virtio/virtio-rng.h>
 #include <hw/virtio/virtio-bus.h>
-#include <hw/s390x/s390_flic.h>
+
+#include "css.h"
 
 #define VIRTUAL_CSSID 0xfe
 
@@ -75,19 +76,12 @@ typedef struct VirtIOCCWDeviceClass {
 #define VIRTIO_CCW_FLAG_USE_IOEVENTFD_BIT 1
 #define VIRTIO_CCW_FLAG_USE_IOEVENTFD   (1 << VIRTIO_CCW_FLAG_USE_IOEVENTFD_BIT)
 
-typedef struct IndAddr {
-    hwaddr addr;
-    uint64_t map;
-    unsigned long refcnt;
-    int len;
-    QTAILQ_ENTRY(IndAddr) sibling;
-} IndAddr;
-
 struct VirtioCcwDevice {
     DeviceState parent_obj;
     SubchDev *sch;
     char *bus_id;
     int revision;
+    uint32_t max_rev;
     VirtioBusState bus;
     bool ioeventfd_started;
     bool ioeventfd_disabled;
@@ -102,9 +96,10 @@ struct VirtioCcwDevice {
 };
 
 /* The maximum virtio revision we support. */
-static inline int virtio_ccw_rev_max(VirtIODevice *vdev)
+#define VIRTIO_CCW_MAX_REV 1
+static inline int virtio_ccw_rev_max(VirtioCcwDevice *dev)
 {
-    return 0;
+    return dev->max_rev;
 }
 
 /* virtual css bus type */
@@ -208,7 +203,7 @@ VirtIODevice *virtio_ccw_get_vdev(SubchDev *sch);
 
 typedef struct V9fsCCWState {
     VirtioCcwDevice parent_obj;
-    V9fsState vdev;
+    V9fsVirtioState vdev;
 } V9fsCCWState;
 
 #endif /* CONFIG_VIRTFS */

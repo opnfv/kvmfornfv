@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License along
  * with this program; if not, see <http://www.gnu.org/licenses/>.
  */
+#include "qemu/osdep.h"
 #include "hw/hw.h"
 #include "ui/console.h"
 #include "hw/arm/omap.h"
@@ -403,8 +404,7 @@ struct omap_lcd_panel_s *omap_lcdc_init(MemoryRegion *sysmem,
                                         struct omap_dma_lcd_channel_s *dma,
                                         omap_clk clk)
 {
-    struct omap_lcd_panel_s *s = (struct omap_lcd_panel_s *)
-            g_malloc0(sizeof(struct omap_lcd_panel_s));
+    struct omap_lcd_panel_s *s = g_new0(struct omap_lcd_panel_s, 1);
 
     s->irq = irq;
     s->dma = dma;

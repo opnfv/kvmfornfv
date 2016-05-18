@@ -16,9 +16,13 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
  * 02110-1301, USA.
  *
+ * You can also choose to distribute this program under the terms of
+ * the Unmodified Binary Distribution Licence (as given in the file
+ * COPYING.UBDL), provided that you have satisfied its requirements.
+ *
  */
 
-FILE_LICENCE ( GPL2_OR_LATER )
+FILE_LICENCE ( GPL2_OR_LATER_OR_UBDL )
 
 #define PCIBIOS_READ_CONFIG_WORD	0xb109
 #define PCIBIOS_READ_CONFIG_DWORD	0xb10a
@@ -463,6 +467,7 @@ pci_set_mem_access:
 	.org	0x00
 mromheader:
 	.word	0xaa55			/* BIOS extension signature */
+	.byte	0x01			/* Dummy size (BIOS bug workaround) */
 	.org	0x18
 	.word	mpciheader
 	.org	0x1a

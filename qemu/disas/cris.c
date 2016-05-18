@@ -18,6 +18,7 @@
    You should have received a copy of the GNU General Public License
    along with this program; if not, see <http://www.gnu.org/licenses/>. */
 
+#include "qemu/osdep.h"
 #include "qemu-common.h"
 #include "disas/bfd.h"
 //#include "sysdep.h"
@@ -2492,7 +2493,7 @@ print_with_operands (const struct cris_opcode *opcodep,
 	  = spec_reg_info ((insn >> 12) & 15, disdata->distype);
 
 	if (sregp->name == NULL)
-	  /* Should have been caught as a non-match eariler.  */
+	  /* Should have been caught as a non-match earlier.  */
 	  *tp++ = '?';
 	else
 	  {

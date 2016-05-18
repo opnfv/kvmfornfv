@@ -26,6 +26,7 @@
  * This implementation doesn't include ring priority, TCP/IP Off-Load, QoS.
  */
 
+#include "qemu/osdep.h"
 #include "sysemu/sysemu.h"
 #include "hw/sysbus.h"
 #include "trace.h"
@@ -353,7 +354,7 @@ static ssize_t etsec_receive(NetClientState *nc,
     etsec->need_flush = false;
     ret = etsec_rx_ring_write(etsec, buf, size);
     if (ret == 0) {
-        /* The packet will be queued, let's flush it when buffer is avilable
+        /* The packet will be queued, let's flush it when buffer is available
          * again. */
         etsec->need_flush = true;
     }

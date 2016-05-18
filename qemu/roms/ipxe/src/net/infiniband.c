@@ -15,9 +15,13 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
  * 02110-1301, USA.
+ *
+ * You can also choose to distribute this program under the terms of
+ * the Unmodified Binary Distribution Licence (as given in the file
+ * COPYING.UBDL), provided that you have satisfied its requirements.
  */
 
-FILE_LICENCE ( GPL2_OR_LATER );
+FILE_LICENCE ( GPL2_OR_LATER_OR_UBDL );
 
 #include <stdint.h>
 #include <stdlib.h>
@@ -714,6 +718,9 @@ int ib_mcast_attach ( struct ib_device *ibdev, struct ib_queue_pair *qp,
 	struct ib_multicast_gid *mgid;
 	int rc;
 
+	/* Sanity check */
+	assert ( qp != NULL );
+
 	/* Add to software multicast GID list */
 	mgid = zalloc ( sizeof ( *mgid ) );
 	if ( ! mgid ) {
@@ -746,6 +753,9 @@ int ib_mcast_attach ( struct ib_device *ibdev, struct ib_queue_pair *qp,
 void ib_mcast_detach ( struct ib_device *ibdev, struct ib_queue_pair *qp,
 		       union ib_gid *gid ) {
 	struct ib_multicast_gid *mgid;
+
+	/* Sanity check */
+	assert ( qp != NULL );
 
 	/* Remove from hardware multicast GID list */
 	ibdev->op->mcast_detach ( ibdev, qp, gid );
@@ -994,6 +1004,12 @@ struct ib_device * last_opened_ibdev ( void ) {
 	assert ( ibdev->open_count != 0 );
 	return ibdev;
 }
+
+/* Drag in objects via register_ibdev() */
+REQUIRING_SYMBOL ( register_ibdev );
+
+/* Drag in Infiniband configuration */
+REQUIRE_OBJECT ( config_infiniband );
 
 /* Drag in IPoIB */
 REQUIRE_OBJECT ( ipoib );

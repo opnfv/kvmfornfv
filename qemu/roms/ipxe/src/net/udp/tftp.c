@@ -15,9 +15,13 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
  * 02110-1301, USA.
+ *
+ * You can also choose to distribute this program under the terms of
+ * the Unmodified Binary Distribution Licence (as given in the file
+ * COPYING.UBDL), provided that you have satisfied its requirements.
  */
 
-FILE_LICENCE ( GPL2_OR_LATER );
+FILE_LICENCE ( GPL2_OR_LATER_OR_UBDL );
 
 #include <stdint.h>
 #include <stdlib.h>
@@ -149,8 +153,6 @@ enum {
 	TFTP_FL_RRQ_MULTICAST = 0x0004,
 	/** Perform MTFTP recovery on timeout */
 	TFTP_FL_MTFTP_RECOVERY = 0x0008,
-	/** Only get filesize and then abort the transfer */
-	TFTP_FL_SIZEONLY = 0x0010,
 };
 
 /** Maximum number of MTFTP open requests before falling back to TFTP */
@@ -759,14 +761,6 @@ static int tftp_rx_oack ( struct tftp_request *tftp, void *buf, size_t len ) {
 			goto done;
 	}
 
-	/* Abort request if only trying to determine file size */
-	if ( tftp->flags & TFTP_FL_SIZEONLY ) {
-		rc = 0;
-		tftp_send_error ( tftp, 0, "TFTP Aborted" );
-		tftp_done ( tftp, rc );
-		return rc;
-	}
-
 	/* Request next data block */
 	tftp_send_packet ( tftp );
 
@@ -793,13 +787,6 @@ static int tftp_rx_data ( struct tftp_request *tftp,
 	off_t offset;
 	size_t data_len;
 	int rc;
-
-	if ( tftp->flags & TFTP_FL_SIZEONLY ) {
-		/* If we get here then server doesn't support SIZE option */
-		rc = -ENOTSUP;
-		tftp_send_error ( tftp, 0, "TFTP Aborted" );
-		goto done;
-	}
 
 	/* Sanity check */
 	if ( iob_len ( iobuf ) < sizeof ( *data ) ) {
@@ -1036,10 +1023,25 @@ static size_t tftp_xfer_window ( struct tftp_request *tftp ) {
 	return tftp->blksize;
 }
 
+/**
+ * Terminate download
+ *
+ * @v tftp		TFTP connection
+ * @v rc		Reason for close
+ */
+static void tftp_close ( struct tftp_request *tftp, int rc ) {
+
+	/* Abort download */
+	tftp_send_error ( tftp, 0, "TFTP Aborted" );
+
+	/* Close TFTP request */
+	tftp_done ( tftp, rc );
+}
+
 /** TFTP data transfer interface operations */
 static struct interface_operation tftp_xfer_operations[] = {
 	INTF_OP ( xfer_window, struct tftp_request *, tftp_xfer_window ),
-	INTF_OP ( intf_close, struct tftp_request *, tftp_done ),
+	INTF_OP ( intf_close, struct tftp_request *, tftp_close ),
 };
 
 /** TFTP data transfer interface descriptor */
@@ -1123,26 +1125,6 @@ static int tftp_open ( struct interface *xfer, struct uri *uri ) {
 struct uri_opener tftp_uri_opener __uri_opener = {
 	.scheme	= "tftp",
 	.open	= tftp_open,
-};
-
-/**
- * Initiate TFTP-size request
- *
- * @v xfer		Data transfer interface
- * @v uri		Uniform Resource Identifier
- * @ret rc		Return status code
- */
-static int tftpsize_open ( struct interface *xfer, struct uri *uri ) {
-	return tftp_core_open ( xfer, uri, TFTP_PORT, NULL,
-				( TFTP_FL_RRQ_SIZES |
-				  TFTP_FL_SIZEONLY ) );
-
-}
-
-/** TFTP URI opener */
-struct uri_opener tftpsize_uri_opener __uri_opener = {
-	.scheme	= "tftpsize",
-	.open	= tftpsize_open,
 };
 
 /**

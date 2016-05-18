@@ -14,6 +14,7 @@
  * GNU General Public License for more details.
  */
 
+#include "qemu/osdep.h"
 #include "net/clients.h"
 
 #include "rocker.h"
@@ -185,6 +186,11 @@ void fp_port_set_world(FpPort *port, World *world)
     port->world = world;
 }
 
+bool fp_port_check_world(FpPort *port, World *world)
+{
+    return port->world == world;
+}
+
 bool fp_port_enabled(FpPort *port)
 {
     return port->enabled;
@@ -218,7 +224,7 @@ FpPort *fp_port_alloc(Rocker *r, char *sw_name,
                       MACAddr *start_mac, unsigned int index,
                       NICPeers *peers)
 {
-    FpPort *port = g_malloc0(sizeof(FpPort));
+    FpPort *port = g_new0(FpPort, 1);
 
     if (!port) {
         return NULL;

@@ -21,6 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+#include "qemu/osdep.h"
 #include "hw/hw.h"
 #include "hw/timer/m48t59.h"
 #include "hw/i386/pc.h"
@@ -33,6 +34,7 @@
 #include "hw/pci/pci_host.h"
 #include "hw/ppc/ppc.h"
 #include "hw/boards.h"
+#include "qemu/error-report.h"
 #include "qemu/log.h"
 #include "hw/ide.h"
 #include "hw/loader.h"
@@ -42,10 +44,9 @@
 #include "sysemu/arch_init.h"
 #include "sysemu/qtest.h"
 #include "exec/address-spaces.h"
+#include "trace.h"
 #include "elf.h"
-
-//#define HARD_DEBUG_PPC_IO
-//#define DEBUG_PPC_IO
+#include "qemu/cutils.h"
 
 /* SMP is not enabled, for now */
 #define MAX_CPUS 1
@@ -56,26 +57,6 @@
 #define BIOS_FILENAME "ppc_rom.bin"
 #define KERNEL_LOAD_ADDR 0x01000000
 #define INITRD_LOAD_ADDR 0x01800000
-
-#if defined (HARD_DEBUG_PPC_IO) && !defined (DEBUG_PPC_IO)
-#define DEBUG_PPC_IO
-#endif
-
-#if defined (HARD_DEBUG_PPC_IO)
-#define PPC_IO_DPRINTF(fmt, ...)                         \
-do {                                                     \
-    if (qemu_loglevel_mask(CPU_LOG_IOPORT)) {            \
-        qemu_log("%s: " fmt, __func__ , ## __VA_ARGS__); \
-    } else {                                             \
-        printf("%s : " fmt, __func__ , ## __VA_ARGS__);  \
-    }                                                    \
-} while (0)
-#elif defined (DEBUG_PPC_IO)
-#define PPC_IO_DPRINTF(fmt, ...) \
-qemu_log_mask(CPU_LOG_IOPORT, fmt, ## __VA_ARGS__)
-#else
-#define PPC_IO_DPRINTF(fmt, ...) do { } while (0)
-#endif
 
 /* Constants for devices init */
 static const int ide_iobase[2] = { 0x1f0, 0x170 };
@@ -199,8 +180,7 @@ static void PREP_io_800_writeb (void *opaque, uint32_t addr, uint32_t val)
 {
     sysctrl_t *sysctrl = opaque;
 
-    PPC_IO_DPRINTF("0x%08" PRIx32 " => 0x%02" PRIx32 "\n",
-                   addr - PPC_IO_BASE, val);
+    trace_prep_io_800_writeb(addr - PPC_IO_BASE, val);
     switch (addr) {
     case 0x0092:
         /* Special port 92 */
@@ -327,23 +307,13 @@ static uint32_t PREP_io_800_readb (void *opaque, uint32_t addr)
         printf("ERROR: unaffected IO port: %04" PRIx32 " read\n", addr);
         break;
     }
-    PPC_IO_DPRINTF("0x%08" PRIx32 " <= 0x%02" PRIx32 "\n",
-                   addr - PPC_IO_BASE, retval);
+    trace_prep_io_800_readb(addr - PPC_IO_BASE, retval);
 
     return retval;
 }
 
 
 #define NVRAM_SIZE        0x2000
-
-static void cpu_request_exit(void *opaque, int irq, int level)
-{
-    CPUState *cpu = current_cpu;
-
-    if (cpu && level) {
-        cpu_exit(cpu);
-    }
-}
 
 static void ppc_prep_reset(void *opaque)
 {
@@ -565,7 +535,7 @@ static void ppc_prep_init(MachineState *machine)
         kernel_size = load_image_targphys(kernel_filename, kernel_base,
                                           ram_size - kernel_base);
         if (kernel_size < 0) {
-            hw_error("qemu: could not load kernel '%s'\n", kernel_filename);
+            error_report("could not load kernel '%s'", kernel_filename);
             exit(1);
         }
         /* load initrd */
@@ -574,8 +544,9 @@ static void ppc_prep_init(MachineState *machine)
             initrd_size = load_image_targphys(initrd_filename, initrd_base,
                                               ram_size - initrd_base);
             if (initrd_size < 0) {
-                hw_error("qemu: could not load initial ram disk '%s'\n",
-                          initrd_filename);
+                error_report("could not load initial ram disk '%s'",
+                             initrd_filename);
+                exit(1);
             }
         } else {
             initrd_base = 0;
@@ -602,7 +573,8 @@ static void ppc_prep_init(MachineState *machine)
     }
 
     if (PPC_INPUT(env) != PPC_FLAGS_INPUT_6xx) {
-        hw_error("Only 6xx bus is supported on PREP machine\n");
+        error_report("Only 6xx bus is supported on PREP machine");
+        exit(1);
     }
 
     dev = qdev_create(NULL, "raven-pcihost");
@@ -610,7 +582,7 @@ static void ppc_prep_init(MachineState *machine)
         bios_name = BIOS_FILENAME;
     }
     qdev_prop_set_string(dev, "bios-name", bios_name);
-    qdev_prop_set_uint32(dev, "elf-machine", ELF_MACHINE);
+    qdev_prop_set_uint32(dev, "elf-machine", PPC_ELF_MACHINE);
     pcihost = PCI_HOST_BRIDGE(dev);
     object_property_add_child(qdev_get_machine(), "raven", OBJECT(dev), NULL);
     qdev_init_nofail(dev);
@@ -626,8 +598,6 @@ static void ppc_prep_init(MachineState *machine)
     cpu = POWERPC_CPU(first_cpu);
     qdev_connect_gpio_out(&pci->qdev, 0,
                           cpu->env.irq_inputs[PPC6xx_INPUT_INT]);
-    qdev_connect_gpio_out(&pci->qdev, 1,
-                          qemu_allocate_irq(cpu_request_exit, NULL, 0));
     sysbus_connect_irq(&pcihost->busdev, 0, qdev_get_gpio_in(&pci->qdev, 9));
     sysbus_connect_irq(&pcihost->busdev, 1, qdev_get_gpio_in(&pci->qdev, 11));
     sysbus_connect_irq(&pcihost->busdev, 2, qdev_get_gpio_in(&pci->qdev, 9));
@@ -698,17 +668,12 @@ static void ppc_prep_init(MachineState *machine)
                          graphic_width, graphic_height, graphic_depth);
 }
 
-static QEMUMachine prep_machine = {
-    .name = "prep",
-    .desc = "PowerPC PREP platform",
-    .init = ppc_prep_init,
-    .max_cpus = MAX_CPUS,
-    .default_boot_order = "cad",
-};
-
-static void prep_machine_init(void)
+static void prep_machine_init(MachineClass *mc)
 {
-    qemu_register_machine(&prep_machine);
+    mc->desc = "PowerPC PREP platform";
+    mc->init = ppc_prep_init;
+    mc->max_cpus = MAX_CPUS;
+    mc->default_boot_order = "cad";
 }
 
-machine_init(prep_machine_init);
+DEFINE_MACHINE("prep", prep_machine_init)

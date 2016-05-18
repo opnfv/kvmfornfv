@@ -15,9 +15,13 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
  * 02110-1301, USA.
+ *
+ * You can also choose to distribute this program under the terms of
+ * the Unmodified Binary Distribution Licence (as given in the file
+ * COPYING.UBDL), provided that you have satisfied its requirements.
  */
 
-FILE_LICENCE ( GPL2_OR_LATER );
+FILE_LICENCE ( GPL2_OR_LATER_OR_UBDL );
 
 #include <assert.h>
 #include <realmode.h>
@@ -38,6 +42,8 @@ FILE_LICENCE ( GPL2_OR_LATER );
 #define ATTR_FCOL_MAGENTA	0x05
 #define ATTR_FCOL_YELLOW	0x06
 #define ATTR_FCOL_WHITE		0x07
+
+#define ATTR_BLINK		0x80
 
 #define ATTR_BCOL_MASK		0x70
 #define ATTR_BCOL_BLACK		0x00
@@ -137,8 +143,12 @@ static void bios_handle_sgr ( struct ansiesc_context *ctx __unused,
 			bios_attr = ATTR_DEFAULT;
 		} else if ( aspect == 1 ) {
 			bios_attr |= ATTR_BOLD;
+		} else if ( aspect == 5 ) {
+			bios_attr |= ATTR_BLINK;
 		} else if ( aspect == 22 ) {
 			bios_attr &= ~ATTR_BOLD;
+		} else if ( aspect == 25 ) {
+			bios_attr &= ~ATTR_BLINK;
 		} else if ( ( aspect >= 30 ) && ( aspect <= 39 ) ) {
 			bios_attr &= ~ATTR_FCOL_MASK;
 			bios_attr |= bios_attr_fcols[ aspect - 30 ];

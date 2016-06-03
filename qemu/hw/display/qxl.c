@@ -18,8 +18,8 @@
  * along with this program; if not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "qemu/osdep.h"
 #include <zlib.h>
-#include <stdint.h>
 
 #include "qemu-common.h"
 #include "qemu/timer.h"
@@ -1156,7 +1156,9 @@ static void qxl_soft_reset(PCIQXLDevice *d)
     trace_qxl_soft_reset(d->id);
     qxl_check_state(d);
     qxl_clear_guest_bug(d);
+    qemu_mutex_lock(&d->async_lock);
     d->current_async = QXL_UNDEFINED_IO;
+    qemu_mutex_unlock(&d->async_lock);
 
     if (d->id == 0) {
         qxl_enter_vga_mode(d);
@@ -1970,14 +1972,14 @@ static void qxl_realize_common(PCIQXLDevice *qxl, Error **errp)
 
     qxl->rom_size = qxl_rom_size();
     memory_region_init_ram(&qxl->rom_bar, OBJECT(qxl), "qxl.vrom",
-                           qxl->rom_size, &error_abort);
+                           qxl->rom_size, &error_fatal);
     vmstate_register_ram(&qxl->rom_bar, &qxl->pci.qdev);
     init_qxl_rom(qxl);
     init_qxl_ram(qxl);
 
     qxl->guest_surfaces.cmds = g_new0(QXLPHYSICAL, qxl->ssd.num_surfaces);
     memory_region_init_ram(&qxl->vram_bar, OBJECT(qxl), "qxl.vram",
-                           qxl->vram_size, &error_abort);
+                           qxl->vram_size, &error_fatal);
     vmstate_register_ram(&qxl->vram_bar, &qxl->pci.qdev);
     memory_region_init_alias(&qxl->vram32_bar, OBJECT(qxl), "qxl.vram32",
                              &qxl->vram_bar, 0, qxl->vram32_size);
@@ -2079,7 +2081,7 @@ static void qxl_realize_secondary(PCIDevice *dev, Error **errp)
     qxl->id = device_id++;
     qxl_init_ramsize(qxl);
     memory_region_init_ram(&qxl->vga.vram, OBJECT(dev), "qxl.vgavram",
-                           qxl->vga.vram_size, &error_abort);
+                           qxl->vga.vram_size, &error_fatal);
     vmstate_register_ram(&qxl->vga.vram, &qxl->pci.qdev);
     qxl->vga.vram_ptr = memory_region_get_ram_ptr(&qxl->vga.vram);
     qxl->vga.con = graphic_console_init(DEVICE(dev), 0, &qxl_ops, qxl);
@@ -2156,7 +2158,7 @@ static int qxl_post_load(void *opaque, int version)
         qxl_create_guest_primary(d, 1, QXL_SYNC);
 
         /* replay surface-create and cursor-set commands */
-        cmds = g_malloc0(sizeof(QXLCommandExt) * (d->ssd.num_surfaces + 1));
+        cmds = g_new0(QXLCommandExt, d->ssd.num_surfaces + 1);
         for (in = 0, out = 0; in < d->ssd.num_surfaces; in++) {
             if (d->guest_surfaces.cmds[in] == 0) {
                 continue;

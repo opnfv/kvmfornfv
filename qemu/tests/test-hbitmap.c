@@ -9,10 +9,8 @@
  * See the COPYING file in the top-level directory.
  */
 
+#include "qemu/osdep.h"
 #include <glib.h>
-#include <stdarg.h>
-#include <string.h>
-#include <sys/types.h>
 #include "qemu/hbitmap.h"
 
 #define LOG_BITS_PER_LONG          (BITS_PER_LONG == 32 ? 5 : 6)
@@ -139,10 +137,8 @@ static void hbitmap_test_teardown(TestHBitmapData *data,
         hbitmap_free(data->hb);
         data->hb = NULL;
     }
-    if (data->bits) {
-        g_free(data->bits);
-        data->bits = NULL;
-    }
+    g_free(data->bits);
+    data->bits = NULL;
 }
 
 /* Set a range in the HBitmap and in the shadow "simple" bitmap.

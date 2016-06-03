@@ -23,9 +23,6 @@
 #error cpu.h included from common code
 #endif
 
-#include "config.h"
-#include <inttypes.h>
-#include "qemu/osdep.h"
 #include "qemu/queue.h"
 #include "tcg-target.h"
 #ifndef CONFIG_USER_ONLY
@@ -105,17 +102,18 @@ typedef struct CPUTLBEntry {
        bit 3                      : indicates that the entry is invalid
        bit 2..0                   : zero
     */
-    target_ulong addr_read;
-    target_ulong addr_write;
-    target_ulong addr_code;
-    /* Addend to virtual address to get host address.  IO accesses
-       use the corresponding iotlb value.  */
-    uintptr_t addend;
-    /* padding to get a power of two size */
-    uint8_t dummy[(1 << CPU_TLB_ENTRY_BITS) -
-                  (sizeof(target_ulong) * 3 +
-                   ((-sizeof(target_ulong) * 3) & (sizeof(uintptr_t) - 1)) +
-                   sizeof(uintptr_t))];
+    union {
+        struct {
+            target_ulong addr_read;
+            target_ulong addr_write;
+            target_ulong addr_code;
+            /* Addend to virtual address to get host address.  IO accesses
+               use the corresponding iotlb value.  */
+            uintptr_t addend;
+        };
+        /* padding to get a power of two size */
+        uint8_t dummy[1 << CPU_TLB_ENTRY_BITS];
+    };
 } CPUTLBEntry;
 
 QEMU_BUILD_BUG_ON(sizeof(CPUTLBEntry) != (1 << CPU_TLB_ENTRY_BITS));

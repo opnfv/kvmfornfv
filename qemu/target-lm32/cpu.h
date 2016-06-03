@@ -24,17 +24,14 @@
 
 #define CPUArchState struct CPULM32State
 
-#include "config.h"
 #include "qemu-common.h"
 #include "exec/cpu-defs.h"
 struct CPULM32State;
 typedef struct CPULM32State CPULM32State;
 
-#define ELF_MACHINE EM_LATTICEMICO32
-
 #define NB_MMU_MODES 1
 #define TARGET_PAGE_BITS 12
-static inline int cpu_mmu_index(CPULM32State *env)
+static inline int cpu_mmu_index(CPULM32State *env, bool ifetch)
 {
     return 0;
 }
@@ -221,7 +218,6 @@ bool lm32_cpu_do_semihosting(CPUState *cs);
 
 #define cpu_list lm32_cpu_list
 #define cpu_exec cpu_lm32_exec
-#define cpu_gen_code cpu_lm32_gen_code
 #define cpu_signal_handler cpu_lm32_signal_handler
 
 int lm32_cpu_handle_mmu_fault(CPUState *cpu, vaddr address, int rw,

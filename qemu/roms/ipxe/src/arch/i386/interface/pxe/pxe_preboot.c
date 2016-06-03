@@ -22,9 +22,13 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
  * 02110-1301, USA.
+ *
+ * You can also choose to distribute this program under the terms of
+ * the Unmodified Binary Distribution Licence (as given in the file
+ * COPYING.UBDL), provided that you have satisfied its requirements.
  */
 
-FILE_LICENCE ( GPL2_OR_LATER );
+FILE_LICENCE ( GPL2_OR_LATER_OR_UBDL );
 
 #include <stdint.h>
 #include <string.h>
@@ -174,18 +178,16 @@ pxenv_get_cached_info ( struct s_PXENV_GET_CACHED_INFO *get_cached_info ) {
 	}
 	info = &cached_info[idx];
 
-	/* Construct cached version of packet, if not already constructed. */
-	if ( ! info->dhcphdr.op ) {
-		/* Construct DHCP packet */
-		creator = &pxe_dhcp_packet_creators[idx];
-		if ( ( rc = creator->create ( pxe_netdev, info,
-					      sizeof ( *info ) ) ) != 0 ) {
-			DBGC ( &pxe_netdev, " failed to build packet: %s\n",
-			       strerror ( rc ) );
-			goto err;
-		}
+	/* Construct DHCP packet */
+	creator = &pxe_dhcp_packet_creators[idx];
+	if ( ( rc = creator->create ( pxe_netdev, info,
+				      sizeof ( *info ) ) ) != 0 ) {
+		DBGC ( &pxe_netdev, " failed to build packet: %s\n",
+		       strerror ( rc ) );
+		goto err;
 	}
 
+	/* Copy packet (if applicable) */
 	len = get_cached_info->BufferSize;
 	if ( len == 0 ) {
 		/* Point client at our cached buffer.

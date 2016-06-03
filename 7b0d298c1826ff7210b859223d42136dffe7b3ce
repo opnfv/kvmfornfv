@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a7ca5a3_9e9a5c13",
+        "filename": "fuel-plugin/build_kvm.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2016-06-03T21:23:17Z",
+      "side": 1,
+      "message": "Sorry that I didn\u0027t realize the difference to move the definition from the middle of the file to the head of it.",
+      "revId": "7b0d298c1826ff7210b859223d42136dffe7b3ce",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}

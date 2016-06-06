@@ -1,5 +1,9 @@
 #!/bin/bash
 
+KVM_COMMIT="0e68cb048bb8aadb14675f5d4286d8ab2fc35449"
+OVS_COMMIT="4ff6642f3c1dd8949c2f42b3310ee2523ee970a6"
+KEEP=no
+
 quirks() {
 	# Workaround build bug on Ubuntu 14.04
 	cat <<EOF > arch/x86/boot/install.sh
@@ -37,9 +41,6 @@ index 65a4537..b73ca67 100644
 EOF
 }
 
-KVM_COMMIT=""
-OVS_COMMIT="4ff6642f3c1dd8949c2f42b3310ee2523ee970a6"
-KEEP=no
 for i
 do
 	case $i in

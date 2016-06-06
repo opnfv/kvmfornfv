@@ -5,40 +5,18 @@ OVS_COMMIT="4ff6642f3c1dd8949c2f42b3310ee2523ee970a6"
 KEEP=no
 
 quirks() {
-	# Workaround build bug on Ubuntu 14.04
-	cat <<EOF > arch/x86/boot/install.sh
-#!/bin/sh
-cp -a -- "\$2" "\$4/vmlinuz-\$1"
-EOF
 
-	# Add deprecated XFS delaylog option back in
-	cat <<EOF | patch -p2
-diff --git a/kernel/fs/xfs/xfs_super.c b/kernel/fs/xfs/xfs_super.c
-index 65a4537..b73ca67 100644
---- a/kernel/fs/xfs/xfs_super.c
-+++ b/kernel/fs/xfs/xfs_super.c
-@@ -109,6 +109,7 @@ static struct xfs_kobj xfs_dbg_kobj;	/* global debug sysfs attrs */
- #define MNTOPT_GQUOTANOENF "gqnoenforce"/* group quota limit enforcement */
- #define MNTOPT_PQUOTANOENF "pqnoenforce"/* project quota limit enforcement */
- #define MNTOPT_QUOTANOENF  "qnoenforce"	/* same as uqnoenforce */
-+#define MNTOPT_DELAYLOG    "delaylog"	/* Delayed logging enabled */
- #define MNTOPT_DISCARD	   "discard"	/* Discard unused blocks */
- #define MNTOPT_NODISCARD   "nodiscard"	/* Do not discard unused blocks */
- 
-@@ -359,6 +360,9 @@ xfs_parseargs(
- 		} else if (!strcmp(this_char, MNTOPT_GQUOTANOENF)) {
- 			mp->m_qflags |= (XFS_GQUOTA_ACCT | XFS_GQUOTA_ACTIVE);
- 			mp->m_qflags &= ~XFS_GQUOTA_ENFD;
-+		} else if (!strcmp(this_char, MNTOPT_DELAYLOG)) {
-+			xfs_warn(mp,
-+		"delaylog is the default now, option is deprecated.");
- 		} else if (!strcmp(this_char, MNTOPT_DISCARD)) {
- 			mp->m_flags |= XFS_MOUNT_DISCARD;
- 		} else if (!strcmp(this_char, MNTOPT_NODISCARD)) {
--- 
-1.9.1
-
-EOF
+	#
+	# Apply out of tree patches
+	#
+	for i in $SRC/kvmfornfv/patches/$1/*.patch
+	do
+		if [ -f "$i" ]
+		then
+			echo "Applying: $i"
+			patch -p1 <$i
+		fi
+	done
 }
 
 for i
@@ -106,7 +84,13 @@ fi
 	fi
 	cd kernel
 
-	quirks
+	# Workaround build bug on Ubuntu 14.04
+	cat <<EOF > arch/x86/boot/install.sh
+#!/bin/sh
+cp -a -- "\$2" "\$4/vmlinuz-\$1"
+EOF
+
+	quirks kernel
 
 	# Configure the kernel
 	cp $CONFIG .config
@@ -131,17 +115,7 @@ fi
 		git reset --hard
 	fi
 
-	#
-	# Apply out of tree patches
-	#
-	for i in $SRC/kvmfornfv/patches/ovs/*.patch
-	do
-		if [ -f "$i" ]
-		then
-			echo "Applying: $i"
-			patch -p1 <$i
-		fi
-	done
+	quirks ovs
 
 	./boot.sh
 	./configure --with-linux=$SRC/kvmfornfv/kernel

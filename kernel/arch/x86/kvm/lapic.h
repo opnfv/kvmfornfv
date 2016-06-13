@@ -16,6 +16,7 @@ struct kvm_timer {
 	u64 tscdeadline;
 	u64 expired_tscdeadline;
 	atomic_t pending;			/* accumulated triggered timers */
+	bool hv_timer_in_use;
 };
 
 struct kvm_lapic {
@@ -170,4 +171,8 @@ void wait_lapic_expire(struct kvm_vcpu *vcpu);
 
 bool kvm_intr_is_single_vcpu_fast(struct kvm *kvm, struct kvm_lapic_irq *irq,
 			struct kvm_vcpu **dest_vcpu);
+void kvm_lapic_switch_to_sw_timer(struct kvm_vcpu *vcpu);
+void kvm_lapic_switch_to_hv_timer(struct kvm_vcpu *vcpu);
+void kvm_lapic_expired_hv_timer(struct kvm_vcpu *vcpu);
+bool kvm_lapic_hv_timer_in_use(struct kvm_vcpu *vcpu);
 #endif

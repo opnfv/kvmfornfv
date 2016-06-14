@@ -1,4 +1,4 @@
-$fuel_settings = parseyaml(file('/etc/compute.yaml'))
+$fuel_settings = parseyaml(file('/etc/astute.yaml'))
 if $operatingsystem == 'Ubuntu' {
         if $fuel_settings['fuel-plugin-kvm']['use_kvm'] {
                 package { 'linux-headers-4.4.6-rt14nfv':

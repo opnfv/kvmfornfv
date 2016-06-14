@@ -14,7 +14,7 @@ Requirements
 
 | Requirement                      | Version/Comment |
 |----------------------------------|-----------------|
-| Mirantis OpenStack compatibility | 8.0             |
+| Mirantis OpenStack compatibility | 9.0             |
 
 Recommendations
 ---------------
@@ -60,7 +60,7 @@ KVM plugin installation
 
         id | name             | version | package_version
         ---|------------------|---------|----------------
-        1  | fuel-plugin-kvm | 0.5.2   | 3.0.0
+        1  | fuel-plugin-kvm | 0.9.0   | 4.0.0
 
 8. Plugin is ready to use and can be enabled on the Settings tab of the Fuel web UI.
 

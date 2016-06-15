@@ -149,3 +149,6 @@ Run-time Environment Setup
 Not only are special kernel parameters needed but a special run-time
 environment is also required. Please refer to :doc:`tunning` for more
 explanation.
+
+Please refer to :doc:`network-setup` for information on how to setup the
+network related part on the VNF.

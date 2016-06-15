@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a7ca5a3_0cd8591c",
+        "filename": "fuel-plugin/build_kvm.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2016-06-15T01:24:19Z",
+      "side": 1,
+      "message": "Would it be possible that we have the default as the HEAD of the tree if the KVM_COMMIT is not specified? That will avoid such changes in future?",
+      "range": {
+        "startLine": 3,
+        "startChar": 52,
+        "endLine": 3,
+        "endChar": 53
+      },
+      "revId": "d1c774aafb008628554fd8da5ae8fd3a1d44ee66",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a7ca5a3_ecdabd16",
+        "filename": "fuel-plugin/deployment_scripts/puppet/manifests/kvm-install.pp",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2016-06-15T01:24:19Z",
+      "side": 1,
+      "message": "A curios question, is this change because of Fuel changes?",
+      "range": {
+        "startLine": 1,
+        "startChar": 49,
+        "endLine": 1,
+        "endChar": 52
+      },
+      "revId": "d1c774aafb008628554fd8da5ae8fd3a1d44ee66",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}

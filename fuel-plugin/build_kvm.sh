@@ -128,6 +128,13 @@ EOF
 	depmod -b ovs.$$ -a `ls ovs.$$/lib/modules`
 	dpkg-deb -b ovs.$$ $SRC/kvmfornfv/linux-image*.deb
 	rm -rf ovs.$$
+
+	# Build qemu-kvm to deb
+	cd $SRC/kvmfornfv
+	git checkout master
+	cd $SRC/kvmfornfv/qemu
+	cp -rf $SRC/kvmfornfv/fuel-plugin/debian .
+	dpkg-buildpackage -rfakeroot -uc -b
 )
 
 mv $SRC/kvmfornfv/*.deb .

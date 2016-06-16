@@ -1,0 +1,2 @@
+#!/bin/sh
+exec qemu-system-arm -enable-kvm "$@"

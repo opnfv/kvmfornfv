@@ -1,0 +1,31 @@
+#!/bin/sh
+set -f
+
+getcpu() {
+   CPU="unknown"
+   [ -r /proc/cpuinfo ] || return
+   local line
+   while read line; do
+      set -- $line
+      [ "$1" = "cpu" ] && CPU="$3" && return 0;
+   done < /proc/cpuinfo
+   return
+}
+
+getcpu
+case "$CPU" in
+  e500*|e6500*|e5500*)
+    qemu=qemu-system-ppcemb
+    ;;
+  *)
+    case "$(uname -m)" in
+      ppc64*)
+        qemu=qemu-system-ppc64
+        ;;
+      *)
+        qemu=qemu-system-ppc
+        ;;
+    esac
+  ;;
+esac
+exec "$qemu" -enable-kvm "$@"

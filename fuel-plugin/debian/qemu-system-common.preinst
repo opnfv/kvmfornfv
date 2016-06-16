@@ -1,0 +1,13 @@
+#!/bin/sh
+
+set -e
+
+case "$1" in
+install|upgrade)
+    # Add the kvm group unless it's already there
+    if ! getent group kvm >/dev/null; then
+        addgroup --quiet --system kvm || true
+    fi
+esac
+
+#DEBHELPER#

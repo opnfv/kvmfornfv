@@ -1,0 +1,8 @@
+# qemu-kvm
+
+description "KVM"
+author "Dustin Kirkland <kirkland@canonical.com>"
+
+start on runlevel [2345]
+
+pre-start exec /usr/share/qemu/init/qemu-kvm-init start

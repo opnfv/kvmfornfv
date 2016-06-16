@@ -1,0 +1,6 @@
+qemu (1:2.6.0-5ubuntu10.1) xenial-security; urgency=medium
+
+  * INIT VERSION: qemu 2.6.0 from upstream
+    - No change
+
+ -- Liang Li <liang.z.li@intel.com>  Thu, 16 Jun 2016 17:51:14 +0800

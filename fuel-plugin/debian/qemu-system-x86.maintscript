@@ -1,0 +1,1 @@
+rm_conffile /etc/init.d/qemu-system-x86 2.1+dfsg-4ubuntu4~

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a7ca5a3_6c09c830",
+        "filename": "fuel-plugin/build_kvm.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1453
+      },
+      "writtenOn": "2016-06-17T04:50:20Z",
+      "side": 1,
+      "message": "We already do a `git checkout\u0027 earlier in the script so there should be no reason to do a second checkout here.",
+      "revId": "53ce7226d537e16b587e517cca66dff6e15fc22a",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a7ca5a3_4c0c0c43",
+        "filename": "fuel-plugin/build_kvm.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1453
+      },
+      "writtenOn": "2016-06-17T04:50:20Z",
+      "side": 1,
+      "message": "Your `dpkg-buildpackage\u0027 left the qemu deb files in the source tree.  You should move them to the current directory at this point the same way we do it for the kernel deb\u0027s.",
+      "revId": "53ce7226d537e16b587e517cca66dff6e15fc22a",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,70 +1,137 @@
 #!/bin/bash
 
-SRC=/
-CONFIG="arch/x86/configs/opnfv.config"
-VERSION="1.0.OPNFV"
+# for deb package builds
+
+export http_proxy=http://10.138.77.10:3128
+export https_proxy=https://10.138.77.10:3128
+
+KVM_COMMIT="0e68cb048bb8aadb14675f5d4286d8ab2fc35449"
 OVS_COMMIT="4ff6642f3c1dd8949c2f42b3310ee2523ee970a6"
+KEEP=no
 
 quirks() {
-#
-# Apply out of tree patches
-#
-for i in $SRC/kvmfornfv/patches/$1/*.patch
-do
-    if [ -f "$i" ]
-    then
-        echo "Applying: $i"
-        patch -p1 <$i
-    fi
-done
+        #
+	# Apply out of tree patches
+	#
+	for i in $SRC/kvmfornfv/patches/$1/*.patch
+	do
+		if [ -f "$i" ]
+		then
+			echo "Applying: $i"
+			patch -p1 <$i
+		fi
+	done
 }
 
-apt-get update
-apt-get install -y git fakeroot build-essential ncurses-dev xz-utils kernel-package bc autoconf automake libtool python python-pip
+for i
+do
+	case $i in
 
-cd $SRC
+	-k)	KEEP=yes
+		shift
+		;;
 
-# Get the Open VSwitch sources
-rm -rf ovs
-git clone https://github.com/openvswitch/ovs.git
-cd ovs; git checkout $OVS_COMMIT
+	-c)	KVM_COMMIT=$2
+		shift;shift
+		;;
 
-cd $SRC/kvmfornfv/
-quirks kernel
+#	-o)	OVS_COMMIT=$2
+#		shift;shift
+#		;;
 
-cd kernel
+	esac
+done
 
-# Workaround build bug on Ubuntu 14.04
-cat <<EOF > arch/x86/boot/install.sh
+SRC=${1:-/root}
+CONFIG=${2:-arch/x86/configs/opnfv.config}
+VERSION=${3:-1.0.OPNFV}
+
+# Check for necessary build tools
+if ! type git >/dev/null 2>/dev/null
+then
+	echo "Build tools missing, run the command
+
+apt-get install git fakeroot build-essential ncurses-dev xz-utils kernel-package automake
+
+as root and try again"
+	exit 1
+fi
+
+# Make sure the source dir exists
+if [ ! -d $SRC ]
+then
+	echo "$SRC: no such directory"
+	exit 1
+fi
+
+(
+	cd $SRC
+
+	# Get the Open VSwitch sources
+#	if [ ! -d ovs ]
+#	then
+#		git clone https://github.com/openvswitch/ovs.git
+#	fi
+
+	# Get the KVM for NFV kernel sources
+	if [ ! -d kvmfornfv ]
+	then
+		#git clone https://gerrit.opnfv.org/gerrit/kvmfornfv
+	fi
+	cd kvmfornfv
+	git pull
+	if [ x$KVM_COMMIT != x ]
+	then
+		git checkout $KVM_COMMIT
+	else
+		git reset --hard
+	fi
+	cd kernel
+
+	# Workaround build bug on Ubuntu 14.04
+	cat <<EOF > arch/x86/boot/install.sh
 #!/bin/sh
 cp -a -- "\$2" "\$4/vmlinuz-\$1"
 EOF
 
-# Configure the kernel
-cp $CONFIG .config
+	quirks kernel
 
-make oldconfig </dev/null
+	# Configure the kernel
+	cp $CONFIG .config
 
-# Build the kernel debs
-make-kpkg clean
+	make oldconfig </dev/null
 
-fakeroot make-kpkg --initrd --revision=$VERSION kernel_image kernel_headers
+	# Build the kernel debs
+	if [ $KEEP = no ]
+	then
+		make-kpkg clean
+	fi
+	fakeroot make-kpkg --initrd --revision=$VERSION kernel_image kernel_headers
+	git checkout arch/x86/boot/install.sh
+	git checkout fs/xfs/xfs_super.c
 
-# Build OVS kernel modules
-cd ../../ovs
+	# Build OVS kernel modules
+#	cd ../../ovs
+#	if [ x$OVS_COMMIT != x ]
+#	then
+#		git checkout $OVS_COMMIT
+#	else
+#		git reset --hard
+#	fi
 
-quirks ovs
-pip install six
+#	quirks ovs
 
-./boot.sh
-./configure --with-linux=$SRC/kvmfornfv/kernel
-make
+	./boot.sh
+	./configure --with-linux=$SRC/kvmfornfv/kernel
+	make
 
-# Add OVS kernel modules to kernel deb
-dpkg-deb -x $SRC/kvmfornfv/linux-image*.deb ovs.$$
-dpkg-deb --control $SRC/kvmfornfv/linux-image*.deb ovs.$$/DEBIAN
-cp datapath/linux/*.ko ovs.$$/lib/modules/*/kernel/net/openvswitch
-depmod -b ovs.$$ -a `ls ovs.$$/lib/modules`
-dpkg-deb -b ovs.$$ $SRC/kvmfornfv/linux-image*.deb
-rm -rf ovs.$$
+	# Add OVS kernel modules to kernel deb
+#	dpkg-deb -x $SRC/kvmfornfv/linux-image*.deb ovs.$$
+#	dpkg-deb --control $SRC/kvmfornfv/linux-image*.deb ovs.$$/DEBIAN
+#	cp datapath/linux/*.ko ovs.$$/lib/modules/*/kernel/net/openvswitch
+#	depmod -b ovs.$$ -a `ls ovs.$$/lib/modules`
+#	dpkg-deb -b ovs.$$ $SRC/kvmfornfv/linux-image*.deb
+#	rm -rf ovs.$$
+)
 
+mv $SRC/kvmfornfv/*.deb .

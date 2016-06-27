@@ -1,7 +1,7 @@
 if [ ! -f .version ]
 then
     touch .version
-    sudo chmod 777 .version
+    chmod 777 .version
     echo 1 > .version
     echo 1
 else

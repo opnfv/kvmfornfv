@@ -1,0 +1,37 @@
+The "ci" folder consists of-
+
+build.sh  --> builds rpm packages (if -p package option is  passed as "centos" or in default case) by calling build_rpm subfolder files ; builds debian packages (if -p package option is  passed as "ubuntu") by calling build_deb subfolder files; builds both debian and rpm packages (if -p package option is  passed as "both")
+build_deb --> contains the files required to build debian backages for kernel and qemu, inside ubuntu docker
+build_rpm --> contains the files required to build rpm backages for kernel and qemu, inside centos docker
+envs      --> contains the host and guest setup+configuration files.
+
+The actual Tree structure is as below-
+
+|-- build_deb
+|   |-- build_debs_docker.sh
+|   |-- build_debs.sh
+|   |-- Dockerfile
+|   |-- kernel_deb_build.sh
+|   |-- mkcontrol.sh
+|   `-- qemu_deb_build.sh
+|-- build_rpm
+|   |-- build_rpms_docker.sh
+|   |-- build_rpms.sh
+|   |-- Dockerfile
+|   |-- kernel_rpm_build.sh
+|   |-- mkspec
+|   |-- mkversion
+|   |-- qemu_rpm_build.sh
+|-- build.sh
+|-- envs
+|   |-- create-rt-tests-rpm.sh
+|   |-- guest-cmd.sh
+|   |-- guest-modify.sh
+|   |-- guest-setup0.sh
+|   |-- guest-setup1.sh
+|   |-- host-config
+|   |-- host-run-qemu.sh
+|   |-- host-setup0.sh
+|   |-- host-setup1.sh
+|   `-- rt-tests.patch
+`-- README

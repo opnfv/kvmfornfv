@@ -1,5 +1,7 @@
 #!/bin/bash
 kernel_src_dir=kernel
+#rpmbuild_dir=/tmp/kvmfornfv_rpmbuild.$$
+#artifact_dir=${rpmbuild_dir}/RPMS/x86_64
 rpmbuild_tmp='/tmp'
 rpmbuild_dir=$rpmbuild_tmp/kvmfornfv_rpmbuild.$$
 echo $rpmbuild_dir
@@ -51,5 +53,8 @@ if [ ${?} -ne 0 ] ; then
     rm -rf ${rpmbuild_dir}
     exit 1
 fi
+
+#cp -f ${artifact_dir}/* ${output_dir}
+#cp -f /home/tcs/rpmbuild/RPMS/x86_64/* ${output_dir}
 
 rm -rf ${rpmbuild_dir}

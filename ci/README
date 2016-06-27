@@ -1,0 +1,54 @@
+The "ci" folder consists of-
+
+(1) build.sh  --> triggers the creation of Rpm/Debian kernel and qemu packages, depending upon the first argument passed, while calling this script (USAGE--> ./ci/build.sh <variable argument>).
+The first argument can have one of the following options-
+Case "centos" or "" | Builds rpm packages by calling build_rpm subfolder files
+Case "ubuntu"       | Builds debian packages by calling build_deb subfolder files
+Case "both"         | Builds both debian and rpm packages using build_rpm and build_deb subfolder files respectively
+Case default        | Any other option apart from the patterns ablove, returns invalid
+
+(2) build_deb --> contains the files required to build debian backages for kernel and qemu, inside ubuntu docker
+
+(3) build_rpm --> contains the files required to build rpm backages for kernel and qemu, inside centos docker
+
+(4) envs      --> contains the host and guest setup+configuration files.
+
+
+The actual Tree structure is as below-
+
+|-- build_deb
+|   |-- build_debs.sh
+|   |-- Dockerfile
+|   |-- kernel_deb_build.sh
+|   |-- mkcontrol.sh
+|   |-- pre_build_debian.sh
+|   |-- qemu_deb_build.sh
+|   `-- repositories
+|       |-- build_kernel_debian
+|       |-- build_qemu_debian
+|       `-- README
+|-- build_rpm
+|   |-- build_rpms.sh
+|   |-- Dockerfile
+|   |-- kernel_rpm_build.sh
+|   |-- mkspec
+|   |-- mkversion
+|   |-- pre_build_rpm.sh
+|   |-- qemu_rpm_build.sh
+|   `-- repositories
+|       |-- build_kernel_rpm
+|       |-- build_qemu_rpm
+|       `-- README
+|-- build.sh
+|-- envs
+|   |-- create-rt-tests-rpm.sh
+|   |-- guest-cmd.sh
+|   |-- guest-modify.sh
+|   |-- guest-setup0.sh
+|   |-- guest-setup1.sh
+|   |-- host-config
+|   |-- host-run-qemu.sh
+|   |-- host-setup0.sh
+|   |-- host-setup1.sh
+|   `-- rt-tests.patch
+`-- README

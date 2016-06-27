@@ -8,14 +8,12 @@ DIR="$(dirname `readlink -f $0`)"
 function build_pkg {
   case $1 in
     ubuntu)
-      rm -rf repositories/ubuntu; mkdir -p repositories/ubuntu
       sudo docker build -t kvm .
-
-      # run /kvmfornfv/fuel-plugin/build_kvm.sh in docker
-      sudo docker run -v ${DIR}/..:/kvmfornfv -t  kvm /kvmfornfv/fuel-plugin/build_kvm.sh
-      # debug in console by the following command
-      # sudo docker run -v /kvmfornfv:/kvmfornfv -ti  kvm  /bin/bash
-      cp ${DIR}/../*.deb repositories/ubuntu
+      container_id=`sudo docker run -d kvm`
+      #container_id=`sudo docker run -d -v /home/tcs/fuel-slave/workspace/kvm-gerrit/test:/root/kvmfornfv kvm /bin/bash -c 'bash -x /root/build_kvm.sh && bash -x /root/test_build.sh'`
+      sudo docker cp $container_id:/linux-headers-4.4.6-rt14nfv_1.0.OPNFV_amd64.deb ${DIR}/repositories/ubuntu/
+      sudo docker cp $container_id:/linux-image-4.4.6-rt14nfv_1.0.OPNFV_amd64.deb ${DIR}/repositories/ubuntu/
+      sudo docker cp $container_id:/root/rpmbuild/RPMS/x86_64/. ${DIR}/repositories/centos/
     ;;
     *) echo "Not supported system"; exit 1;;
   esac

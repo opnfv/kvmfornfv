@@ -1,0 +1,24 @@
+#!/bin/bash
+
+set -eux
+
+BUILD_FOR=${BUILD_FOR:-ubuntu}
+DIR="$(dirname `readlink -f $0`)"
+
+function build_pkg {
+  case $1 in
+    ubuntu)
+      sudo docker build -t kvm .
+      container_id=`sudo docker run -d kvm`
+      sudo docker cp $container_id:/root/debbuild/DEBS/. ${DIR}/repositories/ubuntu/
+      sudo docker cp $container_id:/root/rpmbuild/RPMS/x86_64/. ${DIR}/repositories/centos/
+    ;;
+    *) echo "Not supported system"; exit 1;;
+  esac
+}
+
+for system in $BUILD_FOR
+do
+  build_pkg $system
+done
+

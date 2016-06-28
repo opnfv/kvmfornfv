@@ -1,0 +1,44 @@
+#!/bin/sh
+#
+#	Output a simple RPM spec file.
+#
+# starting to output the spec
+
+QEMURELEASE=$1
+
+__QEMURELEASE=`echo $QEMURELEASE | sed -e "s/-/_/g"`
+
+echo $srctree
+echo "Name: qemu"
+echo "Summary: The Linux qemu"
+echo "Version: $__QEMURELEASE"
+# we need to determine the NEXT version number
+# rpm -q will agree
+touch ${srctree} scripts/.version
+echo "Release: `. ${srctree} scripts/mkversion`"
+echo "License: GPLv2+ and LGPLv2+ and BSD"
+echo "Group: Development/Tools"
+echo "Vendor: The Linux Community"
+echo "URL: http://www.qemu.org"
+echo "Source: qemu-$__QEMURELEASE.tar.gz"
+echo "%description"
+echo "%prep"
+echo "     "
+echo "%setup -q"
+echo "         "
+echo "%build"
+echo "%_configure"
+echo "make"
+echo "%install"
+echo "rm -rf %{buildroot}"
+echo "make install DESTDIR=%{buildroot}"
+echo "%clean"
+echo "rm -rf %{buildroot}"
+echo "%files"
+echo "%dir"
+echo "/usr/local/share/qemu"
+echo "%doc"
+echo "/usr/local/bin/ivshmem*"
+echo "/usr/local/bin/qemu*"
+echo "/usr/local/libexec/qemu-bridge-helper"
+echo "%changelog"

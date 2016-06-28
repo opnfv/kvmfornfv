@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a7ca5a3_111dc9bd",
+        "filename": "fuel-plugin/rpm_build.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2016-06-28T18:25:50Z",
+      "side": 1,
+      "message": "Hi, Swati, a curios question. Why do we need this file here?",
+      "revId": "92f4e8e09e0c0d623f9b89ff67d5c5c82a5c5216",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a7ca5a3_b17975fe",
+        "filename": "fuel-plugin/test_build.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2016-06-28T18:25:50Z",
+      "side": 1,
+      "message": "I don\u0027t think we need proxy here?",
+      "revId": "92f4e8e09e0c0d623f9b89ff67d5c5c82a5c5216",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}

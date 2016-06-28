@@ -1,0 +1,163 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a7ca5a3_f1484dce",
+        "filename": "ci/qemu_deb_build.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2016-06-28T18:19:02Z",
+      "side": 1,
+      "message": "Do we need this for the qemu build also?",
+      "revId": "da55cfea5252c8cdeccccf524a6670233b8793f3",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a7ca5a3_513ca12f",
+        "filename": "ci/qemu_deb_build.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2016-06-28T18:19:02Z",
+      "side": 1,
+      "message": "Can we remove the blank line here?",
+      "range": {
+        "startLine": 37,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 4
+      },
+      "revId": "da55cfea5252c8cdeccccf524a6670233b8793f3",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a7ca5a3_114629c0",
+        "filename": "ci/qemu_rpm_build.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2016-06-28T18:19:02Z",
+      "side": 1,
+      "message": "Agree that have a local version is good, however, does qemu also support the localversion file? I know that kernel use the localversion file to append the version information so that \u0027uname -r\u0027 will get more information. Does QEMU has such function also?\n\nI noticed you have another file to change the qemu version, what\u0027s relationship with this line of code?\n\nThanks\n--jyh",
+      "revId": "da55cfea5252c8cdeccccf524a6670233b8793f3",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a7ca5a3_d11751a2",
+        "filename": "qemu/mkspec",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2016-06-28T18:19:02Z",
+      "side": 1,
+      "message": "A curios question, where is the code from? Is it copied from another project (OpenCon according to this header)? If yes, we may need check if the license is ok here.",
+      "revId": "da55cfea5252c8cdeccccf524a6670233b8793f3",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a7ca5a3_710c3d95",
+        "filename": "qemu/mkspec",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2016-06-28T18:19:02Z",
+      "side": 1,
+      "message": "why we care for the uname here?",
+      "revId": "da55cfea5252c8cdeccccf524a6670233b8793f3",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a7ca5a3_b112d5b2",
+        "filename": "qemu/mkspec",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2016-06-28T18:19:02Z",
+      "side": 1,
+      "message": "Can you please help to remove the ending white space?\n\nThanks\n-jyh",
+      "revId": "da55cfea5252c8cdeccccf524a6670233b8793f3",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a7ca5a3_9111d9ae",
+        "filename": "qemu/qemu_build.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2016-06-28T18:19:02Z",
+      "side": 1,
+      "message": "Can you please help to remove the ending white space? Thanks.",
+      "revId": "da55cfea5252c8cdeccccf524a6670233b8793f3",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a7ca5a3_3126c517",
+        "filename": "qemu/qemu_build.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2016-06-28T18:19:02Z",
+      "side": 1,
+      "message": "I\u0027m not sure if it\u0027s good to decide the build type based on the target directory. Would it be possible to separate the build type logic and target directory logic?\n\nThanks\n--jyh",
+      "revId": "da55cfea5252c8cdeccccf524a6670233b8793f3",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a7ca5a3_51234105",
+        "filename": "qemu/scripts/mkversion",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2016-06-28T18:19:02Z",
+      "side": 1,
+      "message": "can you please give more idea on how to create the version here? Is it changed on every invocation? Sorry I didn\u0027t get the idea.",
+      "revId": "da55cfea5252c8cdeccccf524a6670233b8793f3",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}

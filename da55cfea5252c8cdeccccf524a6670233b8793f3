@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5a7ca5a3_396c6b9c",
+        "filename": "ci/qemu_deb_build.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 4441
+      },
+      "writtenOn": "2016-06-29T07:40:08Z",
+      "side": 1,
+      "message": "This is not mandatory. In case we wish to know the timestamp for the build created, we can have this mentioned.",
+      "parentUuid": "5a7ca5a3_f1484dce",
+      "revId": "da55cfea5252c8cdeccccf524a6670233b8793f3",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a7ca5a3_513ca12f",
         "filename": "ci/qemu_deb_build.sh",
         "patchSetId": 1
@@ -30,6 +48,30 @@
       "writtenOn": "2016-06-28T18:19:02Z",
       "side": 1,
       "message": "Can we remove the blank line here?",
+      "range": {
+        "startLine": 37,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 4
+      },
+      "revId": "da55cfea5252c8cdeccccf524a6670233b8793f3",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a7ca5a3_5969278a",
+        "filename": "ci/qemu_deb_build.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 4441
+      },
+      "writtenOn": "2016-06-29T07:40:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a7ca5a3_513ca12f",
       "range": {
         "startLine": 37,
         "startChar": 0,
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "5a7ca5a3_f90593c2",
+        "filename": "ci/qemu_rpm_build.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 4441
+      },
+      "writtenOn": "2016-06-29T07:40:08Z",
+      "side": 1,
+      "message": "This line is included only to record the timestamp for the build.\nIf mkversion is the file you are referring, it is only to change the release version in mkspec (for creating a spec file)",
+      "parentUuid": "5a7ca5a3_114629c0",
+      "revId": "da55cfea5252c8cdeccccf524a6670233b8793f3",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a7ca5a3_d11751a2",
         "filename": "qemu/mkspec",
         "patchSetId": 1
@@ -76,6 +136,24 @@
     },
     {
       "key": {
+        "uuid": "5a7ca5a3_190bafd7",
+        "filename": "qemu/mkspec",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 4441
+      },
+      "writtenOn": "2016-06-29T07:40:08Z",
+      "side": 1,
+      "message": "It is the same as mentioned in kvm4nfv-kernel-mkspec file. I thought it should be same for qemu as well. In case any change required, pls let me know.",
+      "parentUuid": "5a7ca5a3_d11751a2",
+      "revId": "da55cfea5252c8cdeccccf524a6670233b8793f3",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a7ca5a3_710c3d95",
         "filename": "qemu/mkspec",
         "patchSetId": 1
@@ -87,6 +165,24 @@
       "writtenOn": "2016-06-28T18:19:02Z",
       "side": 1,
       "message": "why we care for the uname here?",
+      "revId": "da55cfea5252c8cdeccccf524a6670233b8793f3",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a7ca5a3_b90f1be1",
+        "filename": "qemu/mkspec",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 4441
+      },
+      "writtenOn": "2016-06-29T07:40:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a7ca5a3_710c3d95",
       "revId": "da55cfea5252c8cdeccccf524a6670233b8793f3",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
@@ -116,6 +212,30 @@
     },
     {
       "key": {
+        "uuid": "5a7ca5a3_d91457f7",
+        "filename": "qemu/mkspec",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 4441
+      },
+      "writtenOn": "2016-06-29T07:40:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a7ca5a3_7112fd63",
+      "range": {
+        "startLine": 27,
+        "startChar": 13,
+        "endLine": 27,
+        "endChar": 14
+      },
+      "revId": "da55cfea5252c8cdeccccf524a6670233b8793f3",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a7ca5a3_b112d5b2",
         "filename": "qemu/mkspec",
         "patchSetId": 1
@@ -127,6 +247,24 @@
       "writtenOn": "2016-06-28T18:19:02Z",
       "side": 1,
       "message": "Can you please help to remove the ending white space?\n\nThanks\n-jyh",
+      "revId": "da55cfea5252c8cdeccccf524a6670233b8793f3",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a7ca5a3_79f983c7",
+        "filename": "qemu/mkspec",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 4441
+      },
+      "writtenOn": "2016-06-29T07:40:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a7ca5a3_b112d5b2",
       "revId": "da55cfea5252c8cdeccccf524a6670233b8793f3",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
@@ -156,6 +294,30 @@
     },
     {
       "key": {
+        "uuid": "5a7ca5a3_99f6dfd6",
+        "filename": "qemu/mkspec",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 4441
+      },
+      "writtenOn": "2016-06-29T07:40:08Z",
+      "side": 1,
+      "message": "Yes, it is executing automatically.As of now, I did not mention any build_requires in the spec file.",
+      "parentUuid": "5a7ca5a3_f105ad14",
+      "range": {
+        "startLine": 40,
+        "startChar": 7,
+        "endLine": 40,
+        "endChar": 17
+      },
+      "revId": "da55cfea5252c8cdeccccf524a6670233b8793f3",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a7ca5a3_9111d9ae",
         "filename": "qemu/qemu_build.sh",
         "patchSetId": 1
@@ -167,6 +329,24 @@
       "writtenOn": "2016-06-28T18:19:02Z",
       "side": 1,
       "message": "Can you please help to remove the ending white space? Thanks.",
+      "revId": "da55cfea5252c8cdeccccf524a6670233b8793f3",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a7ca5a3_39030bba",
+        "filename": "qemu/qemu_build.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 4441
+      },
+      "writtenOn": "2016-06-29T07:40:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a7ca5a3_9111d9ae",
       "revId": "da55cfea5252c8cdeccccf524a6670233b8793f3",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
@@ -196,6 +376,30 @@
     },
     {
       "key": {
+        "uuid": "5a7ca5a3_590047aa",
+        "filename": "qemu/qemu_build.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 4441
+      },
+      "writtenOn": "2016-06-29T07:40:08Z",
+      "side": 1,
+      "message": "It is working automatically from the spec file.",
+      "parentUuid": "5a7ca5a3_d90e9734",
+      "range": {
+        "startLine": 37,
+        "startChar": 9,
+        "endLine": 37,
+        "endChar": 10
+      },
+      "revId": "da55cfea5252c8cdeccccf524a6670233b8793f3",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a7ca5a3_3126c517",
         "filename": "qemu/qemu_build.sh",
         "patchSetId": 1
@@ -213,6 +417,24 @@
     },
     {
       "key": {
+        "uuid": "5a7ca5a3_f92cb34c",
+        "filename": "qemu/qemu_build.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 4441
+      },
+      "writtenOn": "2016-06-29T07:40:08Z",
+      "side": 1,
+      "message": "It is possible to separate the build type logic and target directory logic, but I thought of targeting both the builds (rpm and deb) in a single file so mentioned this way.\nSince there is a check for destination directories for the respective builds, I think we can go with this approach.\n\nPls let me know in case of any suggestions.",
+      "parentUuid": "5a7ca5a3_3126c517",
+      "revId": "da55cfea5252c8cdeccccf524a6670233b8793f3",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a7ca5a3_51234105",
         "filename": "qemu/scripts/mkversion",
         "patchSetId": 1
@@ -224,6 +446,24 @@
       "writtenOn": "2016-06-28T18:19:02Z",
       "side": 1,
       "message": "can you please give more idea on how to create the version here? Is it changed on every invocation? Sorry I didn\u0027t get the idea.",
+      "revId": "da55cfea5252c8cdeccccf524a6670233b8793f3",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a7ca5a3_1932cfa7",
+        "filename": "qemu/scripts/mkversion",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 4441
+      },
+      "writtenOn": "2016-06-29T07:40:08Z",
+      "side": 1,
+      "message": "I will mention the creation of .version file in mkspec, so this should be invoked each time the build gets generated.",
+      "parentUuid": "5a7ca5a3_51234105",
       "revId": "da55cfea5252c8cdeccccf524a6670233b8793f3",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false

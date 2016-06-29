@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5a7ca5a3_59d8471d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 4441
+      },
+      "writtenOn": "2016-06-29T11:20:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a7ca5a3_f937d3ae",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 8,
+        "endChar": 66
+      },
+      "revId": "92f4e8e09e0c0d623f9b89ff67d5c5c82a5c5216",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a7ca5a3_193def8f",
         "filename": "INFO",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2016-06-29T07:12:00Z",
       "side": 1,
       "message": "this file contains project related stuff. Do not modify this file and add patch specific or other low level/detailed stuff.",
+      "range": {
+        "startLine": 1,
+        "startChar": 28,
+        "endLine": 1,
+        "endChar": 52
+      },
+      "revId": "92f4e8e09e0c0d623f9b89ff67d5c5c82a5c5216",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a7ca5a3_f904b37f",
+        "filename": "INFO",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4441
+      },
+      "writtenOn": "2016-06-29T11:20:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a7ca5a3_193def8f",
       "range": {
         "startLine": 1,
         "startChar": 28,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "5a7ca5a3_190acf8a",
+        "filename": "ci/build.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 4441
+      },
+      "writtenOn": "2016-06-29T11:20:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a7ca5a3_b9415b0d",
+      "range": {
+        "startLine": 55,
+        "startChar": 0,
+        "endLine": 56,
+        "endChar": 53
+      },
+      "revId": "92f4e8e09e0c0d623f9b89ff67d5c5c82a5c5216",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a7ca5a3_d9469723",
         "filename": "fuel-plugin/build_kvm.sh",
         "patchSetId": 1
@@ -82,6 +154,30 @@
       "writtenOn": "2016-06-29T07:12:00Z",
       "side": 1,
       "message": "please check your editor settings and use whitespaces instead of tabs.",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 1
+      },
+      "revId": "92f4e8e09e0c0d623f9b89ff67d5c5c82a5c5216",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a7ca5a3_793f4326",
+        "filename": "fuel-plugin/build_kvm.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 4441
+      },
+      "writtenOn": "2016-06-29T11:20:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a7ca5a3_d9469723",
       "range": {
         "startLine": 14,
         "startChar": 0,
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "5a7ca5a3_3949cbd0",
+        "filename": "fuel-plugin/post_build.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 4441
+      },
+      "writtenOn": "2016-06-29T11:20:20Z",
+      "side": 1,
+      "message": "removed",
+      "parentUuid": "5a7ca5a3_794bc32b",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 67
+      },
+      "revId": "92f4e8e09e0c0d623f9b89ff67d5c5c82a5c5216",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a7ca5a3_59bb670e",
         "filename": "fuel-plugin/pre_build_hook",
         "patchSetId": 1
@@ -128,6 +248,30 @@
       "writtenOn": "2016-06-29T07:12:00Z",
       "side": 1,
       "message": "please remove this line instead of commenting it.",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 183
+      },
+      "revId": "92f4e8e09e0c0d623f9b89ff67d5c5c82a5c5216",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a7ca5a3_993c9f31",
+        "filename": "fuel-plugin/pre_build_hook",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 4441
+      },
+      "writtenOn": "2016-06-29T11:20:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a7ca5a3_59bb670e",
       "range": {
         "startLine": 13,
         "startChar": 0,
@@ -228,6 +372,24 @@
     },
     {
       "key": {
+        "uuid": "5a7ca5a3_594607c1",
+        "filename": "fuel-plugin/test_build.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 4441
+      },
+      "writtenOn": "2016-06-29T11:20:20Z",
+      "side": 1,
+      "message": "removed",
+      "parentUuid": "5a7ca5a3_19a16ff8",
+      "revId": "92f4e8e09e0c0d623f9b89ff67d5c5c82a5c5216",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a7ca5a3_99481f2f",
         "filename": "fuel-plugin/vagrant/build_fuel_plugin.sh",
         "patchSetId": 1
@@ -239,6 +401,30 @@
       "writtenOn": "2016-06-29T07:12:00Z",
       "side": 1,
       "message": "same here. stuff from local directory.",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 35
+      },
+      "revId": "92f4e8e09e0c0d623f9b89ff67d5c5c82a5c5216",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a7ca5a3_f91273b3",
+        "filename": "fuel-plugin/vagrant/build_fuel_plugin.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 4441
+      },
+      "writtenOn": "2016-06-29T11:20:20Z",
+      "side": 1,
+      "message": "file restored",
+      "parentUuid": "5a7ca5a3_99481f2f",
       "range": {
         "startLine": 12,
         "startChar": 0,

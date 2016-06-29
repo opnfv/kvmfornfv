@@ -2,6 +2,144 @@
   "comments": [
     {
       "key": {
+        "uuid": "5a7ca5a3_f937d3ae",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 254
+      },
+      "writtenOn": "2016-06-29T07:12:00Z",
+      "side": 1,
+      "message": "Please remove this line. We don\u0027t need fancy separators in commit messages.",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 8,
+        "endChar": 66
+      },
+      "revId": "92f4e8e09e0c0d623f9b89ff67d5c5c82a5c5216",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a7ca5a3_193def8f",
+        "filename": "INFO",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 254
+      },
+      "writtenOn": "2016-06-29T07:12:00Z",
+      "side": 1,
+      "message": "this file contains project related stuff. Do not modify this file and add patch specific or other low level/detailed stuff.",
+      "range": {
+        "startLine": 1,
+        "startChar": 28,
+        "endLine": 1,
+        "endChar": 52
+      },
+      "revId": "92f4e8e09e0c0d623f9b89ff67d5c5c82a5c5216",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a7ca5a3_b9415b0d",
+        "filename": "ci/build.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 254
+      },
+      "writtenOn": "2016-06-29T07:12:00Z",
+      "side": 1,
+      "message": "remove these lines as they are commented. And do not use stuff from local directories. /home/tcs does not exist on our build servers or other CI machines.",
+      "range": {
+        "startLine": 55,
+        "startChar": 0,
+        "endLine": 56,
+        "endChar": 53
+      },
+      "revId": "92f4e8e09e0c0d623f9b89ff67d5c5c82a5c5216",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a7ca5a3_d9469723",
+        "filename": "fuel-plugin/build_kvm.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 254
+      },
+      "writtenOn": "2016-06-29T07:12:00Z",
+      "side": 1,
+      "message": "please check your editor settings and use whitespaces instead of tabs.",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 1
+      },
+      "revId": "92f4e8e09e0c0d623f9b89ff67d5c5c82a5c5216",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a7ca5a3_794bc32b",
+        "filename": "fuel-plugin/post_build.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 254
+      },
+      "writtenOn": "2016-06-29T07:12:00Z",
+      "side": 1,
+      "message": "another use of local stuff.",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 67
+      },
+      "revId": "92f4e8e09e0c0d623f9b89ff67d5c5c82a5c5216",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a7ca5a3_59bb670e",
+        "filename": "fuel-plugin/pre_build_hook",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 254
+      },
+      "writtenOn": "2016-06-29T07:12:00Z",
+      "side": 1,
+      "message": "please remove this line instead of commenting it.",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 183
+      },
+      "revId": "92f4e8e09e0c0d623f9b89ff67d5c5c82a5c5216",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a7ca5a3_111dc9bd",
         "filename": "fuel-plugin/rpm_build.sh",
         "patchSetId": 1
@@ -84,6 +222,29 @@
       "side": 1,
       "message": "Hi Yunhong,\nThis script I am running in the local environment and it is called when the fuel-plugin Dockerfile runs. According to our environment, proxy is required.\nIf you want I can remove it from here or first test it in Intel POD and then push the fresh files for review again.",
       "parentUuid": "5a7ca5a3_b17975fe",
+      "revId": "92f4e8e09e0c0d623f9b89ff67d5c5c82a5c5216",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a7ca5a3_99481f2f",
+        "filename": "fuel-plugin/vagrant/build_fuel_plugin.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 254
+      },
+      "writtenOn": "2016-06-29T07:12:00Z",
+      "side": 1,
+      "message": "same here. stuff from local directory.",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 35
+      },
       "revId": "92f4e8e09e0c0d623f9b89ff67d5c5c82a5c5216",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false

@@ -93,6 +93,29 @@
     },
     {
       "key": {
+        "uuid": "5a7ca5a3_7112fd63",
+        "filename": "qemu/mkspec",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 2165
+      },
+      "writtenOn": "2016-06-29T03:16:49Z",
+      "side": 1,
+      "message": "License of QEMU should be \u0027GPLv2+ and LGPLv2+ and BSD\u0027\nGroup: Development/Tools, not kernel\nand you should put the URL for QEMU here, not the URL for kernel.",
+      "range": {
+        "startLine": 27,
+        "startChar": 13,
+        "endLine": 27,
+        "endChar": 14
+      },
+      "revId": "da55cfea5252c8cdeccccf524a6670233b8793f3",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a7ca5a3_b112d5b2",
         "filename": "qemu/mkspec",
         "patchSetId": 1
@@ -110,6 +133,29 @@
     },
     {
       "key": {
+        "uuid": "5a7ca5a3_f105ad14",
+        "filename": "qemu/mkspec",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 2165
+      },
+      "writtenOn": "2016-06-29T03:16:49Z",
+      "side": 1,
+      "message": "I did not see any \u0027./configure xxx\u0027 in the spec file, will it exec automatically? And how to solve the build requires?",
+      "range": {
+        "startLine": 40,
+        "startChar": 7,
+        "endLine": 40,
+        "endChar": 17
+      },
+      "revId": "da55cfea5252c8cdeccccf524a6670233b8793f3",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a7ca5a3_9111d9ae",
         "filename": "qemu/qemu_build.sh",
         "patchSetId": 1
@@ -121,6 +167,29 @@
       "writtenOn": "2016-06-28T18:19:02Z",
       "side": 1,
       "message": "Can you please help to remove the ending white space? Thanks.",
+      "revId": "da55cfea5252c8cdeccccf524a6670233b8793f3",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a7ca5a3_d90e9734",
+        "filename": "qemu/qemu_build.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 2165
+      },
+      "writtenOn": "2016-06-29T03:16:49Z",
+      "side": 1,
+      "message": "How to do the \u0027configure xxx\u0027? There is no check for libraries and tools required to build QEMU, it seems you plan to let the users solve this before running you build script, right?",
+      "range": {
+        "startLine": 37,
+        "startChar": 9,
+        "endLine": 37,
+        "endChar": 10
+      },
       "revId": "da55cfea5252c8cdeccccf524a6670233b8793f3",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false

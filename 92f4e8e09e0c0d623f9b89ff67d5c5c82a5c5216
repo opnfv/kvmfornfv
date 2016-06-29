@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "5a7ca5a3_f9827351",
+        "filename": "fuel-plugin/rpm_build.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2016-06-29T06:31:34Z",
+      "side": 1,
+      "message": "I\u0027m not sure if we really need duplicate the file on two directories. But I\u0027m not well on docker, leave this to David to see if he can think out some better idea.",
+      "parentUuid": "5a7ca5a3_b9a5db05",
+      "revId": "92f4e8e09e0c0d623f9b89ff67d5c5c82a5c5216",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a7ca5a3_b17975fe",
         "filename": "fuel-plugin/test_build.sh",
         "patchSetId": 1

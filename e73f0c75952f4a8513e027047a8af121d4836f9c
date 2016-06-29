@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a7ca5a3_1c3ddd8f",
+        "filename": "ci/build.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 608
+      },
+      "writtenOn": "2016-06-29T15:58:25Z",
+      "side": 1,
+      "message": "I suggest to use ${rpmbuild_dir}",
+      "range": {
+        "startLine": 4,
+        "startChar": 14,
+        "endLine": 4,
+        "endChar": 26
+      },
+      "revId": "e73f0c75952f4a8513e027047a8af121d4836f9c",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a7ca5a3_bc41490d",
+        "filename": "ci/build.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 608
+      },
+      "writtenOn": "2016-06-29T15:58:25Z",
+      "side": 1,
+      "message": "please replace 5-10 lines with below:\nartifact_dir\u003d${rpmbuild_dir}/RPMS/x86_64\nmkdir -p $artifact_dir",
+      "range": {
+        "startLine": 10,
+        "startChar": 10,
+        "endLine": 10,
+        "endChar": 22
+      },
+      "revId": "e73f0c75952f4a8513e027047a8af121d4836f9c",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a7ca5a3_dc468523",
+        "filename": "ci/build.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 608
+      },
+      "writtenOn": "2016-06-29T15:58:25Z",
+      "side": 1,
+      "message": "May I know the reason for removing below line from original file\ncp -f ${artifact_dir}/* ${output_dir}",
+      "range": {
+        "startLine": 53,
+        "startChar": 0,
+        "endLine": 53,
+        "endChar": 2
+      },
+      "revId": "e73f0c75952f4a8513e027047a8af121d4836f9c",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a7ca5a3_9c480d2f",
+        "filename": "fuel-plugin/build_kvm.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 608
+      },
+      "writtenOn": "2016-06-29T15:58:25Z",
+      "side": 1,
+      "message": "please use whitespaces instead of tabs for all your changes in this file.",
+      "range": {
+        "startLine": 9,
+        "startChar": 6,
+        "endLine": 9,
+        "endChar": 8
+      },
+      "revId": "e73f0c75952f4a8513e027047a8af121d4836f9c",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a7ca5a3_bc5869fb",
+        "filename": "fuel-plugin/build_kvm.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 608
+      },
+      "writtenOn": "2016-06-29T15:58:25Z",
+      "side": 1,
+      "message": "what is SRC here? where you defined. I guess, you removed from original file.",
+      "range": {
+        "startLine": 13,
+        "startChar": 11,
+        "endLine": 13,
+        "endChar": 14
+      },
+      "revId": "e73f0c75952f4a8513e027047a8af121d4836f9c",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a7ca5a3_fc0581c2",
+        "filename": "fuel-plugin/pre_build_hook",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 608
+      },
+      "writtenOn": "2016-06-29T15:58:25Z",
+      "side": 1,
+      "message": "May I know reason for removing rm -rf repositories/ubuntu.. line from original file?",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 6
+      },
+      "revId": "e73f0c75952f4a8513e027047a8af121d4836f9c",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}

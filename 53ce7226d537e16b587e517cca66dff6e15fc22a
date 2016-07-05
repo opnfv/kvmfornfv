@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "5a7ca5a3_9820109d",
+        "filename": "fuel-plugin/build_kvm.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 4441
+      },
+      "writtenOn": "2016-07-05T04:35:18Z",
+      "side": 1,
+      "message": "I agree, you can directly do cd $SRC/kvmfornfv/qemu instead of checking out the master again.\nAlso, you can refer to the updated build_kvm.sh file for kernel deb\u0027s.",
+      "range": {
+        "startLine": 133,
+        "startChar": 1,
+        "endLine": 133,
+        "endChar": 18
+      },
+      "revId": "53ce7226d537e16b587e517cca66dff6e15fc22a",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a7ca5a3_6c09c830",
         "filename": "fuel-plugin/build_kvm.sh",
         "patchSetId": 1

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5a7ca5a3_3ff1abcd",
+        "filename": "ci/build.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 4441
+      },
+      "writtenOn": "2016-07-06T11:57:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a7ca5a3_1c3ddd8f",
+      "range": {
+        "startLine": 4,
+        "startChar": 14,
+        "endLine": 4,
+        "endChar": 26
+      },
+      "revId": "e73f0c75952f4a8513e027047a8af121d4836f9c",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a7ca5a3_bc41490d",
         "filename": "ci/build.sh",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2016-06-29T15:58:25Z",
       "side": 1,
       "message": "please replace 5-10 lines with below:\nartifact_dir\u003d${rpmbuild_dir}/RPMS/x86_64\nmkdir -p $artifact_dir",
+      "range": {
+        "startLine": 10,
+        "startChar": 10,
+        "endLine": 10,
+        "endChar": 22
+      },
+      "revId": "e73f0c75952f4a8513e027047a8af121d4836f9c",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a7ca5a3_9fe47f0e",
+        "filename": "ci/build.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 4441
+      },
+      "writtenOn": "2016-07-06T11:57:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a7ca5a3_bc41490d",
       "range": {
         "startLine": 10,
         "startChar": 10,
@@ -128,6 +176,30 @@
       "writtenOn": "2016-06-29T15:58:25Z",
       "side": 1,
       "message": "May I know reason for removing rm -rf repositories/ubuntu.. line from original file?",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 6
+      },
+      "revId": "e73f0c75952f4a8513e027047a8af121d4836f9c",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a7ca5a3_ffba53e0",
+        "filename": "fuel-plugin/pre_build_hook",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 4441
+      },
+      "writtenOn": "2016-07-06T11:57:29Z",
+      "side": 1,
+      "message": "added for centos as well",
+      "parentUuid": "5a7ca5a3_fc0581c2",
       "range": {
         "startLine": 11,
         "startChar": 0,

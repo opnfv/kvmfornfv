@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a7ca5a3_5ba109f7",
+        "filename": "ci/build_kernel_rpm_deb/Dockerfile",
+        "patchSetId": 6
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2016-07-11T18:09:05Z",
+      "side": 1,
+      "message": "I remember David suggest to build only deb, as he stated in \nhttps://gerrit.opnfv.org/gerrit/#/c/16001/, \"Since Fuel 9.0 (the deployment tool of OPNFV Colorado release) wouldn\u0027t support Centos in compute node, so fuel-plugin doesn\u0027t need *.rpm files, only need *.deb files. Building *.rpm files just waste time for this case. \". Seems this can\u0027t be achieved with this dockerfile?\n\nAlso, I\u0027m poor on docker, but curios if one docker file can run both debian package and rpm package? For example, can it run both the \u0027yum\u0027 and also the \u0027apt-get\u0027?",
+      "revId": "a02092c3c38c69d22b77dd2641ec6f63e985b3aa",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a7ca5a3_3b9c4dc0",
+        "filename": "ci/build_kernel_rpm_deb/README.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2016-07-11T18:09:05Z",
+      "side": 1,
+      "message": "I\u0027d suggest for the line wrap.",
+      "revId": "a02092c3c38c69d22b77dd2641ec6f63e985b3aa",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a7ca5a3_7b62c5d9",
+        "filename": "ci/build_kernel_rpm_deb/build_deb_kvm.sh",
+        "patchSetId": 6
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2016-07-11T18:09:05Z",
+      "side": 1,
+      "message": "Why we don\u0027t apply these patches on the rpm build? A bit curios.",
+      "revId": "a02092c3c38c69d22b77dd2641ec6f63e985b3aa",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a7ca5a3_9b5fa10e",
+        "filename": "ci/build_kernel_rpm_deb/build_rpm_kvm.sh",
+        "patchSetId": 6
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2016-07-11T18:09:05Z",
+      "side": 1,
+      "message": "So there is no such check on the deb package building?",
+      "revId": "a02092c3c38c69d22b77dd2641ec6f63e985b3aa",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a7ca5a3_fba57504",
+        "filename": "ci/build_kernel_rpm_deb/build_rpm_package.sh",
+        "patchSetId": 6
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2016-07-11T18:09:05Z",
+      "side": 1,
+      "message": "why do we need the copy here?",
+      "revId": "a02092c3c38c69d22b77dd2641ec6f63e985b3aa",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}

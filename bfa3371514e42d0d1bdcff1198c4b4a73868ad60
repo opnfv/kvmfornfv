@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a7ca5a3_4106f8cf",
+        "filename": "fuel-plugin/vagrant/build_fuel_plugin.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 3363
+      },
+      "writtenOn": "2016-07-12T23:02:36Z",
+      "side": 1,
+      "message": "Any special reason to copy to /vagrant intead of the original /kvmfornfv/fuel-plugin/? For consistency through all fuel-plugins?",
+      "range": {
+        "startLine": 13,
+        "startChar": 9,
+        "endLine": 13,
+        "endChar": 10
+      },
+      "revId": "bfa3371514e42d0d1bdcff1198c4b4a73868ad60",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}

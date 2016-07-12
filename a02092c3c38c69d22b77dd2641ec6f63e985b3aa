@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5a7ca5a3_db23d903",
+        "filename": "ci/build_kernel_rpm_deb/Dockerfile",
+        "patchSetId": 6
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 4441
+      },
+      "writtenOn": "2016-07-12T07:26:45Z",
+      "side": 1,
+      "message": "Hi Yunhong,\n\nThis docker file creates an ubuntu container, and builds both rpm and debian packages inside it.\n\nI guess David mentioned his comments for the fuel-plugin scripts, but I have placed these files in the \u0027ci\" sub-folder.\n\nBelow, were his comments-\n\" I would like to recommend that you first put your generic build script in other place (e.g. in ci subholder) and your generic build script should let caller to choose what files the caller needs (*.deb, *.rpm, or others for kernel case), and only build those files, so will not spend unnecessary time to build files that the caller doesn\u0027t need. \"\n\nPlease let me know if any modifications are required.",
+      "parentUuid": "5a7ca5a3_5ba109f7",
+      "revId": "a02092c3c38c69d22b77dd2641ec6f63e985b3aa",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a7ca5a3_3b9c4dc0",
         "filename": "ci/build_kernel_rpm_deb/README.txt",
         "patchSetId": 6
@@ -30,6 +48,24 @@
       "writtenOn": "2016-07-11T18:09:05Z",
       "side": 1,
       "message": "I\u0027d suggest for the line wrap.",
+      "revId": "a02092c3c38c69d22b77dd2641ec6f63e985b3aa",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a7ca5a3_5b7fc9e0",
+        "filename": "ci/build_kernel_rpm_deb/README.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 4441
+      },
+      "writtenOn": "2016-07-12T07:26:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a7ca5a3_3b9c4dc0",
       "revId": "a02092c3c38c69d22b77dd2641ec6f63e985b3aa",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "5a7ca5a3_7b4e45c3",
+        "filename": "ci/build_kernel_rpm_deb/build_deb_kvm.sh",
+        "patchSetId": 6
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 4441
+      },
+      "writtenOn": "2016-07-12T07:26:45Z",
+      "side": 1,
+      "message": "This deb_build script is being provided by the fuel-plugin and we are reusing the same pattern here.\n\nPlease let me know if I should change it for package application and make both the files similar as well.",
+      "parentUuid": "5a7ca5a3_7b62c5d9",
+      "revId": "a02092c3c38c69d22b77dd2641ec6f63e985b3aa",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a7ca5a3_9b5fa10e",
         "filename": "ci/build_kernel_rpm_deb/build_rpm_kvm.sh",
         "patchSetId": 6
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "5a7ca5a3_db519963",
+        "filename": "ci/build_kernel_rpm_deb/build_rpm_kvm.sh",
+        "patchSetId": 6
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 4441
+      },
+      "writtenOn": "2016-07-12T07:26:45Z",
+      "side": 1,
+      "message": "Hi Yunhong, \n\nHere, I am reusing the same kvmfornfv/ci/build.sh file existing in the tree, with slight modifications.\n\nAs per what is already available, there is no checking for the package. If you want, I can include that code.",
+      "parentUuid": "5a7ca5a3_9b5fa10e",
+      "revId": "a02092c3c38c69d22b77dd2641ec6f63e985b3aa",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a7ca5a3_fba57504",
         "filename": "ci/build_kernel_rpm_deb/build_rpm_package.sh",
         "patchSetId": 6
@@ -81,6 +153,24 @@
       "writtenOn": "2016-07-11T18:09:05Z",
       "side": 1,
       "message": "why do we need the copy here?",
+      "revId": "a02092c3c38c69d22b77dd2641ec6f63e985b3aa",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a7ca5a3_1b8951eb",
+        "filename": "ci/build_kernel_rpm_deb/build_rpm_package.sh",
+        "patchSetId": 6
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 4441
+      },
+      "writtenOn": "2016-07-12T07:26:45Z",
+      "side": 1,
+      "message": "Some parameters have been modified for the rpm_build.sh on the slave, which gets copied to the Docker container using Dockerfile. \nNow, its better to copy this changed file inside the same kvmfornfv/ci/ structure for similarity with the existing kvmfornfv tree code.",
+      "parentUuid": "5a7ca5a3_fba57504",
       "revId": "a02092c3c38c69d22b77dd2641ec6f63e985b3aa",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false

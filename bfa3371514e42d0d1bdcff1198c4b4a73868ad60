@@ -46,6 +46,30 @@
       "revId": "bfa3371514e42d0d1bdcff1198c4b4a73868ad60",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a7ca5a3_c6ce995a",
+        "filename": "fuel-plugin/vagrant/build_fuel_plugin.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2016-07-14T17:48:11Z",
+      "side": 1,
+      "message": "I have always being told that we are using debian package and support only ubuntu. So what\u0027s the RPM? Is it used on the controller node which I was told is based on CentOS?",
+      "parentUuid": "5a7ca5a3_dc3e6fb8",
+      "range": {
+        "startLine": 13,
+        "startChar": 9,
+        "endLine": 13,
+        "endChar": 10
+      },
+      "revId": "bfa3371514e42d0d1bdcff1198c4b4a73868ad60",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }

@@ -125,6 +125,24 @@
     },
     {
       "key": {
+        "uuid": "5a7ca5a3_c95b0a53",
+        "filename": "ci/build_kernel_rpm_deb/build_deb_kvm.sh",
+        "patchSetId": 6
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 4441
+      },
+      "writtenOn": "2016-07-15T11:15:57Z",
+      "side": 1,
+      "message": "Hi Yunhong, for more clarity it will be good if we can discuss this offline.",
+      "parentUuid": "5a7ca5a3_89ee72eb",
+      "revId": "a02092c3c38c69d22b77dd2641ec6f63e985b3aa",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a7ca5a3_9b5fa10e",
         "filename": "ci/build_kernel_rpm_deb/build_rpm_kvm.sh",
         "patchSetId": 6
@@ -206,6 +224,24 @@
       "writtenOn": "2016-07-15T04:59:46Z",
       "side": 1,
       "message": "so we will build both rpms and debian here?",
+      "revId": "a02092c3c38c69d22b77dd2641ec6f63e985b3aa",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a7ca5a3_49505a32",
+        "filename": "ci/build_kernel_rpm_deb/pre_build_hook",
+        "patchSetId": 6
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 4441
+      },
+      "writtenOn": "2016-07-15T11:15:57Z",
+      "side": 1,
+      "message": "Yes Yunhong, this will build both rpms and debs in ubuntu docker (by running the scripts mentioned in the Dockerfile).\n\nAfter building both of them,they will be copied to the host.",
+      "parentUuid": "5a7ca5a3_29bb9ee6",
       "revId": "a02092c3c38c69d22b77dd2641ec6f63e985b3aa",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false

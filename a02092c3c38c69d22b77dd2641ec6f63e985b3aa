@@ -107,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "5a7ca5a3_89ee72eb",
+        "filename": "ci/build_kernel_rpm_deb/build_deb_kvm.sh",
+        "patchSetId": 6
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2016-07-15T04:59:46Z",
+      "side": 1,
+      "message": "Hi, Swati\n    I\u0027d give a little bit more background here. Previously we have the kvm/ci/build.sh which is used to build the artifact by CI. Late, when we added the fuel plugin, as it\u0027s in the very late stage of the B release, fuel team created a patch to build the debian package.\n\n    So there are two building process and they does not match it. This will in the end bring trouble to us. As we discussed on the meeting, we should have only building utilities for both CI and fuel, although they may have their own wrapper if needed.\n\n   Just considering this patch. That means, if some patch on the $SRC/kvmfornfv/patches/, these patches will be integrated in the ISO built from fuel plugin debian package and used by the end user, but they are not tested on the rpm packages that is tested on the PoD machines. I think that\u0027s not good IMHO.",
+      "parentUuid": "5a7ca5a3_7b4e45c3",
+      "revId": "a02092c3c38c69d22b77dd2641ec6f63e985b3aa",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a7ca5a3_9b5fa10e",
         "filename": "ci/build_kernel_rpm_deb/build_rpm_kvm.sh",
         "patchSetId": 6
@@ -171,6 +189,23 @@
       "side": 1,
       "message": "Some parameters have been modified for the rpm_build.sh on the slave, which gets copied to the Docker container using Dockerfile. \nNow, its better to copy this changed file inside the same kvmfornfv/ci/ structure for similarity with the existing kvmfornfv tree code.",
       "parentUuid": "5a7ca5a3_fba57504",
+      "revId": "a02092c3c38c69d22b77dd2641ec6f63e985b3aa",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a7ca5a3_29bb9ee6",
+        "filename": "ci/build_kernel_rpm_deb/pre_build_hook",
+        "patchSetId": 6
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2016-07-15T04:59:46Z",
+      "side": 1,
+      "message": "so we will build both rpms and debian here?",
       "revId": "a02092c3c38c69d22b77dd2641ec6f63e985b3aa",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false

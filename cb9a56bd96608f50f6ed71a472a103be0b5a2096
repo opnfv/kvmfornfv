@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_79a0bff4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2016-07-18T20:53:02Z",
+      "side": 1,
+      "message": "This patch is only for QEMU, no kernel, am I right?",
+      "revId": "cb9a56bd96608f50f6ed71a472a103be0b5a2096",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_599b83c9",
+        "filename": "ci/build_qemu_rpm_deb/qemu_rpm_build.sh",
+        "patchSetId": 6
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2016-07-18T20:53:02Z",
+      "side": 1,
+      "message": "So basically we try to find the latest builtout here, am I right? \n\nWe will need such check when we use docker for the building in future?",
+      "revId": "cb9a56bd96608f50f6ed71a472a103be0b5a2096",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}

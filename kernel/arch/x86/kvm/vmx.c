@@ -1101,9 +1101,6 @@ static inline bool cpu_has_broken_vmx_preemption_timer(void)
 
 static inline bool cpu_has_vmx_preemption_timer(void)
 {
-	if (cpu_has_broken_vmx_preemption_timer())
-		return false;
-
 	return vmcs_config.pin_based_exec_ctrl &
 		PIN_BASED_VMX_PREEMPTION_TIMER;
 }
@@ -3279,6 +3276,9 @@ static __init int setup_vmcs_config(struct vmcs_config *vmcs_conf)
 	if (adjust_vmx_controls(min, opt, MSR_IA32_VMX_PINBASED_CTLS,
 				&_pin_based_exec_control) < 0)
 		return -EIO;
+
+	if (cpu_has_broken_vmx_preemption_timer())
+		_pin_based_exec_control &= ~PIN_BASED_VMX_PREEMPTION_TIMER;
 
 	if (!(_cpu_based_2nd_exec_control &
 		SECONDARY_EXEC_VIRTUAL_INTR_DELIVERY) ||

@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "1a76adc5_28dd0f43",
+        "filename": "ci/build_qemu_rpm_deb/mkcontrol.sh",
+        "patchSetId": 7
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 2165
+      },
+      "writtenOn": "2016-07-21T06:45:19Z",
+      "side": 1,
+      "message": "Control file is also needed when building on Ubuntu, right?",
+      "range": {
+        "startLine": 8,
+        "startChar": 57,
+        "endLine": 8,
+        "endChar": 63
+      },
+      "revId": "853d63d099ec2f098f1f36350ec0c5095c3f4fd1",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_482bab30",
         "filename": "ci/build_qemu_rpm_deb/qemu_rpm_build.sh",
         "patchSetId": 7

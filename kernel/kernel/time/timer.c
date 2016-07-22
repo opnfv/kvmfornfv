@@ -1509,8 +1509,36 @@ static void run_timer_softirq(struct softirq_action *h)
  */
 void run_local_timers(void)
 {
+	struct tvec_base *base = this_cpu_ptr(&tvec_bases);
+
 	hrtimer_run_queues();
-	raise_softirq(TIMER_SOFTIRQ);
+	/*
+	 * We can access this lockless as we are in the timer
+	 * interrupt. If there are no timers queued, nothing to do in
+	 * the timer softirq.
+	 */
+#ifdef CONFIG_PREEMPT_RT_FULL
+	if (irq_work_needs_cpu()) {
+		raise_softirq(TIMER_SOFTIRQ);
+		return;
+	}
+	if (!spin_do_trylock(&base->lock)) {
+		raise_softirq(TIMER_SOFTIRQ);
+		return;
+	}
+#endif
+	if (!base->active_timers)
+		goto out;
+
+	/* Check whether the next pending timer has expired */
+	if (time_before_eq(base->next_timer, jiffies))
+		raise_softirq(TIMER_SOFTIRQ);
+out:
+#ifdef CONFIG_PREEMPT_RT_FULL
+	rt_spin_unlock(&base->lock);
+#endif
+	/* The ; ensures that gcc won't complain in the !RT case */
+	;
 }
 
 #ifdef __ARCH_WANT_SYS_ALARM

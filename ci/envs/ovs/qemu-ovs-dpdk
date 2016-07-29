@@ -1,0 +1,71 @@
+#!/bin/bash
+
+MYDIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+source $MYDIR/../host-config
+
+cpumask () {
+    m=$((1<<${1}))
+    printf 0x%x ${m}
+}
+
+FPGA_PCI=`lspci -n | grep "1172:0004" | cut -d ' ' -f 1`
+qemu=/usr/local/bin/qemu-system-x86_64
+#qemu=/usr/libexec/qemu-kvm
+#qemu=/usr/libexec/qemu-kvm
+
+#if [ -f "/sys/bus/pci/devices/0000:$FPGA_PCI/driver/unbind" ] ; then
+#  echo 0000:$FPGA_PCI>/sys/bus/pci/devices/0000:$FPGA_PCI/driver/unbind
+#fi
+
+#modprobe vfio-pci
+#bash -c "echo 1172 0004 > /sys/bus/pci/drivers/vfio-pci/new_id"
+
+qmp_sock="/tmp/qmp-sock"
+
+/usr/local/bin/qemu-system-x86_64 -smp 4 -monitor unix:${qmp_sock},server,nowait -daemonize \
+    -cpu host,migratable=off,+invtsc,+tsc-deadline,pmu=off \
+    -realtime mlock=on -mem-prealloc -enable-kvm -m 8G \
+    -netdev user,id=guest0,hostfwd=tcp::5555-:22 \
+    -device virtio-net-pci,netdev=guest0 \
+    -chardev socket,id=char1,path=/usr/local/var/run/openvswitch/vhost-user-1 \
+    -netdev type=vhost-user,id=mynet1,chardev=char1,vhostforce	\
+    -device virtio-net-pci,netdev=mynet1 \
+    -chardev socket,id=char2,path=/usr/local/var/run/openvswitch/vhost-user-2 \
+    -netdev type=vhost-user,id=mynet2,chardev=char2,vhostforce	\
+    -device virtio-net-pci,netdev=mynet2 \
+    -drive file=/home/nfv/img/rt-test-1.img,cache=none,aio=threads \
+    -boot c \
+    -object memory-backend-file,id=mem,size=8G,mem-path=/dev/hugepages,share=on	\
+    -numa node,memdev=mem \
+    -nographic -serial unix:/tmp/guest-com1,server,nowait -parallel /dev/null
+
+    #-device vfio-pci,host=$FPGA_PCI \
+    #-drive file=/home/yjiang5/work/img/rt-test-1.img,cache=none,aio=threads \
+    #-drive file=/home/yjiang5/work/img/rt-test-1.img,cache=none,aio=threads \
+    #-drive file=/home/yjiang5/work/img/fed.qcow2,cache=none,aio=threads \
+    #-drive file=/home/yjiang5/work/img/centos.img,cache=none,aio=threads \
+    #-nographic -serial unix:/tmp/guest-com1,server,nowait -parallel /dev/null
+i=0
+
+for c in $qemu_cpus ; do
+    cpu[$i]=${c}
+    i=`expr $i + 1`
+done
+
+threads=`echo "info cpus" | nc -U ${qmp_sock} | grep thread_id | cut -d= -f3`
+
+i=0
+for tid in ${threads} ; do
+    tid=`printf %d ${tid}`  # this is required to get rid of cr at end
+    mask=`cpumask ${cpu[$i]}`
+    taskset -p ${mask} ${tid}
+    i=`expr $i + 1`
+done
+#
+#sleep 30s
+#guest=localhost
+#ssh -p 5555 -t nfv@${guest} sudo ./guest-setup.sh
+#
+#irq=`cat /proc/interrupts | grep "vfio-msi.*0000:$FPGA_PCI" | cut -d ':' -f 1`
+#irq=${irq#' '}
+#echo ${cpu[$guest_isolcpus]} > /proc/irq/${irq}/smp_affinity_list

@@ -1,0 +1,18 @@
+host_isolcpus="33 34"
+numa_node=1
+guest_isolcpus=1
+cpu2collect=35
+passthru_nics="81:00.0 81:00.1"
+hugepages_conf=16
+
+### DPDK config ######
+DPDK_ROOT=/home/nfv/work/dpdk/
+
+### OVS config #######
+misc_cpus="19 20 21 22 23 24"
+pmd_cpus="25"
+qemu_cpus="26 27 28 29"
+OVS_DIR=/home/nfv/work/ovs/
+
+### Misc ###
+packethost=otcbuild01.sc.intel.com

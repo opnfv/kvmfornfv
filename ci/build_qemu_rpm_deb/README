@@ -1,0 +1,23 @@
+This file provides information about the files in current directory.
+
+################## QEMU DEBIAN/RPM BUILDS #################
+
+
+mkspec : This file generates a  specification file used for rpm builds. 
+Licence, vendor, version group etc, parameters will be mentioned
+in this file.
+
+mkcontrol : This file generates a control file used for debian builds.
+Package, Maintainer, Priority, Architecture etc, parameters
+will be mentioned in this file.
+
+mkversion : This file updates the release number for every rpm build.
+
+qemu_build.sh :  This file contains variables and checks for all input and output
+directories, which can be sourced later.
+
+qemu_rpm_build.sh : This script generates qemu rpm build.
+
+qemu_deb_build.sh : This script generates qemu debian build.
+ 
+

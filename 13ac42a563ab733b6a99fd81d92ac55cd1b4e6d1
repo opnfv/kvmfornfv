@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_d19bd5c7",
+        "filename": "ci/build.sh",
+        "patchSetId": 11
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 483
+      },
+      "writtenOn": "2016-08-03T03:57:06Z",
+      "side": 1,
+      "message": "is ok for this:\n\nchoice\u003d$1\necho \"Build $choice\"\n\nor\nthere is a debug switch, debug\u003dtrue, and set -x instead of echo everything",
+      "range": {
+        "startLine": 3,
+        "startChar": 0,
+        "endLine": 6,
+        "endChar": 33
+      },
+      "revId": "13ac42a563ab733b6a99fd81d92ac55cd1b4e6d1",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_315fa910",
+        "filename": "ci/build.sh",
+        "patchSetId": 11
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 483
+      },
+      "writtenOn": "2016-08-03T03:57:06Z",
+      "side": 1,
+      "message": "try this format: easier to read\n\n\"debian\") \n    echo \"Build debians\"\n    cd ci/build_deb\n    ./pre_build_debian.sh \n    ;;",
+      "range": {
+        "startLine": 6,
+        "startChar": 3,
+        "endLine": 9,
+        "endChar": 5
+      },
+      "revId": "13ac42a563ab733b6a99fd81d92ac55cd1b4e6d1",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_f1a051f6",
+        "filename": "ci/build.sh",
+        "patchSetId": 11
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 483
+      },
+      "writtenOn": "2016-08-03T03:57:06Z",
+      "side": 1,
+      "message": "a absolute path is more easy to use. cd .. is something strange.",
+      "range": {
+        "startLine": 17,
+        "startChar": 6,
+        "endLine": 17,
+        "endChar": 21
+      },
+      "revId": "13ac42a563ab733b6a99fd81d92ac55cd1b4e6d1",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_51f905c7",
+        "filename": "ci/build_deb/Dockerfile",
+        "patchSetId": 11
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 483
+      },
+      "writtenOn": "2016-08-03T03:57:06Z",
+      "side": 1,
+      "message": "vim is used for interactive modification, is it necessary?",
+      "range": {
+        "startLine": 5,
+        "startChar": 100,
+        "endLine": 5,
+        "endChar": 103
+      },
+      "revId": "13ac42a563ab733b6a99fd81d92ac55cd1b4e6d1",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_71f681d9",
+        "filename": "ci/build_deb/pre_build_debian.sh",
+        "patchSetId": 11
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 483
+      },
+      "writtenOn": "2016-08-03T03:57:06Z",
+      "side": 1,
+      "message": "if we use -v parameter to run the docker, no necessary to cp the output",
+      "range": {
+        "startLine": 13,
+        "startChar": 12,
+        "endLine": 13,
+        "endChar": 98
+      },
+      "revId": "13ac42a563ab733b6a99fd81d92ac55cd1b4e6d1",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}

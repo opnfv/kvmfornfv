@@ -38,7 +38,8 @@ cp -f ${config_file} "${kernel_src_dir}/.config"
 # Make timestamp part of version string for automated kernel boot verification
 date "+-%y%m%d%H%M" > "${kernel_src_dir}/localversion-zzz"
 
-( cd ${kernel_src_dir}; make RPMOPTS="--define '_topdir ${rpmbuild_dir}'" rpm-pkg )
+#( cd ${kernel_src_dir}; make -j20 RPMOPTS="--define '_topdir ${rpmbuild_dir}'" rpm-pkg )
+( cd ${kernel_src_dir}; INSTALL_MOD_STRIP=1 make RPMOPTS="--define '_topdir ${rpmbuild_dir}'" rpm-pkg )
 if [ ${?} -ne 0 ] ; then
     echo "${0}: Kernel build failed"
     rm -rf ${rpmbuild_dir}

@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_73b0c1dd",
+        "filename": "ci/build.sh",
+        "patchSetId": 14
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2016-08-09T02:43:52Z",
+      "side": 1,
+      "message": "I think this change is not good because, currently the jjb passing a directory as output, with this change, that parameter in fact is ignored. Also, with this changes, the final result directory is fixed as the ./build_output directory.\n\nI\u0027m not strongly against this fixed-directory method if it\u0027s very hard to achieve the original protocol (I suppose the tricky part is to passing that directory to the docker?), otherwise I\u0027d think it\u0027s good to provide the flexibility of the output directory and also keep the protocol with releng.\n\nI\u0027d think something like below. You can achieve it with getopts if needed.\n\nci/build.sh -e ubuntu/both/centos output_dir",
+      "revId": "bb7e79f89a442c634b6955805f41f21a93baedc9",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_13aaad70",
+        "filename": "ci/build.sh",
+        "patchSetId": 14
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2016-08-09T02:43:52Z",
+      "side": 1,
+      "message": "This pre_build_xxx.sh is something confusing to me.\n\nNormally if we have pre_XXX, I assume it will be something like:\n\npre_xxx\n\nxxx\n\npost_xxx (this can be optional)\n\ni.e. there pre_xxx means it\u0027s a preparation for a task, then the next step will invoke the task. But on your patch, there is pre_xxx but no invoking the real task, a little bit strange to me.\n\n\nThanks\n--jyh",
+      "revId": "bb7e79f89a442c634b6955805f41f21a93baedc9",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_f3acd18e",
+        "filename": "ci/build.sh",
+        "patchSetId": 14
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2016-08-09T02:43:52Z",
+      "side": 1,
+      "message": "not very sure, but normally I think we will back to the original directory in the end? So that the caller will not be surprised that the working directory is changed.",
+      "revId": "bb7e79f89a442c634b6955805f41f21a93baedc9",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_93b55dcf",
+        "filename": "ci/build.sh",
+        "patchSetId": 14
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2016-08-09T02:43:52Z",
+      "side": 1,
+      "message": "I\u0027d suppose that if user does not input anything (i.e. by default, and choice is empty) or if input \u0027centos\u0027, it will be \u0027centos\u0027, but if user input \u0027ubunt\u0027 (please notice missing \u0027u\u0027), it will be a warning.\n\nyour idea?\n\nThanks\n--jyh",
+      "revId": "bb7e79f89a442c634b6955805f41f21a93baedc9",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_b3b659db",
+        "filename": "ci/build_rpm/kernel_rpm_build.sh",
+        "patchSetId": 14
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2016-08-09T02:43:52Z",
+      "side": 1,
+      "message": "I think we discussed this before. I\u0027m not sure if we need such check on kernel_deb_build.sh also.",
+      "revId": "bb7e79f89a442c634b6955805f41f21a93baedc9",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_d3bbd5c2",
+        "filename": "ci/build_rpm/kernel_rpm_build.sh",
+        "patchSetId": 14
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2016-08-09T02:43:52Z",
+      "side": 1,
+      "message": "The same here. Do we need this format for the ubuntu package? David, do you have any idea?",
+      "revId": "bb7e79f89a442c634b6955805f41f21a93baedc9",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}

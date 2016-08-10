@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_dd5c3f28",
+        "filename": "ci/test_kvmfornfv.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2016-08-10T04:47:00Z",
+      "side": 1,
+      "message": "I remember per the discussion with the Fatih, we should download the rpms from the artifact repo? Per the discussion, the building script is executed on the build server while the test scripts is executed on the PoD1. I\u0027m sure the $Workspace/build_out has no rpms on the test machine, if we have the $workspace there.\n\nI even have no idea if there will be $WORKSPACE on the test machine. We need check with releng team.",
+      "revId": "69534a93cb27b1c2ded44838814db69b4caca63e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_7d416b38",
+        "filename": "ci/test_kvmfornfv.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2016-08-10T04:47:00Z",
+      "side": 1,
+      "message": "As discussed above, not sure if we have the $WORKSPACE on the test machine.",
+      "revId": "69534a93cb27b1c2ded44838814db69b4caca63e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_5d482f5b",
+        "filename": "ci/test_kvmfornfv.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2016-08-10T04:47:00Z",
+      "side": 1,
+      "message": "I didn\u0027t find the cyclictest-node-context.yaml file on your patch?",
+      "revId": "69534a93cb27b1c2ded44838814db69b4caca63e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_3d4bf35a",
+        "filename": "ci/test_kvmfornfv.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2016-08-10T04:47:00Z",
+      "side": 1,
+      "message": "One thing come to my mind. I\u0027m not sure if the jjb will do the parallel testing, i.e. launch two script at the same time. Hopefully it will not. \n\nIf it does launch multiple testing at the same time, we will be on trouble :$",
+      "revId": "69534a93cb27b1c2ded44838814db69b4caca63e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_9d3ec7b7",
+        "filename": "ci/test_kvmfornfv.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2016-08-10T04:47:00Z",
+      "side": 1,
+      "message": "So the kvmfornfv.latest is the yardstick container image that you have created and uploaded to the PoD1?",
+      "revId": "69534a93cb27b1c2ded44838814db69b4caca63e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}

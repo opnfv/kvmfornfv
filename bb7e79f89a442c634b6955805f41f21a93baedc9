@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_bdd143cf",
+        "filename": "ci/build.sh",
+        "patchSetId": 14
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 4441
+      },
+      "writtenOn": "2016-08-10T08:39:02Z",
+      "side": 1,
+      "message": "Will modify build.sh using getopts, as part of next patch.",
+      "parentUuid": "1a76adc5_73b0c1dd",
+      "revId": "bb7e79f89a442c634b6955805f41f21a93baedc9",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_13aaad70",
         "filename": "ci/build.sh",
         "patchSetId": 14
@@ -30,6 +48,24 @@
       "writtenOn": "2016-08-09T02:43:52Z",
       "side": 1,
       "message": "This pre_build_xxx.sh is something confusing to me.\n\nNormally if we have pre_XXX, I assume it will be something like:\n\npre_xxx\n\nxxx\n\npost_xxx (this can be optional)\n\ni.e. there pre_xxx means it\u0027s a preparation for a task, then the next step will invoke the task. But on your patch, there is pre_xxx but no invoking the real task, a little bit strange to me.\n\n\nThanks\n--jyh",
+      "revId": "bb7e79f89a442c634b6955805f41f21a93baedc9",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_d37e75e4",
+        "filename": "ci/build.sh",
+        "patchSetId": 14
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 4441
+      },
+      "writtenOn": "2016-08-10T08:39:02Z",
+      "side": 1,
+      "message": "Hi Yunhong, I agree with you. In the present case, this file is doing everything regarding building packages (building docker, creating packages and storing them). Possibly, I can rename this file for better understanding of the flow.",
+      "parentUuid": "1a76adc5_13aaad70",
       "revId": "bb7e79f89a442c634b6955805f41f21a93baedc9",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_536a651b",
+        "filename": "ci/build.sh",
+        "patchSetId": 14
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 4441
+      },
+      "writtenOn": "2016-08-10T08:39:02Z",
+      "side": 1,
+      "message": "Will fix this to get back to the original directory after building packages",
+      "parentUuid": "1a76adc5_f3acd18e",
+      "revId": "bb7e79f89a442c634b6955805f41f21a93baedc9",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_93b55dcf",
         "filename": "ci/build.sh",
         "patchSetId": 14
@@ -64,6 +118,24 @@
       "writtenOn": "2016-08-09T02:43:52Z",
       "side": 1,
       "message": "I\u0027d suppose that if user does not input anything (i.e. by default, and choice is empty) or if input \u0027centos\u0027, it will be \u0027centos\u0027, but if user input \u0027ubunt\u0027 (please notice missing \u0027u\u0027), it will be a warning.\n\nyour idea?\n\nThanks\n--jyh",
+      "revId": "bb7e79f89a442c634b6955805f41f21a93baedc9",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_ddd67fc5",
+        "filename": "ci/build.sh",
+        "patchSetId": 14
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 4441
+      },
+      "writtenOn": "2016-08-10T08:39:02Z",
+      "side": 1,
+      "message": "if the user inputs anything apart from \u0027centos/ubuntu/both\u0027, it will display a warning and take the default as \u0027centos\u0027",
+      "parentUuid": "1a76adc5_93b55dcf",
       "revId": "bb7e79f89a442c634b6955805f41f21a93baedc9",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_7ddbabed",
+        "filename": "ci/build_rpm/kernel_rpm_build.sh",
+        "patchSetId": 14
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 4441
+      },
+      "writtenOn": "2016-08-10T08:39:02Z",
+      "side": 1,
+      "message": "Will include these directory checks for debian also.",
+      "parentUuid": "1a76adc5_b3b659db",
+      "revId": "bb7e79f89a442c634b6955805f41f21a93baedc9",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_d3bbd5c2",
         "filename": "ci/build_rpm/kernel_rpm_build.sh",
         "patchSetId": 14
@@ -98,6 +188,24 @@
       "writtenOn": "2016-08-09T02:43:52Z",
       "side": 1,
       "message": "The same here. Do we need this format for the ubuntu package? David, do you have any idea?",
+      "revId": "bb7e79f89a442c634b6955805f41f21a93baedc9",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_9dd807f1",
+        "filename": "ci/build_rpm/kernel_rpm_build.sh",
+        "patchSetId": 14
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 4441
+      },
+      "writtenOn": "2016-08-10T08:39:02Z",
+      "side": 1,
+      "message": "Will wait for inputs, to suggest whether this is actually required for ubuntu or not.",
+      "parentUuid": "1a76adc5_d3bbd5c2",
       "revId": "bb7e79f89a442c634b6955805f41f21a93baedc9",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false

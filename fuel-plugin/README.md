@@ -38,12 +38,12 @@ Buiding system pre-requistes
 Buid instruction
 ----------------
 1. Clone the kvmfornfv repo from https://gerrit.opnfv.org/gerrit/kvmfornfv by
-   "git clone https://gerrit.opnfv.org/gerrit/kvmfornfv"
-2. You can modify the kernel code in kvmfornfv/kernel as you want
+   "git clone https://gerrit.opnfv.org/gerrit/kvmfornfv".
+2. You can modify the kernel code in kvmfornfv/kernel as you want.
 3. Go to kvmfornfv/fuel-plugin/vagrant, type "vagrant destroy -f; vagrant up;
-   estroy -f", the building will start
+   vagarant destroy -f", the building will start.
 4. When the building completes, you should find the built fuel-plugin-kvm in
-   kvmfornfv/fuel-plugin with the name as "fuel-plugin-kvm-0.9-0.9.0-1.noarch.rpm",
+   kvmfornfv/fuel-plugin/vagrant with the name as "fuel-plugin-kvm-0.9-0.9.0-1.noarch.rpm",
    where "0.9-0.9.0-1" is the version information for this plugin, this version info
    may be changed in future. The built plugin incules the changes you made.
 

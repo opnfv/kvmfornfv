@@ -22,10 +22,10 @@ ${qemu} -smp ${guest_cpus} -monitor unix:${qmp_sock},server,nowait -daemonize \
     -cpu host,migratable=off,+invtsc,+tsc-deadline,pmu=off \
     -realtime mlock=on -mem-prealloc -enable-kvm -m 1G \
     -mem-path /mnt/hugetlbfs-1g \
-    -drive file=/root/workspace/image/guest.img,cache=none,aio=threads \
-    -netdev user,id=guest0,hostfwd=tcp::5555-:22 \
+    -drive file=/root/minimal-centos1.qcow2,cache=none,aio=threads \
+    -netdev user,id=guest0,hostfwd=tcp:10.2.117.23:5555-:22 \
     -device virtio-net-pci,netdev=guest0 \
-    -nographic -serial /dev/null -parallel /dev/null
+    -nographic -serial /dev/null -parallel /dev/null &
 
 i=0
 for c in `echo ${host_isolcpus} | sed 's/,/ /g'` ; do

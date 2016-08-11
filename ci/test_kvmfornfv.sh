@@ -10,3 +10,11 @@
 ############################################################
 
 echo "Hello world"
+volume=/tmp/kvmtest-*
+echo $volume
+if [ -d ${volume} ] ; then
+    echo "Directory '${volume}' exists"
+    sudo rm -rf ${volume}
+fi
+
+echo ${WORKSPACE}

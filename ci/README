@@ -1,0 +1,19 @@
+This directory includes scripts for Kernel/Qemu Rpm and Deb builds.
+Also contains scripts for running cyclictest through yardstick.
+
+################################################################
+##   Kernal/Qemu RPM and DEBIAN builds
+################################################################
+
+The script build.sh includes generating rpm and debian packages for
+Kernel and Qemu. These packages are generated in a docker container
+and uploaded to artifact repository.
+
+################################################################
+##   Executing Cyclictest on test environment(Intel-POD1)
+################################################################
+
+The script test_kvmfornfv.sh includes running cyclictest through
+yardstick. This script includes launching a ubuntu container for
+running yardstick,configuring the host, launching a guest vm,
+executing cyclictest on the guest vm and verifying the test results.

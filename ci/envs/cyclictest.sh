@@ -19,5 +19,5 @@ if [ ! -f ${cyclictest_context_file} ] ; then
 fi
 
 #Running cyclictest through yardstick
-yardstick task start ${cyclictest_context_file}
+yardstick -d task start ${cyclictest_context_file}
 mv /tmp/yardstick.out  /opt/

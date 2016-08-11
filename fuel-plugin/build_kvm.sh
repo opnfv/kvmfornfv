@@ -1,6 +1,6 @@
 #!/bin/bash
 
-SRC=/
+SRC=/root
 CONFIG="arch/x86/configs/opnfv.config"
 VERSION="1.0.OPNFV"
 OVS_COMMIT="4ff6642f3c1dd8949c2f42b3310ee2523ee970a6"
@@ -22,6 +22,11 @@ done
 apt-get update
 apt-get install -y git fakeroot build-essential ncurses-dev xz-utils kernel-package bc autoconf automake libtool python python-pip
 
+#
+# Build kernel in another directory, so some files (which are root writeable only) generated during kernel
+#   building wouldn't remain in the source directory mapped into Docker container
+#
+cp -r /kvmfornfv $SRC/.
 cd $SRC
 
 # Get the Open VSwitch sources
@@ -67,4 +72,7 @@ cp datapath/linux/*.ko ovs.$$/lib/modules/*/kernel/net/openvswitch
 depmod -b ovs.$$ -a `ls ovs.$$/lib/modules`
 dpkg-deb -b ovs.$$ $SRC/kvmfornfv/linux-image*.deb
 rm -rf ovs.$$
+
+cp $SRC/kvmfornfv/linux-headers*.deb /kvmfornfv/.
+cp $SRC/kvmfornfv/linux-image*.deb /kvmfornfv/.
 

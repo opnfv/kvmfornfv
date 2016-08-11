@@ -10,8 +10,8 @@
 
 
 rpmdir=${1:-"/root/workspace/"}
-rpmpat="kernel-4.1*.rpm"
-rpm -ihv ${rpmdir}/rt-tests-0.96-1.el7.centos.x86_64.rpm
+rpmpat="kernel-4.4*.rpm"
+#rpm -ihv ${rpmdir}/rt-tests-0.96-1.el7.centos.x86_64.rpm
 guest_isolcpus=1
 
 # The script's caller should passing the rpm directory that is built out from 
@@ -29,7 +29,7 @@ install_kernel () {
     	exit 1
     else
     	krpm=`find "${rpmdir}" -name "${rpmpat}"`
-    	rpm -ihv $krpm
+    	#rpm -ihv $krpm
     fi
 }
 

@@ -19,5 +19,22 @@ if [ ! -f ${cyclictest_context_file} ] ; then
 fi
 
 #Running cyclictest through yardstick
-yardstick task start ${cyclictest_context_file}
-mv /tmp/yardstick.out  /opt/
+yardstick -d task start ${cyclictest_context_file}
+cat /tmp/yardstick.out  > /opt/yardstick.out
+
+#Verifying the results of cyclictest
+result=`grep -o '"errors":[^,]*' /opt/yardstick.out | awk -F '"' \
+'{print $4}'| awk '{if (NF=0) print "SUCCESS" }'`
+if [ "$result" = "SUCCESS" ]; then
+    echo "####################################################"
+    echo ""
+    echo `grep -o '"data":[^}]*' /opt/yardstick.out | awk -F '{' '{print $2}'`
+    echo ""
+    echo "####################################################"
+    exit 0
+else
+    echo "Testcase failed"
+    echo `grep -o '"errors":[^,]*' /opt/yardstick.out | awk -F '"' '{print $4}'`
+    exit 1
+fi
+

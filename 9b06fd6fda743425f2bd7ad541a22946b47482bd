@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_e625ecab",
+        "filename": "ci/README",
+        "patchSetId": 15
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 4441
+      },
+      "writtenOn": "2016-08-11T10:15:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a76adc5_c09f7802",
+      "range": {
+        "startLine": 3,
+        "startChar": 25,
+        "endLine": 3,
+        "endChar": 33
+      },
+      "revId": "9b06fd6fda743425f2bd7ad541a22946b47482bd",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_e0a4f458",
         "filename": "ci/build.sh",
         "patchSetId": 15
@@ -36,6 +60,30 @@
       "writtenOn": "2016-08-11T06:58:11Z",
       "side": 1,
       "message": "package_type instead of -p",
+      "range": {
+        "startLine": 8,
+        "startChar": 16,
+        "endLine": 8,
+        "endChar": 17
+      },
+      "revId": "9b06fd6fda743425f2bd7ad541a22946b47482bd",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_863af8cb",
+        "filename": "ci/build.sh",
+        "patchSetId": 15
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 4441
+      },
+      "writtenOn": "2016-08-11T10:15:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a76adc5_e0a4f458",
       "range": {
         "startLine": 8,
         "startChar": 16,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_a637f4e2",
+        "filename": "ci/build.sh",
+        "patchSetId": 15
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 4441
+      },
+      "writtenOn": "2016-08-11T10:15:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a76adc5_808980cc",
+      "range": {
+        "startLine": 9,
+        "startChar": 17,
+        "endLine": 9,
+        "endChar": 23
+      },
+      "revId": "9b06fd6fda743425f2bd7ad541a22946b47482bd",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_6090e4ec",
         "filename": "ci/build_deb/Dockerfile",
         "patchSetId": 15
@@ -82,6 +154,30 @@
       "writtenOn": "2016-08-11T06:58:11Z",
       "side": 1,
       "message": "please split into two lines. line should not exceed 79 characters.",
+      "range": {
+        "startLine": 5,
+        "startChar": 72,
+        "endLine": 5,
+        "endChar": 73
+      },
+      "revId": "9b06fd6fda743425f2bd7ad541a22946b47482bd",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_e673acaf",
+        "filename": "ci/build_deb/Dockerfile",
+        "patchSetId": 15
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 4441
+      },
+      "writtenOn": "2016-08-11T10:15:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a76adc5_6090e4ec",
       "range": {
         "startLine": 5,
         "startChar": 72,
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_069ca8bf",
+        "filename": "ci/build_deb/build_debs.sh",
+        "patchSetId": 15
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 4441
+      },
+      "writtenOn": "2016-08-11T10:15:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a76adc5_cb6d5906",
+      "range": {
+        "startLine": 5,
+        "startChar": 0,
+        "endLine": 5,
+        "endChar": 3
+      },
+      "revId": "9b06fd6fda743425f2bd7ad541a22946b47482bd",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_00bd7068",
         "filename": "ci/build_deb/build_debs.sh",
         "patchSetId": 15
@@ -128,6 +248,30 @@
       "writtenOn": "2016-08-11T06:58:11Z",
       "side": 1,
       "message": "split into two lines. Use WORKSPACE instead of DIR",
+      "range": {
+        "startLine": 11,
+        "startChar": 70,
+        "endLine": 11,
+        "endChar": 79
+      },
+      "revId": "9b06fd6fda743425f2bd7ad541a22946b47482bd",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_665f9c0f",
+        "filename": "ci/build_deb/build_debs.sh",
+        "patchSetId": 15
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 4441
+      },
+      "writtenOn": "2016-08-11T10:15:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a76adc5_00bd7068",
       "range": {
         "startLine": 11,
         "startChar": 70,
@@ -163,6 +307,53 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_46b9402d",
+        "filename": "ci/build_deb/qemu_deb_build.sh",
+        "patchSetId": 15
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 4441
+      },
+      "writtenOn": "2016-08-11T10:15:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a76adc5_20c2ece9",
+      "range": {
+        "startLine": 25,
+        "startChar": 49,
+        "endLine": 25,
+        "endChar": 52
+      },
+      "revId": "9b06fd6fda743425f2bd7ad541a22946b47482bd",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_8668b8bb",
+        "filename": "ci/build_rpm/Dockerfile",
+        "patchSetId": 15
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 4441
+      },
+      "writtenOn": "2016-08-11T10:15:29Z",
+      "side": 1,
+      "message": "lines split upto 80 characters",
+      "range": {
+        "startLine": 5,
+        "startChar": 11,
+        "endLine": 5,
+        "endChar": 18
+      },
+      "revId": "9b06fd6fda743425f2bd7ad541a22946b47482bd",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_0b4b5188",
         "filename": "ci/build_rpm/build_rpms.sh",
         "patchSetId": 15
@@ -174,6 +365,30 @@
       "writtenOn": "2016-08-11T06:58:11Z",
       "side": 1,
       "message": "use $WORKSPACE",
+      "range": {
+        "startLine": 11,
+        "startChar": 27,
+        "endLine": 11,
+        "endChar": 30
+      },
+      "revId": "9b06fd6fda743425f2bd7ad541a22946b47482bd",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_26668452",
+        "filename": "ci/build_rpm/build_rpms.sh",
+        "patchSetId": 15
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 4441
+      },
+      "writtenOn": "2016-08-11T10:15:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a76adc5_0b4b5188",
       "range": {
         "startLine": 11,
         "startChar": 27,
@@ -209,6 +424,30 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_c65a3083",
+        "filename": "ci/build_rpm/kernel_rpm_build.sh",
+        "patchSetId": 15
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 4441
+      },
+      "writtenOn": "2016-08-11T10:15:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a76adc5_2b508d31",
+      "range": {
+        "startLine": 24,
+        "startChar": 29,
+        "endLine": 24,
+        "endChar": 43
+      },
+      "revId": "9b06fd6fda743425f2bd7ad541a22946b47482bd",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_4b586956",
         "filename": "ci/build_rpm/qemu_rpm_build.sh",
         "patchSetId": 15
@@ -220,6 +459,30 @@
       "writtenOn": "2016-08-11T06:58:11Z",
       "side": 1,
       "message": "split into two lines",
+      "range": {
+        "startLine": 27,
+        "startChar": 29,
+        "endLine": 27,
+        "endChar": 41
+      },
+      "revId": "9b06fd6fda743425f2bd7ad541a22946b47482bd",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_26cd2432",
+        "filename": "ci/build_rpm/qemu_rpm_build.sh",
+        "patchSetId": 15
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 4441
+      },
+      "writtenOn": "2016-08-11T10:15:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a76adc5_4b586956",
       "range": {
         "startLine": 27,
         "startChar": 29,

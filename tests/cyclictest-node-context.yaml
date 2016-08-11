@@ -14,7 +14,7 @@ scenarios:
 -
   type: Cyclictest
   options:
-    affinity: 1
+    affinity: 0
     interval: 1000
     priority: 99
     loops: 1000
@@ -41,7 +41,6 @@ scenarios:
     - "host-run-qemu.sh"
     guest_setup_seqs:
     - "guest-setup0.sh"
-    - "reboot"
     - "guest-setup1.sh"
 
 context:

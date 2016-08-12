@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_c0cf73af",
+        "filename": "fuel-plugin/build_kvm.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2016-08-12T05:04:14Z",
+      "side": 1,
+      "message": "Hi, David, so we have to copy the whole source directory to a new place? Would it cost too long?",
+      "revId": "fe7824a615a3087fe58df83ea02983c916976f47",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}

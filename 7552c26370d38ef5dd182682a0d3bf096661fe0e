@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_80489b2e",
+        "filename": "ci/build.sh",
+        "patchSetId": 16
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2016-08-12T05:26:14Z",
+      "side": 1,
+      "message": "One minor question, \"Usage --\u003e $0 [-p package_type] [-o output_dir] [-h]\"\", what will happen for input like \"build.sh -p centos -o /tmp/built.out -h dumb\" (i.e. dumb is wrong input). I\u0027m not well on bash.This is not against the patch, just curios.",
+      "revId": "7552c26370d38ef5dd182682a0d3bf096661fe0e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_405283de",
+        "filename": "ci/build_deb/build_debs_docker.sh",
+        "patchSetId": 16
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2016-08-12T05:26:14Z",
+      "side": 1,
+      "message": "Should we use tmp directory? I\u0027m always concerned with hardcoded address and also files on the /root.",
+      "revId": "7552c26370d38ef5dd182682a0d3bf096661fe0e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_205507c6",
+        "filename": "ci/build_deb/kernel_deb_build.sh",
+        "patchSetId": 16
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2016-08-12T05:26:14Z",
+      "side": 1,
+      "message": "So this is an assumption that the source is always on root directory?",
+      "revId": "7552c26370d38ef5dd182682a0d3bf096661fe0e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}

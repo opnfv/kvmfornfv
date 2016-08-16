@@ -12,7 +12,7 @@
 source host-config
 
 rpmdir=${1:-"/root/workspace/rpm/"}
-rpmpat="kernel-4.1*.rpm"
+rpmpat="kernel-[0-9].*.rpm"
 
 config_grub () {
     key=$1
@@ -37,6 +37,7 @@ install_kernel () {
     elif [ $filenum -gt 1 ]
     then
     	echo "Multiple kernel rpm found in workspace/rpm"
+    	rm -f ${rpmdir}/*
     	exit 1
     else
     	krpm=`find "${rpmdir}" -name "${rpmpat}"`
@@ -70,6 +71,7 @@ config_grub 'idle' 'poll'
 ## Disable clocksource verification at runtime
 config_grub 'tsc' 'reliable'
 
+sed -i s/GRUB_DEFAULT=saved/GRUB_DEFAULT=0/ /etc/default/grub
 grub2-mkconfig -o /boot/grub2/grub.cfg
 
 install_kernel

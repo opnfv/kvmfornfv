@@ -8,11 +8,12 @@
 ## which accompanies this distribution, and is available at
 ## http://www.apache.org/licenses/LICENSE-2.0
 ###############################################################################
+set -x
 
 source host-config
 
 rpmdir=${1:-"/root/workspace/rpm/"}
-rpmpat="kernel-4.1*.rpm"
+rpmpat="kernel-[0-9].*.rpm"
 
 config_grub () {
     key=$1

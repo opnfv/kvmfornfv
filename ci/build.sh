@@ -1,4 +1,5 @@
 #!/bin/bash
+#
 kernel_src_dir=kernel
 rpmbuild_dir=/tmp/kvmfornfv_rpmbuild.$$
 artifact_dir=${rpmbuild_dir}/RPMS/x86_64

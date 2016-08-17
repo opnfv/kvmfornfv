@@ -10,7 +10,8 @@
 
 set_irq_affinity () {
     for irq in /proc/irq/* ; do
-       echo 0 > /proc/irq/${1}/smp_affinity_list
+       #echo 0 > /proc/irq/${1}/smp_affinity_list
+       echo $irq
     done
 }
 

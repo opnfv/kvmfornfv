@@ -12,7 +12,7 @@
 source host-config
 
 rpmdir=${1:-"/root/workspace/rpm/"}
-rpmpat="kernel-4.1*.rpm"
+rpmpat="kernel-4.4*.rpm"
 
 config_grub () {
     key=$1
@@ -40,7 +40,7 @@ install_kernel () {
     	exit 1
     else
     	krpm=`find "${rpmdir}" -name "${rpmpat}"`
-    	rpm -ihv $krpm
+    	#rpm -ihv $krpm
     fi
 }
 

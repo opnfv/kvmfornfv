@@ -18,6 +18,10 @@ if [ ! -f ${cyclictest_context_file} ] ; then
     exit 1
 fi
 
+#setting up of image for launching guest vm.
+sudo ssh root@10.2.117.23 "cp /root/images/guest1.qcow2 /root/"
+
 #Running cyclictest through yardstick
-yardstick task start ${cyclictest_context_file}
-mv /tmp/yardstick.out  /opt/
+yardstick -d task start ${cyclictest_context_file}
+chmod 777 /tmp/yardstick.out
+cat /tmp/yardstick.out  > /opt/yardstick.out

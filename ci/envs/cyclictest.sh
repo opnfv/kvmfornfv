@@ -7,6 +7,7 @@
 
 pod_config='/opt/pod.yaml'
 cyclictest_context_file='/opt/cyclictest-node-context.yaml'
+ssh 10.2.117.23 "rm -rf /root/workspace/*"
 
 if [ ! -f ${pod_config} ] ; then
     echo "file ${pod_config} not found"
@@ -19,5 +20,6 @@ if [ ! -f ${cyclictest_context_file} ] ; then
 fi
 
 #Running cyclictest through yardstick
-yardstick task start ${cyclictest_context_file}
-mv /tmp/yardstick.out  /opt/
+yardstick -d task start ${cyclictest_context_file}
+chmod 777 /tmp/yardstick.out
+cat /tmp/yardstick.out  > /opt/yardstick.out

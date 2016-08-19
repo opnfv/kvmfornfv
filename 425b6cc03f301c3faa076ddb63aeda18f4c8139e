@@ -1,0 +1,170 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_5e7a5389",
+        "filename": "ci/envs/guest-setup0.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 608
+      },
+      "writtenOn": "2016-08-19T11:16:53Z",
+      "side": 1,
+      "message": "suggesting to keep kernel version in configuration file and use it instead of hardcoding here. \n@Yunhong, we can implement it after c release?",
+      "revId": "425b6cc03f301c3faa076ddb63aeda18f4c8139e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_fe6ebfc8",
+        "filename": "ci/envs/guest-setup0.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 608
+      },
+      "writtenOn": "2016-08-19T11:16:53Z",
+      "side": 1,
+      "message": "remove unnecessary statements.",
+      "range": {
+        "startLine": 14,
+        "startChar": 1,
+        "endLine": 14,
+        "endChar": 4
+      },
+      "revId": "425b6cc03f301c3faa076ddb63aeda18f4c8139e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_1e74db97",
+        "filename": "ci/envs/guest-setup0.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 608
+      },
+      "writtenOn": "2016-08-19T11:16:53Z",
+      "side": 1,
+      "message": "remove space at the end of the line.",
+      "range": {
+        "startLine": 17,
+        "startChar": 73,
+        "endLine": 17,
+        "endChar": 77
+      },
+      "revId": "425b6cc03f301c3faa076ddb63aeda18f4c8139e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_be6847bb",
+        "filename": "ci/envs/guest-setup0.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 608
+      },
+      "writtenOn": "2016-08-19T11:16:53Z",
+      "side": 1,
+      "message": "Can you please change spaces instead of tabs eventhough these statements not modified in this patch by you.",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 5
+      },
+      "revId": "425b6cc03f301c3faa076ddb63aeda18f4c8139e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_9e5f8b0e",
+        "filename": "ci/envs/guest-setup1.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 608
+      },
+      "writtenOn": "2016-08-19T11:16:53Z",
+      "side": 1,
+      "message": "is this statement not required?",
+      "range": {
+        "startLine": 13,
+        "startChar": 32,
+        "endLine": 13,
+        "endChar": 49
+      },
+      "revId": "425b6cc03f301c3faa076ddb63aeda18f4c8139e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_7eb94f2d",
+        "filename": "ci/envs/host-run-qemu.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 608
+      },
+      "writtenOn": "2016-08-19T11:16:53Z",
+      "side": 1,
+      "message": "keep this statement split into multiple lines.",
+      "range": {
+        "startLine": 30,
+        "startChar": 27,
+        "endLine": 30,
+        "endChar": 28
+      },
+      "revId": "425b6cc03f301c3faa076ddb63aeda18f4c8139e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_5e881371",
+        "filename": "ci/test_kvmfornfv.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 608
+      },
+      "writtenOn": "2016-08-19T11:16:53Z",
+      "side": 1,
+      "message": "explain the purpose of above two statements.",
+      "revId": "425b6cc03f301c3faa076ddb63aeda18f4c8139e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_1e829b4f",
+        "filename": "tests/cyclictest-node-context.yaml",
+        "patchSetId": 5
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 608
+      },
+      "writtenOn": "2016-08-19T11:16:53Z",
+      "side": 1,
+      "message": "please explain reason for this modification.",
+      "revId": "425b6cc03f301c3faa076ddb63aeda18f4c8139e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}

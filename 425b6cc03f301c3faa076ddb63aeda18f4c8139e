@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_1eedbbc3",
+        "filename": "ci/envs/guest-setup0.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 4441
+      },
+      "writtenOn": "2016-08-19T14:48:15Z",
+      "side": 1,
+      "message": "Yes, for now i hardcoded it. If the version is mentioned in config file, then we can fetch it dynamically.",
+      "parentUuid": "1a76adc5_5e7a5389",
+      "revId": "425b6cc03f301c3faa076ddb63aeda18f4c8139e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_fe6ebfc8",
         "filename": "ci/envs/guest-setup0.sh",
         "patchSetId": 5
@@ -30,6 +48,30 @@
       "writtenOn": "2016-08-19T11:16:53Z",
       "side": 1,
       "message": "remove unnecessary statements.",
+      "range": {
+        "startLine": 14,
+        "startChar": 1,
+        "endLine": 14,
+        "endChar": 4
+      },
+      "revId": "425b6cc03f301c3faa076ddb63aeda18f4c8139e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_dece635a",
+        "filename": "ci/envs/guest-setup0.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 4441
+      },
+      "writtenOn": "2016-08-19T14:48:15Z",
+      "side": 1,
+      "message": "Srinivas, actually cyclictest should be installed with that rpm as a part of guest configuration.We are using a preconfigured image with cyclictest installed, so i commented that.",
+      "parentUuid": "1a76adc5_fe6ebfc8",
       "range": {
         "startLine": 14,
         "startChar": 1,
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_be4b672a",
+        "filename": "ci/envs/guest-setup0.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 4441
+      },
+      "writtenOn": "2016-08-19T14:48:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a76adc5_1e74db97",
+      "range": {
+        "startLine": 17,
+        "startChar": 73,
+        "endLine": 17,
+        "endChar": 77
+      },
+      "revId": "425b6cc03f301c3faa076ddb63aeda18f4c8139e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_be6847bb",
         "filename": "ci/envs/guest-setup0.sh",
         "patchSetId": 5
@@ -76,6 +142,30 @@
       "writtenOn": "2016-08-19T11:16:53Z",
       "side": 1,
       "message": "Can you please change spaces instead of tabs eventhough these statements not modified in this patch by you.",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 5
+      },
+      "revId": "425b6cc03f301c3faa076ddb63aeda18f4c8139e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_7edb8f1b",
+        "filename": "ci/envs/guest-setup0.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 4441
+      },
+      "writtenOn": "2016-08-19T14:48:15Z",
+      "side": 1,
+      "message": "I will do it",
+      "parentUuid": "1a76adc5_be6847bb",
       "range": {
         "startLine": 24,
         "startChar": 0,
@@ -111,6 +201,30 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_5e0b33d6",
+        "filename": "ci/envs/guest-setup1.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 4441
+      },
+      "writtenOn": "2016-08-19T14:48:15Z",
+      "side": 1,
+      "message": "Srinivas, I checked and no argument is coming here, as a result we will be seeing  stderr No such file or directory in the output. This won\u0027t stop the cyclictest flow. To remove those error messages in the output, I have commented it for now. so that i can focus on it later.",
+      "parentUuid": "1a76adc5_9e5f8b0e",
+      "range": {
+        "startLine": 13,
+        "startChar": 32,
+        "endLine": 13,
+        "endChar": 49
+      },
+      "revId": "425b6cc03f301c3faa076ddb63aeda18f4c8139e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_7eb94f2d",
         "filename": "ci/envs/host-run-qemu.sh",
         "patchSetId": 5
@@ -122,6 +236,30 @@
       "writtenOn": "2016-08-19T11:16:53Z",
       "side": 1,
       "message": "keep this statement split into multiple lines.",
+      "range": {
+        "startLine": 30,
+        "startChar": 27,
+        "endLine": 30,
+        "endChar": 28
+      },
+      "revId": "425b6cc03f301c3faa076ddb63aeda18f4c8139e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_7e6cef9c",
+        "filename": "ci/envs/host-run-qemu.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 4441
+      },
+      "writtenOn": "2016-08-19T14:48:15Z",
+      "side": 1,
+      "message": "ok, i will do that",
+      "parentUuid": "1a76adc5_7eb94f2d",
       "range": {
         "startLine": 30,
         "startChar": 27,
@@ -162,6 +300,24 @@
       "writtenOn": "2016-08-19T11:16:53Z",
       "side": 1,
       "message": "please explain reason for this modification.",
+      "revId": "425b6cc03f301c3faa076ddb63aeda18f4c8139e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_9ec1cb30",
+        "filename": "tests/cyclictest-node-context.yaml",
+        "patchSetId": 5
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 4441
+      },
+      "writtenOn": "2016-08-19T14:48:15Z",
+      "side": 1,
+      "message": "Previously, for guest without hugepage enabled, it worked when cpu affinity not mentioned. i will change it to 1. It works  .",
+      "parentUuid": "1a76adc5_1e829b4f",
       "revId": "425b6cc03f301c3faa076ddb63aeda18f4c8139e",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false

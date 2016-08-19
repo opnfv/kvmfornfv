@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_b2c4fb92",
+        "filename": "docs/configurationguide/scenariomatrix.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2016-08-19T18:56:07Z",
+      "side": 1,
+      "message": "I\u0027m not sure if we need this whole information. At least for C release, we only have one scenario, so possibly we can simply describe the os-nosdn-kvm-ha scenario and don\u0027t need such overview? Raghu, your idea?",
+      "revId": "5a56bf69988b7c72e88546eb4659576fb51bfb77",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_d2c17781",
+        "filename": "docs/installationprocedure/kvm4nfv-cicd.installation.instruction.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2016-08-19T18:56:07Z",
+      "side": 1,
+      "message": "I\u0027d keep \"Test the built packages by executing the scripts present in ci/envs for\nconfiguring host and guest respectively. \" as part of the Post-installation activities.\n\nAnd I don\u0027t think we need talk about the yardstick or cyclictest , that\u0027s test , not installation.",
+      "revId": "5a56bf69988b7c72e88546eb4659576fb51bfb77",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}

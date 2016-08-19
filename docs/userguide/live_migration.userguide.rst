@@ -1,13 +1,13 @@
 .. This work is licensed under a Creative Commons Attribution 4.0 International License.
+
 .. http://creativecommons.org/licenses/by/4.0
-.. (c) <optionally add copywriters name>
 
 Fast Live Migration
 ===================
 
-The NFV project requires fast live migration. The specific requirement is total
-live migration time < 2Sec, while keeping the VM down time < 10ms when running
-DPDK L2 forwarding workload.
+The NFV project requires fast live migration. The specific requirement is
+total live migration time < 2Sec, while keeping the VM down time < 10ms when
+running DPDK L2 forwarding workload.
 
 We measured the baseline data of migrating an idle 8GiB guest running a DPDK L2
 forwarding work load and observed that the total live migration time was 2271ms
@@ -50,9 +50,10 @@ a. Delay non-emergency operations
    is completed the VM down time is reduced to about 5-7ms.
 b. Optimize zero page checking
    Currently QEMU uses the SSE2 instruction to optimize the zero pages
-   checking.  The SSE2 instruction can process 16 bytes per instruction. By using
-   the AVX2 instruction, we can process 32 bytes per instruction. Testingt shows
-   that using AVX2 can speed up the zero pages checking process by about 25%.
+   checking.  The SSE2 instruction can process 16 bytes per instruction.
+   By using the AVX2 instruction, we can process 32 bytes per instruction.
+   Testing shows that using AVX2 can speed up the zero pages checking process
+   by about 25%.
 c. Remove unnecessary context synchronization.
    The CPU context was being synchronized twice during live migration. Removing
    this unnecessary synchronization shortened the VM downtime by about 100us.
@@ -69,10 +70,18 @@ OS: RHEL 7.1
 Kernel: 4.2
 QEMU v2.4.0
 
-Ethernet controller: Intel Corporation Ethernet Controller 10-Gigabit X540-AT2 (rev 01)
+Ethernet controller: Intel Corporation Ethernet Controller 10-Gigabit
+X540-AT2 (rev 01)
 QEMU parameters:
 ::
-  /root/qemu.git/x86_64-softmmu/qemu-system-x86_64-enable-kvm -cpu host -smp 4 –device virtio-net-pci,netdev=net1,mac=52:54:00:12:34:56 –netdev type=tap,id=net1,script=/etc/kvm/qemu-ifup,downscript=no,vhost=on–device virtio-net-pci,netdev=net2,mac=54:54:00:12:34:56 –netdevtype=tap,id=net2,script=/etc/kvm/qemu-ifup2,downscript=no,vhost=on  -balloon virtio -m 8192-monitor stdio  /mnt/liang/ia32e_rhel6u5.qcow
+${qemu} -smp ${guest_cpus} -monitor unix:${qmp_sock},server,nowait -daemonize \
+-cpu host,migratable=off,+invtsc,+tsc-deadline,pmu=off \
+-realtime mlock=on -mem-prealloc -enable-kvm -m 1G \
+-mem-path /mnt/hugetlbfs-1g \
+-drive file=/root/minimal-centos1.qcow2,cache=none,aio=threads \
+-netdev user,id=guest0,hostfwd=tcp:5555-:22 \
+-device virtio-net-pci,netdev=guest0 \
+-nographic -serial /dev/null -parallel /dev/null
 
 Network connection
 

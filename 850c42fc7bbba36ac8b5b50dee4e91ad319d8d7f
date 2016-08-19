@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_23742498",
+        "filename": "docs/design/kvmfornfv_design.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2016-08-19T06:26:13Z",
+      "side": 1,
+      "message": "Hi, Swati, this is the information at the project proposal time :)\n\nWe don\u0027t need the project name and the project categories. The introduction is enough. Possibly you can have a look on current \"docs/all/index.rst\"?",
+      "revId": "850c42fc7bbba36ac8b5b50dee4e91ad319d8d7f",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_c368d0bc",
+        "filename": "docs/design/kvmfornfv_design.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2016-08-19T06:26:13Z",
+      "side": 1,
+      "message": "as above.",
+      "revId": "850c42fc7bbba36ac8b5b50dee4e91ad319d8d7f",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_e365cce1",
+        "filename": "docs/design/kvmfornfv_design.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2016-08-19T06:26:13Z",
+      "side": 1,
+      "message": "the inter-vm communication is still on PoC stage, so possibly we don\u0027t need cover here?",
+      "revId": "850c42fc7bbba36ac8b5b50dee4e91ad319d8d7f",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_23abc4d9",
+        "filename": "docs/installationprocedure/kvm4nfv-cicd.installation.instruction.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2016-08-19T06:26:13Z",
+      "side": 1,
+      "message": "Hi, Swati, I think this document is for end user and thus it should be from end user point of view. While currently it\u0027s more from CICD point of view.\n\nIMHO, we can take the installation from two point of view. We can talk about how to install from source code, and we can also talk about how to install from fuel installer.\n\nFor build from source code, the key point is talk about the interface/usage of the ci/build.sh , and then , shortly tell them to check release document like CentOS or Ubuntu document on how to install the package and reboot the system. You can reuse  most of the material here.\n\nFor install from fuel, just asking them to refer to Fuel document.\n\nAny idea?",
+      "revId": "850c42fc7bbba36ac8b5b50dee4e91ad319d8d7f",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_83b97830",
+        "filename": "docs/installationprocedure/kvm4nfv-cicd.release.notes.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2016-08-19T06:26:13Z",
+      "side": 1,
+      "message": "What\u0027s the difference of this file and the release nodes on the doc/ directory, i.e. https://gerrit.opnfv.org/gerrit/#/c/18975/1/docs/releasenotes/release-notes.rst ?",
+      "revId": "850c42fc7bbba36ac8b5b50dee4e91ad319d8d7f",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_43836056",
+        "filename": "docs/userguide/openstack.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2016-08-19T06:26:13Z",
+      "side": 1,
+      "message": "Thanks for the detailed information on openstack. However, IMHO, to achieve the purpose of low latency and fast migration requires special openstack configuration and either we describe these configurations here, or, I\u0027d suggest simply push the openstack configuration support to D release.",
+      "revId": "850c42fc7bbba36ac8b5b50dee4e91ad319d8d7f",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}

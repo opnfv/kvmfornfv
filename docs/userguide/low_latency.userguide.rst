@@ -58,7 +58,7 @@ Below is guest kernel boot line example
 isolcpus=1 nohz_full=1 rcu_nocbs=1 mce=off idle=poll default_hugepagesz=1G
 hugepagesz=1G
 
-Please refer to `tunning.userguide` for more explanation.
+Please refer to `tuning.userguide` for more explanation.
 
 Run-time Environment Setup
 ~~~~~~~~~~~~~~~~~~~~~~~~~~

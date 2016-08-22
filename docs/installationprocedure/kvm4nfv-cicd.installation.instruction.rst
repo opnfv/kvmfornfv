@@ -57,10 +57,6 @@ Please visit the links for each-
 * Centos : https://www.centos.org/docs/5/html/Deployment_Guide-en-US/s1-rpm-using.html
 * Ubuntu : https://help.ubuntu.com/community/InstallingSoftware
 
-Test the built packages by executing the scripts present in ci/envs for
-configuring host and guest respectively. Once the setup is in place, cyclictest
-is performed via yardtick, using ./ci/test_kvmfornfv.sh
-
 **2. Using Fuel installer**-
 
 * Please refer to the document present at /fuel-plugin/README.md
@@ -68,7 +64,5 @@ is performed via yardtick, using ./ci/test_kvmfornfv.sh
 Post-installation activities
 ----------------------------
 
-After the rpm and debian builds are deployed successfully on the host-guest and
-give the expected cyclictest results, jenkins gives +1 to indicate the
-completion of verify process. Thereafter, the releng executes the merge process
-to merge this code into parent repository.
+After the packages are built, test these packages by executing the scripts
+present in ci/envs for configuring the host and guest respectively.

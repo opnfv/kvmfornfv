@@ -1,50 +1,93 @@
 #!/bin/bash
-kernel_src_dir=kernel
-rpmbuild_dir=/tmp/kvmfornfv_rpmbuild.$$
-artifact_dir=${rpmbuild_dir}/RPMS/x86_64
-config_file="${kernel_src_dir}/arch/x86/configs/opnfv.config"
-output_dir="$1"
-
-usage () {
-    echo "usage: ${0} output_dir"
-    exit 1
+#
+# Common parameter parsing for kvmfornfv scripts
+#
+function usage() {
+    echo ""
+    echo "Usage --> $0 [-p package_type] [-o output_dir] [-h]"
+    echo "  package_type : centos/ubuntu/both ;  default is centos"
+    echo "  output_dir : stores rpm and debian packages"
+    echo "  -h : Help section"
+    echo ""
 }
 
-if [[ -z "$@" ]]; then
-    usage
+output_dir=""
+type=""
+
+function build_package() {
+    choice=$1
+
+    case "$choice" in
+        "centos")
+            echo "Build $choice Rpms"
+            cd ci/build_rpm
+            ./build_rpms.sh
+            cd $WORKSPACE
+        ;;
+        "ubuntu")
+            echo "Build $choice Debians"
+            cd ci/build_deb
+            ./build_debs.sh
+            cd $WORKSPACE
+        ;;
+        "both")
+            echo "Build $choice Debians and Rpms"
+            cd ci/build_deb
+            ./build_debs.sh
+            cd ../build_rpm
+            ./build_rpms.sh
+            cd $WORKSPACE
+        ;;
+        *)
+            echo "Invalid package option"
+            usage
+            exit 1
+        ;;
+    esac
+}
+
+##  --- Parse command line arguments / parameters ---
+while getopts ":o:p:h" option; do
+    case $option in
+        p) # package
+          type=$OPTARG
+          ;;
+        o) # output_dir
+          output_dir=$OPTARG
+          ;;
+        :)
+          echo "Option -$OPTARG requires an argument."
+          usage
+          exit 1
+          ;;
+        h)
+          usage
+          exit 0
+          ;;
+        *)
+          echo "Unknown option: $OPTARG."
+          usage
+          exit 1
+          ;;
+        ?)
+          echo "[WARNING] Unknown parameters!!!"
+          echo "Using default values for package generation & output"
+    esac
+done
+
+if [[ -z "$type" ]]
+then
+    type='centos'
 fi
 
-if [ ! -d ${output_dir} -o ! -w ${output_dir} ] ; then
-    echo "${0}: Output directory '${output_dir}' does not exist or cannot be written"
-    exit 1
+if [[ -z "$output_dir" ]]
+then
+    output_dir=$WORKSPACE/build_output
 fi
 
-if [ ! -d ${kernel_src_dir} ] ; then
-    echo "${0}: Directory '${kernel_src_dir}' does not exist, run this script from the root of kvmfornfv source tree"
-    exit 1
-fi
+echo ""
+echo "Building for $type package in $output_dir"
+echo ""
 
-if [ ! -f ${config_file} ] ; then
-    echo "${0}: ${config_file} does not exist"
-    exit 1
-fi
-
-echo
-echo "Build"
-echo
-
-cp -f ${config_file} "${kernel_src_dir}/.config"
-
-# Make timestamp part of version string for automated kernel boot verification
-date "+-%y%m%d%H%M" > "${kernel_src_dir}/localversion-zzz"
-
-( cd ${kernel_src_dir}; make RPMOPTS="--define '_topdir ${rpmbuild_dir}'" rpm-pkg )
-if [ ${?} -ne 0 ] ; then
-    echo "${0}: Kernel build failed"
-    rm -rf ${rpmbuild_dir}
-    exit 1
-fi
-
-cp -f ${artifact_dir}/* ${output_dir}
-
-rm -rf ${rpmbuild_dir}
+mkdir -p $output_dir
+build_package $type

@@ -1,15 +1,12 @@
 #!/bin/bash
 
 #############################################################
-## !!! The original test_kvmfornfv.sh is removed because it
-## break the verification process!!!
-#############################################################
 ## This script  will launch ubuntu docker container
 ## runs cyclictest through yardstick
 ## and verifies the test results.
 ############################################################
 
-
+docker_image_dir=$WORKSPACE/docker_image_build
 function env_clean {
     container_id=`sudo docker ps -a | grep kvmfornfv |awk '{print $1}'`
     sudo docker rm $container_id
@@ -20,6 +17,14 @@ function env_clean {
 
 #Cleaning up the test environment before running cyclictest through yardstick.
 env_clean
+
+#Creating a docker image with yardstick installed.
+( cd ${docker_image_dir}; sudo docker build  -t kvmfornfv:latest --no-cache=true . )
+if [ ${?} -ne 0 ] ; then
+    echo  "Docker image build failed"
+    id=$(sudo docker ps -a  | head  -2 | tail -1 | awk '{print $1}'); sudo docker rm -f $id
+    exit 1
+fi
 
 time_stamp=$(date +%Y%m%d%H%M%S)
 volume=/tmp/kvmtest-${time_stamp}

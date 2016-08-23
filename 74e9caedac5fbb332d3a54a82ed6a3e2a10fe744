@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_3c7f5ae2",
+        "filename": "docker_image_build/Dockerfile",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2016-08-23T21:13:37Z",
+      "side": 1,
+      "message": "Possibly it\u0027s risk to always get the yardstick HEAD for testing because potentially it\u0027s broken, unless we can have a smoke test on yardstick.\n\nWe can have a special COMMIT_ID, or we can use stable branch.",
+      "revId": "74e9caedac5fbb332d3a54a82ed6a3e2a10fe744",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}

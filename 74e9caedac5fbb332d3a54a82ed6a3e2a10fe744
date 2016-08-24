@@ -16,6 +16,24 @@
       "revId": "74e9caedac5fbb332d3a54a82ed6a3e2a10fe744",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_bb036f0c",
+        "filename": "docker_image_build/Dockerfile",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 4441
+      },
+      "writtenOn": "2016-08-24T08:41:02Z",
+      "side": 1,
+      "message": "Yes, we can use stable branch.",
+      "parentUuid": "1a76adc5_3c7f5ae2",
+      "revId": "74e9caedac5fbb332d3a54a82ed6a3e2a10fe744",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }

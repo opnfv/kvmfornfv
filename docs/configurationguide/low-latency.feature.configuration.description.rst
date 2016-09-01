@@ -39,7 +39,10 @@ guest, executes  cyclictest on the guest.
 The following scripts are used for configuring host and guest to create a
 special test environment and achieve low latency.
 
-**host-setup0.sh**: On running this script will install latest kernel rpm
+Note: host-setup0.sh, host-setup1.sh and host-run-qemu.sh are run on the host,
+followed by guest-setup0.sh and guest-setup1.sh scripts on the guest VM.
+
+**host-setup0.sh**: Running this script will install the latest kernel rpm
 on host and will make necessary changes as following to create special test
 environment
 
@@ -51,7 +54,7 @@ environment
    * Disables machine check
    * Disables clocksource verification at runtime
 
-**host-setup1.sh**: On running this script will make following test
+**host-setup1.sh**: Running this script will make the following test
 environment changes
 
    * Disabling watchdogs to reduce overhead
@@ -59,11 +62,11 @@ environment changes
    * Reroute interrupts bound to isolated CPUs to CPU 0
    * Change the iptable so that we can ssh to the guest remotely
 
-**host-run-qemu.sh**: On running this script will launch a guest vm on host.
+**host-run-qemu.sh**: Running this script will launch a guest vm on the host.
      Note: download guest disk image from artifactory
 
-**guest-setup0.sh**: On running this scrcipt on guest vm will install the
-latest build kernel rpm, cyclictest and makes following configuration on
+**guest-setup0.sh**: Running this scrcipt on the guest vm will install the
+latest build kernel rpm, cyclictest and make the following configuration on
 guest vm.
 
    * Isolates CPUs from the general scheduler
@@ -71,7 +74,7 @@ guest vm.
    * Uses polling idle loop to improve performance
    * Disables clocksource verification at runtime
 
-**guest-setup1.sh**: On running this script on guest vm will make following
+**guest-setup1.sh**: Running this script on guest vm will do the following
 configurations
 
    * Disable watchdogs to reduce overhead

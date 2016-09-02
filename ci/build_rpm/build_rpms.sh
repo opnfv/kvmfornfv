@@ -7,7 +7,7 @@ function build_rpm_pkg {
   case $1 in
     centos)
       sudo docker build -t kvm_rpm .
-      sudo docker run -v $WORKSPACE:/opt/kvmfornfv -t  kvm_rpm \
+      sudo docker run --cpuset-cpus="4-6" -v $WORKSPACE:/opt/kvmfornfv -t  kvm_rpm \
                       /opt/kvmfornfv/ci/build_rpm/build_rpms_docker.sh
     ;;
     *) echo "Not supported system"; exit 1;;

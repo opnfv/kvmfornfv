@@ -7,7 +7,7 @@ function build_deb_pkg {
   case $1 in
     ubuntu)
       sudo docker build -t kvm_deb .
-      sudo docker run -v $WORKSPACE:/opt/kvmfornfv -t  kvm_deb \
+      sudo docker run --cpu-shares=0 -v $WORKSPACE:/opt/kvmfornfv -t  kvm_deb \
                       /opt/kvmfornfv/ci/build_deb/build_debs_docker.sh
     ;;
     *) echo "Not supported system"; exit 1;;

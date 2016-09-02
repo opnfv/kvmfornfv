@@ -10,7 +10,7 @@ cp -r $rpm_build_dir $tmp_rpm_build_dir
 cd $tmp_rpm_build_dir/qemu
 make clean
 ./configure
-make
+make -j$(nproc)
 cd $tmp_rpm_build_dir
 ./ci/build_rpm/qemu_rpm_build.sh build_output
 

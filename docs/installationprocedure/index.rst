@@ -5,8 +5,6 @@
 **********************
 Installation procedure
 **********************
-Colorado 1.0
-------------
 
 .. toctree::
    :numbered:

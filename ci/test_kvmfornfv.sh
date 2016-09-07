@@ -6,13 +6,28 @@
 ## and verifies the test results.
 ############################################################
 
+source $WORKSPACE/ci/envs/utils.sh
+HOST_IP=$( getHostIP )
+KERNEL_VERSION=$( getKernelVersion )
+if [ -z $KERNEL_VERSION ];then
+   echo "Kernel RPM not found in $WORKSPACE/build_output Directory"
+   exit 1
+fi
+
 docker_image_dir=$WORKSPACE/docker_image_build
 function env_clean {
-    container_id=`sudo docker ps -a | grep kvmfornfv |awk '{print $1}'`
+    container_id=`sudo docker ps -a | grep kvmfornfv |awk '{print $1}'|sed -e 's/\r//g'`
     sudo docker rm $container_id
-    sudo ssh root@10.2.117.23 "rm -rf /root/workspace/*"
-    sudo ssh root@10.2.117.23 "pid=\$(ps aux | grep 'qemu' | awk '{print \$2}' | head -1); echo \$pid |xargs kill"
+    sudo ssh root@$HOST_IP "rm -rf /root/workspace/*"
+    sudo ssh root@$HOST_IP "pid=\$(ps aux | grep 'qemu' | awk '{print \$2}' | head -1); echo \$pid |xargs kill"
     sudo rm -rf /tmp/kvmtest-*
+}
+
+function host_clean {
+    sudo ssh root@$HOST_IP "rpm=\$(rpm -qa | grep 'kernel-${KERNEL_VERSION}' | awk '{print \$1}'); rpm -ev \$rpm"
+    sudo ssh root@$HOST_IP "rm -rf /boot/initramfs-${KERNEL_VERSION}*.img"
+    sudo ssh root@$HOST_IP "grub2-mkconfig -o /boot/grub2/grub.cfg"
+    sudo ssh root@$HOST_IP "reboot"
 }
 
 #Cleaning up the test environment before running cyclictest through yardstick.
@@ -31,7 +46,7 @@ volume=/tmp/kvmtest-${time_stamp}
 mkdir -p $volume/{image,rpm,scripts}
 
 #copying required files to run yardstick cyclic testcase
-mv $WORKSPACE/build_output/kernel-4.4*.rpm $volume/rpm
+mv $WORKSPACE/build_output/kernel-${KERNEL_VERSION}*.rpm $volume/rpm
 cp -r $WORKSPACE/ci/envs/* $volume/scripts
 cp -r $WORKSPACE/tests/cyclictest-node-context.yaml $volume
 cp -r $WORKSPACE/tests/pod.yaml $volume
@@ -39,6 +54,9 @@ cp -r $WORKSPACE/tests/pod.yaml $volume
 #Launching ubuntu docker container to run yardstick
 sudo docker run -i -v $volume:/opt --net=host --name kvmfornfv \
 kvmfornfv:latest  /bin/bash -c "cd /opt/scripts && ls; ./cyclictest.sh"
+
+#Cleaning the latest kernel changes on host after executing the test.
+host_clean
 
 #Verifying the results of cyclictest
 result=`grep -o '"errors":[^,]*' $volume/yardstick.out | awk -F '"' '{print $4}'`

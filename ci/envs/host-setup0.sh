@@ -9,10 +9,16 @@
 ## http://www.apache.org/licenses/LICENSE-2.0
 ###############################################################################
 
+source utils.sh
 source host-config
 
+KERNEL_VERSION=$( getKernelVersion )
+if [ -z $KERNEL_VERSION ];then
+   echo "Kernel RPM not found"
+   exit 1
+fi
 rpmdir=${1:-"/root/workspace/rpm/"}
-rpmpat="kernel-4.4*.rpm"
+rpmpat="kernel-${KERNEL_VERSION}*.rpm"
 
 config_grub () {
     key=$1

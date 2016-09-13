@@ -9,7 +9,10 @@
 ## http://www.apache.org/licenses/LICENSE-2.0
 ###############################################################################
 
+source utils.sh
 source host-config
+
+HOST_IP=$( getHostIP )
 
 cpumask () {
     m=$((1<<${1}))
@@ -28,7 +31,7 @@ qmp_sock="/tmp/qmp-sock-$$"
 #    -nographic -serial /dev/null -parallel /dev/null
 
 ${qemu} -smp ${guest_cpus} -drive file=/root/guest1.qcow2 -daemonize \
-     -netdev user,id=net0,hostfwd=tcp:10.2.117.23:5555-:22 \
+     -netdev user,id=net0,hostfwd=tcp:$HOST_IP:5555-:22 \
      -realtime mlock=on -mem-prealloc -enable-kvm -m 1G \
      -mem-path /mnt/hugetlbfs-1g \
      -device virtio-net-pci,netdev=net0 \

@@ -4,7 +4,9 @@
 ## Invoking this script from ubuntu docker container runs
 ## cyclictest through yardstick
 ###########################################################
+source utils.sh
 
+HOST_IP=$( getHostIP )
 pod_config='/opt/pod.yaml'
 cyclictest_context_file='/opt/cyclictest-node-context.yaml'
 
@@ -19,7 +21,7 @@ if [ ! -f ${cyclictest_context_file} ] ; then
 fi
 
 #setting up of image for launching guest vm.
-sudo ssh root@10.2.117.23 "cp /root/images/guest1.qcow2 /root/"
+sudo ssh root@$HOST_IP "cp /root/images/guest1.qcow2 /root/"
 
 #Running cyclictest through yardstick
 yardstick -d task start ${cyclictest_context_file}

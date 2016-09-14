@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_0e7ebf6b",
+        "filename": "ci/cyclicTestTrigger.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 5447
+      },
+      "writtenOn": "2016-09-14T04:17:24Z",
+      "side": 1,
+      "message": "To generalize the format of IP address, considered the second octet as {1,3}. Do you want me to specify {1} ?",
+      "parentUuid": "1a76adc5_b3e1349c",
+      "revId": "b8f6485d5a5c66f0fce566e59b8b5891c6a7f571",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_93e678b3",
         "filename": "ci/test_kvmfornfv.sh",
         "patchSetId": 1
@@ -30,6 +48,30 @@
       "writtenOn": "2016-09-13T22:37:50Z",
       "side": 1,
       "message": "Should we return 0 or 1 on such situation?",
+      "range": {
+        "startLine": 21,
+        "startChar": 8,
+        "endLine": 21,
+        "endChar": 9
+      },
+      "revId": "b8f6485d5a5c66f0fce566e59b8b5891c6a7f571",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_6e873362",
+        "filename": "ci/test_kvmfornfv.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 5447
+      },
+      "writtenOn": "2016-09-14T04:17:24Z",
+      "side": 1,
+      "message": "Returning the Jenkins result as SUCCESS instead of FAILURE,since the test for merge is not yet implemented.",
+      "parentUuid": "1a76adc5_93e678b3",
       "range": {
         "startLine": 21,
         "startChar": 8,

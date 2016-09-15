@@ -81,6 +81,30 @@
       "revId": "b8f6485d5a5c66f0fce566e59b8b5891c6a7f571",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_882ba293",
+        "filename": "ci/test_kvmfornfv.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2016-09-15T17:00:35Z",
+      "side": 1,
+      "message": "hmm, what I mean is, passing \u0027merge\u0027 is something not expected by this script and we assume the releng should not call our scripts for \u0027merge\u0027 job?\n\nPossibly it\u0027s ok to return success , which means we don\u0027t do any test and the merge task will always success. I\"m ok with this stand. \n\nShould we return \u0027failure\u0027 if the test_type is not verify/daily/merge?",
+      "parentUuid": "1a76adc5_6e873362",
+      "range": {
+        "startLine": 21,
+        "startChar": 8,
+        "endLine": 21,
+        "endChar": 9
+      },
+      "revId": "b8f6485d5a5c66f0fce566e59b8b5891c6a7f571",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }

@@ -19,6 +19,16 @@ if [ -z ${KERNELRPM_VERSION} ];then
    exit 1
 fi
 
+#calculating and verifying sha512sum of the guestimage.
+function verifyGuestImage {
+   scp $WORKSPACE/build_output/guest1.sha512 root@${HOST_IP}:/root/images
+   checksum=$(sudo ssh root@${HOST_IP} "cd /root/images/ && sha512sum -c guest1.sha512 | awk '{print \$2}'")
+   if [ "$checksum" != "OK" ]; then
+      echo "Something wrong with the image, please verify"
+      return 1
+   fi
+}
+
 #Updating the pod.yaml file with HOST_IP,cyclictest-node-context.yaml with loops and interval
 function updateYaml {
    cd $WORKSPACE/tests/

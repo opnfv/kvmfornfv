@@ -47,4 +47,4 @@ scenarios:
 context:
   type: Node
   name: LF
-  file: /opt/pod.yaml
+  file: /opt/scripts/pod.yaml

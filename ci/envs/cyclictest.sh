@@ -7,7 +7,7 @@
 source utils.sh
 
 HOST_IP=$( getHostIP )
-pod_config='/opt/pod.yaml'
+pod_config='/opt/scripts/pod.yaml'
 cyclictest_context_file='/opt/cyclictest-node-context.yaml'
 
 if [ ! -f ${pod_config} ] ; then
@@ -25,5 +25,10 @@ sudo ssh root@$HOST_IP "cp /root/images/guest1.qcow2 /root/"
 
 #Running cyclictest through yardstick
 yardstick -d task start ${cyclictest_context_file}
+output=$?
 chmod 777 /tmp/yardstick.out
 cat /tmp/yardstick.out  > /opt/yardstick.out
+if [ $output != 0 ];then
+   echo "Someproblem with execution of Yardstick"
+   exit 1
+fi

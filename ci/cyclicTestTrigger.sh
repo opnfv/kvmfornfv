@@ -19,6 +19,16 @@ if [ -z ${KERNELRPM_VERSION} ];then
    exit 1
 fi
 
+#calculating and verifying sha512sum of the guestimage.
+function verifyGuestImage {
+   scp $WORKSPACE/build_output/guest1.sha512 root@${HOST_IP}:/root/images
+   checksum=$(sudo ssh root@${HOST_IP} "cd /root/images/ && sha512sum -c guest1.sha512 | awk '{print \$2}'")
+   if [ "$checksum" != "OK" ]; then
+      echo "Something wrong with the image, please verify"
+      return 1
+   fi
+}
+
 #Updating the pod.yaml file with HOST_IP,cyclictest-node-context.yaml with loops and interval
 function updateYaml {
    cd $WORKSPACE/tests/
@@ -62,12 +72,12 @@ function runCyclicTest {
    mv $WORKSPACE/build_output/kernel-${KERNELRPM_VERSION}*.rpm ${volume}/rpm
    cp -r $WORKSPACE/ci/envs/* ${volume}/scripts
    cp -r $WORKSPACE/tests/cyclictest-node-context.yaml ${volume}
-   cp -r $WORKSPACE/tests/pod.yaml ${volume}
+   cp -r $WORKSPACE/tests/pod.yaml ${volume}/scripts
 
    #Launching ubuntu docker container to run yardstick
    sudo docker run -i -v ${volume}:/opt --net=host --name kvmfornfv_${testType} \
    kvmfornfv:latest  /bin/bash -c "cd /opt/scripts && ls; ./cyclictest.sh"
-
+   output=$?
    #Verifying the results of cyclictest
    result=`grep -o '"errors":[^,]*' ${volume}/yardstick.out | awk -F '"' '{print $4}'`
 
@@ -79,12 +89,17 @@ function runCyclicTest {
       echo "####################################################"
       env_clean
       host_clean
-      exit 0
+      if [ $output != 0 ];then
+         echo "Some problem with Yardstick.Check cyclictest.sh"
+         return 1
+      else
+         return 0
+      fi
    else
       echo "Testcase failed"
       echo `grep -o '"errors":[^,]*' ${volume}/yardstick.out | awk -F '"' '{print $4}'`
       env_clean
       host_clean
-      exit 1
+      return 1
    fi
 }

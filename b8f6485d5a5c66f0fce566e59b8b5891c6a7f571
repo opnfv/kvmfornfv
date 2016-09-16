@@ -105,6 +105,30 @@
       "revId": "b8f6485d5a5c66f0fce566e59b8b5891c6a7f571",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_ebe9f080",
+        "filename": "ci/test_kvmfornfv.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 5447
+      },
+      "writtenOn": "2016-09-16T09:29:00Z",
+      "side": 1,
+      "message": "Ok Yunhong.. I will update the code to return failure in case of wrong parameter and will push another patch",
+      "parentUuid": "1a76adc5_882ba293",
+      "range": {
+        "startLine": 21,
+        "startChar": 8,
+        "endLine": 21,
+        "endChar": 9
+      },
+      "revId": "b8f6485d5a5c66f0fce566e59b8b5891c6a7f571",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }

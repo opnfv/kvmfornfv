@@ -49,8 +49,9 @@ export EXTERNAL_NET INSTALLER_TYPE POD_NAME
 
 # Verifiy
 
-DISPATCHER_TYPE=file
+DISPATCHER_TYPE=influxdb
 DISPATCHER_FILE_NAME="/tmp/yardstick.out.$$"
+DISPATCHER_INFLUX_TARGET="http://104.197.68.199:8086"
 
 exitcode=""
 
@@ -97,8 +98,11 @@ dispatcher = ${DISPATCHER_TYPE}
 file_name = ${DISPATCHER_FILE_NAME}
 
 [dispatcher_http]
-timeout = 5
-target = ${DISPATCHER_HTTP_TARGET}
+# timeout = 5
+# target = ${DISPATCHER_HTTP_TARGET}
+
+[dispatcher_influxdb]
+target = ${DISPATCHER_INFLUX_TARGET}
 EOF
 
     local failed=0

@@ -19,9 +19,15 @@ elif [ ${test_type} == "daily" ];then
 elif [ ${test_type} == "merge" ];then
    echo "Test is not enabled for ${test_type}"
    exit 0
+else
+   echo "Incorrect test type ${test_type}"
+   exit 1
 fi
 
 source $WORKSPACE/ci/cyclicTestTrigger.sh $HOST_IP $test_time $test_type
+
+#calculating and verifying sha512sum of the guestimage.
+verifyGuestImage
 
 #Update cyclictest-node-context.yaml with test_time and pod.yaml with IP
 updateYaml

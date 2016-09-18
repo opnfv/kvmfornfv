@@ -4,6 +4,10 @@ set -eux
 
 BUILD_FOR=${BUILD_FOR:-ubuntu}
 DIR="$(dirname `readlink -f $0`)"
+MODULES="${DIR}/deployment_scripts/puppet/modules"
+
+REBOOT_VER='1.2.1'
+REBOOT_URL="https://github.com/puppetlabs/puppetlabs-reboot/archive/${REBOOT_VER}.tar.gz"
 
 function build_pkg {
   case $1 in
@@ -25,3 +29,7 @@ for system in $BUILD_FOR
 do
   build_pkg $system
 done
+
+rm -rf ${MODULES}/reboot
+mkdir -p ${MODULES}/reboot
+wget -qO- ${REBOOT_URL} |  tar -C ${MODULES}/reboot --strip-components=1 -zxvf -

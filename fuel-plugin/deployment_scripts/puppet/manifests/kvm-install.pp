@@ -1,15 +1,16 @@
-$fuel_settings = parseyaml(file('/etc/astute.yaml'))
+$kvm_settings = hiera('fuel-plugin-kvm')
 if $operatingsystem == 'Ubuntu' {
-        if $fuel_settings['fuel-plugin-kvm']['use_kvm'] {
+        if $kvm_settings['use_kvm'] {
                 package { 'linux-headers-4.4.6-rt14nfv':
                         ensure => "1.0.OPNFV",
+                        notify => Reboot['after_run'],
                 } ->
                 package { 'linux-image-4.4.6-rt14nfv':
                         ensure => "1.0.OPNFV",
-                } ->
-                exec {'reboot':
-                       command => "reboot",
-                       path   => "/usr/bin:/usr/sbin:/bin:/sbin",
+                        notify => Reboot['after_run'],
+                }
+                reboot { 'after_run':
+                    apply => finished,
                 }
         } else {
         }

@@ -11,10 +11,10 @@
 test_type=$1
 
 if [ ${test_type} == "verify" ];then
-   HOST_IP="10.2.117.23"
-   test_time=600000 # 10m
-elif [ ${test_type} == "daily" ];then
    HOST_IP="10.2.117.25"
+   test_time=6000 # 10m
+elif [ ${test_type} == "daily" ];then
+   HOST_IP="10.2.117.23"
    test_time=7200000 #2h
 elif [ ${test_type} == "merge" ];then
    echo "Test is not enabled for ${test_type}"

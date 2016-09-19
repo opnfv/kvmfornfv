@@ -25,5 +25,7 @@ sudo ssh root@$HOST_IP "cp /root/images/guest1.qcow2 /root/"
 
 #Running cyclictest through yardstick
 yardstick -d task start ${cyclictest_context_file}
+echo $?
+echo "INSIDE THE DOCKER CONTAINER"
 chmod 777 /tmp/yardstick.out
 cat /tmp/yardstick.out  > /opt/yardstick.out

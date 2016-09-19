@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_31367204",
+        "filename": "ci/test_kvmfornfv.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2016-09-19T15:45:20Z",
+      "side": 1,
+      "message": "I\u0027m not expert on the script programming, so not sure if it\u0027s normal to have the function exit the whole script if something wrong?\n\nOr it will be better to be something like:\nif (!verifyGuestImage)  // Of course, this should be bash script format :)\n   exit 1.\n\nAnd in verifyGuestImage, instead of exit 1, we use \u0027return\u0027.\n\nAny idea?\n\nThanks\n--jyh",
+      "revId": "9ac11d9608fa6aed0e69861c32e4a0804e972565",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}

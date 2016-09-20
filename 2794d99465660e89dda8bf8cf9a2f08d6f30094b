@@ -16,6 +16,24 @@
       "revId": "2794d99465660e89dda8bf8cf9a2f08d6f30094b",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_8673867f",
+        "filename": "ci/envs/cyclictest.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 5765
+      },
+      "writtenOn": "2016-09-20T17:35:50Z",
+      "side": 1,
+      "message": "yes, we can exit in the end\n\ncyclictest_result\u003d$?\nchmod 777 /tmp/yardstick.out\ncat /tmp/yardstick.out  \u003e /opt/yardstick.out\n\nif [ $cyclictest_result \u003d\u003d 1 ];then\n   exit 1\nfi\n\nThis works.",
+      "parentUuid": "1a76adc5_4691ee97",
+      "revId": "2794d99465660e89dda8bf8cf9a2f08d6f30094b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }

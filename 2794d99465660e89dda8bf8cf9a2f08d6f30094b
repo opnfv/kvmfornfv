@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_4691ee97",
+        "filename": "ci/envs/cyclictest.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2016-09-20T17:06:20Z",
+      "side": 1,
+      "message": "So we will lose the yaststick log if the yardstick fails? How about we simply mark the result after yardstick, and still copy the /tmp/yardstick.out. In the end, we will return depends on the mark that is set?",
+      "revId": "2794d99465660e89dda8bf8cf9a2f08d6f30094b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}

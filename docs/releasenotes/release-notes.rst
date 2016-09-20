@@ -1,10 +1,7 @@
 .. This work is licensed under a Creative Commons Attribution 4.0 International License.
-
 .. http://creativecommons.org/licenses/by/4.0
+.. (c) <optionally add copywriters name>
 
-=====================================================
-OPNFV Release Note for "Colorado release" - KVMFORNFV
-=====================================================
 
 .. _Kvmfornfv: https://wiki.opnfv.org/display/kvm/
 
@@ -13,13 +10,6 @@ Abstract
 ========
 
 This document provides the release notes for Colorado release of KVMFORNFV.
-
-License
-=======
-
-KVMFORNFV is licensed under a Creative Commons Attribution 4.0 International
-License.You should have received a copy of the license along with this. If not,
-see <http://creativecommons.org/licenses/by/4.0/>.
 
 
 **Contents**
@@ -100,7 +90,7 @@ KVMFORNFV_ team.
 | **Release designation**              | Colorado                             |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
-| **Release date**                     | 2016-08-22                           |
+| **Release date**                     | 2016-09-22                           |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
 | **Purpose of the delivery**          | OPNFV Colorado Releases              |

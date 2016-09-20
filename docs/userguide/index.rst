@@ -2,11 +2,9 @@
 
 .. http://creativecommons.org/licenses/by/4.0
 
-****************
-OPNFV User Guide
-****************
-Colorado 1.0
-------------
+******************
+KVM4NFV User Guide
+******************
 
 .. toctree::
    :maxdepth: 2

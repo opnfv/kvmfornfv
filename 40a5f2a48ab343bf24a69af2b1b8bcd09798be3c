@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_e4ea6d0e",
+        "filename": "ci/cyclicTestTrigger.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2016-09-21T18:00:48Z",
+      "side": 1,
+      "message": "I\u0027m not sure if I understand the logic here correctly. Per my understanding, this logic mean, the error may comes from two parts, either some error on the result file, or yardstick even fail to execute. In either case, we should return 1, am I right?\n\nThe current implementation is not clean IMHO, I\u0027m ok to merge it as is, but possibly we need clean it up late.",
+      "revId": "40a5f2a48ab343bf24a69af2b1b8bcd09798be3c",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}

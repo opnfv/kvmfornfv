@@ -1,4 +1,0 @@
-*.rpm
-*.deb
-fuel-plugin/.build/
-fuel-plugin/deployment_scripts/puppet/modules/reboot

@@ -9,7 +9,7 @@
 Abstract
 ========
 
-This document provides the release notes for Colorado release of KVMFORNFV.
+This document provides the release notes for Colorado 1.0 release of KVMFORNFV.
 
 
 **Contents**
@@ -22,34 +22,39 @@ This document provides the release notes for Colorado release of KVMFORNFV.
 
 4  Delivery Data
 
-5 References
+5  References
 
 1   Version history
 ===================
 
-+--------------------+--------------------+--------------------+--------------------+
-| **Date**           | **Ver.**           | **Author**         | **Comment**        |
-|                    |                    |                    |                    |
-+--------------------+--------------------+--------------------+--------------------+
-|2016-08-22          | 0.1.0              |                    | Colorado release   |
-|                    |                    |                    |                    |
-+--------------------+--------------------+--------------------+--------------------+
++--------------------+--------------------+--------------------+----------------------+
+| **Date**           | **Ver.**           | **Author**         | **Comment**          |
+|                    |                    |                    |                      |
++--------------------+--------------------+--------------------+----------------------+
+|2016-08-22          | 0.1.0              |                    | Colorado 1.0 release |
+|                    |                    |                    |                      |
++--------------------+--------------------+--------------------+----------------------+
 
 2   Important notes
 ===================
 
-The software delivered in the OPNFV KVMFORNFV_ Project, comprises the
-*ci*, the *kvmfornfv test cases*.
-
-The *KVMFORNFV* framework depends on the *Fuel* installer.
-
+The KVMFORNFV project is currently supported on the Fuel installer.
 
 3   Summary
 ===========
 
-This Colorado release provides *KVMFORNFV* as a framework to enhance the
+This Colorado 1.0 release provides *KVMFORNFV* as a framework to enhance the
 KVM Hypervisor for NFV and OPNFV scenario testing, automated in the OPNFV
 CI pipeline, including:
+
+*   KVMFORNFV source code
+
+*   Automation of building the Kernel and qemu for RPM and debian packages
+
+*   Cyclictests execution to check the latency
+
+*   “os-sdn-kvm-ha” Scenario testing for high availability configuration using
+Fuel installer
 
 * Documentation created
 
@@ -60,19 +65,6 @@ CI pipeline, including:
   * Installation Procedure
 
   * Release notes (this document)
-
-* KVMFORNFV source code
-
-* Cyclictests for KVMFORNFV
-
-For Colorado release, the KVMFORNFV uses for the following:
-
-* Automation of building the Kernel and qemu RPM's or debians
-
-* Executing the Cyclictests to check the latency
-
-* os-sdn-kvm-ha Scenario testing for High Availability Configuration using
-  Fuel Installer
 
 The *KVMFORNFV framework* is developed in the OPNFV community, by the
 KVMFORNFV_ team.
@@ -93,7 +85,7 @@ KVMFORNFV_ team.
 | **Release date**                     | 2016-09-22                           |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
-| **Purpose of the delivery**          | OPNFV Colorado Releases              |
+| **Purpose of the delivery**          | OPNFV Colorado 1.0 Releases          |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
 
@@ -102,6 +94,16 @@ KVMFORNFV_ team.
 
 4.1.1   Module version changes
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+This is the Colorado 1.0 main release. It is based on following upstream
+versions:
+
+*   RT Kernel 4.4.6-rt14
+
+*   QEMU 2.6
+
+*   Fuel plugin based on Fuel 9.0
+
 This is the first tracked release of KVMFORNFV
 
 
@@ -115,17 +117,6 @@ This is the initial version of the KVMFORNFV framework in OPNFV.
 4.2.1 Feature additions
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-+--------------------------------------+--------------------------------------+
-| **JIRA REFERENCE**                   | **SLOGAN**                           |
-|                                      |                                      |
-+--------------------------------------+--------------------------------------+
-| JIRA:                                | NFV Hypervisors-KVMKVMFORNFV-34      |
-|                                      |                                      |
-+--------------------------------------+--------------------------------------+
-| JIRA:                                | NFV Hypervisors-KVMKVMFORNFV-34      |
-|                                      |                                      |
-+--------------------------------------+--------------------------------------+
-
 4.2.2 Bug corrections
 ~~~~~~~~~~~~~~~~~~~~~
 
@@ -136,7 +127,7 @@ Initial Release
 
 4.3.1   Software deliverables
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-KVMFORNFV framework source code <Colorado>
+Colorado 1.0 release of the KVMFORNFV RPM and debian for Fuel.
 
 4.3.2   Documentation deliverables
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

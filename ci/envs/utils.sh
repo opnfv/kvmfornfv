@@ -18,6 +18,12 @@ function getKernelVersion {
 
 #Get the IP address from pod.yaml file (example ip : 10.2.117.23)
 function getHostIP {
-   HOST_IP=`grep 'ip' $WORKSPACE/tests/pod.yaml | awk -F ': ' '{print $NF}' | tail -1`
+   host_dir="/root/workspace/scripts/"
+   container_dir="/opt/scripts/"
+   if [ -d "$container_dir" ];then
+      HOST_IP=`grep 'ip' $container_dir/pod.yaml | awk -F ': ' '{print $NF}' | tail -1`
+   elif [ -d "$host_dir" ];then
+      HOST_IP=`grep 'ip' $host_dir/pod.yaml | awk -F ': ' '{print $NF}' | tail -1`
+   fi
    echo $HOST_IP
 }

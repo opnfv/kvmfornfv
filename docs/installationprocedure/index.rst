@@ -2,11 +2,9 @@
 
 .. http://creativecommons.org/licenses/by/4.0
 
-**********************
-Installation procedure
-**********************
-Colorado 1.0
-------------
+**********************************
+KVMforNFV Installation instruction
+**********************************
 
 .. toctree::
    :numbered:
@@ -14,4 +12,3 @@ Colorado 1.0
 
    abstract.rst
    kvm4nfv-cicd.installation.instruction.rst
-   kvm4nfv-cicd.release.notes.rst

@@ -16,6 +16,24 @@
       "revId": "40a5f2a48ab343bf24a69af2b1b8bcd09798be3c",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_e4d4ad21",
+        "filename": "ci/cyclicTestTrigger.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 5765
+      },
+      "writtenOn": "2016-09-21T18:42:47Z",
+      "side": 1,
+      "message": "Yes, here error comes from two parts.Yardstick fail to execute the test and error on result file.\nIf yardstick runs the test, results will be stored in the yardstick.out file. And if for some error yardstick fails to execute the test the error log message will be seen in the same yardstick.out file. In second case, no test results will be there in output file except the error log. so, to exit in this case we have implemented another check as above. \nWill check if we can make the return part more clear. Thanks",
+      "parentUuid": "1a76adc5_e4ea6d0e",
+      "revId": "40a5f2a48ab343bf24a69af2b1b8bcd09798be3c",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }

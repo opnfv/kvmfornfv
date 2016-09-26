@@ -25,6 +25,7 @@ scenarios:
     type: Duration
     duration: 1
     interval: 1
+  tc: "cyclictest-node-context"
   sla:
     max_min_latency: 50
     max_avg_latency: 100

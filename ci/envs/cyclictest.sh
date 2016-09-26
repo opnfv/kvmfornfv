@@ -6,6 +6,7 @@
 ###########################################################
 source utils.sh
 
+testType=$1 #daily/verify/merge
 HOST_IP=$( getHostIP )
 pod_config='/opt/scripts/pod.yaml'
 cyclictest_context_file='/opt/cyclictest-node-context.yaml'
@@ -22,6 +23,31 @@ fi
 
 #setting up of image for launching guest vm.
 sudo ssh root@$HOST_IP "cp /root/images/guest1.qcow2 /root/"
+
+#Updating the yardstick.conf file for daily
+function updateConfDaily() {
+   DISPATCHER_TYPE=influxdb
+   DISPATCHER_FILE_NAME="/tmp/yardstick.out"
+   DISPATCHER_INFLUXDB_TARGET="http://104.197.68.199:8086"
+   mkdir -p /etc/yardstick
+   cat << EOF > /etc/yardstick/yardstick.conf
+[DEFAULT]
+debug = True
+dispatcher = ${DISPATCHER_TYPE}
+
+[dispatcher_file]
+file_name = ${DISPATCHER_FILE_NAME}
+
+[dispatcher_influxdb]
+timeout = 5
+target = ${DISPATCHER_INFLUXDB_TARGET}
+EOF
+}
+
+#Function call to update yardstick conf file based on Job type
+if [ "$testType" == "daily" ];then
+   updateConfDaily
+fi
 
 #Running cyclictest through yardstick
 yardstick -d task start ${cyclictest_context_file}

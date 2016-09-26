@@ -76,7 +76,7 @@ function runCyclicTest {
 
    #Launching ubuntu docker container to run yardstick
    sudo docker run -i -v ${volume}:/opt --net=host --name kvmfornfv_${testType} \
-   kvmfornfv:latest  /bin/bash -c "cd /opt/scripts && ls; ./cyclictest.sh"
+   kvmfornfv:latest  /bin/bash -c "cd /opt/scripts && ls; ./cyclictest.sh $testType"
    output=$?
    #Verifying the results of cyclictest
    result=`grep -o '"errors":[^,]*' ${volume}/yardstick.out | awk -F '"' '{print $4}'`

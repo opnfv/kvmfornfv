@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_9258928b",
+        "filename": "ci/envs/cyclictest.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2016-09-27T17:04:03Z",
+      "side": 1,
+      "message": "This address is the community yardstick panel, right?",
+      "revId": "d9d08d48411ceb82f02706d3b925c257b5446940",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}

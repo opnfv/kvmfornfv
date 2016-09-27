@@ -7,10 +7,6 @@ rpm_output_dir=$rpm_build_dir/build_output
 cp -r $rpm_build_dir $tmp_rpm_build_dir
 
 # Build qemu rpm packages
-cd $tmp_rpm_build_dir/qemu
-make clean
-./configure
-make -j$(nproc)
 cd $tmp_rpm_build_dir
 ./ci/build_rpm/qemu_rpm_build.sh build_output
 

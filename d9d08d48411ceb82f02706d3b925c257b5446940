@@ -16,6 +16,24 @@
       "revId": "d9d08d48411ceb82f02706d3b925c257b5446940",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_fd96773e",
+        "filename": "ci/envs/cyclictest.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 5447
+      },
+      "writtenOn": "2016-09-28T05:18:16Z",
+      "side": 1,
+      "message": "Yes.. the same address is present in yardstick-ci-jobs.yml on releng project and got confirmation from lmingjinag also",
+      "parentUuid": "1a76adc5_9258928b",
+      "revId": "d9d08d48411ceb82f02706d3b925c257b5446940",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }

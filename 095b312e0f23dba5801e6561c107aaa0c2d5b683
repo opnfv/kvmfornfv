@@ -16,6 +16,24 @@
       "revId": "095b312e0f23dba5801e6561c107aaa0c2d5b683",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_d82e2943",
+        "filename": "ci/build_rpm/qemu_rpm_build.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 5765
+      },
+      "writtenOn": "2016-09-28T18:19:30Z",
+      "side": 0,
+      "message": "Actually we are installing it through Dockerfile.\nhttps://gerrit.opnfv.org/gerrit/gitweb?p\u003dkvmfornfv.git;a\u003dblob;f\u003dci/build_rpm/Dockerfile;h\u003d6d6d3ba3557e83b2c4e600a2d37ccc67ec5cd3ee;hb\u003dHEAD\nWe are installing it twice So, we removed here.",
+      "parentUuid": "1a76adc5_186a6181",
+      "revId": "095b312e0f23dba5801e6561c107aaa0c2d5b683",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }

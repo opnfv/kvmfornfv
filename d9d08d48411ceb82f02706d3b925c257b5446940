@@ -34,6 +34,29 @@
       "revId": "d9d08d48411ceb82f02706d3b925c257b5446940",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_ddbe1b65",
+        "filename": "ci/envs/cyclictest.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 5447
+      },
+      "writtenOn": "2016-09-28T09:56:51Z",
+      "side": 1,
+      "message": "Yunhong: Observed that the results don\u0027t get stored in the yardstick.out file if the influxdb configured as a dispatcher. So for \"daily\" test , results are available only on OPNFV grafana. \nIn this case we need to add a if-condition for \"verify\" on these two lines.\n\nKindly suggest.",
+      "range": {
+        "startLine": 55,
+        "startChar": 0,
+        "endLine": 56,
+        "endChar": 44
+      },
+      "revId": "d9d08d48411ceb82f02706d3b925c257b5446940",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }

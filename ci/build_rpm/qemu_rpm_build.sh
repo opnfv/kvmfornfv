@@ -54,9 +54,7 @@ qemu_rpm_build() {
 }
 
 if [ ! -d ${rpmbuild_dir} ] ; then
-    yum install rpm-build -y
-    mkdir -p ~/rpmbuild/{BUILD,RPMS,SOURCES,SPECS,SRPMS}
-    mv rpmbuild $workspace
+    mkdir -p ${rpmbuild_dir}/{BUILD,RPMS,SOURCES,SPECS,SRPMS}
 fi
 
 qemu_rpm_build

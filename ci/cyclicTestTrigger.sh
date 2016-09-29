@@ -34,12 +34,13 @@ function updateYaml {
    cd $WORKSPACE/tests/
    sed -ri "s/[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}/${HOST_IP}/" pod.yaml
    sed -ri "s/loops: [0-9]*/loops: ${testTime}/"  cyclictest-node-context.yaml
-   sed -ri "s/interval: [0-9]*/interval: 1000/"  cyclictest-node-context.yaml
+   sed -ri "0,/interval: [0-9]*/s//interval: 1000/"  cyclictest-node-context.yaml
 }
 
 #cleaning the environment after executing the test through yardstick.
 function env_clean {
     container_id=`sudo docker ps -a | grep kvmfornfv_${testType} |awk '{print \$1}'|sed -e 's/\r//g'`
+    sudo docker stop ${container_id}
     sudo docker rm ${container_id}
     sudo ssh root@${HOST_IP} "rm -rf /root/workspace/*"
     sudo ssh root@${HOST_IP} "pid=\$(ps aux | grep 'qemu' | awk '{print \$2}' | head -1); echo \$pid |xargs kill"
@@ -76,7 +77,7 @@ function runCyclicTest {
 
    #Launching ubuntu docker container to run yardstick
    sudo docker run -i -v ${volume}:/opt --net=host --name kvmfornfv_${testType} \
-   kvmfornfv:latest  /bin/bash -c "cd /opt/scripts && ls; ./cyclictest.sh"
+   kvmfornfv:latest  /bin/bash -c "cd /opt/scripts && ls; ./cyclictest.sh $testType"
    output=$?
    #Verifying the results of cyclictest
    result=`grep -o '"errors":[^,]*' ${volume}/yardstick.out | awk -F '"' '{print $4}'`

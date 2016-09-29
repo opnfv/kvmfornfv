@@ -21,7 +21,8 @@ if [ ! -f ${cyclictest_context_file} ] ; then
 fi
 
 #setting up of image for launching guest vm.
-sudo ssh root@$HOST_IP "cp /root/images/guest1.qcow2 /root/"
+ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
+root@$HOST_IP "cp /root/images/guest1.qcow2 /root/"
 
 #Running cyclictest through yardstick
 yardstick -d task start ${cyclictest_context_file}

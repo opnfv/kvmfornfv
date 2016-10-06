@@ -50,7 +50,7 @@ EOF
 
 #Function call to update yardstick conf file based on Job type
 #if [ "$testType" == "daily" ];then
-updateConfDaily
+#updateConfDaily
 #fi
 
 #Running cyclictest through yardstick

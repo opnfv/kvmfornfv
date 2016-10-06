@@ -50,15 +50,15 @@ EOF
 
 #Function call to update yardstick conf file based on Job type
 #if [ "$testType" == "daily" ];then
-updateConfDaily
+#updateConfDaily
 #fi
 
 #Running cyclictest through yardstick
 yardstick -d task start ${cyclictest_context_file}
 output=$?
 
-#   chmod 777 /tmp/yardstick.out
-#    cat /tmp/yardstick.out  > /opt/yardstick.out
+   chmod 777 /tmp/yardstick.out
+    cat /tmp/yardstick.out  > /opt/yardstick.out
 
 if [ $output != 0 ];then
    echo "Someproblem with execution of Yardstick"

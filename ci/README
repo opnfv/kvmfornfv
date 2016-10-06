@@ -1,3 +1,4 @@
+#DUMMY PATCH
 The "ci" folder consists of-
 
 build.sh --> builds rpm packages (if -p package option is  passed as "centos"

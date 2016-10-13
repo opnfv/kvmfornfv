@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dad5f5cf_9d6326b1",
+        "filename": "ci/envs/cyclictest.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2016-10-13T05:46:01Z",
+      "side": 1,
+      "message": "Should we restore the check of \"$testType \u003d\u003d \"daily\"? I think we comments that out temply when we verify the local dashboard, and we should restore it now?",
+      "revId": "33af26304199baaf2fc12eed49a12a76b4be13f8",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dad5f5cf_3d58faf9",
+        "filename": "ci/envs/cyclictest.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2016-10-13T05:46:01Z",
+      "side": 1,
+      "message": "Same here. I remember we had the job type checking here, right?",
+      "revId": "33af26304199baaf2fc12eed49a12a76b4be13f8",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}

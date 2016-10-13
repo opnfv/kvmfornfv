@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "dad5f5cf_fde6f215",
+        "filename": "ci/envs/cyclictest.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 5447
+      },
+      "writtenOn": "2016-10-13T06:20:43Z",
+      "side": 1,
+      "message": "Since we have mentioned the local dashboard link currently in this file, we though of posting both daily and verify data.As daily gets executed once in a day, it will be easy to check the dashboard with verify test results. Kindly suggest",
+      "parentUuid": "dad5f5cf_9d6326b1",
+      "revId": "33af26304199baaf2fc12eed49a12a76b4be13f8",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dad5f5cf_3d58faf9",
         "filename": "ci/envs/cyclictest.sh",
         "patchSetId": 4

@@ -54,6 +54,8 @@ if [ "$testType" == "daily" ];then
    updateConfDaily
 fi
 
+grep "timeout" /usr/local/lib/python2.7/dist-packages/yardstick-0.1.dev0-py2.7.egg/yardstick/ssh.py
+
 #Running cyclictest through yardstick
 yardstick -d task start ${cyclictest_context_file}
 output=$?

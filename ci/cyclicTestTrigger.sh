@@ -34,7 +34,8 @@ function updateYaml {
    cd $WORKSPACE/tests/
    sed -ri "s/[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}/${HOST_IP}/" pod.yaml
    sed -ri "s/loops: [0-9]*/loops: ${testTime}/"  cyclictest-node-context.yaml
-   sed -ri "s/interval: [0-9]*/interval: 1000/"  cyclictest-node-context.yaml
+#   sed -ri "s/interval: [0-9]*/interval: 1000/"  cyclictest-node-context.yaml
+      sed -ri "0,/interval: [0-9]*/s//interval: 1000/"  cyclictest-node-context.yaml
 }
 
 #cleaning the environment after executing the test through yardstick.

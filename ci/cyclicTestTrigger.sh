@@ -54,6 +54,17 @@ function host_clean {
     sudo ssh root@${HOST_IP} "reboot"
 }
 
+function cleanup {
+   output=$1
+   env_clean
+   host_clean
+   if [ $output != 0 ];then
+      echo "Yardstick Failed.Please check cyclictest.sh"
+      return 1
+   else
+      return 0
+   fi
+}
 
 #Creating a docker image with yardstick installed and Verify the results of cyclictest
 function runCyclicTest {
@@ -76,30 +87,28 @@ function runCyclicTest {
 
    #Launching ubuntu docker container to run yardstick
    sudo docker run -i -v ${volume}:/opt --net=host --name kvmfornfv_${testType} \
-   kvmfornfv:latest  /bin/bash -c "cd /opt/scripts && ls; ./cyclictest.sh"
-   output=$?
+   kvmfornfv:latest  /bin/bash -c "cd /opt/scripts && ls; ./cyclictest.sh $testType"
+   cyclictest_output=$?
    #Verifying the results of cyclictest
-   result=`grep -o '"errors":[^,]*' ${volume}/yardstick.out | awk -F '"' '{print $4}'`
 
-   if [ -z "${result}" ]; then
-      echo "####################################################"
-      echo ""
-      echo `grep -o '"data":[^}]*' ${volume}/yardstick.out | awk -F '{' '{print $2}'`
-      echo ""
-      echo "####################################################"
-      env_clean
-      host_clean
-      if [ $output != 0 ];then
-         echo "Some problem with Yardstick.Check cyclictest.sh"
-         return 1
+   if [ "$testType" == "verify" ];then
+      result=`grep -o '"errors":[^,]*' ${volume}/yardstick.out | awk -F '"' '{print $4}'`
+
+      if [ -z "${result}" ]; then
+         echo "####################################################"
+         echo ""
+         echo `grep -o '"data":[^}]*' ${volume}/yardstick.out | awk -F '{' '{print $2}'`
+         echo ""
+         echo "####################################################"
+         cleanup $cyclictest_output
       else
-         return 0
+         echo "Testcase failed"
+         echo `grep -o '"errors":[^,]*' ${volume}/yardstick.out | awk -F '"' '{print $4}'`
+         env_clean
+         host_clean
+         return 1
       fi
    else
-      echo "Testcase failed"
-      echo `grep -o '"errors":[^,]*' ${volume}/yardstick.out | awk -F '"' '{print $4}'`
-      env_clean
-      host_clean
-      return 1
+      cleanup $cyclictest_output
    fi
 }

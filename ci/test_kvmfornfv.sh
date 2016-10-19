@@ -31,7 +31,7 @@ if ! verifyGuestImage;then
    exit 1
 fi
 
-#Update cyclictest-node-context.yaml with test_time and pod.yaml with IP
+#Update kvmfornfv_cyclictest_idle_idle.yaml with test_time and pod.yaml with IP
 updateYaml
 
 #Cleaning up the test environment before running cyclictest through yardstick.

@@ -9,7 +9,7 @@ source utils.sh
 testType=$1 #daily/verify/merge
 HOST_IP=$( getHostIP )
 pod_config='/opt/scripts/pod.yaml'
-cyclictest_context_file='/opt/cyclictest-node-context.yaml'
+cyclictest_context_file='/opt/kvmfornfv_cyclictest_idle_idle.yaml'
 
 if [ ! -f ${pod_config} ] ; then
     echo "file ${pod_config} not found"

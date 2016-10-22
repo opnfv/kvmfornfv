@@ -16,32 +16,13 @@
 static u32 cqm_max_rmid = -1;
 static unsigned int cqm_l3_scale; /* supposedly cacheline size */
 
-/**
- * struct intel_pqr_state - State cache for the PQR MSR
- * @rmid:		The cached Resource Monitoring ID
- * @closid:		The cached Class Of Service ID
- * @rmid_usecnt:	The usage counter for rmid
- *
- * The upper 32 bits of MSR_IA32_PQR_ASSOC contain closid and the
- * lower 10 bits rmid. The update to MSR_IA32_PQR_ASSOC always
- * contains both parts, so we need to cache them.
- *
- * The cache also helps to avoid pointless updates if the value does
- * not change.
- */
-struct intel_pqr_state {
-	u32			rmid;
-	u32			closid;
-	int			rmid_usecnt;
-};
-
 /*
  * The cached intel_pqr_state is strictly per CPU and can never be
  * updated from a remote CPU. Both functions which modify the state
  * (intel_cqm_event_start and intel_cqm_event_stop) are called with
  * interrupts disabled, which is sufficient for the protection.
  */
-static DEFINE_PER_CPU(struct intel_pqr_state, pqr_state);
+DEFINE_PER_CPU(struct intel_pqr_state, pqr_state);
 
 /*
  * Protects cache_cgroups and cqm_rmid_free_lru and cqm_rmid_limbo_lru.

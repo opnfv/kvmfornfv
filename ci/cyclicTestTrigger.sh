@@ -14,9 +14,14 @@ testName=$4
 
 source $WORKSPACE/ci/envs/utils.sh
 KERNELRPM_VERSION=$( getKernelVersion )
+QEMURPM_VERSION=$( getQemuVersion )
 
 if [ -z ${KERNELRPM_VERSION} ];then
    echo "Kernel RPM not found in build_output Directory"
+   exit 1
+fi
+if [ -z ${QEMURPM_VERSION} ];then
+   echo "QEMU RPM not found in build_output Directory"
    exit 1
 fi
 
@@ -112,6 +117,7 @@ function runCyclicTest {
 
    #copying required files to run yardstick cyclic testcase
    cp $WORKSPACE/build_output/kernel-${KERNELRPM_VERSION}*.rpm ${volume}/rpm
+   cp $WORKSPACE/build_output/qemu-${QEMURPM_VERSION}*.rpm ${volume}/rpm
    cp -r $WORKSPACE/ci/envs/* ${volume}/scripts
    cp -r $WORKSPACE/tests/kvmfornfv_cyclictest_${testName}.yaml ${volume}
    cp -r $WORKSPACE/tests/pod.yaml ${volume}/scripts

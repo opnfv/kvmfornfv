@@ -30,7 +30,7 @@ function updateConfDaily() {
    DISPATCHER_TYPE=influxdb
    DISPATCHER_FILE_NAME="/tmp/yardstick.out"
    # Use the influxDB on the jumping server
-   DISPATCHER_INFLUXDB_TARGET="http://10.2.117.21:8086"
+   DISPATCHER_INFLUXDB_TARGET="http://104.197.68.199:8086"
    mkdir -p /etc/yardstick
    cat << EOF > /etc/yardstick/yardstick.conf
 [DEFAULT]
@@ -43,8 +43,8 @@ file_name = ${DISPATCHER_FILE_NAME}
 [dispatcher_influxdb]
 timeout = 5
 db_name = yardstick
-username = root
-password = root
+username = opnfv
+password = 0pnfv2015
 target = ${DISPATCHER_INFLUXDB_TARGET}
 EOF
 }

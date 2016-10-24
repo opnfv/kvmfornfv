@@ -13,6 +13,8 @@ testType=$3
 testName=$4
 
 source $WORKSPACE/ci/envs/utils.sh
+source $WORKSPACE/ci/envs/host-config.sh
+
 KERNELRPM_VERSION=$( getKernelVersion )
 QEMURPM_VERSION=$( getQemuVersion )
 
@@ -128,7 +130,11 @@ function runCyclicTest {
    kvmfornfv:latest  /bin/bash -c "cd /opt/scripts && ls; ./cyclictest.sh $testType $testName"
    cyclictest_output=$?
    #Verifying the results of cyclictest
-
+   
+   if [ "$testName" == "iostress_idle" ]
+   copyLogs
+   fi
+   #Verifying the results of cyclictest
    if [ "$testType" == "verify" ];then
       result=`grep -o '"errors":[^,]*' ${volume}/yardstick.out | awk -F '"' '{print $4}'`
 

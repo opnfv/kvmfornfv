@@ -41,6 +41,8 @@ function cyclictest {
    updateYaml
    #Cleaning up the test environment before running cyclictest through yardstick.
    env_clean
+   #Running PCM utility
+   collect_MBWInfo $test_type
    #Creating a docker image with yardstick installed and launching ubuntu docker to run yardstick cyclic testcase
    if runCyclicTest;then
       cyclictest_result=`expr ${cyclictest_result} + 0`
@@ -48,12 +50,54 @@ function cyclictest {
       echo "Test case execution FAILED for ${test_case} environment"
       cyclictest_result=`expr ${cyclictest_result} + 1`
    fi
+   sudo ssh root@${HOST_IP} "pid=\$(ps aux | grep 'pcm' | awk '{print \$2}' | head -1); echo \$pid |xargs kill -SIGTERM"
+}
+function collect_MBWInfo {
+   #Collecting the Memory Bandwidth Information using pcm-memory utility
+   source $WORKSPACE/ci/envs/host-config
+   testType=$1
+   timeStamp=$(date +%Y%m%d%H%M%S)
+   echo "Running pcm_utility to collect memory bandwidth"
+   sudo ssh root@${HOST_IP} "mkdir -p /root/MBWInfo"
+   sudo ssh root@${HOST_IP} "${pcm_memory} 60 &>/root/MBWInfo/MBWInfo_${testType}_${timeStamp} &disown"
+}
+function copyLogs {
+   echo "Copying Log files from Node to Jump Server"
+   source $WORKSPACE/ci/envs/host-config
+   #Creating MBWInfo directory on Jumpserver
+   mkdir -p $WORKSPACE/build_output/log/MBWInfo
+   sudo ssh root@${HOST_IP} "cd /root;tar -czvf MBWInfo.tar.gz MBWInfo"
+   scp root@${HOST_IP}:/root/MBWInfo.tar.gz $WORKSPACE/build_output/log/MBWInfo
+}
+function install_pcm {
+  source $WORKSPACE/ci/envs/host-config
+  sudo ssh root@${HOST_IP} '
+   modelName=`cat /proc/cpuinfo | grep -i "model name" | uniq`
+   if  echo "$modelName" | grep -i "xeon" ;then
+   echo  "pcm utility supports $modelName processor"
+   else
+   echo "check for the pcm utility supported processors"
+   exit 1
+   fi
+   cd /root
+   if [ ! -d "pcm" ]; then
+    `git clone https://github.com/opcm/pcm`
+     cd pcm
+     make
+   fi
+   echo "Disabling NMI Watchdog"
+   echo 0 > /proc/sys/kernel/nmi_watchdog
+   echo "To Access MSR registers installing msr-tools"
+   sudo yum install msr-tools
+   sudo modprobe msr
+   '
 }
 
 #Execution of testcases based on test type and test name from releng.
 if [ ${test_type} == "verify" ];then
    HOST_IP="10.10.100.21"
    test_time=120000 # 2m
+   install_pcm
    for env in ${cyclictest_env_verify[@]}
    do
       #Executing cyclictest through yardstick.

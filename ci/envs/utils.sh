@@ -27,3 +27,16 @@ function getHostIP {
    fi
    echo $HOST_IP
 }
+Get the Qemu version from RPM generated(example:qemu-2.6.0-1.x86_64.rpm)
+function getQemuVersion {
+   rpm_dir="/root/workspace/rpm/"
+   if [ -d "$WORKSPACE" ];then
+      cd $WORKSPACE/build_output 2>/dev/null; qemuRPM=`ls qemu-[[:digit:]]* 2>/dev/null`
+      RPMVERSION=`echo ${qemuRPM}|awk -F '-' '{print $2}' | awk -F '-' '{print $NF}'`
+   elif [ -d "$rpm_dir" ];then
+      cd $rpm_dir 2>/dev/null; qemuRPM=`ls qemu-[[:digit:]]* 2>/dev/null`
+      RPMVERSION=`echo ${qemuRPM}|awk -F '-' '{print $2}' | awk -F '-' '{print $NF}'`
+   fi
+   echo ${RPMVERSION}
+}
+

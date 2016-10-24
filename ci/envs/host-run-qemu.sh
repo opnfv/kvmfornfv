@@ -36,6 +36,7 @@ ${qemu} -smp ${guest_cpus} -monitor unix:${qmp_sock},server,nowait \
      -realtime mlock=on -mem-prealloc -enable-kvm -m 1G \
      -mem-path /mnt/hugetlbfs-1g \
      -device virtio-net-pci,netdev=net0 \
+     -vnc :1
 
 threads=`echo "info cpus" | nc -U ${qmp_sock} | grep thread_id | cut -d= -f3`
 

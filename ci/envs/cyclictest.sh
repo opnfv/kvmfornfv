@@ -31,7 +31,7 @@ function updateConfDaily() {
    DISPATCHER_TYPE=influxdb
    DISPATCHER_FILE_NAME="/tmp/yardstick.out"
    # Use the influxDB on the jumping server
-   DISPATCHER_INFLUXDB_TARGET="http://104.197.68.199:8086"
+   DISPATCHER_INFLUXDB_TARGET="http://10.10.100.20:8086"
    mkdir -p /etc/yardstick
    cat << EOF > /etc/yardstick/yardstick.conf
 [DEFAULT]
@@ -44,14 +44,14 @@ file_name = ${DISPATCHER_FILE_NAME}
 [dispatcher_influxdb]
 timeout = 5
 db_name = yardstick
-username = opnfv
-password = 0pnfv2015
+username = admin
+password = admin
 target = ${DISPATCHER_INFLUXDB_TARGET}
 EOF
 }
 
 #Function call to update yardstick conf file based on Job type
-if [ "$testType" == "daily" ];then
+if [ "$testType" == "verify" ];then
    updateConfDaily
 fi
 

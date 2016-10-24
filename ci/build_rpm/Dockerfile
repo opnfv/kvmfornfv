@@ -11,4 +11,4 @@ RUN yum -y update && yum -y install \
   gettext \
   bc \
   rpm \
-  rpm-build
+  rpm-buil

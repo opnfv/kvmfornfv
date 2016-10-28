@@ -22,6 +22,7 @@
 #include <asm/nmi.h>
 #include <asm/x86_init.h>
 #include <asm/geode.h>
+#include <asm/apic.h>
 
 unsigned int __read_mostly cpu_khz;	/* TSC clocks / usec, not used here */
 EXPORT_SYMBOL(cpu_khz);
@@ -1140,6 +1141,9 @@ static void tsc_refine_calibration_work(struct work_struct *work)
 	pr_info("Refined TSC clocksource calibration: %lu.%03lu MHz\n",
 		(unsigned long)tsc_khz / 1000,
 		(unsigned long)tsc_khz % 1000);
+
+	/* Inform the TSC deadline clockevent devices about the recalibration */
+	lapic_update_tsc_freq();
 
 out:
 	clocksource_register_khz(&clocksource_tsc, tsc_khz);

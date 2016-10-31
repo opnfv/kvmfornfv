@@ -30,14 +30,18 @@ qmp_sock="/tmp/qmp-sock-$$"
 #    -device virtio-net-pci,netdev=guest0 \
 #    -nographic -serial /dev/null -parallel /dev/null
 
-${qemu} -smp ${guest_cpus} -drive file=/root/guest1.qcow2 -daemonize \
+taskset -c ${host_isolcpus}  ${qemu} -smp ${guest_cpus} -drive file=/root/guest1.qcow2 -daemonize \
      -netdev user,id=net0,hostfwd=tcp:$HOST_IP:5555-:22 \
      -realtime mlock=on -mem-prealloc -enable-kvm -m 1G \
      -mem-path /mnt/hugetlbfs-1g \
      -device virtio-net-pci,netdev=net0 \
 
+first=$(echo ${host_isolcpus} | cut -f1 -d-)
+last=$(echo ${host_isolcpus} | cut -f2 -d-)
+
+
 i=0
-for c in `echo ${host_isolcpus} | sed 's/,/ /g'` ; do
+for c in $(seq $first $last)  ; do
     cpu[$i]=${c}
     i=`expr $i + 1`
 done

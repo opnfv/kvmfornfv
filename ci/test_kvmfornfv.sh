@@ -15,7 +15,7 @@ if [ ${test_type} == "verify" ];then
    test_time=600000 # 10m
 elif [ ${test_type} == "daily" ];then
    HOST_IP="10.2.117.25"
-   test_time=7200000 #2h
+   test_time=3600000 #2h
 elif [ ${test_type} == "merge" ];then
    echo "Test is not enabled for ${test_type}"
    exit 0
@@ -31,7 +31,7 @@ if ! verifyGuestImage;then
    exit 1
 fi
 
-#Update kvmfornfv_cyclictest_idle_idle.yaml with test_time and pod.yaml with IP
+#Update kvmfornfv_cyclictest_<Host>_<Guest>.yaml with test_time and pod.yaml with IP
 updateYaml
 
 #Cleaning up the test environment before running cyclictest through yardstick.

@@ -8,10 +8,11 @@
 ###############################################################################
 
 # Isolated cpus for nfv, must be delimited with ','
-host_isolcpus=3,4
+#host_isolcpus=3,4
+host_isolcpus=`lscpu | grep "NUMA node1 CPU(s)"| awk -F ':' '{print \$2}' | sed 's/[[:space:]]//g'`
 
 # Number of huge pages to create and on which NUMA node
-numa_node=0
+numa_node=1
 huge_pages=2
 
 # QEMU executable path and number of cpus for guest

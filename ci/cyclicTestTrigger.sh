@@ -29,12 +29,12 @@ function verifyGuestImage {
    fi
 }
 
-#Updating the pod.yaml file with HOST_IP,kvmfornfv_cyclictest_idle_idle.yaml with loops and interval
+#Updating the pod.yaml file with HOST_IP,kvmfornfv_cyclictest_<Host>_<Guest>.yaml with loops and interval
 function updateYaml {
    cd $WORKSPACE/tests/
    sed -ri "s/[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}/${HOST_IP}/" pod.yaml
-   sed -ri "s/loops: [0-9]*/loops: ${testTime}/"  kvmfornfv_cyclictest_idle_idle.yaml
-   sed -ri "0,/interval: [0-9]*/s//interval: 1000/"  kvmfornfv_cyclictest_idle_idle.yaml
+   sed -ri "s/loops: [0-9]*/loops: ${testTime}/"  kvmfornfv_cyclictest_idle_idle.yaml kvmfornfv_cyclictest_cpustress_idle.yaml
+   sed -ri "0,/interval: [0-9]*/s//interval: 1000/"  kvmfornfv_cyclictest_idle_idle.yaml kvmfornfv_cyclictest_cpustress_idle.yaml
 }
 
 #cleaning the environment after executing the test through yardstick.
@@ -84,6 +84,7 @@ function runCyclicTest {
    mv $WORKSPACE/build_output/kernel-${KERNELRPM_VERSION}*.rpm ${volume}/rpm
    cp -r $WORKSPACE/ci/envs/* ${volume}/scripts
    cp -r $WORKSPACE/tests/kvmfornfv_cyclictest_idle_idle.yaml ${volume}
+   cp -r $WORKSPACE/tests/kvmfornfv_cyclictest_cpustress_idle.yaml ${volume}
    cp -r $WORKSPACE/tests/pod.yaml ${volume}/scripts
 
    #Launching ubuntu docker container to run yardstick

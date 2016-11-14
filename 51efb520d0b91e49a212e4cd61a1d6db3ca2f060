@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ac10518_6fcf97b1",
+        "filename": "ci/envs/host-run-qemu.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2016-11-14T17:25:53Z",
+      "side": 1,
+      "message": "Hi, Shravani, we set the CPU affinity below with the taskset -p for each vCPU thread, so why do you want to set the CPUs here?",
+      "revId": "51efb520d0b91e49a212e4cd61a1d6db3ca2f060",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}

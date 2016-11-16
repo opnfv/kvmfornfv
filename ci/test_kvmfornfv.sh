@@ -9,6 +9,7 @@
 ############################################################
 
 test_type=$1
+test_name=$2
 
 if [ ${test_type} == "verify" ];then
    HOST_IP="10.2.117.23"
@@ -23,6 +24,17 @@ else
    echo "Incorrect test type ${test_type}"
    exit 1
 fi
+
+if [ ${test_name} == "packet_forward" ];then
+   source $WORKSPACE/ci/packet_forward_test.sh $HOST_IP $test_name
+   if [ ${?} -ne 0 ] ; then
+      echo "FAILED"
+      exit 1
+   else 
+      echo "SUCCESS"
+   fi
+fi 
+
 
 source $WORKSPACE/ci/cyclicTestTrigger.sh $HOST_IP $test_time $test_type
 

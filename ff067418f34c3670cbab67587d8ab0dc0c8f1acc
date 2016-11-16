@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ac10518_b504f215",
+        "filename": "ci/envs/host-run-qemu.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2016-11-16T03:10:03Z",
+      "side": 0,
+      "message": "Are there any special reason to remove this $$?\nOther part seems OK to me.\n\nThanks\n--jyh",
+      "revId": "ff067418f34c3670cbab67587d8ab0dc0c8f1acc",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}

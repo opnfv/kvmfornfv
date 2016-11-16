@@ -16,6 +16,24 @@
       "revId": "ff067418f34c3670cbab67587d8ab0dc0c8f1acc",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_d5ac1e8f",
+        "filename": "ci/envs/host-run-qemu.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 5765
+      },
+      "writtenOn": "2016-11-16T11:04:36Z",
+      "side": 0,
+      "message": "Yunhong, Actually we faced issues with file creation using $$. Now the file is getting created with out $$.",
+      "parentUuid": "5ac10518_b504f215",
+      "revId": "ff067418f34c3670cbab67587d8ab0dc0c8f1acc",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }

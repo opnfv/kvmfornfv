@@ -10,6 +10,8 @@
 HOST_IP=$1
 testTime=$2
 testType=$3
+testName=$4
+echo "testname in cyclictesttrigger is $testName"
 
 source $WORKSPACE/ci/envs/utils.sh
 KERNELRPM_VERSION=$( getKernelVersion )
@@ -29,12 +31,13 @@ function verifyGuestImage {
    fi
 }
 
-#Updating the pod.yaml file with HOST_IP,kvmfornfv_cyclictest_idle_idle.yaml with loops and interval
+#Updating the pod.yaml file with HOST_IP,kvmfornfv_cyclictest_${testName}.yaml with loops and interval
 function updateYaml {
+   echo "testname in cyclictesttrigger updateyaml fn is $testName"
    cd $WORKSPACE/tests/
    sed -ri "s/[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}/${HOST_IP}/" pod.yaml
-   sed -ri "s/loops: [0-9]*/loops: ${testTime}/"  kvmfornfv_cyclictest_idle_idle.yaml
-   sed -ri "0,/interval: [0-9]*/s//interval: 1000/"  kvmfornfv_cyclictest_idle_idle.yaml
+   sed -ri "s/loops: [0-9]*/loops: ${testTime}/"  kvmfornfv_cyclictest_${testName}.yaml
+   sed -ri "0,/interval: [0-9]*/s//interval: 1000/"  kvmfornfv_cyclictest_${testName}.yaml
 }
 
 #cleaning the environment after executing the test through yardstick.
@@ -83,12 +86,12 @@ function runCyclicTest {
    #copying required files to run yardstick cyclic testcase
    mv $WORKSPACE/build_output/kernel-${KERNELRPM_VERSION}*.rpm ${volume}/rpm
    cp -r $WORKSPACE/ci/envs/* ${volume}/scripts
-   cp -r $WORKSPACE/tests/kvmfornfv_cyclictest_idle_idle.yaml ${volume}
+   cp -r $WORKSPACE/tests/kvmfornfv_cyclictest_${testName}.yaml ${volume}
    cp -r $WORKSPACE/tests/pod.yaml ${volume}/scripts
 
    #Launching ubuntu docker container to run yardstick
    sudo docker run -i -v ${volume}:/opt --net=host --name kvmfornfv_${testType} \
-   kvmfornfv:latest  /bin/bash -c "cd /opt/scripts && ls; ./cyclictest.sh $testType"
+   kvmfornfv:latest  /bin/bash -c "cd /opt/scripts && ls; ./cyclictest.sh $testType $testName"
    cyclictest_output=$?
    #Verifying the results of cyclictest
 

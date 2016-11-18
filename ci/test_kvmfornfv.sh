@@ -9,13 +9,14 @@
 ############################################################
 
 test_type=$1
-
+test_name=$2
+echo "TestName in test_kvmfornfv is $test_name"
 if [ ${test_type} == "verify" ];then
    HOST_IP="10.2.117.23"
    test_time=600000 # 10m
 elif [ ${test_type} == "daily" ];then
    HOST_IP="10.2.117.25"
-   test_time=7200000 #2h
+   test_time=3600000 #1h
 elif [ ${test_type} == "merge" ];then
    echo "Test is not enabled for ${test_type}"
    exit 0
@@ -24,22 +25,26 @@ else
    exit 1
 fi
 
-source $WORKSPACE/ci/cyclicTestTrigger.sh $HOST_IP $test_time $test_type
-
-#calculating and verifying sha512sum of the guestimage.
-if ! verifyGuestImage;then
-   exit 1
-fi
-
-#Update kvmfornfv_cyclictest_idle_idle.yaml with test_time and pod.yaml with IP
-updateYaml
-
-#Cleaning up the test environment before running cyclictest through yardstick.
-env_clean
-
-#Creating a docker image with yardstick installed and launching ubuntu docker to run yardstick cyclic testcase
-if runCyclicTest;then
-   exit 0
+if [ ${test_name} == "packet_forward" ];then
+   echo "pkt forwarding script name "
 else
-   exit 1
+   source $WORKSPACE/ci/cyclicTestTrigger.sh $HOST_IP $test_time $test_type $test_name
+
+   #calculating and verifying sha512sum of the guestimage.
+   if ! verifyGuestImage;then
+      exit 1
+   fi
+
+   #Update kvmfornfv_cyclictest_${testName}.yaml with test_time and pod.yaml with IP
+   updateYaml
+
+   #Cleaning up the test environment before running cyclictest through yardstick.
+   env_clean
+
+   #Creating a docker image with yardstick installed and launching ubuntu docker to run yardstick cyclic testcase
+   if runCyclicTest;then
+      exit 0
+   else
+      exit 1
+   fi
 fi

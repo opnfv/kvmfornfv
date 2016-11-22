@@ -3,6 +3,8 @@
 #      This script is to fetch kernel version and host ip at run time.
 ###############################################################################
 
+HOST_IP=$1
+
 #To get the Kernel version from RPM generated(example:kernel-4.4.6_rt14_1607061504nfv-3.x86_64.rpm)
 function getKernelVersion {
    rpm_dir="/root/workspace/rpm/"

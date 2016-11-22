@@ -1,0 +1,74 @@
+#!/bin/bash
+HOST_IP=$1
+echo $HOST_IP
+source $WORKSPACE/ci/envs/utils.sh
+KERNELRPM_VERSION=$( getKernelVersion )
+
+function connect_host {
+   n=0
+   while [ $n -lt 25 ]; do
+      host_ping_test="ping -c 1 ${HOST_IP}"
+      eval $host_ping_test &> /dev/null
+      if [ ${?} -ne 0 ] ; then
+         sleep 5
+         echo "host machine is still under reboot..trying to connect"
+         n=$(($n+1))
+      else
+         echo "resuming execution of the configuration scripts"
+         sleep 15
+         break
+      fi
+      if [ $n == 24 ];then
+         echo "Host machine unable to boot-up"
+         exit 1
+      fi
+   done
+}
+
+function connect_guest {
+   n=0
+   while [ $n -lt 25 ]; do
+      guest_ping_test="ssh -p 5555 root@${HOST_IP} exit"
+      eval $guest_ping_test &> /dev/null
+      if [ ${?} -ne 0 ] ; then
+         sleep 5
+         echo "guest vm is still under reboot..trying to connect"
+         n=$(($n+1))
+      else
+         echo "resuming execution of the configuration scripts"
+         sleep 15
+         break
+      fi
+      if [ $n == 24 ];then
+         echo "Host machine unable to boot-up"
+         exit 1
+      fi
+   done
+}
+
+#Creating workspace for copying scripts and rpms
+connect_host
+sudo ssh root@$HOST_IP "mkdir -p /root/workspace/scripts"
+sudo ssh root@$HOST_IP "mkdir -p /root/workspace/rpm"
+sudo ssh root@$HOST_IP "mkdir -p /root/workspace/image"
+#Copying the configuration scipts on to host
+sudo scp -r $WORKSPACE/ci/envs/* root@$HOST_IP:/root/workspace/scripts
+sudo scp -r $WORKSPACE/build_output/kernel-${KERNELRPM_VERSION}*.rpm root@$HOST_IP:/root/workspace/rpm
+
+#executing host configuration scripts
+sudo ssh root@$HOST_IP "cd /root/workspace/scripts && ./host-setup0.sh"
+if [ ${?} -ne 0 ] ; then
+   echo "host configuration failed"
+   exit 1
+fi
+sudo ssh root@$HOST_IP "reboot"
+sleep 3
+connect_host
+sudo ssh root@$HOST_IP "cd /root/workspace/scripts && ./host-setup1.sh"
+
+#executing VSWITCHPERF test cases
+sudo ssh root@$HOST_IP "cd /root/workspace/scripts && cat test_cases.sh | scl enable python33 -"
+if [ ${?} -ne 0 ] ; then
+   echo "Execution of packet forwarding test case failed. Please check the logs"
+   exit 1
+fi

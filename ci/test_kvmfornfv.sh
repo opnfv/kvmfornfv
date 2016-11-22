@@ -24,6 +24,27 @@ else
    exit 1
 fi
 
+source $WORKSPACE/ci/envs/utils.sh $HOST_IP
+
+#Function for executing packet forwarding test case.
+function packetForward {
+   source $WORKSPACE/ci/packet_forward_test.sh $HOST_IP
+   test_result=$?
+   host_clean
+   if [ ${test_result} -ne 0 ] ; then
+      echo "Packet Forwarding test case execution FAILED"
+      exit 1
+   else
+      echo "Packet Forwarding test case executed SUCCESSFULLY"
+      exit 0
+   fi
+}
+
+#Execution of Packet Forwarding daily job.
+if [ ${test_name} == "packet_forward" ];then
+   packetForward
+fi
+
 source $WORKSPACE/ci/cyclicTestTrigger.sh $HOST_IP $test_time $test_type
 
 #calculating and verifying sha512sum of the guestimage.
@@ -39,7 +60,10 @@ env_clean
 
 #Creating a docker image with yardstick installed and launching ubuntu docker to run yardstick cyclic testcase
 if runCyclicTest;then
-   exit 0
+   cyclictest_result=0
 else
-   exit 1
+   cyclictest_result=1
 fi
+
+#Execution of Packet Forwarding for verification.
+packetForward

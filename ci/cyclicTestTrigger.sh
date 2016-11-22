@@ -81,7 +81,7 @@ function runCyclicTest {
    mkdir -p $volume/{image,rpm,scripts}
 
    #copying required files to run yardstick cyclic testcase
-   mv $WORKSPACE/build_output/kernel-${KERNELRPM_VERSION}*.rpm ${volume}/rpm
+   cp $WORKSPACE/build_output/kernel-${KERNELRPM_VERSION}*.rpm ${volume}/rpm
    cp -r $WORKSPACE/ci/envs/* ${volume}/scripts
    cp -r $WORKSPACE/tests/kvmfornfv_cyclictest_idle_idle.yaml ${volume}
    cp -r $WORKSPACE/tests/pod.yaml ${volume}/scripts

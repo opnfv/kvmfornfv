@@ -1,3 +1,5 @@
+#!/bin/bash
+
 ##############################################################################
 ## Copyright (c) 2015 Intel Corp.
 ##
@@ -7,13 +9,27 @@
 ## http://www.apache.org/licenses/LICENSE-2.0
 ###############################################################################
 
-# Isolated cpus for nfv, must be delimited with ','
-host_isolcpus=3,4
-
 # Number of huge pages to create and on which NUMA node
-numa_node=0
+numa_node=1
 huge_pages=2
 
 # QEMU executable path and number of cpus for guest
 qemu=/usr/libexec/qemu-kvm
 guest_cpus=2
+
+# Isolated cpus for nfv, must be given as a range '-' and Numa node1 CPU's should be considered
+host_isolcpus=`lscpu | grep "NUMA node1 CPU(s)"| awk -F ':' '{print \$2}' | sed 's/[[:space:]]//g'`
+first=$(echo ${host_isolcpus} | cut -f1 -d-)
+last=$(echo ${host_isolcpus} | cut -f2 -d-)
+
+# Bind cpus from host_isolcpus range for QEMU processor threads
+i=0
+while [ ${i} -lt ${guest_cpus} ]; do
+ qemu_cpu[$i]=${first}
+ i=`expr $i + 1`
+ first=`expr $first + 1`
+done
+
+#Isolated cpus from host_isolcpus range to run Stress tool
+stress_isolcpus=${first}-${last}
+echo "Stress tool runs on $stress_isolcpus"

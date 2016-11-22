@@ -47,14 +47,6 @@ function env_clean {
     sudo rm -rf /tmp/kvmtest-${testType}*
 }
 
-#Cleaning the latest kernel changes on host after executing the test.
-function host_clean {
-    sudo ssh root@${HOST_IP} "rpm=\$(rpm -qa | grep 'kernel-${KERNELRPM_VERSION}' | awk '{print \$1}'); rpm -ev \$rpm"
-    sudo ssh root@${HOST_IP} "rm -rf /boot/initramfs-${KERNELRPM_VERSION}*.img"
-    sudo ssh root@${HOST_IP} "grub2-mkconfig -o /boot/grub2/grub.cfg"
-    sudo ssh root@${HOST_IP} "reboot"
-}
-
 function cleanup {
    output=$1
    env_clean

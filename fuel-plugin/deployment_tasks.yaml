@@ -1,9 +1,11 @@
 - id: kvm_install
   type: puppet
-  version: 2.0.0
+  version: 2.1.0
   role: [compute]
   required_for: [post_deployment_end]
   requires: [post_deployment_start]
+  condition:
+    yaql_exp: changed($.get('fuel-plugin-kvm'))
   parameters:
     puppet_manifest: puppet/manifests/kvm-install.pp
     puppet_modules: puppet/modules:/etc/puppet/modules

@@ -25,7 +25,7 @@ scenarios:
     type: Duration
     duration: 1
     interval: 1
-  tc: "kvmfornfv_cyclictest_stress_idle"
+  tc: "kvmfornfv_cyclictest_cpustress_idle"
   sla:
     max_min_latency: 50
     max_avg_latency: 100
@@ -40,7 +40,7 @@ scenarios:
     - "reboot"
     - "host-setup1.sh"
     - "host-run-qemu.sh"
-    - "stress_daily.sh cpu"
+    - "stress_daily.sh"
     guest_setup_seqs:
     - "guest-setup0.sh"
     - "reboot"

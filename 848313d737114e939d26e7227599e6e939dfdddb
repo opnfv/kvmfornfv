@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ac10518_b1cabc9f",
+        "filename": "ci/envs/stress_daily.sh",
+        "patchSetId": 7
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2016-11-23T18:15:24Z",
+      "side": 1,
+      "message": "So how is this script be invoked? Will it be invoked by the daily job? If yes, who will invoke the cyclictest? Sorry for confusion.",
+      "revId": "848313d737114e939d26e7227599e6e939dfdddb",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_f1d04455",
+        "filename": "ci/envs/stress_scripts.sh",
+        "patchSetId": 7
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2016-11-23T18:15:24Z",
+      "side": 1,
+      "message": "what\u0027s the \"/\"? Is it a part of the stress args?",
+      "revId": "848313d737114e939d26e7227599e6e939dfdddb",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_51e4b83a",
+        "filename": "ci/envs/stress_scripts.sh",
+        "patchSetId": 7
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2016-11-23T18:15:24Z",
+      "side": 1,
+      "message": "IIRC, this processor information comes from the host-configs, right?",
+      "revId": "848313d737114e939d26e7227599e6e939dfdddb",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_11d63050",
+        "filename": "tests/kvmfornfv_cyclictest_stress_idle.yaml",
+        "patchSetId": 7
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2016-11-23T18:15:24Z",
+      "side": 1,
+      "message": "I have no KVM4NFV source code at hand. What\u0027s the difference of this yaml file with the original cyclictest_stress yaml file? Or it\u0027s only for the dashboard data publisH?",
+      "revId": "848313d737114e939d26e7227599e6e939dfdddb",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}

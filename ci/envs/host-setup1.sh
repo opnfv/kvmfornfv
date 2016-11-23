@@ -39,16 +39,19 @@ echo 0 > /proc/sys/kernel/watchdog
 echo 0 > /proc/sys/kernel/nmi_watchdog
 
 # Change RT priority of ksoftirqd and rcuc kernel threads on isolated CPUs
+startVal=$(echo ${host_isolcpus} | cut -f1 -d-)
+endVal=$(echo ${host_isolcpus} | cut -f2 -d-)
 i=0
-for c in `echo $host_isolcpus | sed 's/,/ /g'` ; do
-    tid=`pgrep -a ksoftirq | grep "ksoftirqd/${c}$" | cut -d ' ' -f 1`
+while [ ${startVal} -lt ${endVal} ]; do
+    tid=`pgrep -a ksoftirq | grep "ksoftirqd/${startVal}$" | cut -d ' ' -f 1`
     chrt -fp 2 ${tid}
 
-    tid=`pgrep -a rcuc | grep "rcuc/${c}$" | cut -d ' ' -f 1`
+    tid=`pgrep -a rcuc | grep "rcuc/${startVal}$" | cut -d ' ' -f 1`
     chrt -fp 3 ${tid}
 
-    cpu[$i]=${c}
+    cpu[$i]=${startVal}
     i=`expr $i + 1`
+    startVal=`expr $startVal + 1`
 done
 
 # Change RT priority of rcub kernel threads

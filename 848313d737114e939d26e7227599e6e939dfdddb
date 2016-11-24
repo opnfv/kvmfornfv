@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5ac10518_91cea059",
+        "filename": "ci/envs/stress_daily.sh",
+        "patchSetId": 7
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5447
+      },
+      "writtenOn": "2016-11-24T03:28:47Z",
+      "side": 1,
+      "message": "This script will be present in the kvmfornfv_cyclictest_stress_idle.yaml file after \"host-run-qemu.sh\". Updated the interface scripts test_kvmfornfv.sh so that the cyclictest will run on the kvmfornfv_cyclictest_stress_idle.yaml file as part of the daily job.",
+      "parentUuid": "5ac10518_b1cabc9f",
+      "revId": "848313d737114e939d26e7227599e6e939dfdddb",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5ac10518_f1d04455",
         "filename": "ci/envs/stress_scripts.sh",
         "patchSetId": 7
@@ -30,6 +48,24 @@
       "writtenOn": "2016-11-23T18:15:24Z",
       "side": 1,
       "message": "what\u0027s the \"/\"? Is it a part of the stress args?",
+      "revId": "848313d737114e939d26e7227599e6e939dfdddb",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_51d8381d",
+        "filename": "ci/envs/stress_scripts.sh",
+        "patchSetId": 7
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5447
+      },
+      "writtenOn": "2016-11-24T03:28:47Z",
+      "side": 1,
+      "message": "That is an \"or\" symbol, we can use either cpu\u003d100 or vm\u003d100. It will be printed as part of \"help\" option",
+      "parentUuid": "5ac10518_f1d04455",
       "revId": "848313d737114e939d26e7227599e6e939dfdddb",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "5ac10518_31f24c9b",
+        "filename": "ci/envs/stress_scripts.sh",
+        "patchSetId": 7
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 5447
+      },
+      "writtenOn": "2016-11-24T03:28:47Z",
+      "side": 1,
+      "message": "Yes.. this value is passed as part of the host-config. In case if the value is null ,just to be on safe side considering the default value.",
+      "parentUuid": "5ac10518_51e4b83a",
+      "revId": "848313d737114e939d26e7227599e6e939dfdddb",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5ac10518_11d63050",
         "filename": "tests/kvmfornfv_cyclictest_stress_idle.yaml",
         "patchSetId": 7
@@ -64,6 +118,24 @@
       "writtenOn": "2016-11-23T18:15:24Z",
       "side": 1,
       "message": "I have no KVM4NFV source code at hand. What\u0027s the difference of this yaml file with the original cyclictest_stress yaml file? Or it\u0027s only for the dashboard data publisH?",
+      "revId": "848313d737114e939d26e7227599e6e939dfdddb",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_1131505a",
+        "filename": "tests/kvmfornfv_cyclictest_stress_idle.yaml",
+        "patchSetId": 7
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5447
+      },
+      "writtenOn": "2016-11-24T03:28:47Z",
+      "side": 1,
+      "message": "This file contains the execution of stress_daily.sh after launching the VM. Please refer Line no.43",
+      "parentUuid": "5ac10518_11d63050",
       "revId": "848313d737114e939d26e7227599e6e939dfdddb",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ac10518_715e9447",
+        "filename": "ci/test_kvmfornfv.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 5447
+      },
+      "writtenOn": "2016-11-24T06:27:05Z",
+      "side": 1,
+      "message": "As of now to continue the testing hard coded these values.Updated script which will accept the value from releng is present in another patch",
+      "range": {
+        "startLine": 20,
+        "startChar": 13,
+        "endLine": 20,
+        "endChar": 26
+      },
+      "revId": "2a64202e99dbc3f44330f96681c1d5270256f518",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}

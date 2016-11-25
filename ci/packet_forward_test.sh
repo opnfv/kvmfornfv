@@ -38,7 +38,7 @@ function connect_guest {
       else
          echo "resuming execution of the configuration scripts"
          #Waiting for ssh to be available for the guest nachine.
-         sleep 15
+         sleep 3
          break
       fi
       if [ $n == 24 ];then
@@ -55,7 +55,7 @@ ssh root@$HOST_IP "mkdir -p /root/workspace/rpm"
 ssh root@$HOST_IP "mkdir -p /root/workspace/scripts"
 #Copying the configuration scipts on to host
 scp -r $WORKSPACE/ci/envs/* root@$HOST_IP:/root/workspace/scripts
-scp -r $WORKSPACE/ci/envs/test_cases.sh jenkins@$HOST_IP:/home/jenkins/
+scp -r $WORKSPACE/ci/envs/vsperf_testcases.sh jenkins@$HOST_IP:/home/jenkins/
 scp -r $WORKSPACE/build_output/kernel-${KERNELRPM_VERSION}*.rpm root@$HOST_IP:/root/workspace/rpm
 
 #executing host configuration scripts
@@ -68,6 +68,23 @@ ssh root@$HOST_IP "reboot"
 sleep 5
 connect_host
 ssh root@$HOST_IP "cd /root/workspace/scripts && ./host-setup1.sh"
+
+
+#Configuring guest image provide by vsperf
+ssh root@$HOST_IP "cp /root/vsperf_images/guest1.qcow2 /root/"
+ssh root@$HOST_IP "cd /root/workspace/scripts && ./host-run-qemu.sh"
+connect_guest
+ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p 5555 root@$HOST_IP "scp -r -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null 10.0.2.2:/root/workspace /root/"
+ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p 5555 root@$HOST_IP "cd /root/workspace/scripts && ./guest-setup0.sh"
+if [ ${?} -ne 0 ] ; then
+   echo "guest configuration failed"
+   exit 1
+fi
+ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p 5555 root@$HOST_IP "reboot"
+sleep 5
+connect_guest
+ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p 5555 root@$HOST_IP "cd /root/workspace/scripts && ./guest-setup1.sh"
+ssh root@${HOST_IP} "pid=\$(ps aux | grep 'qemu' | awk '{print \$2}' | head -1); echo \$pid |xargs kill"
 
 #executing VSWITCHPERF test cases
 ssh jenkins@$HOST_IP "cat vsperf_testcases.sh | scl enable python33 -"

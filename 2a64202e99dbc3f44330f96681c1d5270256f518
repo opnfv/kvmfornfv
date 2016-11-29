@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "5ac10518_10c86173",
+        "filename": "ci/test_kvmfornfv.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2016-11-29T19:40:21Z",
+      "side": 1,
+      "message": "Hmm, I noticed the changes of passing the testname was merged already as https://gerrit.opnfv.org/gerrit/#/c/25067/2. But I\u0027m a little confused on the https://gerrit.opnfv.org/gerrit/gitweb?p\u003dreleng.git;f\u003djjb/kvmfornfv/kvmfornfv.yml;hb\u003drefs/changes/67/25067/2#l26. \n\nBasically we will run the test case as a combination of the workload, environment and the execution purpose (job type in releng).\n\nThe workload can be packet forwarding, cyclictest, interrupt test, CRAN etc, furthermore, the packet fowarding can be p2p, pvp etc,\nThe environment can be host_idle/guest_idle,  host_cpu_stress/guest_idle, host_memory_stress/guest_idle etc.\nThe execution purpose is like patch verification or daily job.\n\nWith these combination, it can be cyclictest_idle_idle on verification job, cyclictest_hostcpu_guestidle on verification job, cyclictest_hostmemory_guestidle on daily job etc.\n\n\nI\u0027m totally fine that for daily job, the jjb passing the tests that would be executed (although I\u0027m not very sure of current implementation is good in long term. IMHO, exposing the stress/idle/packetforwarding is not a good API since it expose too much kvm4nfv internal information to releng, but let\u0027s change that in future). \n\nBut why do we need the testname even for the verification job? I think we may run several test cases on verification job like cyclictest_idle_idle, cyclictest_memorystress_idle etc and it will be a tune process depends on the time to be used. Would you agree?",
+      "revId": "2a64202e99dbc3f44330f96681c1d5270256f518",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5ac10518_715e9447",
         "filename": "ci/test_kvmfornfv.sh",
         "patchSetId": 1

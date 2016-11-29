@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ac10518_d0a179aa",
+        "filename": "ci/test_kvmfornfv.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2016-11-29T19:44:14Z",
+      "side": 1,
+      "message": "Should we sepearate the stress into memory/cpu/io type? Or you mean we do that in future?",
+      "revId": "deeb9a88c565595ce6638ca22ffdfea574549978",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}

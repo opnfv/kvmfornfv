@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "5ac10518_a4358b47",
+        "filename": "ci/envs/stress_daily.sh",
+        "patchSetId": 8
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2016-12-01T07:30:55Z",
+      "side": 1,
+      "message": "Thanks for the update.",
+      "parentUuid": "5ac10518_84cbaf71",
+      "revId": "74d2bcb27e38ca91b1d88073ea9caadce83166ad",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5ac10518_fa26d9b9",
         "filename": "ci/envs/stress_scripts.sh",
         "patchSetId": 8

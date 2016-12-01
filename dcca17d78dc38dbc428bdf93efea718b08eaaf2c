@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5ac10518_449ce769",
+        "filename": "ci/test_kvmfornfv.sh",
+        "patchSetId": 6
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 5765
+      },
+      "writtenOn": "2016-12-01T04:19:22Z",
+      "side": 1,
+      "message": "Yes, we will provide the config file for packet forwarding after the IXIA port is ready. For now we have scripts for triggering packet forwarding test cases https://gerrit.opnfv.org/gerrit/#/c/24761/ (will push a new patch with few updates after this is merged).",
+      "parentUuid": "5ac10518_04649fb7",
+      "revId": "dcca17d78dc38dbc428bdf93efea718b08eaaf2c",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5ac10518_c45d37eb",
         "filename": "ci/test_kvmfornfv.sh",
         "patchSetId": 6

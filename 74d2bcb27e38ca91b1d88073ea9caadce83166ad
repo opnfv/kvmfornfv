@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5ac10518_84cbaf71",
+        "filename": "ci/envs/stress_daily.sh",
+        "patchSetId": 8
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 5447
+      },
+      "writtenOn": "2016-12-01T04:07:56Z",
+      "side": 1,
+      "message": "As discussed in yesterdays call, will update the code for memory,io stress in this file and will push a patch by EOD.\nYes host-config will be copied.Please refer runCyclicTest function in cyclictestTrigger.sh script",
+      "parentUuid": "5ac10518_846f2f92",
+      "revId": "74d2bcb27e38ca91b1d88073ea9caadce83166ad",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5ac10518_fa26d9b9",
         "filename": "ci/envs/stress_scripts.sh",
         "patchSetId": 8

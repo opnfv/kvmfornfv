@@ -33,6 +33,24 @@
       "revId": "dcca17d78dc38dbc428bdf93efea718b08eaaf2c",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_e4a153aa",
+        "filename": "ci/test_kvmfornfv.sh",
+        "patchSetId": 6
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 5447
+      },
+      "writtenOn": "2016-12-01T04:11:19Z",
+      "side": 1,
+      "message": "Yes.. From releng, cyclictest parameter is passed and will execute idle,stress testcases as part of daily job",
+      "parentUuid": "5ac10518_c45d37eb",
+      "revId": "dcca17d78dc38dbc428bdf93efea718b08eaaf2c",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }

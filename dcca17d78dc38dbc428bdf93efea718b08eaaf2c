@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "5ac10518_643fa326",
+        "filename": "ci/test_kvmfornfv.sh",
+        "patchSetId": 6
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2016-12-01T07:32:52Z",
+      "side": 1,
+      "message": "Aha, I noticed you commented out the code on L21. Got it and thanks for the clarification.",
+      "parentUuid": "5ac10518_449ce769",
+      "revId": "dcca17d78dc38dbc428bdf93efea718b08eaaf2c",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5ac10518_c45d37eb",
         "filename": "ci/test_kvmfornfv.sh",
         "patchSetId": 6

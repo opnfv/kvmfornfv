@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ac10518_ffa55d04",
+        "filename": "tests/kvmfornfv_cyclictest_stress_idle.yaml",
+        "patchSetId": 10
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2016-12-01T18:50:17Z",
+      "side": 1,
+      "message": "Since we will have CPU/IO/Memory type of stress, can we change this to be cpu_idle as we are passing cpu to the test case? (In fact, I\u0027d prefer to use memory as first case).\n\nAnd if we change the stress_idle to memory_idle, possibly we should change the ymal file name to be kvmfornfv_cyclictest_memory_idle.yaml, since this information will be used for data publishment.\n\nAm I right?",
+      "revId": "1319c4c2a720d171a9ffa6be0943070e2454cbd2",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}

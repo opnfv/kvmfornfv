@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "5ac10518_fff31d08",
+        "filename": "ci/test_kvmfornfv.sh",
+        "patchSetId": 6
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2016-12-01T19:17:45Z",
+      "side": 1,
+      "message": "Per your reply below, idle_idle/stress_idle/packet_foward is not the latest list, right?",
+      "revId": "dcca17d78dc38dbc428bdf93efea718b08eaaf2c",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_7fb96d2d",
+        "filename": "ci/test_kvmfornfv.sh",
+        "patchSetId": 6
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2016-12-01T19:17:45Z",
+      "side": 1,
+      "message": "As stated on the other patch, can we change this to be like memory_idle?",
+      "revId": "dcca17d78dc38dbc428bdf93efea718b08eaaf2c",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5ac10518_04649fb7",
         "filename": "ci/test_kvmfornfv.sh",
         "patchSetId": 6

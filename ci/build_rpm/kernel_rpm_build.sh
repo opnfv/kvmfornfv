@@ -37,6 +37,7 @@ echo "Build"
 echo
 
 cp -f ${config_file} "${kernel_src_dir}/.config"
+make olddefconfig
 
 # Make timestamp part of version string for automated kernel boot verification
 date "+-%y%m%d%H%M" > "${kernel_src_dir}/localversion-zzz"

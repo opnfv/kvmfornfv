@@ -57,7 +57,7 @@ EOF
 # Configure the kernel
 cp $config_file .config
 
-make oldconfig </dev/null
+make olddefconfig
 
 # Build the kernel debs
 make-kpkg clean

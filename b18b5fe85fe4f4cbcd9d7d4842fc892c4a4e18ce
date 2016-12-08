@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ac10518_cbd8daf1",
+        "filename": "ci/functions",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 5765
+      },
+      "writtenOn": "2016-12-08T04:04:50Z",
+      "side": 1,
+      "message": "Hi Yunhong, everything looks fine to me except these spaces(18,24)",
+      "revId": "b18b5fe85fe4f4cbcd9d7d4842fc892c4a4e18ce",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}

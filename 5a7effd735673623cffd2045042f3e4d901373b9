@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5ac10518_250f4630",
+        "filename": "ci/test_kvmfornfv.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 5765
+      },
+      "writtenOn": "2016-12-13T04:55:26Z",
+      "side": 1,
+      "message": "As per your suggestion will create two variables cyclictest_env_daily and cyclictest_env_verify which will hold same data for now. Is our understanding correct?",
+      "parentUuid": "5ac10518_2d316e5a",
+      "revId": "5a7effd735673623cffd2045042f3e4d901373b9",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5ac10518_cd354a47",
         "filename": "tests/kvmfornfv_cyclictest_hostenv_guestenv.yaml",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2016-12-12T17:48:12Z",
       "side": 1,
       "message": "I noticed now the kvmfornfv_cyclictest_idle_idle.yaml is created from this file dynamically, so should we simply rename kvmfornfv_cyclictest_idle_idle.yaml to this file, or we still keep kvmfornfv_cyclictest_idle_idle.yaml on the repo?",
+      "revId": "5a7effd735673623cffd2045042f3e4d901373b9",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_05148a42",
+        "filename": "tests/kvmfornfv_cyclictest_hostenv_guestenv.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5765
+      },
+      "writtenOn": "2016-12-13T04:55:26Z",
+      "side": 1,
+      "message": "ok Yunhong, we will rename kvmfornfv_cyclictest_idle_idle.yaml to kvmfornfv_cyclictest_hostenv_guestenv.yaml.",
+      "parentUuid": "5ac10518_cd354a47",
       "revId": "5a7effd735673623cffd2045042f3e4d901373b9",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false

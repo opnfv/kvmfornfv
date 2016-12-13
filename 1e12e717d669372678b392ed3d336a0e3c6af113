@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ac10518_65130e0e",
+        "filename": "tests/kvmfornfv_cyclictest_hostenv_guestenv.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2016-12-13T07:17:24Z",
+      "side": 1,
+      "message": "One question. I noticed this tc field is not updated when we create the yaml file. Is it because we have no data dashboard yet? I assume this should be used in future by dash baord publish, right?",
+      "revId": "1e12e717d669372678b392ed3d336a0e3c6af113",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}

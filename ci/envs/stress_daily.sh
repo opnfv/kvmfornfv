@@ -15,7 +15,7 @@ case $stress_type in
       ARGS="--vm=100"
       ;;
    io)
-      ARGS="--io 10 --hdd 100"
+      ARGS="--io=10,--hdd=100"
       ;;
    *)
       echo $"Usage: $0 {cpu|memory|io}"

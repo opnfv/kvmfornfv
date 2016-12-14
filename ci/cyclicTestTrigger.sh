@@ -37,6 +37,7 @@ function updateYaml {
    sed -ri "s/loops: [0-9]*/loops: ${testTime}/"  kvmfornfv_cyclictest_hostenv_guestenv.yaml
    sed -ri "0,/interval: [0-9]*/s//interval: 1000/"  kvmfornfv_cyclictest_hostenv_guestenv.yaml
    sed -ri "s/tc: \"kvmfornfv_cyclictest-node-context\"/tc: \"kvmfornfv_cyclictest_${testName}\"/" kvmfornfv_cyclictest_hostenv_guestenv.yaml
+   echo "The current test case is $testName"
    cp kvmfornfv_cyclictest_hostenv_guestenv.yaml kvmfornfv_cyclictest_${testName}.yaml
    case $testName in
 
@@ -69,7 +70,7 @@ function updateYaml {
 
 #cleaning the environment after executing the test through yardstick.
 function env_clean {
-    container_id=`sudo docker ps -a | grep kvmfornfv_${testType}_${testName} |awk '{print \$1}'|sed -e 's/\r//g'`
+    container_id=`sudo docker ps -a | grep kvmfornfv_${testType} |awk '{print \$1}'|sed -e 's/\r//g'`
     sudo docker stop ${container_id}
     sudo docker rm ${container_id}
     sudo ssh root@${HOST_IP} "rm -rf /root/workspace/*"
@@ -99,47 +100,54 @@ function cleanup {
 
 #Creating a docker image with yardstick installed and Verify the results of cyclictest
 function runCyclicTest {
-   docker_image_dir=$WORKSPACE/docker_image_build
-   ( cd ${docker_image_dir}; sudo docker build  -t kvmfornfv:latest --no-cache=true . )
-   if [ ${?} -ne 0 ] ; then
-      echo  "Docker image build failed"
-      id=$(sudo docker ps -a  | head  -2 | tail -1 | awk '{print $1}'); sudo docker rm -f $id
-      exit 1
+   container_id=`sudo docker ps -a | grep kvmfornfv_${testType} |awk '{print \$1}'|sed -e 's/\r//g'`
+   echo "$container_id"
+   if [ -z "$container_id" ]; then
+      docker_image_dir=$WORKSPACE/docker_image_build
+      ( cd ${docker_image_dir}; sudo docker build  -t kvmfornfv:latest --no-cache=true . )
+      if [ ${?} -ne 0 ] ; then
+         echo  "Docker image build failed"
+         id=$(sudo docker ps -a  | head  -2 | tail -1 | awk '{print $1}'); sudo docker rm -f $id
+         exit 1
+      fi
+      time_stamp=$(date +%Y%m%d%H%M%S)
+      volume=/tmp/kvmtest-${testType}-${time_stamp}
+      mkdir -p $volume/{image,rpm,scripts}
+
+      #copying required files to run yardstick cyclic testcase
+      echo "copying files from workspace to volume"
+      cp $WORKSPACE/build_output/kernel-${KERNELRPM_VERSION}*.rpm ${volume}/rpm
+      cp -r $WORKSPACE/ci/envs/* ${volume}/scripts
+      cp -r $WORKSPACE/tests/kvmfornfv_cyclictest_${testName}.yaml ${volume}
+      cp -r $WORKSPACE/tests/pod.yaml ${volume}/scripts
+
+      #Launching ubuntu docker container to run yardstick
+      sudo docker run -i -v ${volume}:/opt --net=host --name kvmfornfv_${testType} \
+      kvmfornfv:latest  /bin/bash -c "cd /opt/scripts && ls; ./cyclictest.sh $testType $testName"
+      cyclictest_output=$?
+   else
+      echo "docker container found"
+      cp -r $WORKSPACE/tests/kvmfornfv_cyclictest_${testName}.yaml ${volume}
+      sudo docker start $container_id
+      sudo docker exec $container_id /bin/bash -c "cd /opt/scripts && ls; ./cyclictest.sh $testType $testName"
+      cyclictest_output=$?
    fi
-   time_stamp=$(date +%Y%m%d%H%M%S)
-   volume=/tmp/kvmtest-${testType}-${time_stamp}
-   mkdir -p $volume/{image,rpm,scripts}
-
-   #copying required files to run yardstick cyclic testcase
-   cp $WORKSPACE/build_output/kernel-${KERNELRPM_VERSION}*.rpm ${volume}/rpm
-   cp -r $WORKSPACE/ci/envs/* ${volume}/scripts
-   cp -r $WORKSPACE/tests/kvmfornfv_cyclictest_${testName}.yaml ${volume}
-   cp -r $WORKSPACE/tests/pod.yaml ${volume}/scripts
-
-   #Launching ubuntu docker container to run yardstick
-   sudo docker run -i -v ${volume}:/opt --net=host --name kvmfornfv_${testType}_${testName} \
-   kvmfornfv:latest  /bin/bash -c "cd /opt/scripts && ls; ./cyclictest.sh $testType $testName"
-   cyclictest_output=$?
    #Verifying the results of cyclictest
 
    if [ "$testType" == "verify" ];then
       result=`grep -o '"errors":[^,]*' ${volume}/yardstick.out | awk -F '"' '{print $4}'`
 
-      if [ -z "${result}" ]; then
+      if [ -z "${result}" ] && [ "${cyclictest_output}" == 0 ]; then
          echo "####################################################"
          echo ""
          echo `grep -o '"data":[^}]*' ${volume}/yardstick.out | awk -F '{' '{print $2}'`
          echo ""
          echo "####################################################"
-         cleanup $cyclictest_output
+         return 0
       else
          echo "Testcase failed"
          echo `grep -o '"errors":[^,]*' ${volume}/yardstick.out | awk -F '"' '{print $4}'`
-         env_clean
-         host_clean
          return 1
       fi
-   else
-      cleanup $cyclictest_output
    fi
 }

@@ -44,21 +44,27 @@ function updateYaml {
                 ;;
        cpustress_idle)
                       sed -i '/host-run-qemu.sh/a\    \- \"stress_daily.sh cpu\"' kvmfornfv_cyclictest_${testName}.yaml
+                      sed -i '/host-setup0.sh/,/host-setup1.sh/ d' kvmfornfv_cyclictest_${testName}.yaml
                       ;;
        memorystress_idle)
                       sed -i '/host-run-qemu.sh/a\    \- \"stress_daily.sh memory\"' kvmfornfv_cyclictest_${testName}.yaml
+                      sed -i '/host-setup0.sh/,/host-setup1.sh/ d' kvmfornfv_cyclictest_${testName}.yaml
                       ;;
        iostress_idle)
                       sed -i '/host-run-qemu.sh/a\    \- \"stress_daily.sh io\"' kvmfornfv_cyclictest_${testName}.yaml
+                      sed -i '/host-setup0.sh/,/host-setup1.sh/ d' kvmfornfv_cyclictest_${testName}.yaml
                       ;;
        idle_cpustress)
                       sed -i '/guest-setup1.sh/a\    \- \"stress_daily.sh cpu\"' kvmfornfv_cyclictest_${testName}.yaml
+                      sed -i '/host-setup0.sh/,/host-setup1.sh/ d' kvmfornfv_cyclictest_${testName}.yaml
                       ;;
        idle_memorystress)
                       sed -i '/guest-setup1.sh/a\    \- \"stress_daily.sh memory\"' kvmfornfv_cyclictest_${testName}.yaml
+                      sed -i '/host-setup0.sh/,/host-setup1.sh/ d' kvmfornfv_cyclictest_${testName}.yaml
                       ;;
        idle_iostress)
-                      sed -i '/guest-setup1.sh/a\    \- \"stress_daily.sh memory\"' kvmfornfv_cyclictest_${testName}.yaml
+                      sed -i '/guest-setup1.sh/a\    \- \"stress_daily.sh io\"' kvmfornfv_cyclictest_${testName}.yaml
+                      sed -i '/host-setup0.sh/,/host-setup1.sh/ d' kvmfornfv_cyclictest_${testName}.yaml
                       ;;
         *)
           echo "Incorrect test environment: $testName"
@@ -69,7 +75,7 @@ function updateYaml {
 
 #cleaning the environment after executing the test through yardstick.
 function env_clean {
-    container_id=`sudo docker ps -a | grep kvmfornfv_${testType}_${testName} |awk '{print \$1}'|sed -e 's/\r//g'`
+    container_id=`sudo docker ps -a | grep kvmfornfv_${testType} |awk '{print \$1}'|sed -e 's/\r//g'`
     sudo docker stop ${container_id}
     sudo docker rm ${container_id}
     sudo ssh root@${HOST_IP} "rm -rf /root/workspace/*"
@@ -107,7 +113,7 @@ function runCyclicTest {
       exit 1
    fi
    time_stamp=$(date +%Y%m%d%H%M%S)
-   volume=/tmp/kvmtest-${testType}-${time_stamp}
+   volume=/tmp/kvmtest-${testType}
    mkdir -p $volume/{image,rpm,scripts}
 
    #copying required files to run yardstick cyclic testcase
@@ -117,29 +123,32 @@ function runCyclicTest {
    cp -r $WORKSPACE/tests/pod.yaml ${volume}/scripts
 
    #Launching ubuntu docker container to run yardstick
-   sudo docker run -i -v ${volume}:/opt --net=host --name kvmfornfv_${testType}_${testName} \
-   kvmfornfv:latest  /bin/bash -c "cd /opt/scripts && ls; ./cyclictest.sh $testType $testName"
-   cyclictest_output=$?
+   if [ "$testName" == "idle_idle" ];then
+      sudo docker run -i -v ${volume}:/opt --net=host --name kvmfornfv_${testType} \
+      kvmfornfv:latest  /bin/bash -c "cd /opt/scripts && ls; ./cyclictest.sh $testType $testName"
+      cyclictest_output=$?
+   else
+      containerid=`sudo docker ps -a | grep kvmfornfv_${testType} |awk '{print \$1}'|sed -e 's/\r//g'`
+      echo "Executing in container $containerid"
+      sudo docker exec $containerid /opt/scripts/cyclictest.sh $testType $testName
+      cyclictest_output=$?
+   fi
    #Verifying the results of cyclictest
 
    if [ "$testType" == "verify" ];then
       result=`grep -o '"errors":[^,]*' ${volume}/yardstick.out | awk -F '"' '{print $4}'`
 
-      if [ -z "${result}" ]; then
+      if [ -z "${result}" ] && [ "$cyclictest_output" == 0 ]; then
          echo "####################################################"
          echo ""
          echo `grep -o '"data":[^}]*' ${volume}/yardstick.out | awk -F '{' '{print $2}'`
          echo ""
          echo "####################################################"
-         cleanup $cyclictest_output
+         return 0
       else
          echo "Testcase failed"
          echo `grep -o '"errors":[^,]*' ${volume}/yardstick.out | awk -F '"' '{print $4}'`
-         env_clean
-         host_clean
          return 1
       fi
-   else
-      cleanup $cyclictest_output
    fi
 }

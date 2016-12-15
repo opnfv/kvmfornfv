@@ -29,9 +29,9 @@ root@$HOST_IP "cp /root/images/guest1.qcow2 /root/"
 #Updating the yardstick.conf file for daily
 function updateConfDaily() {
    DISPATCHER_TYPE=influxdb
-   DISPATCHER_FILE_NAME="/tmp/yardstick.out"
+  # DISPATCHER_FILE_NAME="/tmp/yardstick.out"
    # Use the influxDB on the jumping server
-   DISPATCHER_INFLUXDB_TARGET="http://104.197.68.199:8086"
+   DISPATCHER_INFLUXDB_TARGET="http://10.2.117.21:8086"
    mkdir -p /etc/yardstick
    cat << EOF > /etc/yardstick/yardstick.conf
 [DEFAULT]
@@ -44,14 +44,14 @@ file_name = ${DISPATCHER_FILE_NAME}
 [dispatcher_influxdb]
 timeout = 5
 db_name = yardstick
-username = opnfv
-password = 0pnfv2015
+username = root
+password = root
 target = ${DISPATCHER_INFLUXDB_TARGET}
 EOF
 }
 
 #Function call to update yardstick conf file based on Job type
-if [ "$testType" == "daily" ];then
+if [ "$testType" == "daily" ] || [ "$testType" == "verify" ];then
    updateConfDaily
 fi
 
@@ -59,10 +59,10 @@ fi
 yardstick -d task start ${cyclictest_context_file}
 output=$?
 
-if [ "$testType" == "verify" ];then
-   chmod 777 /tmp/yardstick.out
-   cat /tmp/yardstick.out  > /opt/yardstick.out
-fi
+#if [ "$testType" == "verify" ];then
+ #  chmod 777 /tmp/yardstick.out
+  # cat /tmp/yardstick.out  > /opt/yardstick.out
+#fi
 
 if [ $output != 0 ];then
    echo "Yardstick Failed !!!"

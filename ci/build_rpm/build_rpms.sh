@@ -1,6 +1,8 @@
 #!/bin/bash
 
 set -eux
+echo "checking gerrit change number"
+echo $GERRIT_CHANGE_NUMBER
 BUILD_FOR=${BUILD_FOR:-centos}
 
 function build_rpm_pkg {

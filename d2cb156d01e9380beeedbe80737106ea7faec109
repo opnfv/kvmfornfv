@@ -16,6 +16,24 @@
       "revId": "d2cb156d01e9380beeedbe80737106ea7faec109",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_878715d7",
+        "filename": "ci/test_kvmfornfv.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 5765
+      },
+      "writtenOn": "2016-12-19T08:51:58Z",
+      "side": 1,
+      "message": "no specific reason for switching. As part of debugging we changed it.",
+      "parentUuid": "5ac10518_f181fb8f",
+      "revId": "d2cb156d01e9380beeedbe80737106ea7faec109",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }

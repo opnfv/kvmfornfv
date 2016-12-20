@@ -2,6 +2,7 @@
 #
 # Common parameter parsing for kvmfornfv scripts
 #
+
 function usage() {
     echo ""
     echo "Usage --> $0 [-p package_type] [-o output_dir] [-h]"
@@ -14,29 +15,35 @@ function usage() {
 output_dir=""
 type=""
 
+function run() {
+   case $1 in
+      centos)
+         cd $WORKSPACE/ci/build_rpm
+         sudo docker build -t kvm_rpm .
+         sudo docker run --privileged=true -v $WORKSPACE:/opt/kvmfornfv -t  kvm_rpm \
+                      /opt/kvmfornfv/ci/build_interface.sh $1
+      ;;
+      ubuntu)
+         cd $WORKSPACE/ci/build_deb
+         sudo docker build -t kvm_deb .
+         sudo docker run -v $WORKSPACE:/opt/kvmfornfv -t  kvm_deb \
+                      /opt/kvmfornfv/ci/build_interface.sh $1
+      ;;
+      *) echo "Not supported system"; exit 1;;
+   esac
+}
+
 function build_package() {
     choice=$1
-
     case "$choice" in
-        "centos")
-            echo "Build $choice Rpms"
-            cd ci/build_rpm
-            ./build_rpms.sh
-            cd $WORKSPACE
-        ;;
-        "ubuntu")
-            echo "Build $choice Debians"
-            cd ci/build_deb
-            ./build_debs.sh
-            cd $WORKSPACE
+        "centos"|"ubuntu")
+            echo "Build $choice Rpms/Debians"
+            run $choice
         ;;
         "both")
             echo "Build $choice Debians and Rpms"
-            cd ci/build_deb
-            ./build_debs.sh
-            cd ../build_rpm
-            ./build_rpms.sh
-            cd $WORKSPACE
+            run "centos"
+            run "ubuntu"
         ;;
         *)
             echo "Invalid package option"

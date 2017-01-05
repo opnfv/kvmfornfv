@@ -13,6 +13,7 @@
 
 test_type=$1
 test_name=$2
+ftrace_enable=0
 cyclictest_env_verify=("idle_idle" "cpustress_idle" "memorystress_idle" "iostress_idle") #cyclictest environment
 cyclictest_env_daily=("idle_idle" "cpustress_idle" "memorystress_idle" "iostress_idle")
 cyclictest_result=0 #exit code of cyclictest
@@ -79,19 +80,35 @@ elif [ ${test_type} == "daily" ];then
          exit 0
       fi
    elif [ ${test_name} == "cyclictest" ];then
-      for env in ${cyclictest_env_daily[@]}
-      do
+      if [ ${ftrace_enable} -eq '1' ]; then
+         #Enabling ftrace for kernel debugging.
+         sed -i '/host-setup1.sh/a\    \- \"enable-trace.sh\"' kvmfornfv_cyclictest_hostenv_guestenv.yaml
+         for env in ${cyclictest_env_daily[@]}
+         do
+            #Executing cyclictest through yardstick.
+            cyclictest ${env}
+            sudo ssh root@${HOST_IP} "sh /root/workspace/scripts/disbale-trace.sh"
+            sudo ssh root@${HOST_IP} "cd /tmp ; a=\$(ls -rt | tail -1) ; echo \$a ; mv \$a cyclictest_${env}.txt"
+            sudo ssh root@${HOST_IP} "mkdir -p $WORKSPACE/build_output/kvmfornfv_trace"
+            sudo ssh root@${HOST_IP} "mv /tmp/cyclictest_${env}.txt $WORKSPACE/build_output/kvmfornfv_trace/"
+            sudo ssh root@${HOST_IP} "cd $WORKSPACE/build_output ; tar -czvf kvmfornfv_trace.tar.gz kvmfornfv_trace"
+            sleep 5
+         done
+      else
+         for env in ${cyclictest_env_daily[@]}
+         do
          #Executing cyclictest through yardstick.
          cyclictest ${env}
          sleep 5
-      done
-      if [ ${cyclictest_result} -ne 0 ] ; then
-         echo "Cyclictest case execution FAILED"
-         exit 1
-      else
-         echo "Cyclictest case executed SUCCESSFULLY"
-         exit 0
+         done
       fi
+         if [ ${cyclictest_result} -ne 0 ] ; then
+            echo "Cyclictest case execution FAILED"
+            exit 1
+         else
+            echo "Cyclictest case executed SUCCESSFULLY"
+            exit 0
+         fi
    fi
 elif [ ${test_type} == "merge" ];then
    echo "Test is not enabled for ${test_type}"

@@ -14,9 +14,14 @@ testName=$4
 
 source $WORKSPACE/ci/envs/utils.sh
 KERNELRPM_VERSION=$( getKernelVersion )
+QEMURPM_VERSION=$( getQemuVersion )
 
 if [ -z ${KERNELRPM_VERSION} ];then
    echo "Kernel RPM not found in build_output Directory"
+   exit 1
+fi
+if [ -z ${QEMURPM_VERSION} ];then
+   echo "QEMU RPM not found in build_output Directory"
    exit 1
 fi
 
@@ -82,6 +87,7 @@ function host_clean {
     sudo ssh root@${HOST_IP} "rpm=\$(rpm -qa | grep 'kernel-${KERNELRPM_VERSION}' | awk '{print \$1}'); rpm -ev \$rpm"
     sudo ssh root@${HOST_IP} "rm -rf /boot/initramfs-${KERNELRPM_VERSION}*.img"
     sudo ssh root@${HOST_IP} "grub2-mkconfig -o /boot/grub2/grub.cfg"
+    sudo ssh root@${HOST_IP} "rpm=\$(rpm -qa | grep 'qemu-${QEMURPM_VERSION}'| awk '{print \$1}'); rpm -ev \$rpm"
     sudo ssh root@${HOST_IP} "reboot"
 }
 
@@ -112,6 +118,7 @@ function runCyclicTest {
 
    #copying required files to run yardstick cyclic testcase
    cp $WORKSPACE/build_output/kernel-${KERNELRPM_VERSION}*.rpm ${volume}/rpm
+   cp $WORKSPACE/build_output/qemu-${QEMURPM_VERSION}*.rpm ${volume}/rpm
    cp -r $WORKSPACE/ci/envs/* ${volume}/scripts
    cp -r $WORKSPACE/tests/kvmfornfv_cyclictest_${testName}.yaml ${volume}
    cp -r $WORKSPACE/tests/pod.yaml ${volume}/scripts

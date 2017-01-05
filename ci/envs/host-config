@@ -14,7 +14,7 @@ numa_node=1
 huge_pages=2
 
 # QEMU executable path and number of cpus for guest
-qemu=/usr/libexec/qemu-kvm
+qemu=/usr/local/bin/qemu-system-x86_64
 guest_cpus=2
 
 # Isolated cpus for nfv, must be given as a range '-' and Numa node1 CPU's should be considered

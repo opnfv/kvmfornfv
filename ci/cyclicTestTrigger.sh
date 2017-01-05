@@ -13,6 +13,7 @@ testType=$3
 testName=$4
 
 source $WORKSPACE/ci/envs/utils.sh
+source $WORKSPACE/ci/envs/host-config
 KERNELRPM_VERSION=$( getKernelVersion )
 
 if [ -z ${KERNELRPM_VERSION} ];then
@@ -104,7 +105,7 @@ function runCyclicTest {
    if [ ${?} -ne 0 ] ; then
       echo  "Docker image build failed"
       id=$(sudo docker ps -a  | head  -2 | tail -1 | awk '{print $1}'); sudo docker rm -f $id
-      exit 1
+      err_exit 1
    fi
    time_stamp=$(date +%Y%m%d%H%M%S)
    volume=/tmp/kvmtest-${testType}-${time_stamp}

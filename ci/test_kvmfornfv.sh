@@ -13,6 +13,7 @@
 
 test_type=$1
 test_name=$2
+ftrace_enable=0
 cyclictest_env_verify=("idle_idle" "cpustress_idle" "memorystress_idle" "iostress_idle") #cyclictest environment
 cyclictest_env_daily=("idle_idle" "cpustress_idle" "memorystress_idle" "iostress_idle")
 cyclictest_result=0 #exit code of cyclictest
@@ -50,24 +51,48 @@ function cyclictest {
    fi
 }
 
+function ftrace_disable {
+   echo $1
+   sudo ssh root@${HOST_IP} "sh /root/workspace/scripts/disbale-trace.sh"
+   sudo ssh root@${HOST_IP} "cd /tmp ; a=\$(ls -rt | tail -1) ; echo \$a ; mv \$a cyclictest_${env}.txt"
+   sudo ssh root@${HOST_IP} "mkdir -p $WORKSPACE/build_output/log/kernel_trace"
+   sudo ssh root@${HOST_IP} "mv /tmp/cyclictest_${env}.txt $WORKSPACE/build_output/log/kernel_trace"
+   sudo ssh root@${HOST_IP} "cd $WORKSPACE/build_output ; tar -czvf log-$1.tar.gz log"
+}
+
 #Execution of testcases based on test type and test name from releng.
 if [ ${test_type} == "verify" ];then
    HOST_IP="10.2.117.23"
    test_time=120000 # 2m
-   for env in ${cyclictest_env_verify[@]}
-   do
-      #Executing cyclictest through yardstick.
-      cyclictest ${env}
-      sleep 10
-   done
-   #Execution of packet forwarding test cases.
-   packetForward
-   if [ ${cyclictest_result} -ne 0 ] ||  [ ${packetforward_result} -ne 0 ];then
-      echo "Test case FAILED"
-      exit 1
+   if [ ${ftrace_enable} -eq '1' ]; then
+      for env in ${cyclictest_env_verify[@]}
+      do
+         #Enabling ftrace for kernel debugging.
+         sed -i '/host-setup1.sh/a\    \- \"enable-trace.sh\"' kvmfornfv_cyclictest_hostenv_guestenv.yaml
+         #Executing cyclictest through yardstick.
+         cyclictest ${env}
+         #disabling ftrace and collecting the logs to upload to artifact repository.
+         ftrace_disable $GERRIT_CHANGE_NUMBER
+         sleep 10
+      done
+      #Execution of packet forwarding test cases.
+      packetForward
    else
-      exit 0
+      for env in ${cyclictest_env_verify[@]}
+      do
+         #Executing cyclictest through yardstick.
+         cyclictest ${env}
+         sleep 10
+      done
+      #Execution of packet forwarding test cases.
+      packetForward
    fi
+      if [ ${cyclictest_result} -ne 0 ] ||  [ ${packetforward_result} -ne 0 ];then
+         echo "Test case FAILED"
+         exit 1
+      else
+         exit 0
+      fi
 elif [ ${test_type} == "daily" ];then
    HOST_IP="10.2.117.25"
    test_time=3600000 #1h
@@ -79,19 +104,32 @@ elif [ ${test_type} == "daily" ];then
          exit 0
       fi
    elif [ ${test_name} == "cyclictest" ];then
-      for env in ${cyclictest_env_daily[@]}
-      do
+      if [ ${ftrace_enable} -eq '1' ]; then
+         for env in ${cyclictest_env_daily[@]}
+         do
+            #Enabling ftrace for kernel debugging.
+            sed -i '/host-setup1.sh/a\    \- \"enable-trace.sh\"' kvmfornfv_cyclictest_hostenv_guestenv.yaml
+            #Executing cyclictest through yardstick.
+            cyclictest ${env}
+            #disabling ftrace and collecting the logs to upload to artifact repository. 
+            ftrace_disable $(date -u +"%Y-%m-%d_%T")
+            sleep 5
+         done
+      else
+         for env in ${cyclictest_env_daily[@]}
+         do
          #Executing cyclictest through yardstick.
          cyclictest ${env}
          sleep 5
-      done
-      if [ ${cyclictest_result} -ne 0 ] ; then
-         echo "Cyclictest case execution FAILED"
-         exit 1
-      else
-         echo "Cyclictest case executed SUCCESSFULLY"
-         exit 0
+         done
       fi
+         if [ ${cyclictest_result} -ne 0 ] ; then
+            echo "Cyclictest case execution FAILED"
+            exit 1
+         else
+            echo "Cyclictest case executed SUCCESSFULLY"
+            exit 0
+         fi
    fi
 elif [ ${test_type} == "merge" ];then
    echo "Test is not enabled for ${test_type}"

@@ -10,5 +10,7 @@ RUN yum -y update && yum -y install \
   make \
   gettext \
   bc \
+  bison\
+  flex\
   rpm \
   rpm-build

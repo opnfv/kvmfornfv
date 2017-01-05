@@ -39,6 +39,7 @@ scenarios:
     - "host-setup0.sh"
     - "reboot"
     - "host-setup1.sh"
+    - "host-install-qemu.sh"
     - "host-run-qemu.sh"
     guest_setup_seqs:
     - "guest-setup0.sh"

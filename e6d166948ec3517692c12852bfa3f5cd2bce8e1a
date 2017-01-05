@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ac10518_066475e3",
+        "filename": "ci/envs/enable-trace.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2017-01-05T07:18:15Z",
+      "side": 1,
+      "message": "Possibly we can avoid the hard code?\n\nLet\u0027s discuss what\u0027s the CPUs that should be traced. I\u0027m sure the vCPU thread\u0027s corresponding pCPU should be traced. Depends on the scenario, cyclictest possibly need only trace vCPU thread\u0027s pCPU, while packet forwarding need trace more pCPUs, including the vswitchd thread, the PMD thread etc.\n\nPossibly the simpliest solution is to trace all the isolated CPU? If there is no thread on the isolated CPUs, it will have only 1 timer interrupt per second, which should be be a big issue?\n\nThanks\n--jyh",
+      "revId": "e6d166948ec3517692c12852bfa3f5cd2bce8e1a",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_669c59c1",
+        "filename": "ci/test_kvmfornfv.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2017-01-05T07:18:15Z",
+      "side": 1,
+      "message": "I assume we should only enable it when needed, so possibly a condition/parameter here to enable it or not?",
+      "revId": "e6d166948ec3517692c12852bfa3f5cd2bce8e1a",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_26a65111",
+        "filename": "ci/test_kvmfornfv.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2017-01-05T07:18:15Z",
+      "side": 1,
+      "message": "As we talked on IRC, we possibly want to pass a tar ball, right?",
+      "revId": "e6d166948ec3517692c12852bfa3f5cd2bce8e1a",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5ac10518_46ecbd8f",
+        "filename": "ci/envs/enable-trace.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5765
+      },
+      "writtenOn": "2017-01-05T11:19:19Z",
+      "side": 1,
+      "message": "ok Yunhong, i am working on that. yes, to keep it simple we can trace all the isolated cpus.",
+      "parentUuid": "5ac10518_066475e3",
+      "revId": "e6d166948ec3517692c12852bfa3f5cd2bce8e1a",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5ac10518_669c59c1",
         "filename": "ci/test_kvmfornfv.sh",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "5ac10518_26a09142",
+        "filename": "ci/test_kvmfornfv.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 5765
+      },
+      "writtenOn": "2017-01-05T11:19:19Z",
+      "side": 1,
+      "message": "Daily Job triggers @midnight. Enabling trace only when we need  means we will push a new patch in that case every time to enable it. am i right? I am not sure about the condition/parameter. Will discuss that through IRC.",
+      "parentUuid": "5ac10518_669c59c1",
+      "revId": "e6d166948ec3517692c12852bfa3f5cd2bce8e1a",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5ac10518_26a65111",
         "filename": "ci/test_kvmfornfv.sh",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2017-01-05T07:18:15Z",
       "side": 1,
       "message": "As we talked on IRC, we possibly want to pass a tar ball, right?",
+      "revId": "e6d166948ec3517692c12852bfa3f5cd2bce8e1a",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_06feb538",
+        "filename": "ci/test_kvmfornfv.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 5765
+      },
+      "writtenOn": "2017-01-05T11:19:19Z",
+      "side": 1,
+      "message": "Yes, Thought of renaming the folder with kvm4nfv-date-changeset-log and then making tar using the releng upload artifact script. Working on it, thanks.",
+      "parentUuid": "5ac10518_26a65111",
       "revId": "e6d166948ec3517692c12852bfa3f5cd2bce8e1a",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false

@@ -79,10 +79,15 @@ elif [ ${test_type} == "daily" ];then
          exit 0
       fi
    elif [ ${test_name} == "cyclictest" ];then
+      sed -i '/host-setup1.sh/a\    \- \"enable-trace.sh\"' kvmfornfv_cyclictest_hostenv_guestenv.yaml
       for env in ${cyclictest_env_daily[@]}
       do
          #Executing cyclictest through yardstick.
          cyclictest ${env}
+         sudo ssh root@${HOST_IP} "sh /root/workspace/scripts/disbale-trace.sh"
+         sudo ssh root@${HOST_IP} "cd /tmp ; a=\$(ls -rt | tail -1) ; echo \$a ; mv \$a cyclictest_${env}.txt"
+         sudo ssh root@${HOST_IP} "mkdir -p $WORKSPACE/build_output/kvmfornfv_trace_log"
+         sudo ssh root@${HOST_IP} "mv /tmp/cyclictest_${env}.txt $WORKSPACE/build_output/kvmfornfv_trace_log"
          sleep 5
       done
       if [ ${cyclictest_result} -ne 0 ] ; then

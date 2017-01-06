@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5ac10518_81ba8fbe",
+        "filename": "ci/kernel_build.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 5447
+      },
+      "writtenOn": "2017-01-06T07:04:22Z",
+      "side": 1,
+      "message": "Hi Yunhong,\nVERSION is present in the old code also. Please check ~kvmfornfv/ci/build_deb/kernel_deb_build.sh file",
+      "parentUuid": "5ac10518_e172737b",
+      "revId": "25093cc726000d1bdf0b1083303370d783ea915e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5ac10518_a16c6b9d",
         "filename": "ci/qemuConfigValidate.sh",
         "patchSetId": 4
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "5ac10518_61052379",
+        "filename": "ci/qemuConfigValidate.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 5447
+      },
+      "writtenOn": "2017-01-06T07:04:22Z",
+      "side": 1,
+      "message": "No Yunhong. I need to make some changes to the code.",
+      "parentUuid": "5ac10518_a16c6b9d",
+      "revId": "25093cc726000d1bdf0b1083303370d783ea915e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5ac10518_016e9f96",
         "filename": "ci/qemuConfigValidate.sh",
         "patchSetId": 4
@@ -47,6 +83,24 @@
       "writtenOn": "2017-01-06T01:39:47Z",
       "side": 1,
       "message": "Can we remove this whitespace here?",
+      "revId": "25093cc726000d1bdf0b1083303370d783ea915e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_81084f92",
+        "filename": "ci/qemuConfigValidate.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 5447
+      },
+      "writtenOn": "2017-01-06T07:04:22Z",
+      "side": 1,
+      "message": "Yes Yunhong.. will remove them",
+      "parentUuid": "5ac10518_016e9f96",
       "revId": "25093cc726000d1bdf0b1083303370d783ea915e",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false

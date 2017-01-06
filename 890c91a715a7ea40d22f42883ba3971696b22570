@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ac10518_891cf5c2",
+        "filename": "ci/test_kvmfornfv.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2017-01-06T19:50:53Z",
+      "side": 1,
+      "message": "I\u0027d suggest to just create log directory, instead of the kvmfornfv_trace_log, and then copy the log file to that log directory. In the end, tar ball the log directory and upload to the artifactory repo. \n\nOr, if we want to keep the kvmfornfv_trace_log, then we create another layer between build_output and the kvmfornfv_trace_log, so that the program that tar ball the log files can simply tar ball one directory.\n\nYour idea?",
+      "revId": "890c91a715a7ea40d22f42883ba3971696b22570",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}

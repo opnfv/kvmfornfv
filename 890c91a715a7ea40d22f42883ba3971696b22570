@@ -16,6 +16,24 @@
       "revId": "890c91a715a7ea40d22f42883ba3971696b22570",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_e9133964",
+        "filename": "ci/test_kvmfornfv.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 5765
+      },
+      "writtenOn": "2017-01-07T07:14:18Z",
+      "side": 1,
+      "message": "Yes Yunhong, will create log directory and copy the log files to that directory. Working on it.",
+      "parentUuid": "5ac10518_891cf5c2",
+      "revId": "890c91a715a7ea40d22f42883ba3971696b22570",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }

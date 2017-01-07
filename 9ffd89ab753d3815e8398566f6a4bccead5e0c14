@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ac10518_294ce19d",
+        "filename": "ci/envs/host-install-qemu.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2017-01-07T01:51:03Z",
+      "side": 1,
+      "message": "One question I\u0027m not sure here, if there has been a qemu package (I mean the qemu package included on the CentOS release) installed on the system, should we remove the existed one? Will these two rpm package have some conflict?",
+      "revId": "9ffd89ab753d3815e8398566f6a4bccead5e0c14",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}

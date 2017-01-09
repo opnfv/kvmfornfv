@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ac10518_ef8499d5",
+        "filename": "ci/test_kvmfornfv.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2017-01-09T19:04:45Z",
+      "side": 1,
+      "message": "Sorry that possibly I didn\u0027t state my comments clearly before. What I mean is, we may have multiple types of log files that would be included on the artifacts. All these log files would be tar balled and uploaded. What we can do is, every type of log file simply copy their files to the target directory, and then the zip/tar/upload will be common code for all of them.\n\nNot sure if it\u0027s clean now.",
+      "revId": "8eed340b0846b5fa28a88c2f2c3053c84f3468da",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}

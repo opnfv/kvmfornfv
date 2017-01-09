@@ -16,6 +16,24 @@
       "revId": "9ffd89ab753d3815e8398566f6a4bccead5e0c14",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_8f687588",
+        "filename": "ci/envs/host-install-qemu.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 5447
+      },
+      "writtenOn": "2017-01-09T11:37:39Z",
+      "side": 1,
+      "message": "Hi Yunhong,\n\nThanks for the comments.\n\nAs per our local test results,there were no conflicts when we install our qemu package on Centos. (qemu-system-x86-2.0.0-1.el7.6.x86_64 included on centos). By Default the qemu will be in  /usr/bin/qemu-system-x86_64 and after installing ,the qemu will be in /usr/local/bin/qemu-system-x86_64 which we have mentioned in host-config file\n\nAnd when executed the command ",
+      "parentUuid": "5ac10518_294ce19d",
+      "revId": "9ffd89ab753d3815e8398566f6a4bccead5e0c14",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }

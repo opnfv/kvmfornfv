@@ -16,6 +16,24 @@
       "revId": "8eed340b0846b5fa28a88c2f2c3053c84f3468da",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_52879661",
+        "filename": "ci/test_kvmfornfv.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 5765
+      },
+      "writtenOn": "2017-01-10T07:32:21Z",
+      "side": 1,
+      "message": "ok Yunhong, so here we have to create a log directory and copy all the types of log files in to it. Then we can tar this target folder and upload it. am i correct?",
+      "parentUuid": "5ac10518_ef8499d5",
+      "revId": "8eed340b0846b5fa28a88c2f2c3053c84f3468da",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }

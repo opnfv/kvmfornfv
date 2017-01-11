@@ -52,6 +52,24 @@
       "revId": "9ffd89ab753d3815e8398566f6a4bccead5e0c14",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_bd97ab8f",
+        "filename": "ci/envs/host-install-qemu.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 5447
+      },
+      "writtenOn": "2017-01-11T05:38:36Z",
+      "side": 1,
+      "message": "Hi Yunhong,\n\nAdded the code to remove the existing qemu packages.\n\n--Rajitha",
+      "parentUuid": "5ac10518_2f7b81f6",
+      "revId": "9ffd89ab753d3815e8398566f6a4bccead5e0c14",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }

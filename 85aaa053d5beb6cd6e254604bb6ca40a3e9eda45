@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ac10518_03a77e0d",
+        "filename": "ci/test_kvmfornfv.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2017-01-12T06:19:37Z",
+      "side": 1,
+      "message": "Sorry for nitpick. Can we name the log.tar.gz to include like date or other information?",
+      "revId": "85aaa053d5beb6cd6e254604bb6ca40a3e9eda45",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}

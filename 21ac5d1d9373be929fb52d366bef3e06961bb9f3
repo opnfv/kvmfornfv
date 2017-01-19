@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ac10518_770dd63d",
+        "filename": "ci/test_kvmfornfv.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2017-01-19T02:28:23Z",
+      "side": 1,
+      "message": "Wondering why not tar the whole log directory? So in future, if we add more log, like the memory bandwidth information, we will create directory build_output/log/memory_bandwidth/. By tar the build_output/log/, we will get everything done.",
+      "revId": "21ac5d1d9373be929fb52d366bef3e06961bb9f3",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ac10518_2a683486",
+        "filename": "ci/test_kvmfornfv.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2017-01-26T07:13:24Z",
+      "side": 1,
+      "message": "Possibly we can have some configuration item for these two HOST_IP? I remember we have configuration file, am I right? Not sure if that will be better?",
+      "revId": "3d7551d26917465178f06ff663a23b7b54899c3d",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}

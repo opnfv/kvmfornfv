@@ -16,7 +16,7 @@ function getKernelVersion {
    echo ${RPMVERSION}
 }
 
-#Get the IP address from pod.yaml file (example ip : 10.2.117.23)
+#Get the IP address from pod.yaml file (example ip : 10.10.100.22)
 function getHostIP {
    host_dir="/root/workspace/scripts/"
    container_dir="/opt/scripts/"

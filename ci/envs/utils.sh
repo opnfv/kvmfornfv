@@ -16,7 +16,33 @@ function getKernelVersion {
    echo ${RPMVERSION}
 }
 
-#Get the IP address from pod.yaml file (example ip : 10.2.117.23)
+#Host for executing test cases based on test_type/job from releng
+function setHostIP {
+   test_type=$1
+   if [ ${test_type} == "verify" ];then
+      HOST_IP="10.10.100.21"
+   elif [ ${test_type} == "daily" ];then
+      HOST_IP="10.10.100.22"
+   else
+      echo "Incorrect test type"
+   fi
+   echo ${HOST_IP}
+}
+
+#Time duration for executing test cases based on test_type/job from releng
+function setTestTime {
+   test_type=$1
+   if [ ${test_type} == "verify" ];then
+      test_time=120000 # 2m
+   elif [ ${test_type} == "daily" ];then
+      test_time=3600000 # 1hr
+   else
+      echo "Incorrect test type"
+   fi
+   echo ${test_time}
+}
+
+#Get the IP address from pod.yaml file (example ip : 10.10.100.22)
 function getHostIP {
    host_dir="/root/workspace/scripts/"
    container_dir="/opt/scripts/"

@@ -52,7 +52,7 @@ function cyclictest {
 
 #Execution of testcases based on test type and test name from releng.
 if [ ${test_type} == "verify" ];then
-   HOST_IP="10.2.117.23"
+   HOST_IP="10.10.100.21" # pod10-node1
    test_time=120000 # 2m
    for env in ${cyclictest_env_verify[@]}
    do
@@ -69,7 +69,7 @@ if [ ${test_type} == "verify" ];then
       exit 0
    fi
 elif [ ${test_type} == "daily" ];then
-   HOST_IP="10.2.117.25"
+   HOST_IP="10.10.100.22" # pod10-node2
    test_time=3600000 #1h
    if [ ${test_name} == "packet_forward" ];then
       packetForward

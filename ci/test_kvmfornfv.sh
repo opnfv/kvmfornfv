@@ -13,6 +13,7 @@
 
 test_type=$1
 test_name=$2
+source $WORKSPACE/ci/envs/host_env.sh
 cyclictest_env_verify=("idle_idle" "cpustress_idle" "memorystress_idle" "iostress_idle") #cyclictest environment
 cyclictest_env_daily=("idle_idle" "cpustress_idle" "memorystress_idle" "iostress_idle")
 cyclictest_result=0 #exit code of cyclictest
@@ -50,10 +51,14 @@ function cyclictest {
    fi
 }
 
+function getTestParams {
+   HOST_IP=$( setHostIP $test_type )
+   test_time=$( setTestTime $test_type )
+}
+
 #Execution of testcases based on test type and test name from releng.
 if [ ${test_type} == "verify" ];then
-   HOST_IP="10.10.100.21"
-   test_time=120000 # 2m
+   getTestParams
    for env in ${cyclictest_env_verify[@]}
    do
       #Executing cyclictest through yardstick.
@@ -69,8 +74,7 @@ if [ ${test_type} == "verify" ];then
       exit 0
    fi
 elif [ ${test_type} == "daily" ];then
-   HOST_IP="10.10.100.22"
-   test_time=3600000 #1h
+   getTestParams
    if [ ${test_name} == "packet_forward" ];then
       packetForward
       if [ ${packetforward_result} -ne 0 ] ; then

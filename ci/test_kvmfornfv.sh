@@ -112,10 +112,14 @@ function ftrace_disable {
    sudo scp root@${HOST_IP}:/tmp/cyclictest_${env}.txt $WORKSPACE/build_output/log/kernel_trace/
 }
 
+function getTestParams {
+   HOST_IP=$( setHostIP $test_type )
+   test_time=$( setTestTime $test_type )
+}
+
 #Execution of testcases based on test type and test name from releng.
 if [ ${test_type} == "verify" ];then
-   HOST_IP="10.10.100.21"
-   test_time=1000 # 1s
+   getTestParams
    install_pcm
    if [ ${ftrace_enable} -eq '1' ]; then
       for env in ${cyclictest_env_verify[@]}
@@ -147,8 +151,7 @@ if [ ${test_type} == "verify" ];then
       test_exit 0
    fi
 elif [ ${test_type} == "daily" ];then
-   HOST_IP="10.10.100.22"
-   test_time=3600000 #1h
+   getTestParams
    install_pcm
    if [ ${test_name} == "packet_forward" ];then
       packetForward

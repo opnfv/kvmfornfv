@@ -45,6 +45,32 @@ function test_exit {
    exit $exitCode
 }
 
+#Host for executing test cases based on test_type/job from releng
+function setHostIP {
+   test_type=$1
+   if [ ${test_type} == "verify" ];then
+      HOST_IP="10.10.100.21"
+   elif [ ${test_type} == "daily" ];then
+      HOST_IP="10.10.100.22"
+   else
+      echo "Incorrect test type"
+   fi
+   echo ${HOST_IP}
+}
+
+#Time duration for executing test cases based on test_type/job from releng
+function setTestTime {
+   test_type=$1
+   if [ ${test_type} == "verify" ];then
+      test_time=1000 # 1s
+   elif [ ${test_type} == "daily" ];then
+      test_time=3600000 # 1hr
+   else
+      echo "Incorrect test type"
+   fi
+   echo ${test_time}
+}
+
 function copyLogs {
    echo "Copying Log files from Node to Jump Server"
    sudo ssh root@${HOST_IP} "cd /root;tar -czvf MBWInfo.tar.gz MBWInfo"

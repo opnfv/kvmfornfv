@@ -52,6 +52,11 @@ function cyclictest {
    fi
 }
 
+function getTestParams {
+   HOST_IP=$( setHostIP $test_type )
+   test_time=$( setTestTime $test_type )
+}
+
 function ftrace_disable {
    sudo ssh root@${HOST_IP} "sh /root/workspace/scripts/disbale-trace.sh"
    sudo ssh root@${HOST_IP} "cd /tmp ; a=\$(ls -rt | tail -1) ; echo \$a ; mv \$a cyclictest_${env}.txt"
@@ -61,8 +66,7 @@ function ftrace_disable {
 
 #Execution of testcases based on test type and test name from releng.
 if [ ${test_type} == "verify" ];then
-   HOST_IP="10.10.100.21"
-   test_time=120000 # 2m
+   getTestParams
    if [ ${ftrace_enable} -eq '1' ]; then
       for env in ${cyclictest_env_verify[@]}
       do
@@ -93,8 +97,7 @@ if [ ${test_type} == "verify" ];then
          err_exit 0
       fi
 elif [ ${test_type} == "daily" ];then
-   HOST_IP="10.10.100.22"
-   test_time=3600000 #1h
+   getTestParams
    if [ ${test_name} == "packet_forward" ];then
       packetForward
       if [ ${packetforward_result} -ne 0 ] ; then

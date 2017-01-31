@@ -72,17 +72,17 @@ function cyclictest {
    echo "Terminating PCM Process"
    sudo ssh root@${HOST_IP} "pid=\$(ps aux | grep 'pcm' | awk '{print \$2}' | head -1); echo \$pid |xargs kill -SIGTERM"
 }
+
+#Collecting the Memory Bandwidth Information using pcm-memory utility
 function collect_MBWInfo {
-   #Collecting the Memory Bandwidth Information using pcm-memory utility
-   source $WORKSPACE/ci/envs/host-config
    testType=$1
    timeStamp=$(date +%Y%m%d%H%M%S)
    echo "Running PCM memory to collect memory bandwidth"
    sudo ssh root@${HOST_IP} "mkdir -p /root/MBWInfo"
    sudo ssh root@${HOST_IP} "${pcm_memory} 60 &>/root/MBWInfo/MBWInfo_${testType}_${timeStamp} &disown"
 }
+
 function install_pcm {
-   source $WORKSPACE/ci/envs/host-config
    sudo ssh root@${HOST_IP} '
    modelName=`cat /proc/cpuinfo | grep -i "model name" | uniq`
    if echo "$modelName" | grep -i "xeon" ;then
@@ -102,13 +102,16 @@ function install_pcm {
       sudo yum install msr-tools
       sudo modprobe msr
    fi
-   '
+}
+
+function getTestParams {
+   HOST_IP=$( setHostIP $test_type )
+   test_time=$( setTestTime $test_type )
 }
 
 #Execution of testcases based on test type and test name from releng.
 if [ ${test_type} == "verify" ];then
-   HOST_IP="10.10.100.21"
-   test_time=1000 # 1s
+   getTestParams
    install_pcm
    if [ ${ftrace_enable} -eq '1' ]; then
       for env in ${cyclictest_env_verify[@]}
@@ -138,8 +141,7 @@ if [ ${test_type} == "verify" ];then
       test_exit 0
    fi
 elif [ ${test_type} == "daily" ];then
-   HOST_IP="10.10.100.22"
-   test_time=3600000 #1h
+   getTestParams
    install_pcm
    if [ ${test_name} == "packet_forward" ];then
       packetForward
@@ -162,7 +164,7 @@ elif [ ${test_type} == "daily" ];then
             sed -i '/host-setup1.sh/a\    \- \"enable-trace.sh\"' kvmfornfv_cyclictest_hostenv_guestenv.yaml
             #Executing cyclictest through yardstick.
             cyclictest ${env}
-            #disabling ftrace and collecting the logs to upload to artifact repository. 
+            #disabling ftrace and collecting the logs to upload to artifact repository.
             ftrace_disable
             sleep 5
          done

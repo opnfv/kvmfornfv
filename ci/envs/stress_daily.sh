@@ -6,6 +6,7 @@ source host-config
 
 stress_type=$1
 timeout=10m
+timestamp=$(date +%Y%m%d%H%M%S)
 
 case $stress_type in
    cpu) # processor
@@ -15,7 +16,7 @@ case $stress_type in
       ARGS="--vm=100"
       ;;
    io)
-      ARGS="--io 10 --hdd 100"
+      ARGS="--io=10,--hdd=100"
       ;;
    *)
       echo $"Usage: $0 {cpu|memory|io}"
@@ -23,4 +24,4 @@ case $stress_type in
 esac
 
 #stress_isolcpus will hold range as a value i.e, eg :24-43
-sh stress_scripts.sh -c ${stress_isolcpus} -t $timeout -a $ARGS
+${pcm_memory} -- "./stress_scripts.sh -c ${stress_isolcpus} -t $timeout -a $ARGS" > /tmp/MBWInfo_afterTest_$timestamp

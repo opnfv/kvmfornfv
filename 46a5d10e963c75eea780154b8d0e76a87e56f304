@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dabed58f_d87bf927",
+        "filename": "ci/test_kvmfornfv.sh",
+        "patchSetId": 8
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2017-02-15T00:40:02Z",
+      "side": 1,
+      "message": "I think the key idea is, we avoid the time-consuming container bringup effort, am I right? If yes, why do we keep the env_clean for idle_idle? BTW, I\u0027d suggest some comments here, or change this line to a function? This code will be confusing after long time and we forgot the details.",
+      "revId": "46a5d10e963c75eea780154b8d0e76a87e56f304",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}

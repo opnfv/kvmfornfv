@@ -5,7 +5,7 @@
 source host-config
 
 stress_type=$1
-timeout=10m
+timeout=3m
 
 case $stress_type in
    cpu) # processor

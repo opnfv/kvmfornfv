@@ -41,12 +41,20 @@ function cyclictest {
    updateYaml
    #Cleaning up the test environment before running cyclictest through yardstick.
    env_clean
+   if [ ${test_case} == "idle_idle" ];then
+      env_clean
+   else
+      sudo ssh root@${HOST_IP} "pid=\$(ps aux | grep 'qemu' | awk '{print \$2}' | head -1); echo \$pid |xargs kill"
+   fi
    #Creating a docker image with yardstick installed and launching ubuntu docker to run yardstick cyclic testcase
    if runCyclicTest;then
       cyclictest_result=`expr ${cyclictest_result} + 0`
    else
       echo "Test case execution FAILED for ${test_case} environment"
       cyclictest_result=`expr ${cyclictest_result} + 1`
+   fi
+   if [ ${test_case} != "iostress_idle" ];then
+      sudo ssh root@${HOST_IP} "reboot"
    fi
 }
 

@@ -16,6 +16,24 @@
       "revId": "46a5d10e963c75eea780154b8d0e76a87e56f304",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dabed58f_58bce96c",
+        "filename": "ci/test_kvmfornfv.sh",
+        "patchSetId": 8
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 5765
+      },
+      "writtenOn": "2017-02-15T05:51:27Z",
+      "side": 1,
+      "message": "We are doing the docker cleaning process(env_clean) before starting the execution  of cyclictest test cases to make sure nothing from the previous patch/test execution is still present(ofcourse, we handled the cleaning part after the execution of test cases in both success/failure scenarios, this is just to make sure everything is clean before test starts.)\n\nSorry for the confusion created. Working on including some comments here to make it clear.",
+      "parentUuid": "dabed58f_d87bf927",
+      "revId": "46a5d10e963c75eea780154b8d0e76a87e56f304",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }

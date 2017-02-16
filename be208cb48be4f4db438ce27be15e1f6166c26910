@@ -16,6 +16,24 @@
       "revId": "be208cb48be4f4db438ce27be15e1f6166c26910",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dabed58f_95e227d4",
+        "filename": "ci/envs/host-config",
+        "patchSetId": 10
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 5765
+      },
+      "writtenOn": "2017-02-16T04:55:20Z",
+      "side": 1,
+      "message": "yes, it is basically an exit function and will be called(with an argument 0 or 1 depending on the testcases execution and their results) for success as well.",
+      "parentUuid": "dabed58f_9579c795",
+      "revId": "be208cb48be4f4db438ce27be15e1f6166c26910",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }

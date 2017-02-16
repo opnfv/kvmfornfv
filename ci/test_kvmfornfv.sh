@@ -27,7 +27,6 @@ function packetForward {
    else
       echo "Packet Forwarding test case executed SUCCESSFULLY"
    fi
-   host_clean
 }
 
 function cyclictest {
@@ -40,7 +39,11 @@ function cyclictest {
    #Update kvmfornfv_cyclictest_${testName}.yaml with test_time and pod.yaml with IP
    updateYaml
    #Cleaning up the test environment before running cyclictest through yardstick.
-   env_clean
+   if [ ${test_case} == "idle_idle" ];then
+      env_clean
+   else
+      sudo ssh root@${HOST_IP} "pid=\$(ps aux | grep 'qemu' | awk '{print \$2}' | head -1); echo \$pid |xargs kill"
+   fi
    #Creating a docker image with yardstick installed and launching ubuntu docker to run yardstick cyclic testcase
    if runCyclicTest;then
       cyclictest_result=`expr ${cyclictest_result} + 0`
@@ -58,8 +61,10 @@ if [ ${test_type} == "verify" ];then
    do
       #Executing cyclictest through yardstick.
       cyclictest ${env}
-      sleep 10
+      sleep 5
    done
+   env_clean
+   host_clean
    #Execution of packet forwarding test cases.
    packetForward
    if [ ${cyclictest_result} -ne 0 ] ||  [ ${packetforward_result} -ne 0 ];then
@@ -92,6 +97,8 @@ elif [ ${test_type} == "daily" ];then
          echo "Cyclictest case executed SUCCESSFULLY"
          exit 0
       fi
+      env_clean
+      host_clean
    fi
 elif [ ${test_type} == "merge" ];then
    echo "Test is not enabled for ${test_type}"

@@ -4,7 +4,7 @@ set -o xtrace
 EVENT=$1
 curpwd=`pwd`
 TRACEDIR=/sys/kernel/debug/tracing/
-mv /tmp/123.txt /tmp/123.back
+rm -rf /tmp/trace.txt
 
 function getcpumask {
         masks=`lscpu | grep "NUMA node1 CPU(s)"| awk -F ':' '{print \$2}' | sed 's/[[:space:]]//g'`
@@ -12,7 +12,7 @@ function getcpumask {
         last=$(echo ${masks} | cut -f2 -d-)
 	cpumask=0
         while [ ${first} -lt ${last} ]; do
-                cputmp=`echo "ibase=10; obase=16; 2^(${c})" | bc`
+                cputmp=`echo "ibase=10; obase=16; 2^(${first})" | bc`
                 cpumask=`echo "ibase=16; obase=10; ${cputmp}+${cpumask}" |bc`
                 first=`expr $first + 1`
 	done
@@ -53,11 +53,10 @@ sudo bash -c "echo 1 > events/tlb/enable"
 
 # Clean original log info
 sudo bash -c "echo > $TRACEDIR/trace"
-#sudo bash -c "echo function > $TRACEDIR/current_tracer"
+sudo bash -c "echo function > $TRACEDIR/current_tracer"
 sudo sysctl kernel.ftrace_enabled=1
 #echo 0 >tracing_on; sleep 1; echo 1 >tracing_on; sleep 20; echo 0 >tracing_on;sleep 1; cat trace >/tmp/123.txt
 sudo bash -c "echo 1 >$TRACEDIR/tracing_on"
 
 cd $curpwd
-#source /home/yjiang5/repo/hostbin/disable_trace.sh
 set +o xtrace

@@ -35,6 +35,8 @@ function packetForward {
 function cyclictest {
    test_case=$1
    source $WORKSPACE/ci/cyclicTestTrigger.sh $HOST_IP $test_time $test_type $test_case
+   #Verifying whether the test node is up for executing test cases.
+   connect_host
    #calculating and verifying sha512sum of the guestimage.
    if ! verifyGuestImage;then
       exit 1
@@ -62,7 +64,7 @@ function ftrace_disable {
 #Execution of testcases based on test type and test name from releng.
 if [ ${test_type} == "verify" ];then
    HOST_IP="10.10.100.21"
-   test_time=120000 # 2m
+   test_time=1000 # 2m
    if [ ${ftrace_enable} -eq '1' ]; then
       for env in ${cyclictest_env_verify[@]}
       do

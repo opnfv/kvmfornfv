@@ -13,7 +13,7 @@
 
 test_type=$1
 test_name=$2
-ftrace_enable=0
+ftrace_enable=1
 cyclictest_env_verify=("idle_idle" "cpustress_idle" "memorystress_idle" "iostress_idle") #cyclictest environment
 cyclictest_env_daily=("idle_idle" "cpustress_idle" "memorystress_idle" "iostress_idle")
 cyclictest_result=0 #exit code of cyclictest
@@ -35,6 +35,8 @@ function packetForward {
 function cyclictest {
    test_case=$1
    source $WORKSPACE/ci/cyclicTestTrigger.sh $HOST_IP $test_time $test_type $test_case
+   #Verifying whether the test node is up for executing test cases.
+   connect_host
    #calculating and verifying sha512sum of the guestimage.
    if ! verifyGuestImage;then
       exit 1
@@ -55,14 +57,14 @@ function cyclictest {
 function ftrace_disable {
    sudo ssh root@${HOST_IP} "sh /root/workspace/scripts/disbale-trace.sh"
    sudo ssh root@${HOST_IP} "cd /tmp ; a=\$(ls -rt | tail -1) ; echo \$a ; mv \$a cyclictest_${env}.txt"
-   sudo mkdir -p $WORKSPACE/build_output/log/kernel_trace
-   sudo scp root@${HOST_IP}:/tmp/cyclictest_${env}.txt $WORKSPACE/build_output/log/kernel_trace/
+   mkdir -p $WORKSPACE/build_output/log/kernel_trace
+   scp root@${HOST_IP}:/tmp/cyclictest_${env}.txt $WORKSPACE/build_output/log/kernel_trace/
 }
 
 #Execution of testcases based on test type and test name from releng.
 if [ ${test_type} == "verify" ];then
    HOST_IP="10.10.100.21"
-   test_time=120000 # 2m
+   test_time=1000 # 2m
    if [ ${ftrace_enable} -eq '1' ]; then
       for env in ${cyclictest_env_verify[@]}
       do

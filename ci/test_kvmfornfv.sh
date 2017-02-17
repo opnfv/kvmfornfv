@@ -62,7 +62,7 @@ function ftrace_disable {
 #Execution of testcases based on test type and test name from releng.
 if [ ${test_type} == "verify" ];then
    HOST_IP="10.10.100.21"
-   test_time=120000 # 2m
+   test_time=1000 # 2m
    if [ ${ftrace_enable} -eq '1' ]; then
       for env in ${cyclictest_env_verify[@]}
       do

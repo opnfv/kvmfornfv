@@ -76,6 +76,8 @@ config_grub 'idle' 'poll'
 ## Disable clocksource verification at runtime
 config_grub 'tsc' 'reliable'
 
+install_kernel
+
 grub2-mkconfig -o /boot/grub2/grub.cfg
 
-install_kernel
+#install_kernel

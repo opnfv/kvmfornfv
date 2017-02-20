@@ -16,6 +16,7 @@ huge_pages=2
 # QEMU executable path and number of cpus for guest
 qemu=/usr/local/bin/qemu-system-x86_64
 guest_cpus=2
+pcm_memory=/root/pcm/pcm-memory.x
 
 # Isolated cpus for nfv, must be given as a range '-' and Numa node1 CPU's should be considered
 host_isolcpus=`lscpu | grep "NUMA node1 CPU(s)"| awk -F ':' '{print \$2}' | sed 's/[[:space:]]//g'`
@@ -42,5 +43,15 @@ function err_exit {
       tar -czvf log-$(date -u +"%Y-%m-%d_%H-%M-%S").tar.gz log
    fi
    exit $exitCode
+}
+
+function copyLogs {
+   echo "Copying Log files from Node to Jump Server"
+   sudo ssh root@${HOST_IP} "cd /root;tar -czvf MBWInfo.tar.gz MBWInfo"
+   mkdir -p $WORKSPACE/build_output/log/MBWInfo
+   scp root@${HOST_IP}:/root/MBWInfo.tar.gz $WORKSPACE/build_output/log/MBWInfo
+   echo "Listing all the logs collected"
+   cd $WORKSPACE;ls build_output/log/MBWInfo;
+   #sudo ssh root@${HOST_IP} "cd /root;rm -rf MBWInfo MBWInfo.tar.gz"
 }
 

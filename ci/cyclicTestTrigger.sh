@@ -128,8 +128,10 @@ function runCyclicTest {
    sudo docker run -i -v ${volume}:/opt --net=host --name kvmfornfv_${testType}_${testName} \
    kvmfornfv:latest  /bin/bash -c "cd /opt/scripts && ls; ./cyclictest.sh $testType $testName"
    cyclictest_output=$?
+   if [ "$testName" == "iostress_idle" ];then
+   copyLogs
+   fi
    #Verifying the results of cyclictest
-
    if [ "$testType" == "verify" ];then
       result=`grep -o '"errors":[^,]*' ${volume}/yardstick.out | awk -F '"' '{print $4}'`
 

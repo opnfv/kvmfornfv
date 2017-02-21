@@ -58,8 +58,8 @@ void kvm_lapic_set_base(struct kvm_vcpu *vcpu, u64 value);
 u64 kvm_lapic_get_base(struct kvm_vcpu *vcpu);
 void kvm_apic_set_version(struct kvm_vcpu *vcpu);
 
-void __kvm_apic_update_irr(u32 *pir, void *regs);
-void kvm_apic_update_irr(struct kvm_vcpu *vcpu, u32 *pir);
+int __kvm_apic_update_irr(u32 *pir, void *regs);
+int kvm_apic_update_irr(struct kvm_vcpu *vcpu, u32 *pir);
 int kvm_apic_set_irq(struct kvm_vcpu *vcpu, struct kvm_lapic_irq *irq,
 		unsigned long *dest_map);
 int kvm_apic_local_deliver(struct kvm_lapic *apic, int lvt_type);

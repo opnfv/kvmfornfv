@@ -3571,11 +3571,6 @@ static void svm_load_eoi_exitmap(struct kvm_vcpu *vcpu)
 	return;
 }
 
-static void svm_sync_pir_to_irr(struct kvm_vcpu *vcpu)
-{
-	return;
-}
-
 static int svm_nmi_allowed(struct kvm_vcpu *vcpu)
 {
 	struct vcpu_svm *svm = to_svm(vcpu);
@@ -4330,7 +4325,6 @@ static struct kvm_x86_ops svm_x86_ops = {
 	.set_virtual_x2apic_mode = svm_set_virtual_x2apic_mode,
 	.cpu_uses_apicv = svm_cpu_uses_apicv,
 	.load_eoi_exitmap = svm_load_eoi_exitmap,
-	.sync_pir_to_irr = svm_sync_pir_to_irr,
 
 	.set_tss_addr = svm_set_tss_addr,
 	.get_tdp_level = get_npt_level,

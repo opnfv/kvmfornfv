@@ -311,7 +311,7 @@ static int find_highest_vector(void *bitmap)
 	     vec >= 0; vec -= APIC_VECTORS_PER_REG) {
 		reg = bitmap + REG_POS(vec);
 		if (*reg)
-			return fls(*reg) - 1 + vec;
+			return __fls(*reg) + vec;
 	}
 
 	return -1;
@@ -331,25 +331,32 @@ static u8 count_vectors(void *bitmap)
 	return count;
 }
 
-void __kvm_apic_update_irr(u32 *pir, void *regs)
+int __kvm_apic_update_irr(u32 *pir, void *regs)
 {
-	u32 i, pir_val;
+	u32 i, vec;
+	u32 pir_val, irr_val;
+	int max_irr = -1;
 
-	for (i = 0; i <= 7; i++) {
-		pir_val = xchg(&pir[i], 0);
-		if (pir_val)
-			*((u32 *)(regs + APIC_IRR + i * 0x10)) |= pir_val;
+	for (i = vec = 0; i <= 7; i++, vec += 32) {
+		pir_val = READ_ONCE(pir[i]);
+		irr_val = *((u32 *)(regs + APIC_IRR + i * 0x10));
+		if (pir_val) {
+			irr_val |= xchg(&pir[i], 0);
+			*((u32 *)(regs + APIC_IRR + i * 0x10)) = irr_val;
+		}
+		if (irr_val)
+			max_irr = __fls(irr_val) + vec;
 	}
+
+	return max_irr;
 }
 EXPORT_SYMBOL_GPL(__kvm_apic_update_irr);
 
-void kvm_apic_update_irr(struct kvm_vcpu *vcpu, u32 *pir)
+int kvm_apic_update_irr(struct kvm_vcpu *vcpu, u32 *pir)
 {
 	struct kvm_lapic *apic = vcpu->arch.apic;
 
-	__kvm_apic_update_irr(pir, apic->regs);
-
-	kvm_make_request(KVM_REQ_EVENT, vcpu);
+	return __kvm_apic_update_irr(pir, apic->regs);
 }
 EXPORT_SYMBOL_GPL(kvm_apic_update_irr);
 
@@ -379,7 +386,6 @@ static inline int apic_find_highest_irr(struct kvm_lapic *apic)
 	if (!apic->irr_pending)
 		return -1;
 
-	kvm_x86_ops->sync_pir_to_irr(apic->vcpu);
 	result = apic_search_irr(apic);
 	ASSERT(result == -1 || result >= 16);
 
@@ -393,9 +399,10 @@ static inline void apic_clear_irr(int vec, struct kvm_lapic *apic)
 	vcpu = apic->vcpu;
 
 	if (unlikely(kvm_vcpu_apic_vid_enabled(vcpu))) {
-		/* try to update RVI */
+		/* need to update RVI */
 		apic_clear_vector(vec, apic->regs + APIC_IRR);
-		kvm_make_request(KVM_REQ_EVENT, vcpu);
+		kvm_x86_ops->hwapic_irr_update(vcpu,
+				apic_find_highest_irr(apic));
 	} else {
 		apic->irr_pending = false;
 		apic_clear_vector(vec, apic->regs + APIC_IRR);
@@ -491,6 +498,7 @@ int kvm_lapic_find_highest_irr(struct kvm_vcpu *vcpu)
 
 	return highest_irr;
 }
+EXPORT_SYMBOL_GPL(kvm_lapic_find_highest_irr);
 
 static int __apic_accept_irq(struct kvm_lapic *apic, int delivery_mode,
 			     int vector, int level, int trig_mode,

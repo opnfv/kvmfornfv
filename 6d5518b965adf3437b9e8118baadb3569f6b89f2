@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dabed58f_b9c71412",
+        "filename": "ci/cyclicTestTrigger.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2017-02-22T20:27:50Z",
+      "side": 1,
+      "message": "Can you please align this line?",
+      "revId": "6d5518b965adf3437b9e8118baadb3569f6b89f2",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dabed58f_f9e4acad",
+        "filename": "ci/envs/host-config",
+        "patchSetId": 3
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2017-02-22T20:27:50Z",
+      "side": 1,
+      "message": "I think one space line here to separate two functions?",
+      "revId": "6d5518b965adf3437b9e8118baadb3569f6b89f2",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dabed58f_19e2e09f",
+        "filename": "ci/envs/host-config",
+        "patchSetId": 3
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2017-02-22T20:27:50Z",
+      "side": 1,
+      "message": "So do we want to clean up the left log file on the node, or we will keep it there?",
+      "revId": "6d5518b965adf3437b9e8118baadb3569f6b89f2",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dabed58f_39db24ef",
+        "filename": "ci/test_kvmfornfv.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2017-02-22T20:27:50Z",
+      "side": 1,
+      "message": "Can we keep this line aligned?",
+      "revId": "6d5518b965adf3437b9e8118baadb3569f6b89f2",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dabed58f_99d6d0c4",
+        "filename": "ci/test_kvmfornfv.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2017-02-22T20:27:50Z",
+      "side": 1,
+      "message": "ditto, alignment.",
+      "revId": "6d5518b965adf3437b9e8118baadb3569f6b89f2",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dabed58f_59d858ef",
+        "filename": "ci/test_kvmfornfv.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2017-02-22T20:27:50Z",
+      "side": 1,
+      "message": "Do we still need install the msr-tools if the previous checking for pcm is success? I\u0027d keep them as a unit.",
+      "revId": "6d5518b965adf3437b9e8118baadb3569f6b89f2",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}

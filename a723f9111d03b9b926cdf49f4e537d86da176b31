@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dabed58f_0f460ec0",
+        "filename": "kernel/arch/x86/configs/opnfv.config",
+        "patchSetId": 3
+      },
+      "lineNbr": 3925,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2017-02-23T18:04:47Z",
+      "side": 1,
+      "message": "I remember the kernel from the OS has this as module, right? Can we do the same?",
+      "revId": "a723f9111d03b9b926cdf49f4e537d86da176b31",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dabed58f_6f0c6a95",
+        "filename": "kernel/arch/x86/configs/opnfv.config",
+        "patchSetId": 3
+      },
+      "lineNbr": 3929,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2017-02-23T18:04:47Z",
+      "side": 1,
+      "message": "So we don\u0027t need any attributes here?I\u0027d assume XATTR/UPCALL will be something helpful?",
+      "revId": "a723f9111d03b9b926cdf49f4e537d86da176b31",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dabed58f_8f119eae",
+        "filename": "kernel/arch/x86/configs/opnfv.config",
+        "patchSetId": 3
+      },
+      "lineNbr": 4344,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2017-02-23T18:04:47Z",
+      "side": 1,
+      "message": "Can this be module?",
+      "revId": "a723f9111d03b9b926cdf49f4e537d86da176b31",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}

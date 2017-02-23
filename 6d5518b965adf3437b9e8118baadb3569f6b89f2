@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "dabed58f_f4acb38e",
+        "filename": "ci/cyclicTestTrigger.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 5447
+      },
+      "writtenOn": "2017-02-23T05:58:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dabed58f_b9c71412",
+      "revId": "6d5518b965adf3437b9e8118baadb3569f6b89f2",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dabed58f_f9e4acad",
         "filename": "ci/envs/host-config",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2017-02-22T20:27:50Z",
       "side": 1,
       "message": "I think one space line here to separate two functions?",
+      "revId": "6d5518b965adf3437b9e8118baadb3569f6b89f2",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dabed58f_b4b63bdb",
+        "filename": "ci/envs/host-config",
+        "patchSetId": 3
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 5447
+      },
+      "writtenOn": "2017-02-23T05:58:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dabed58f_f9e4acad",
       "revId": "6d5518b965adf3437b9e8118baadb3569f6b89f2",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "dabed58f_74b0c3dd",
+        "filename": "ci/envs/host-config",
+        "patchSetId": 3
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 5447
+      },
+      "writtenOn": "2017-02-23T05:58:35Z",
+      "side": 1,
+      "message": "Yes yunhong,we can cleanup the left log files on the node to avoid data overflow",
+      "parentUuid": "dabed58f_19e2e09f",
+      "revId": "6d5518b965adf3437b9e8118baadb3569f6b89f2",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dabed58f_39db24ef",
         "filename": "ci/test_kvmfornfv.sh",
         "patchSetId": 3
@@ -64,6 +118,24 @@
       "writtenOn": "2017-02-22T20:27:50Z",
       "side": 1,
       "message": "Can we keep this line aligned?",
+      "revId": "6d5518b965adf3437b9e8118baadb3569f6b89f2",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dabed58f_34ca4b50",
+        "filename": "ci/test_kvmfornfv.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 5447
+      },
+      "writtenOn": "2017-02-23T05:58:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dabed58f_39db24ef",
       "revId": "6d5518b965adf3437b9e8118baadb3569f6b89f2",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "dabed58f_54c7bf45",
+        "filename": "ci/test_kvmfornfv.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 5447
+      },
+      "writtenOn": "2017-02-23T05:58:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dabed58f_99d6d0c4",
+      "revId": "6d5518b965adf3437b9e8118baadb3569f6b89f2",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dabed58f_59d858ef",
         "filename": "ci/test_kvmfornfv.sh",
         "patchSetId": 3
@@ -98,6 +188,24 @@
       "writtenOn": "2017-02-22T20:27:50Z",
       "side": 1,
       "message": "Do we still need install the msr-tools if the previous checking for pcm is success? I\u0027d keep them as a unit.",
+      "revId": "6d5518b965adf3437b9e8118baadb3569f6b89f2",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dabed58f_f4c35336",
+        "filename": "ci/test_kvmfornfv.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 5447
+      },
+      "writtenOn": "2017-02-23T05:58:35Z",
+      "side": 1,
+      "message": "As Suggested,modified the changes as a unit",
+      "parentUuid": "dabed58f_59d858ef",
       "revId": "6d5518b965adf3437b9e8118baadb3569f6b89f2",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false

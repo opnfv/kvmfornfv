@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "dabed58f_0fa7ee50",
+        "filename": "kernel/arch/x86/configs/opnfv.config",
+        "patchSetId": 3
+      },
+      "lineNbr": 3925,
+      "author": {
+        "id": 5765
+      },
+      "writtenOn": "2017-02-23T20:00:50Z",
+      "side": 1,
+      "message": "yes, its a module. Will change accordingly.",
+      "parentUuid": "dabed58f_0f460ec0",
+      "revId": "a723f9111d03b9b926cdf49f4e537d86da176b31",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dabed58f_6f0c6a95",
         "filename": "kernel/arch/x86/configs/opnfv.config",
         "patchSetId": 3
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "dabed58f_cf68f6f7",
+        "filename": "kernel/arch/x86/configs/opnfv.config",
+        "patchSetId": 3
+      },
+      "lineNbr": 3929,
+      "author": {
+        "id": 5765
+      },
+      "writtenOn": "2017-02-23T20:00:50Z",
+      "side": 1,
+      "message": "cifs upcall, theuserspace helper program for the linux CIFS client filesystem i think this will be helpful. Will check kernel from what else CIFS related are enabled and will be helpful. Working on this.",
+      "parentUuid": "dabed58f_6f0c6a95",
+      "revId": "a723f9111d03b9b926cdf49f4e537d86da176b31",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dabed58f_8f119eae",
         "filename": "kernel/arch/x86/configs/opnfv.config",
         "patchSetId": 3
@@ -47,6 +83,24 @@
       "writtenOn": "2017-02-23T18:04:47Z",
       "side": 1,
       "message": "Can this be module?",
+      "revId": "a723f9111d03b9b926cdf49f4e537d86da176b31",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dabed58f_6f6d4a04",
+        "filename": "kernel/arch/x86/configs/opnfv.config",
+        "patchSetId": 3
+      },
+      "lineNbr": 4344,
+      "author": {
+        "id": 5765
+      },
+      "writtenOn": "2017-02-23T20:00:50Z",
+      "side": 1,
+      "message": "Yes, this can be a module. Working on it.",
+      "parentUuid": "dabed58f_8f119eae",
       "revId": "a723f9111d03b9b926cdf49f4e537d86da176b31",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false

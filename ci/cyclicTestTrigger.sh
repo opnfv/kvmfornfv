@@ -36,6 +36,29 @@ function verifyGuestImage {
    fi
 }
 
+#Verifying the availability of the host after reboot
+function connect_host {
+   n=0
+   while [ $n -lt 25 ]; do
+      host_ping_test="ping -c 1 ${HOST_IP}"
+      eval $host_ping_test &> /dev/null
+      if [ ${?} -ne 0 ] ; then
+         sleep 10
+         echo "host machine is still under reboot..trying to connect...."
+         n=$(($n+1))
+      else
+         echo "resuming the execution of test cases....."
+         #Waiting for ssh to be available for the host machine.
+         sleep 15
+         break
+      fi
+      if [ $n == 24 ];then
+         echo "Host machine unable to boot-up!"
+         exit 1
+      fi
+   done
+}
+
 #Updating the pod.yaml file with HOST_IP,kvmfornfv_cyclictest_idle_idle.yaml with loops and interval
 function updateYaml {
    cd $WORKSPACE/tests/

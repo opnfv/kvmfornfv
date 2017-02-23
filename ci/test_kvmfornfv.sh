@@ -35,6 +35,10 @@ function packetForward {
 function cyclictest {
    test_case=$1
    source $WORKSPACE/ci/cyclicTestTrigger.sh $HOST_IP $test_time $test_type $test_case
+   #Verifying whether the test node is up and running
+   connect_host
+   #Waiting for ssh to be available for the host machine.
+   sleep 10
    #calculating and verifying sha512sum of the guestimage.
    if ! verifyGuestImage;then
       exit 1

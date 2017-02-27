@@ -20,7 +20,7 @@ done
 }
 
 apt-get update
-apt-get install -y git fakeroot build-essential ncurses-dev xz-utils kernel-package bc autoconf automake libtool python python-pip
+apt-get install -y git fakeroot build-essential ncurses-dev xz-utils kernel-package bc autoconf automake libtool python python-pip libssl-dev
 
 #
 # Build kernel in another directory, so some files (which are root writeable only) generated during kernel

@@ -12,6 +12,7 @@ RUN yum -y update && yum -y install \
   gettext \
   bc \
   bison\
+  openssl-devel \
   flex\
   rpm \
   rpm-build

@@ -67,6 +67,7 @@ function updateYaml {
    sed -ri "0,/interval: [0-9]*/s//interval: 1000/"  kvmfornfv_cyclictest_hostenv_guestenv.yaml
    sed -ri "s/tc: \"kvmfornfv_cyclictest-node-context\"/tc: \"kvmfornfv_cyclictest_${testName}\"/" kvmfornfv_cyclictest_hostenv_guestenv.yaml
    cp kvmfornfv_cyclictest_hostenv_guestenv.yaml kvmfornfv_cyclictest_${testName}.yaml
+   sed -i '/host-setup1.sh/a\    \- \"enable-trace.sh\"' kvmfornfv_cyclictest_${testName}.yaml
    case $testName in
 
        idle_idle)

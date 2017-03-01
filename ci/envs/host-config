@@ -40,6 +40,8 @@ function err_exit {
    cd $WORKSPACE/build_output/
    if [ -d log ];then
       tar -czvf log-$(date -u +"%Y-%m-%d_%H-%M-%S").tar.gz log
+      GS_LOG_LOCATION="gs://artifacts.opnfv.org/logs-$(date -u +"%Y-%m-%d")"
+      gsutil cp -r $WORKSPACE/build_output/log-*.tar.gz $GS_LOG_LOCATION > $WORKSPACE/gsutil.log 2>&1
    fi
    exit $exitCode
 }

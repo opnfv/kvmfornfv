@@ -2,7 +2,24 @@
 #
 # Common parameter parsing for kvmfornfv scripts
 #
-
+function apex_build() {
+    echo ""
+    echo "Checking for the files in the patch"
+    commit=`git rev-parse HEAD`
+    echo "$commit"
+    git show --name-only ${commit} | grep apex.conf
+    result=`git show --name-only ${commit} | grep apex.conf`
+    if [ -z "${result}" ]; then
+       echo "Does not include the file apex.conf"
+       apex_build_flag=0
+    else
+       source $WORKSPACE/apex.conf
+       echo "Containts apex.conf"
+       apex_build_flag=1
+       cd $WORKSPACE
+       git checkout -f $commit_id
+    fi
+}
 function usage() {
     echo ""
     echo "Usage --> $0 [-p package_type] [-o output_dir] [-h]"
@@ -95,6 +112,8 @@ fi
 echo ""
 echo "Building for $type package in $output_dir"
 echo ""
+
+apex_build
 
 mkdir -p $output_dir
 build_package $type

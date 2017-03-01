@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dabed58f_6f830acd",
+        "filename": "kernel/arch/x86/configs/opnfv.config",
+        "patchSetId": 5
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2017-03-01T03:35:00Z",
+      "side": 1,
+      "message": "Can we remove this?",
+      "revId": "cd4f79bcd6155d1cb814c6d23868e0ef99819103",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}

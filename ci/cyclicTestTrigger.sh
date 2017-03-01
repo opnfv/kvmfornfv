@@ -36,6 +36,15 @@ function verifyGuestImage {
    fi
 }
 
+function ftrace_disable {
+   echo "disabling ftrace and collecting the logs....."
+   sudo ssh root@${HOST_IP} "sh /root/workspace/scripts/disable_trace.sh"
+   sudo ssh root@${HOST_IP} "cd /tmp ;  mv trace.txt cyclictest_${env}.txt"
+   mkdir -p $WORKSPACE/build_output/log/kernel_trace
+   scp root@${HOST_IP}:/tmp/cyclictest_${env}.txt $WORKSPACE/build_output/log/kernel_trace/
+   sudo ssh root@${HOST_IP} "cd /tmp ; rm -rf cyclictest_${env}.txt"
+}
+
 #Verifying the availability of the host after reboot
 function connect_host {
    n=0
@@ -162,10 +171,12 @@ function runCyclicTest {
          echo `grep -o '"data":[^}]*' ${volume}/yardstick.out | awk -F '{' '{print $2}'`
          echo ""
          echo "####################################################"
+         ftrace_disable
          cleanup $cyclictest_output
       else
          echo "Testcase failed"
          echo `grep -o '"errors":[^,]*' ${volume}/yardstick.out | awk -F '"' '{print $4}'`
+         ftrace_disable
          env_clean
          host_clean
          return 1

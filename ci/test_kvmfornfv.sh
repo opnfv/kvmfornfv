@@ -13,7 +13,7 @@
 
 test_type=$1
 test_name=$2
-ftrace_enable=0
+ftrace_enable=1
 cyclictest_env_verify=("idle_idle" "cpustress_idle" "memorystress_idle" "iostress_idle") #cyclictest environment
 cyclictest_env_daily=("idle_idle" "cpustress_idle" "memorystress_idle" "iostress_idle")
 cyclictest_result=0 #exit code of cyclictest
@@ -57,10 +57,13 @@ function cyclictest {
 }
 
 function ftrace_disable {
-   sudo ssh root@${HOST_IP} "sh /root/workspace/scripts/disbale-trace.sh"
-   sudo ssh root@${HOST_IP} "cd /tmp ; a=\$(ls -rt | tail -1) ; echo \$a ; mv \$a cyclictest_${env}.txt"
-   sudo mkdir -p $WORKSPACE/build_output/log/kernel_trace
-   sudo scp root@${HOST_IP}:/tmp/cyclictest_${env}.txt $WORKSPACE/build_output/log/kernel_trace/
+   echo "disabling ftrace and collecting the logs....."
+   sudo scp $WORKSPACE/ci/envs/disable_trace.sh root@${HOST_IP}:/root/workspace/
+   sudo ssh root@${HOST_IP} "sh /root/workspace/disable_trace.sh"
+   sudo ssh root@${HOST_IP} "cd /tmp ;  mv trace.txt cyclictest_${env}.txt"
+   mkdir -p $WORKSPACE/build_output/log/kernel_trace
+   scp root@${HOST_IP}:/tmp/cyclictest_${env}.txt $WORKSPACE/build_output/log/kernel_trace/
+   #sudo ssh root@${HOST_IP} "cd /tmp ; rm -rf cyclictest_${env}.txt"
 }
 
 #Execution of testcases based on test type and test name from releng.
@@ -75,6 +78,8 @@ if [ ${test_type} == "verify" ];then
          #Executing cyclictest through yardstick.
          cyclictest ${env}
          #disabling ftrace and collecting the logs to upload to artifact repository.
+         sleep 5
+         connect_host
          ftrace_disable
          sleep 10
       done

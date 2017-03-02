@@ -39,6 +39,15 @@ function verifyGuestImage {
    fi
 }
 
+#disabling ftrace and collecting the logs to upload to artifact repository.
+function ftrace_disable {
+   sudo ssh root@${HOST_IP} "sh /root/workspace/scripts/disable_trace.sh"
+   sudo ssh root@${HOST_IP} "cd /tmp ;  mv trace.txt cyclictest_${env}.txt"
+   mkdir -p $WORKSPACE/build_output/log/kernel_trace
+   scp root@${HOST_IP}:/tmp/cyclictest_${env}.txt $WORKSPACE/build_output/log/kernel_trace/
+   sudo ssh root@${HOST_IP} "cd /tmp ; rm -rf cyclictest_${env}.txt"
+}
+
 #Verifying the availability of the host after reboot
 function connect_host {
    n=0
@@ -192,6 +201,13 @@ function runCyclicTest {
       cp -r $WORKSPACE/tests/kvmfornfv_cyclictest_${testName}.yaml ${volume}
       sudo docker exec -i $container_id /bin/bash -c "cd /opt/scripts && ls; ./cyclictest.sh $testType $testName"
       cyclictest_output=$?
+   ftrace_enable=$1
+   docker_image_dir=$WORKSPACE/docker_image_build
+   ( cd ${docker_image_dir}; sudo docker build  -t kvmfornfv:latest --no-cache=true . )
+   if [ ${?} -ne 0 ] ; then
+      echo  "Docker image build failed"
+      id=$(sudo docker ps -a  | head  -2 | tail -1 | awk '{print $1}'); sudo docker rm -f $id
+      err_exit 1
    fi
    
    if [ "$testName" == "iostress_idle" ];then
@@ -199,6 +215,12 @@ function runCyclicTest {
    fi
 
    #Verifying the results of cyclictest
+   #Disable ftrace if it is enabled to collect the logs.
+   if [ ${ftrace_enable} -eq '1' ]; then
+      ftrace_disable
+   fi
+   #Verifying the results of cyclictest
+   
    if [ "$testType" == "verify" ];then
       result=`grep -o '"errors":[^,]*' ${volume}/yardstick.out | awk -F '"' '{print $4}'`
 

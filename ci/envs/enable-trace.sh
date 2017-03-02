@@ -3,8 +3,7 @@
 set -o xtrace
 EVENT=$1
 curpwd=`pwd`
-TRACEDIR=/sys/kernel/debug/tracing/
-mv /tmp/123.txt /tmp/123.back
+TRACEDIR=/sys/kernel/debug/tracing
 
 function getcpumask {
         masks=`lscpu | grep "NUMA node1 CPU(s)"| awk -F ':' '{print \$2}' | sed 's/[[:space:]]//g'`
@@ -12,7 +11,7 @@ function getcpumask {
         last=$(echo ${masks} | cut -f2 -d-)
 	cpumask=0
         while [ ${first} -lt ${last} ]; do
-                cputmp=`echo "ibase=10; obase=16; 2^(${c})" | bc`
+                cputmp=`echo "ibase=10; obase=16; 2^(${first})" | bc`
                 cpumask=`echo "ibase=16; obase=10; ${cputmp}+${cpumask}" |bc`
                 first=`expr $first + 1`
 	done
@@ -22,42 +21,41 @@ function getcpumask {
 }
 
 getcpumask
-sudo bash -c "echo $CPUMASK > $TRACEDIR/tracing_cpumask"
+bash -c "echo $CPUMASK > $TRACEDIR/tracing_cpumask"
 
 #sudo bash -c "echo function > $TRACEDIR/current_tracer"
 #echo :* > set_event
 #echo $EVENT:* > set_event
 
-sudo bash -c "echo 1 > $TRACEDIR/events/irq/enable"
-sudo bash -c "echo 1 > $TRACEDIR/events/irq_vectors/enable"
-sudo bash -c "echo 1 > $TRACEDIR/events/task/enable"
-sudo bash -c "echo 1 > $TRACEDIR/events/syscalls/enable"
-sudo bash -c "echo 1 > $TRACEDIR/events/kmem/enable"
-sudo bash -c "echo 1 > $TRACEDIR/events/fence/enable"
-sudo bash -c "echo 1 > $TRACEDIR/events/context_tracking/enable"
-sudo bash -c "echo 1 > $TRACEDIR/events/exceptions/enable"
-sudo bash -c "echo 1 > $TRACEDIR/events/irq_vectors/enable"
-sudo bash -c "echo 1 > $TRACEDIR/events/nmi/enable"
-sudo bash -c "echo 1 > $TRACEDIR/events/kmem/enable"
-sudo bash -c "echo 1 > $TRACEDIR/events/migrate/enable"
-sudo bash -c "echo 1 > $TRACEDIR/events/sock/enable"
-sudo bash -c "echo 1 > $TRACEDIR/events/timer/enable"
-sudo bash -c "echo 1 > $TRACEDIR/events/sched/enable"
-sudo bash -c "echo 1 > $TRACEDIR/events/rcu/enable"
-sudo bash -c "echo 1 > $TRACEDIR/events/kvm/enable"
-sudo bash -c "echo 1 > $TRACEDIR/events/workqueue/enable"
-sudo bash -c "echo 1 > $TRACEDIR/events/power/enable"
-sudo bash -c "echo 1 > $TRACEDIR/events/signal/enable"
+bash -c "echo 1 > $TRACEDIR/events/irq/enable"
+bash -c "echo 1 > $TRACEDIR/events/irq_vectors/enable"
+bash -c "echo 1 > $TRACEDIR/events/task/enable"
+bash -c "echo 1 > $TRACEDIR/events/syscalls/enable"
+bash -c "echo 1 > $TRACEDIR/events/kmem/enable"
+bash -c "echo 1 > $TRACEDIR/events/fence/enable"
+bash -c "echo 1 > $TRACEDIR/events/context_tracking/enable"
+bash -c "echo 1 > $TRACEDIR/events/exceptions/enable"
+bash -c "echo 1 > $TRACEDIR/events/irq_vectors/enable"
+bash -c "echo 1 > $TRACEDIR/events/nmi/enable"
+bash -c "echo 1 > $TRACEDIR/events/kmem/enable"
+bash -c "echo 1 > $TRACEDIR/events/migrate/enable"
+bash -c "echo 1 > $TRACEDIR/events/sock/enable"
+bash -c "echo 1 > $TRACEDIR/events/timer/enable"
+bash -c "echo 1 > $TRACEDIR/events/sched/enable"
+bash -c "echo 1 > $TRACEDIR/events/rcu/enable"
+bash -c "echo 1 > $TRACEDIR/events/kvm/enable"
+bash -c "echo 1 > $TRACEDIR/events/workqueue/enable"
+bash -c "echo 1 > $TRACEDIR/events/power/enable"
+bash -c "echo 1 > $TRACEDIR/events/signal/enable"
 
-sudo bash -c "echo 1 > events/tlb/enable"
+bash -c "echo 1 > events/tlb/enable"
 
 # Clean original log info
-sudo bash -c "echo > $TRACEDIR/trace"
-#sudo bash -c "echo function > $TRACEDIR/current_tracer"
-sudo sysctl kernel.ftrace_enabled=1
+bash -c "echo > $TRACEDIR/trace"
+bash -c "echo function > $TRACEDIR/current_tracer"
+sysctl kernel.ftrace_enabled=1
 #echo 0 >tracing_on; sleep 1; echo 1 >tracing_on; sleep 20; echo 0 >tracing_on;sleep 1; cat trace >/tmp/123.txt
-sudo bash -c "echo 1 >$TRACEDIR/tracing_on"
+bash -c "echo 1 >$TRACEDIR/tracing_on"
 
 cd $curpwd
-#source /home/yjiang5/repo/hostbin/disable_trace.sh
 set +o xtrace

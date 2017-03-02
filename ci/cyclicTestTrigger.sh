@@ -39,6 +39,15 @@ function verifyGuestImage {
    fi
 }
 
+#disabling ftrace and collecting the logs to upload to artifact repository.
+function ftrace_disable {
+   sudo ssh root@${HOST_IP} "sh /root/workspace/scripts/disable_trace.sh"
+   sudo ssh root@${HOST_IP} "cd /tmp ;  mv trace.txt cyclictest_${env}.txt"
+   mkdir -p $WORKSPACE/build_output/log/kernel_trace
+   scp root@${HOST_IP}:/tmp/cyclictest_${env}.txt $WORKSPACE/build_output/log/kernel_trace/
+   sudo ssh root@${HOST_IP} "cd /tmp ; rm -rf cyclictest_${env}.txt"
+}
+
 #Verifying the availability of the host after reboot
 function connect_host {
    n=0
@@ -158,6 +167,36 @@ function runPacketForwarding {
 
 #Creating a docker image with yardstick installed and Verify the results of cyclictest
 function runCyclicTest {
+   ftrace_enable=$1
+   container_id=`sudo docker ps -a | grep kvmfornfv_${testType} |awk '{print \$1}'|sed -e 's/\r//g'`
+   echo "$container_id"
+   if [ -z "$container_id" ]; then
+      docker_image_dir=$WORKSPACE/docker_image_build
+      ( cd ${docker_image_dir}; sudo docker build  -t kvmfornfv:latest --no-cache=true . )
+      if [ ${?} -ne 0 ] ; then
+         echo  "Docker image build failed"
+         id=$(sudo docker ps -a  | head  -2 | tail -1 | awk '{print $1}'); sudo docker rm -f $id
+         exit 1
+      fi
+      time_stamp=$(date +%Y%m%d%H%M%S)
+      volume=/tmp/kvmtest-${testType}-${time_stamp}
+      mkdir -p $volume/{image,rpm,scripts}
+      #copying required files to run yardstick cyclic testcase
+      cp $WORKSPACE/build_output/kernel-${KERNELRPM_VERSION}*.rpm ${volume}/rpm
+      cp $WORKSPACE/build_output/qemu-${QEMURPM_VERSION}*.rpm ${volume}/rpm
+      cp -r $WORKSPACE/ci/envs/* ${volume}/scripts
+      cp -r $WORKSPACE/tests/kvmfornfv_cyclictest_${testName}.yaml ${volume}
+      cp -r $WORKSPACE/tests/pod.yaml ${volume}/scripts
+      #Launching ubuntu docker container to run yardstick
+      container_id=`sudo docker run -i -d -v ${volume}:/opt --net=host --name kvmfornfv_${testType} \
+      kvmfornfv:latest`
+      sudo docker exec -i $container_id /bin/bash -c "cd /opt/scripts && ls; ./cyclictest.sh $testType $testName"
+      cyclictest_output=$?
+   else
+      cp -r $WORKSPACE/tests/kvmfornfv_cyclictest_${testName}.yaml ${volume}
+      sudo docker exec -i $container_id /bin/bash -c "cd /opt/scripts && ls; ./cyclictest.sh $testType $testName"
+      cyclictest_output=$?
+   fi   
    docker_image_dir=$WORKSPACE/docker_image_build
    ( cd ${docker_image_dir}; sudo docker build  -t kvmfornfv:latest --no-cache=true . )
    if [ ${?} -ne 0 ] ; then
@@ -179,10 +218,16 @@ function runCyclicTest {
    sudo docker run -i -v ${volume}:/opt --net=host --name kvmfornfv_${testType}_${testName} \
    kvmfornfv:latest /bin/bash -c "cd /opt/scripts && ls; ./cyclictest.sh $testType $testName"
    cyclictest_output=$?
+
    if [ "$testName" == "iostress_idle" ];then
       copyLogs
    fi
 
+   #Verifying the results of cyclictest
+   #Disable ftrace if it is enabled to collect the logs.
+   if [ ${ftrace_enable} -eq '1' ]; then
+      ftrace_disable
+   fi
    #Verifying the results of cyclictest
    if [ "$testType" == "verify" ];then
       result=`grep -o '"errors":[^,]*' ${volume}/yardstick.out | awk -F '"' '{print $4}'`

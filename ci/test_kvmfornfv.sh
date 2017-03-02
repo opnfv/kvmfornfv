@@ -13,7 +13,7 @@
 
 test_type=$1
 test_name=$2
-ftrace_enable=0
+ftrace_enable=1
 cyclictest_env_verify=("idle_idle" "cpustress_idle" "memorystress_idle" "iostress_idle") #cyclictest environment
 cyclictest_env_daily=("idle_idle" "cpustress_idle" "memorystress_idle" "iostress_idle")
 cyclictest_result=0 #exit code of cyclictest
@@ -63,7 +63,7 @@ function cyclictest {
    #Cleaning the environment before running cyclictest through yardstick
    env_clean
    #Creating a docker image with yardstick installed and launching ubuntu docker to run yardstick cyclic testcase
-   if runCyclicTest;then
+   if runCyclicTest ${ftrace_enable};then
       cyclictest_result=`expr ${cyclictest_result} + 0`
    else
       echo "Test case execution FAILED for ${test_case} environment"
@@ -105,13 +105,6 @@ function install_pcm {
    '
 }
 
-function ftrace_disable {
-   sudo ssh root@${HOST_IP} "sh /root/workspace/scripts/disbale-trace.sh"
-   sudo ssh root@${HOST_IP} "cd /tmp ; a=\$(ls -rt | tail -1) ; echo \$a ; mv \$a cyclictest_${env}.txt"
-   sudo mkdir -p $WORKSPACE/build_output/log/kernel_trace
-   sudo scp root@${HOST_IP}:/tmp/cyclictest_${env}.txt $WORKSPACE/build_output/log/kernel_trace/
-}
-
 #Execution of testcases based on test type and test name from releng.
 if [ ${test_type} == "verify" ];then
    HOST_IP="10.10.100.21"
@@ -121,11 +114,9 @@ if [ ${test_type} == "verify" ];then
       for env in ${cyclictest_env_verify[@]}
       do
          #Enabling ftrace for kernel debugging.
-         sed -i '/host-setup1.sh/a\    \- \"enable-trace.sh\"' kvmfornfv_cyclictest_hostenv_guestenv.yaml
+         sed -i '/host-setup1.sh/a\    \- \"enable-trace.sh\"' $WORKSPACE/tests/kvmfornfv_cyclictest_hostenv_guestenv.yaml
          #Executing cyclictest through yardstick.
          cyclictest ${env}
-         #disabling ftrace and collecting the logs to upload to artifact repository.
-         ftrace_disable
          sleep 10
       done
       #Execution of packet forwarding test cases.

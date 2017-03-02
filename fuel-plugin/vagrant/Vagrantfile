@@ -14,8 +14,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     h.vm.provision :shell, :inline => "/vagrant/build_fuel_plugin.sh", privileged: false
     h.vm.synced_folder "../..", "/kvmfornfv"
     h.vm.provider :virtualbox do |v|
+      file_to_disk = "large_disk_file.vdi"
       v.customize ["modifyvm", :id, "--memory", 4096]
       v.customize ["modifyvm", :id, "--cpus", 4]
+      v.customize ['createhd', '--filename', file_to_disk, '--size', 500 * 1024]
+      v.customize ['storageattach', :id, '--storagectl', 'SATAController', '--port', 1, '--device', 0, '--type', 'hdd', '--medium', file_to_disk ]
     end
   end
 end

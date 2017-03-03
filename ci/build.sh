@@ -3,6 +3,29 @@
 # Common parameter parsing for kvmfornfv scripts
 #
 
+function apex_build() {
+    echo ""
+    echo "Checking for the files in the patch"
+    commit=`git rev-parse HEAD`
+    echo "$commit"
+    git show --name-only ${commit} | grep apex.conf
+    result=`git show --name-only ${commit} | grep apex.conf`
+    if [ -z "${result}" ]; then
+       echo "Does not include the file apex.conf"
+       apex_build_flag=0
+    else
+       source $WORKSPACE/apex.conf
+       echo "Includes apex.conf"
+       apex_build_flag=1
+       mkdir -p $WORKSPACE/apex
+       cd $WORKSPACE/apex
+       git clone https://gerrit.opnfv.org/gerrit/kvmfornfv.git
+       cd kvmfornfv
+       git checkout -f $commit_id
+       mkdir -p build_output
+    fi
+}
+
 function usage() {
     echo ""
     echo "Usage --> $0 [-p package_type] [-o output_dir] [-h]"
@@ -18,16 +41,33 @@ type=""
 function run() {
    case $1 in
       centos)
-         cd $WORKSPACE/ci/build_rpm
-         sudo docker build -t kvm_rpm .
-         sudo docker run --privileged=true -v $WORKSPACE:/opt/kvmfornfv -t  kvm_rpm \
+         echo $apex_build_flag
+         if [ $apex_build_flag -eq 1 ];then
+	    echo "Copying" 
+            cd $WORKSPACE/ci/build_rpm
+            sudo docker build -t kvm_rpm .
+            sudo docker run --privileged=true -v $WORKSPACE:/opt/kvmfornfv -t  kvm_rpm \
+                      /opt/kvmfornfv/ci/build_interface.sh $1 $apex_build_flag 
+         else
+            cd $WORKSPACE/ci/build_rpm
+            sudo docker build -t kvm_rpm .
+            sudo docker run --privileged=true -v $WORKSPACE:/opt/kvmfornfv -t  kvm_rpm \
                       /opt/kvmfornfv/ci/build_interface.sh $1
+         fi
       ;;
       ubuntu)
-         cd $WORKSPACE/ci/build_deb
-         sudo docker build -t kvm_deb .
-         sudo docker run -v $WORKSPACE:/opt/kvmfornfv -t  kvm_deb \
+	 echo $apex_build_flag
+         if [ $apex_build_flag -eq 1 ];then
+            cd $WORKSPACE/ci/build_deb
+            sudo docker build -t kvm_deb .
+            sudo docker run --privileged=true -v $WORKSPACE:/opt/kvmfornfv -t  kvm_deb \
+                      /opt/kvmfornfv/ci/build_interface.sh $1 $apex_build_flag
+         else
+            cd $WORKSPACE/ci/build_deb
+            sudo docker build -t kvm_deb .
+            sudo docker run -v $WORKSPACE:/opt/kvmfornfv -t  kvm_deb \
                       /opt/kvmfornfv/ci/build_interface.sh $1
+         fi
       ;;
       *) echo "Not supported system"; exit 1;;
    esac
@@ -96,5 +136,14 @@ echo ""
 echo "Building for $type package in $output_dir"
 echo ""
 
+apex_build
+
 mkdir -p $output_dir
 build_package $type
+
+#Renaming the Kernel RPM's
+cd $WORKSPACE/build_output
+rename 's/^/kvmfornfv-'${short_hash}'-apex-/' kernel-*
+variable=`ls kvmfornfv-* | grep "devel" | awk -F "_" '{print $3}' | awk -F "." '{print $1}'`
+rename "s/${variable}/centos/" kvmfornfv-*
+

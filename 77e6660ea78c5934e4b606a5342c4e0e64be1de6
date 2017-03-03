@@ -16,6 +16,24 @@
       "revId": "77e6660ea78c5934e4b606a5342c4e0e64be1de6",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dabed58f_fd656645",
+        "filename": "ci/test_kvmfornfv.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 5765
+      },
+      "writtenOn": "2017-03-03T19:22:01Z",
+      "side": 1,
+      "message": "After our kernel installed,the communication with vm is getting very slow and execution of cyclictest for 2 mins is actually taking long time(appprox 1 hr) as a result verify test is running for long time. To avoid this situation as a temporary work around i have reduced the test execution time.",
+      "parentUuid": "dabed58f_bd884ee8",
+      "revId": "77e6660ea78c5934e4b606a5342c4e0e64be1de6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }

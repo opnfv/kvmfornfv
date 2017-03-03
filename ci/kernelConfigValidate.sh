@@ -1,7 +1,15 @@
 #!/bin/bash
 
-kernel_src_dir=kernel
-kernel_config_file="${kernel_src_dir}/arch/x86/configs/opnfv.config"
+#source /root/kvmfornfv/ci/build_interface.sh 
+new_flag=$3
+
+if [ $new_flag -eq 1 ];then
+   kernel_src_dir=apex/kvmfornfv/kernel
+   kernel_config_file="${kernel_src_dir}/arch/x86/configs/opnfv.config"
+else
+   kernel_src_dir=kernel
+   kernel_config_file="${kernel_src_dir}/arch/x86/configs/opnfv.config"
+fi
 
 function show_stage {
     echo
@@ -14,10 +22,16 @@ function kernel_build_validate {
     if [[ -z "$@" ]]; then
         echo "usage: ${0} output_dir"
         echo "usage: ${1} pkg_type"
+        echo "usage: ${2} new_flag"
         usage
     fi
+    echo $output_dir
     output_dir="$1"
     pkg_type="$2"
+    new_flag="$3"
+    echo "$output_dir"
+    echo "$new_flag"
+    echo "$pkg_type"
     if [ ! -d ${output_dir} -o ! -w ${output_dir} ] ; then
         echo "${0}: Output directory '${output_dir}' does not exist or cannot be written"
         exit 1
@@ -37,6 +51,7 @@ function kernel_build_validate {
 }
 
 function kernel_build_prep {
+    echo "In Kernel build prep"
     show_stage "kernel tree prep"
     cp -f ${kernel_config_file} "${kernel_src_dir}/.config"
     make oldconfig

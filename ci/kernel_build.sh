@@ -2,8 +2,11 @@
 
 source ./ci/kernelConfigValidate.sh
 
+echo "Validating Kernel Build"
 kernel_build_validate $@
 kernel_build_prep
+
+echo "Generating Kernel RPM's"
 
 kernel_rpm_build() {
    rpmbuild_dir=/tmp/kvmfornfv_rpmbuild.$$

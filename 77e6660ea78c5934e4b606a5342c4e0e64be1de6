@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dabed58f_bd884ee8",
+        "filename": "ci/test_kvmfornfv.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2017-03-03T19:00:21Z",
+      "side": 1,
+      "message": "The subject is to change the latency, not the test time, right?  I think the purpose of increasing the latency is to make patch verification and patch merge moving forward, right? Will this change help on that (I know it will help on the ftrace debugging, but thats another story IMHO).\n\nOr, if we do want to change the execution time, should mention on the subject also?",
+      "revId": "77e6660ea78c5934e4b606a5342c4e0e64be1de6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}

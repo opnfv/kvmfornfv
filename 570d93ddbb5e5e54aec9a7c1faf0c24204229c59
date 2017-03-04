@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dabed58f_1803a8b9",
+        "filename": "ci/envs/guest-setup0.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2017-03-04T03:02:39Z",
+      "side": 1,
+      "message": "So this mean we assume the item 0 is the kernel from the original OS installation? Always concerned about the hard code thing.",
+      "revId": "570d93ddbb5e5e54aec9a7c1faf0c24204229c59",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dabed58f_3800eca9",
+        "filename": "ci/envs/host-setup0.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2017-03-04T03:02:39Z",
+      "side": 1,
+      "message": "We don\u0027t keep the saved option here?",
+      "revId": "570d93ddbb5e5e54aec9a7c1faf0c24204229c59",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}

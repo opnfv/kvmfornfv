@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "dabed58f_78e4240d",
+        "filename": "ci/envs/guest-setup0.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 5765
+      },
+      "writtenOn": "2017-03-04T04:42:18Z",
+      "side": 1,
+      "message": "AS GRUB_DEFAULT is set to saved, even though we install our kernel on reboot it boots from OS kernel(3.10-*) only. So changing GRUB_DEFAULT\u003d0 will boot from the latest kernel installed and if no latest kernel installed then it will boot from the original OS kernel. As we have checksum for our guest image, we are doing this through the scripts(instead of changing it one time in the image itself)and configure the grub.",
+      "parentUuid": "dabed58f_1803a8b9",
+      "revId": "570d93ddbb5e5e54aec9a7c1faf0c24204229c59",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dabed58f_3800eca9",
         "filename": "ci/envs/host-setup0.sh",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2017-03-04T03:02:39Z",
       "side": 1,
       "message": "We don\u0027t keep the saved option here?",
+      "revId": "570d93ddbb5e5e54aec9a7c1faf0c24204229c59",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dabed58f_d8d3d036",
+        "filename": "ci/envs/host-setup0.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 5765
+      },
+      "writtenOn": "2017-03-04T04:42:18Z",
+      "side": 1,
+      "message": "In our nodes grub default is already set(GRUB_DEFAULT\u003d0). It always takes the latest installed kernel on booting.If no latest kernel installed it will boot from original Os kernel.\nOr We can change this to saved(GRUB_DEFAULT\u003d0) and then through host configuration scripts set it to 0 every time?\n\nI think, in both cases(above) the result will be same, i mean if kernel is broken somehow, in both the cases manual reboot and selection of OS kernel to make the node up is required. \n\nPlease do correct me if my understanding is wrong.",
+      "parentUuid": "dabed58f_3800eca9",
       "revId": "570d93ddbb5e5e54aec9a7c1faf0c24204229c59",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false

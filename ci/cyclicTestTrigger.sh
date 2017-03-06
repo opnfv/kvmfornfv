@@ -14,6 +14,9 @@ testName=$4
 
 source $WORKSPACE/ci/envs/utils.sh
 source $WORKSPACE/ci/envs/host-config
+
+checkRPMNames
+
 KERNELRPM_VERSION=$( getKernelVersion )
 QEMURPM_VERSION=$( getQemuVersion )
 

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "dabed58f_531822d3",
+        "filename": "ci/apex.conf",
+        "patchSetId": 8
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 6471
+      },
+      "writtenOn": "2017-03-06T12:48:34Z",
+      "side": 1,
+      "message": "Yes Yunhong, we can get the branch_name from the commit_id given using \u0027git branch --contains \u003ccommitid\u003e\u0027. \n\nBut if the commit-id given is in both master and Danube, we can state the branch name manually in apex.conf.  \n\nSo, will add the branch name accordingly as \" branch_name\u003dmaster/Danube \" along with the commit_id.\nOnce the branch is changed,we can modify the branch name.",
+      "parentUuid": "dabed58f_f8049416",
+      "revId": "84c42abba614ee55ac603a4832be14f68808a62b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dabed58f_381a2c6f",
         "filename": "ci/build.sh",
         "patchSetId": 8
@@ -30,6 +48,24 @@
       "writtenOn": "2017-03-03T22:30:59Z",
       "side": 1,
       "message": "Per my understanding, the $WORKSPACE is where the repo stats, right? So basically we are git clone a repo inside a git tree? Will that cause potential issue?\n\nBut I\u0027m not sure if it\u0027s fine to clone to an temp directory. Does the jekins assume we can create directory under /tmp?",
+      "revId": "84c42abba614ee55ac603a4832be14f68808a62b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dabed58f_7320c6f7",
+        "filename": "ci/build.sh",
+        "patchSetId": 8
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 6471
+      },
+      "writtenOn": "2017-03-06T12:48:34Z",
+      "side": 1,
+      "message": "Yes Yunhong, $WORKSPACE is where the repo stats. For Jenkins only the $WORKSPACE is visible, so we can clone inside the $WORKSPACE instead of /tmp.",
+      "parentUuid": "dabed58f_381a2c6f",
       "revId": "84c42abba614ee55ac603a4832be14f68808a62b",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "dabed58f_931d3ac0",
+        "filename": "ci/build.sh",
+        "patchSetId": 8
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 6471
+      },
+      "writtenOn": "2017-03-06T12:48:34Z",
+      "side": 1,
+      "message": "Yes Yunhong, once the build is completed we can remove the cloned tree.",
+      "parentUuid": "dabed58f_d82670ba",
+      "revId": "84c42abba614ee55ac603a4832be14f68808a62b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dabed58f_f82b3480",
         "filename": "ci/build.sh",
         "patchSetId": 8
@@ -64,6 +118,24 @@
       "writtenOn": "2017-03-03T22:30:59Z",
       "side": 1,
       "message": "ending white space, can you please remove it?",
+      "revId": "84c42abba614ee55ac603a4832be14f68808a62b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dabed58f_337a4ef2",
+        "filename": "ci/build.sh",
+        "patchSetId": 8
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 6471
+      },
+      "writtenOn": "2017-03-06T12:48:34Z",
+      "side": 1,
+      "message": "sure, will remove it.",
+      "parentUuid": "dabed58f_f82b3480",
       "revId": "84c42abba614ee55ac603a4832be14f68808a62b",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "dabed58f_537fc2e0",
+        "filename": "ci/build.sh",
+        "patchSetId": 8
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 6471
+      },
+      "writtenOn": "2017-03-06T12:48:34Z",
+      "side": 1,
+      "message": "Will implement for centos only.",
+      "parentUuid": "dabed58f_9820f89c",
+      "revId": "84c42abba614ee55ac603a4832be14f68808a62b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dabed58f_583a80ce",
         "filename": "ci/build.sh",
         "patchSetId": 8
@@ -98,6 +188,24 @@
       "writtenOn": "2017-03-03T22:30:59Z",
       "side": 1,
       "message": "Is it possible that we separate the apex builder logical to a separated file? That will make code cleaner?",
+      "revId": "84c42abba614ee55ac603a4832be14f68808a62b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dabed58f_f38356ca",
+        "filename": "ci/build.sh",
+        "patchSetId": 8
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 6471
+      },
+      "writtenOn": "2017-03-06T12:48:34Z",
+      "side": 1,
+      "message": "Yes Yunhong, will handle in separate file.",
+      "parentUuid": "dabed58f_583a80ce",
       "revId": "84c42abba614ee55ac603a4832be14f68808a62b",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "dabed58f_13894aeb",
+        "filename": "ci/build_interface.sh",
+        "patchSetId": 8
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 6471
+      },
+      "writtenOn": "2017-03-06T12:48:34Z",
+      "side": 1,
+      "message": "Will remove the flag parameter as we will be implementing a separate file for apex_build",
+      "parentUuid": "dabed58f_f8525412",
+      "revId": "84c42abba614ee55ac603a4832be14f68808a62b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dabed58f_98579802",
         "filename": "ci/build_interface.sh",
         "patchSetId": 8
@@ -132,6 +258,24 @@
       "writtenOn": "2017-03-03T22:30:59Z",
       "side": 1,
       "message": "So we don\u0027t we have the caller to invoke the ./ci/kernel_build.sh directly? Or adding a parameter to specify the package to be building, qemu/kernel etc, and then the caller will pass in the requirement.",
+      "revId": "84c42abba614ee55ac603a4832be14f68808a62b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dabed58f_d36ad219",
+        "filename": "ci/build_interface.sh",
+        "patchSetId": 8
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 6471
+      },
+      "writtenOn": "2017-03-06T12:48:34Z",
+      "side": 1,
+      "message": "we can directly generate the rpm\u0027s without any invoking to a particular script or parameter in the seperate file itself(apex_build.sh)",
+      "parentUuid": "dabed58f_98579802",
       "revId": "84c42abba614ee55ac603a4832be14f68808a62b",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
@@ -155,6 +299,24 @@
     },
     {
       "key": {
+        "uuid": "dabed58f_732f66a2",
+        "filename": "ci/build_interface.sh",
+        "patchSetId": 8
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 6471
+      },
+      "writtenOn": "2017-03-06T12:48:34Z",
+      "side": 1,
+      "message": "As we are renaming the rpm as \"kvmfornfv-commit_id-apex-kernel-4.4.6_rt14-centos.x86_64.rpm\", when we install the rpm we get the output of \"uname -a\" as \"4.4.6_rt14-centos.x86_64\"",
+      "parentUuid": "dabed58f_b85cdc26",
+      "revId": "84c42abba614ee55ac603a4832be14f68808a62b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dabed58f_58412038",
         "filename": "ci/kernelConfigValidate.sh",
         "patchSetId": 8
@@ -166,6 +328,24 @@
       "writtenOn": "2017-03-03T22:30:59Z",
       "side": 1,
       "message": "Can you please remov the ending white space on the final patch? Thanks.",
+      "revId": "84c42abba614ee55ac603a4832be14f68808a62b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dabed58f_73776603",
+        "filename": "ci/kernelConfigValidate.sh",
+        "patchSetId": 8
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 6471
+      },
+      "writtenOn": "2017-03-06T12:48:34Z",
+      "side": 1,
+      "message": "sure yunhong,will remove it",
+      "parentUuid": "dabed58f_58412038",
       "revId": "84c42abba614ee55ac603a4832be14f68808a62b",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false

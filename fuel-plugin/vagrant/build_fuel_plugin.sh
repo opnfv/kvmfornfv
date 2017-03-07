@@ -4,7 +4,12 @@ sudo apt-get install -y ruby-dev rubygems-integration python-pip rpm createrepo 
 sudo gem install fpm
 sudo pip install fuel-plugin-builder
 sudo apt-get install docker.io -y
-cd /home/vagrant
+
+echo y | sudo mkfs.ext4 /dev/sdb
+sudo mount /dev/sdb /mnt
+sudo chown vagrant:vagrant /mnt
+
+cd /mnt
 # Will build fuel-plugin-kvm in guest VM local directory, not change host
 cp -r /kvmfornfv .
 cd kvmfornfv/fuel-plugin

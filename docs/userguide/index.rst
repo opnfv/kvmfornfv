@@ -7,12 +7,16 @@ KVMforNFV User Guide
 ********************
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3
 
    ./abstract.rst
    ./introduction.rst
    ./common.platform.render.rst
    ./feature.userguide.render.rst
+   ./Ftrace.debugging.tool.userguide.rst
+   ./kvmfornfv.cyclictest-dashboard.userguide.rst
    ./low_latency.userguide.rst
    ./live_migration.userguide.rst
+   ./packet_forwarding.userguide.rst
+   ./pcm_utility.userguide.rst
    ./tuning.userguide.rst

@@ -66,3 +66,47 @@ Run-time Environment Setup
 Not only are special kernel parameters needed but a special run-time
 environment is also required. Please refer to `tunning.userguide` for
 more explanation.
+
+Test cases to measure Latency
+=============================
+
+Cyclictest case
+---------------
+
+Understanding the naming convention
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Idle-Idle test-type
+~~~~~~~~~~~~~~~~~~~
+
+CPU_Stress-Idle test-type
+-------------------------
+
+Memory_Stress-Idle test-type
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+IO_Stress-Idle test-type
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+CPU_Stress-CPU_Stress test-type
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Memory_Stress-Memory_Stress test-type
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+IO_Stress-IO_Stress test type
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Packet Forwarding Test case
+---------------------------
+
+Packet forwarding to Host
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Packet forwarding to Guest
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Packet forwarding to Guest using SRIOV
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+

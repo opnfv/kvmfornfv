@@ -122,5 +122,5 @@ Known Limitations, Issues and Workarounds
 References
 ==========
 
-For more information on the OPNFV Colorado release, please visit
-http://www.opnfv.org/colorado
+For more information on the OPNFV Danube release, please visit
+http://www.opnfv.org/danube

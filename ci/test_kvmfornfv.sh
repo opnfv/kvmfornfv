@@ -29,7 +29,6 @@ function packetForward {
    else
       echo "Packet Forwarding test case executed SUCCESSFULLY"
    fi
-   host_clean
 }
 
 function cyclictest {
@@ -38,17 +37,21 @@ function cyclictest {
    #Verifying whether the test node is up and running
    connect_host
    #Waiting for ssh to be available for the host machine.
-   sleep 10
+   sleep 20
    #calculating and verifying sha512sum of the guestimage.
    if ! verifyGuestImage;then
       exit 1
    fi
    #Update kvmfornfv_cyclictest_${testName}.yaml with test_time and pod.yaml with IP
    updateYaml
-   #Cleaning up the test environment before running cyclictest through yardstick.
-   env_clean
    #Running PCM utility
    collect_MBWInfo $test_type
+   #Cleaning the environment before running cyclictest through yardstick
+   if [ ${test_case} == "idle_idle" ];then
+      env_clean
+   else
+      sudo ssh root@${HOST_IP} "pid=\$(ps aux | grep 'qemu' | awk '{print \$2}' | head -1); echo \$pid |xargs kill"
+   fi
    #Creating a docker image with yardstick installed and launching ubuntu docker to run yardstick cyclic testcase
    if runCyclicTest;then
       cyclictest_result=`expr ${cyclictest_result} + 0`
@@ -58,6 +61,9 @@ function cyclictest {
    fi
    echo "Terminating PCM Process"
    sudo ssh root@${HOST_IP} "pid=\$(ps aux | grep 'pcm' | awk '{print \$2}' | head -1); echo \$pid |xargs kill -SIGTERM"
+   if [ ${test_case} != "iostress_idle" ];then
+      sudo ssh root@${HOST_IP} "reboot"
+   fi
 }
 function collect_MBWInfo {
    #Collecting the Memory Bandwidth Information using pcm-memory utility
@@ -124,6 +130,8 @@ if [ ${test_type} == "verify" ];then
          cyclictest ${env}
          sleep 10
       done
+      env_clean
+      host_clean
       #Execution of packet forwarding test cases.
       packetForward
    fi
@@ -163,6 +171,8 @@ elif [ ${test_type} == "daily" ];then
          cyclictest ${env}
          sleep 5
          done
+         env_clean
+         host_clean
       fi
          if [ ${cyclictest_result} -ne 0 ] ; then
             echo "Cyclictest case execution FAILED"

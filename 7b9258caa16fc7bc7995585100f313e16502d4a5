@@ -1,0 +1,157 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dabed58f_2dbbc3e6",
+        "filename": "ci/apex_build.sh",
+        "patchSetId": 13
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2017-03-08T07:49:41Z",
+      "side": 1,
+      "message": "I remember David said that once D release is open, we may have two branches, one is D and one is master. However, this script can\u0027t handle two branches on the conf file?",
+      "revId": "7b9258caa16fc7bc7995585100f313e16502d4a5",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dabed58f_4dc07750",
+        "filename": "ci/apex_build.sh",
+        "patchSetId": 13
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2017-03-08T07:49:41Z",
+      "side": 1,
+      "message": "Can we git clone here? I think a git clone from local directory is fast?",
+      "revId": "7b9258caa16fc7bc7995585100f313e16502d4a5",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dabed58f_0dba7fde",
+        "filename": "ci/apex_build.sh",
+        "patchSetId": 13
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2017-03-08T07:49:41Z",
+      "side": 1,
+      "message": "I remember David Chou has it\u0027s own format requirement, should we apply to the local version also? Can you please check with David?\n\nBTW, if that\u0027s what he wants, possibly we will take that way in future.",
+      "revId": "7b9258caa16fc7bc7995585100f313e16502d4a5",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dabed58f_2da2e3ae",
+        "filename": "ci/apex_build.sh",
+        "patchSetId": 13
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2017-03-08T07:49:41Z",
+      "side": 1,
+      "message": "Any special reason that we don\u0027t  reuse the existed kernel build script here? Sorry if I missed anything here.",
+      "revId": "7b9258caa16fc7bc7995585100f313e16502d4a5",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dabed58f_cdf6a7d7",
+        "filename": "ci/build.sh",
+        "patchSetId": 13
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2017-03-08T07:49:41Z",
+      "side": 1,
+      "message": "I think this is to check if we need apex_build, not the building itself, right? If yes,I think this name is not perfect. Possibly it will be better to rename it as checking_apex_build or something else (I\u0027m poor on name).",
+      "revId": "7b9258caa16fc7bc7995585100f313e16502d4a5",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dabed58f_6d1a1b19",
+        "filename": "ci/build.sh",
+        "patchSetId": 13
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2017-03-08T07:49:41Z",
+      "side": 1,
+      "message": "If there is \u0027apex.conf\u0027 on the comments, then we will hit also, right? Should we have --stat ? Or, use diffstat?",
+      "revId": "7b9258caa16fc7bc7995585100f313e16502d4a5",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dabed58f_cd922757",
+        "filename": "ci/build.sh",
+        "patchSetId": 13
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2017-03-08T07:49:41Z",
+      "side": 1,
+      "message": "Not sure if we can reuse the build_interface.sh and passing a parameter to indicate it\u0027s for apex?\n\nI noticed the apex_build.sh in fact includes two things, one is to prepare the env, including the repo, the macro, another one is the building. If we prepare the repo on the checking_apex_build(), then possibly we don\u0027t need this change?",
+      "revId": "7b9258caa16fc7bc7995585100f313e16502d4a5",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dabed58f_4da717be",
+        "filename": "ci/build.sh",
+        "patchSetId": 13
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2017-03-08T07:49:41Z",
+      "side": 1,
+      "message": "Possibly in future we can use the similar name w/o the \u0027apex\u0027. BTW, I remember David does not require the 4.4.6_rt14.el7, right? Also, I think possibly we can use the el7 which is name for Redhat.",
+      "revId": "7b9258caa16fc7bc7995585100f313e16502d4a5",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dabed58f_ade7b311",
+        "filename": "ci/cyclicTestTrigger.sh",
+        "patchSetId": 13
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2017-03-08T07:49:41Z",
+      "side": 1,
+      "message": "So you mean we will stop the verification if we have apex-build? If yes, possibly we should make sure the patch will not include both the apex.conf change and other changes, in case some unwanted change are not test on such situation?",
+      "revId": "7b9258caa16fc7bc7995585100f313e16502d4a5",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}

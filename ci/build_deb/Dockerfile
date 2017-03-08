@@ -14,6 +14,7 @@ RUN apt-get update && apt-get install -y \
   zlibc \
   zlib1g \
   zlib1g-dev \
+  libssl-dev \
   libglib2.0-dev \
   libtool \
   flex \

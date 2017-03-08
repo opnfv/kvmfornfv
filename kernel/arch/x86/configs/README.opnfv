@@ -1,0 +1,19 @@
+As the ubuntu 16.04 is based on 4.4 kernel, thus we can try to refer the config
+file for opnfv config file.
+
+The arch/x86/configs/config-4.4.0-62-generic is the config file used by ubuntu
+kernel. Comparing with the opnfv kernel, the key differences are:
+ a. Real time config support like NOHZ_FULL, PREMEPMT kernel, different RCU
+mechanism,
+ b.  Disabling some feature that may impact real time result, like power
+management functionality (C/P state). The hotplug support is disabled also
+temply now.
+ c.  Some ubuntu specific driver is not copied.
+ d. Some difference of build-in/module selection, because some config items
+are selected automatically and we don't figure out the default value difference
+yet. 
+ e. Some virtualization support like Xen/HyperV is not enabled yet, to avoid
+potential impact.
+
+In future, we should leave only item a/b and remove the differences caused by
+item c/d/e.

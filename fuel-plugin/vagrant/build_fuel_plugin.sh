@@ -1,6 +1,6 @@
 #!/bin/bash
 sudo apt-get update -y
-sudo apt-get install -y ruby-dev rubygems-integration python-pip rpm createrepo dpkg-dev
+sudo apt-get install -y ruby-dev rubygems-integration python-pip rpm createrepo dpkg-dev libssl-dev
 sudo gem install fpm
 sudo pip install fuel-plugin-builder
 sudo apt-get install docker.io -y

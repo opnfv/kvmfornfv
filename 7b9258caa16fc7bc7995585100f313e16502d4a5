@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "dabed58f_8d90afed",
+        "filename": "ci/apex_build.sh",
+        "patchSetId": 13
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 6471
+      },
+      "writtenOn": "2017-03-08T09:20:32Z",
+      "side": 1,
+      "message": "Yes Yunhong, will implement accordingly to the respective branch.",
+      "parentUuid": "dabed58f_2dbbc3e6",
+      "revId": "7b9258caa16fc7bc7995585100f313e16502d4a5",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dabed58f_4dc07750",
         "filename": "ci/apex_build.sh",
         "patchSetId": 13
@@ -30,6 +48,24 @@
       "writtenOn": "2017-03-08T07:49:41Z",
       "side": 1,
       "message": "Can we git clone here? I think a git clone from local directory is fast?",
+      "revId": "7b9258caa16fc7bc7995585100f313e16502d4a5",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dabed58f_6daa1b1b",
+        "filename": "ci/apex_build.sh",
+        "patchSetId": 13
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 6471
+      },
+      "writtenOn": "2017-03-08T09:20:32Z",
+      "side": 1,
+      "message": "When tested in local testbed, it is not able to clone. Will check that again and update if it works.",
+      "parentUuid": "dabed58f_4dc07750",
       "revId": "7b9258caa16fc7bc7995585100f313e16502d4a5",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "dabed58f_8da74f4f",
+        "filename": "ci/apex_build.sh",
+        "patchSetId": 13
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 6471
+      },
+      "writtenOn": "2017-03-08T09:20:32Z",
+      "side": 1,
+      "message": "will check with David and update accordingly.",
+      "parentUuid": "dabed58f_0dba7fde",
+      "revId": "7b9258caa16fc7bc7995585100f313e16502d4a5",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dabed58f_2da2e3ae",
         "filename": "ci/apex_build.sh",
         "patchSetId": 13
@@ -64,6 +118,24 @@
       "writtenOn": "2017-03-08T07:49:41Z",
       "side": 1,
       "message": "Any special reason that we don\u0027t  reuse the existed kernel build script here? Sorry if I missed anything here.",
+      "revId": "7b9258caa16fc7bc7995585100f313e16502d4a5",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dabed58f_4d6957f8",
+        "filename": "ci/apex_build.sh",
+        "patchSetId": 13
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 6471
+      },
+      "writtenOn": "2017-03-08T09:20:32Z",
+      "side": 1,
+      "message": "In order to make the code clear, we have not used the existing kernel build script as it is optimised. Please correct us if wrong.",
+      "parentUuid": "dabed58f_2da2e3ae",
       "revId": "7b9258caa16fc7bc7995585100f313e16502d4a5",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "dabed58f_ad77b3d3",
+        "filename": "ci/build.sh",
+        "patchSetId": 13
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 6471
+      },
+      "writtenOn": "2017-03-08T09:20:32Z",
+      "side": 1,
+      "message": "Sure, will rename the function name as suggested.",
+      "parentUuid": "dabed58f_cdf6a7d7",
+      "revId": "7b9258caa16fc7bc7995585100f313e16502d4a5",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dabed58f_6d1a1b19",
         "filename": "ci/build.sh",
         "patchSetId": 13
@@ -98,6 +188,24 @@
       "writtenOn": "2017-03-08T07:49:41Z",
       "side": 1,
       "message": "If there is \u0027apex.conf\u0027 on the comments, then we will hit also, right? Should we have --stat ? Or, use diffstat?",
+      "revId": "7b9258caa16fc7bc7995585100f313e16502d4a5",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dabed58f_cd7467d1",
+        "filename": "ci/build.sh",
+        "patchSetId": 13
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 6471
+      },
+      "writtenOn": "2017-03-08T09:20:32Z",
+      "side": 1,
+      "message": "will check and update the same here.",
+      "parentUuid": "dabed58f_6d1a1b19",
       "revId": "7b9258caa16fc7bc7995585100f313e16502d4a5",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "dabed58f_6d81bb8e",
+        "filename": "ci/build.sh",
+        "patchSetId": 13
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 6471
+      },
+      "writtenOn": "2017-03-08T09:20:32Z",
+      "side": 1,
+      "message": "If build_interface.sh is used, we need to pass a flag parameter to the dependency files which makes code unclear.\nIn order to make the code clear, we have implemented in a separate file for apex build which handles the building for kernel rpm.",
+      "parentUuid": "dabed58f_cd922757",
+      "revId": "7b9258caa16fc7bc7995585100f313e16502d4a5",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dabed58f_4da717be",
         "filename": "ci/build.sh",
         "patchSetId": 13
@@ -138,6 +264,24 @@
     },
     {
       "key": {
+        "uuid": "dabed58f_8d7e6fad",
+        "filename": "ci/build.sh",
+        "patchSetId": 13
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 6471
+      },
+      "writtenOn": "2017-03-08T09:20:32Z",
+      "side": 1,
+      "message": "will check with David and update the same.",
+      "parentUuid": "dabed58f_4da717be",
+      "revId": "7b9258caa16fc7bc7995585100f313e16502d4a5",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dabed58f_ade7b311",
         "filename": "ci/cyclicTestTrigger.sh",
         "patchSetId": 13
@@ -149,6 +293,24 @@
       "writtenOn": "2017-03-08T07:49:41Z",
       "side": 1,
       "message": "So you mean we will stop the verification if we have apex-build? If yes, possibly we should make sure the patch will not include both the apex.conf change and other changes, in case some unwanted change are not test on such situation?",
+      "revId": "7b9258caa16fc7bc7995585100f313e16502d4a5",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dabed58f_ad5ed343",
+        "filename": "ci/cyclicTestTrigger.sh",
+        "patchSetId": 13
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 6471
+      },
+      "writtenOn": "2017-03-08T09:20:32Z",
+      "side": 1,
+      "message": "yes, we need to handle this only if apex.conf file is present in the patch. Need to check with David.",
+      "parentUuid": "dabed58f_ade7b311",
       "revId": "7b9258caa16fc7bc7995585100f313e16502d4a5",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false

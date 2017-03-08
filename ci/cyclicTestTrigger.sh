@@ -127,6 +127,27 @@ function cleanup {
    fi
 }
 
+function setUpPacketForwarding {
+   #copying required files to run packet forwarding test cases
+   ssh root@$HOST_IP "mkdir -p /root/workspace/image"
+   ssh root@$HOST_IP "mkdir -p /root/workspace/rpm"
+   ssh root@$HOST_IP "mkdir -p /root/workspace/scripts"
+   #Copying the configuration scipts on to host
+   scp -r $WORKSPACE/ci/envs/* root@$HOST_IP:/root/workspace/scripts
+   scp -r $WORKSPACE/build_output/kernel-${KERNELRPM_VERSION}*.rpm root@$HOST_IP:/root/workspace/rpm
+   scp -r $WORKSPACE/build_output/kernel-devel-${KERNELRPM_VERSION}*.rpm root@$HOST_IP:/root/workspace/rpm
+   scp -r $WORKSPACE/build_output/qemu-${QEMURPM_VERSION}*.rpm root@$HOST_IP:/root/workspace/rpm
+   #execute host configuration script for installing kvm built kernel.
+   ssh root@$HOST_IP "cd /root/workspace/scripts ; ./host-setup0.sh"
+   ssh root@$HOST_IP "cd /root/workspace/rpm ; rpm -ivh kernel-devel-${KERNELRPM_VERSION}*.rpm"
+   ssh root@$HOST_IP "reboot"
+}
+
+function runPacketForwarding {
+   testType=$1
+   ssh root@$HOST_IP "cd /root/workspace/scripts ; sh packet_forwarding.sh $testType $QEMURPM_VERSION | scl enable python33 -"
+}
+
 #Creating a docker image with yardstick installed and Verify the results of cyclictest
 function runCyclicTest {
    docker_image_dir=$WORKSPACE/docker_image_build

@@ -71,8 +71,72 @@ static inline void clear_rt_mutex_waiters(struct rt_mutex *lock)
 
 static void fixup_rt_mutex_waiters(struct rt_mutex *lock)
 {
-	if (!rt_mutex_has_waiters(lock))
-		clear_rt_mutex_waiters(lock);
+	unsigned long owner, *p = (unsigned long *) &lock->owner;
+
+	if (rt_mutex_has_waiters(lock))
+		return;
+
+	/*
+	 * The rbtree has no waiters enqueued, now make sure that the
+	 * lock->owner still has the waiters bit set, otherwise the
+	 * following can happen:
+	 *
+	 * CPU 0	CPU 1		CPU2
+	 * l->owner=T1
+	 *		rt_mutex_lock(l)
+	 *		lock(l->lock)
+	 *		l->owner = T1 | HAS_WAITERS;
+	 *		enqueue(T2)
+	 *		boost()
+	 *		  unlock(l->lock)
+	 *		block()
+	 *
+	 *				rt_mutex_lock(l)
+	 *				lock(l->lock)
+	 *				l->owner = T1 | HAS_WAITERS;
+	 *				enqueue(T3)
+	 *				boost()
+	 *				  unlock(l->lock)
+	 *				block()
+	 *		signal(->T2)	signal(->T3)
+	 *		lock(l->lock)
+	 *		dequeue(T2)
+	 *		deboost()
+	 *		  unlock(l->lock)
+	 *				lock(l->lock)
+	 *				dequeue(T3)
+	 *				 ==> wait list is empty
+	 *				deboost()
+	 *				 unlock(l->lock)
+	 *		lock(l->lock)
+	 *		fixup_rt_mutex_waiters()
+	 *		  if (wait_list_empty(l) {
+	 *		    l->owner = owner
+	 *		    owner = l->owner & ~HAS_WAITERS;
+	 *		      ==> l->owner = T1
+	 *		  }
+	 *				lock(l->lock)
+	 * rt_mutex_unlock(l)		fixup_rt_mutex_waiters()
+	 *				  if (wait_list_empty(l) {
+	 *				    owner = l->owner & ~HAS_WAITERS;
+	 * cmpxchg(l->owner, T1, NULL)
+	 *  ===> Success (l->owner = NULL)
+	 *
+	 *				    l->owner = owner
+	 *				      ==> l->owner = T1
+	 *				  }
+	 *
+	 * With the check for the waiter bit in place T3 on CPU2 will not
+	 * overwrite. All tasks fiddling with the waiters bit are
+	 * serialized by l->lock, so nothing else can modify the waiters
+	 * bit. If the bit is set then nothing can change l->owner either
+	 * so the simple RMW is safe. The cmpxchg() will simply fail if it
+	 * happens in the middle of the RMW because the waiters bit is
+	 * still set.
+	 */
+	owner = READ_ONCE(*p);
+	if (owner & RT_MUTEX_HAS_WAITERS)
+		WRITE_ONCE(*p, owner & ~RT_MUTEX_HAS_WAITERS);
 }
 
 static int rt_mutex_real_waiter(struct rt_mutex_waiter *waiter)
@@ -939,13 +1003,14 @@ static inline void rt_spin_lock_fastlock(struct rt_mutex *lock,
 		slowfn(lock, do_mig_dis);
 }
 
-static inline void rt_spin_lock_fastunlock(struct rt_mutex *lock,
-					   void  (*slowfn)(struct rt_mutex *lock))
+static inline int rt_spin_lock_fastunlock(struct rt_mutex *lock,
+					   int  (*slowfn)(struct rt_mutex *lock))
 {
-	if (likely(rt_mutex_cmpxchg_release(lock, current, NULL)))
+	if (likely(rt_mutex_cmpxchg_release(lock, current, NULL))) {
 		rt_mutex_deadlock_account_unlock(current);
-	else
-		slowfn(lock);
+		return 0;
+	}
+	return slowfn(lock);
 }
 #ifdef CONFIG_SMP
 /*
@@ -1086,7 +1151,7 @@ static void mark_wakeup_next_waiter(struct wake_q_head *wake_q,
 /*
  * Slow path to release a rt_mutex spin_lock style
  */
-static void  noinline __sched rt_spin_lock_slowunlock(struct rt_mutex *lock)
+static int noinline __sched rt_spin_lock_slowunlock(struct rt_mutex *lock)
 {
 	unsigned long flags;
 	WAKE_Q(wake_q);
@@ -1101,7 +1166,7 @@ static void  noinline __sched rt_spin_lock_slowunlock(struct rt_mutex *lock)
 	if (!rt_mutex_has_waiters(lock)) {
 		lock->owner = NULL;
 		raw_spin_unlock_irqrestore(&lock->wait_lock, flags);
-		return;
+		return 0;
 	}
 
 	mark_wakeup_next_waiter(&wake_q, &wake_sleeper_q, lock);
@@ -1112,6 +1177,33 @@ static void  noinline __sched rt_spin_lock_slowunlock(struct rt_mutex *lock)
 
 	/* Undo pi boosting.when necessary */
 	rt_mutex_adjust_prio(current);
+	return 0;
+}
+
+static int noinline __sched rt_spin_lock_slowunlock_no_deboost(struct rt_mutex *lock)
+{
+	unsigned long flags;
+	WAKE_Q(wake_q);
+	WAKE_Q(wake_sleeper_q);
+
+	raw_spin_lock_irqsave(&lock->wait_lock, flags);
+
+	debug_rt_mutex_unlock(lock);
+
+	rt_mutex_deadlock_account_unlock(current);
+
+	if (!rt_mutex_has_waiters(lock)) {
+		lock->owner = NULL;
+		raw_spin_unlock_irqrestore(&lock->wait_lock, flags);
+		return 0;
+	}
+
+	mark_wakeup_next_waiter(&wake_q, &wake_sleeper_q, lock);
+
+	raw_spin_unlock_irqrestore(&lock->wait_lock, flags);
+	wake_up_q(&wake_q);
+	wake_up_q_sleeper(&wake_sleeper_q);
+	return 1;
 }
 
 void __lockfunc rt_spin_lock__no_mg(spinlock_t *lock)
@@ -1165,6 +1257,17 @@ void __lockfunc rt_spin_unlock(spinlock_t *lock)
 	migrate_enable();
 }
 EXPORT_SYMBOL(rt_spin_unlock);
+
+int __lockfunc rt_spin_unlock_no_deboost(spinlock_t *lock)
+{
+	int ret;
+
+	/* NOTE: we always pass in '1' for nested, for simplicity */
+	spin_release(&lock->dep_map, 1, _RET_IP_);
+	ret = rt_spin_lock_fastunlock(&lock->lock, rt_spin_lock_slowunlock_no_deboost);
+	migrate_enable();
+	return ret;
+}
 
 void __lockfunc __rt_spin_unlock(struct rt_mutex *lock)
 {

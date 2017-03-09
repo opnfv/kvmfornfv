@@ -7,7 +7,7 @@ Using common platform components
 ================================
 
 This section outlines basic usage principals and methods for some of the
-commonly deployed components of supported OPNFV scenario's in Colorado.
+commonly deployed components of supported OPNFV scenario's in Danube.
 The subsections provide an outline of how these components are commonly
 used and how to address them in an OPNFV deployment.The components derive
 from autonomous upstream communities and where possible this guide will

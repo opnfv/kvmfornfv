@@ -2,9 +2,12 @@
 
 .. http://creativecommons.org/licenses/by/4.0
 
+============================================
+os-nosdn-kvm_nfv_ovs_dpdk_bar-ha Description
+============================================
 
 Introduction
-============
+------------
 
 .. In this section explain the purpose of the scenario and the
    types of capabilities provided
@@ -16,10 +19,12 @@ includes OPNFV KVM4NFV latest software packages for Linux Kernel and
 QEMU patches for achieving low latency. High Availability feature is achieved
 by deploying OpenStack multi-node setup with 3 controllers and 2 computes nodes.
 
-KVM4NFV packages will be installed on compute nodes as part of deployment. This scenario testcase deployment is happening on multi-node by using OPNFV Fuel deployer.
+OPNFV Barometer packages is used for traffic,performance and platform monitoring.
+KVM4NFV packages will be installed on compute nodes as part of deployment.
+This scenario testcase deployment is happening on multi-node by using OPNFV Fuel deployer.
 
 Scenario Components and Composition
-===================================
+-----------------------------------
 .. In this section describe the unique components that make up the scenario,
 .. what each component provides and why it has been included in order
 .. to communicate to the user the capabilities available in this scenario.
@@ -29,7 +34,7 @@ configurations provided in ha_nfv-kvm_nfv-ovs-dpdk-bar_heat_ceilometer_scenario.
 This yaml file contains following configurations and is passed as an
 argument to deploy.py script
 
-* scenario.yaml:This configuration file defines translation between a
+* ``scenario.yaml:`` This configuration file defines translation between a
   short deployment scenario name(os-nosdn-kvm_ovs_dpdk_bar-ha) and an actual deployment
   scenario configuration file(ha_nfv-kvm_nfv-ovs-dpdk-bar_heat_ceilometer_scenario.yaml)
 
@@ -69,29 +74,34 @@ argument to deploy.py script
   These keys are used to deploy multiple nodes(``3 controllers,2 computes``)
   as mention below.
 
-  * **Node 1**: This node has MongoDB and Controller roles. The controller
-    node runs the Identity service, Image Service, management portions of
-    Compute and Networking, Networking plug-in and the dashboard. The
-    Telemetry service which was designed to support billing systems for
-    OpenStack cloud resources uses a NoSQL database to store information.
-    The database typically runs on the controller node.
+  * **Node 1**:
+     - This node has MongoDB and Controller roles
+     - The controller node runs the Identity service, Image Service, management portions of
+       Compute and Networking, Networking plug-in and the dashboard
+     - Uses VLAN as an interface
 
-  * **Node 2**: This node has Controller and Ceph-osd roles. Ceph is a
-    massively scalable, open source, distributed storage system. It is
-    comprised of an object store, block store and a POSIX-compliant distributed
-    file system. Enabling Ceph,  configures Nova to store ephemeral volumes in
-    RBD, configures Glance to use the Ceph RBD backend to store images,
-    configures Cinder to store volumes in Ceph RBD images and configures the
-    default number of object replicas in Ceph.
+  * **Node 2**:
+     - This node has Ceph-osd and Controller roles
+     - The controller node runs the Identity service, Image Service, management portions of
+       Compute and Networking, Networking plug-in and the dashboard
+     - Ceph is a massively scalable, open source, distributed storage system
+     - Uses VLAN as an interface
 
-  * **Node 3**: This node has Controller role in order to achieve high
-    availability.
+  * **Node 3**:
+     - This node has Controller role in order to achieve high availability.
+     - Uses VLAN as an interface
 
-  * **Node 4**: This node has Compute role. The compute node runs the
-    hypervisor portion of Compute that operates tenant virtual machines
-    or instances. By default, Compute uses KVM as the hypervisor.
+  * **Node 4**:
+     - This node has compute and Ceph-osd roles
+     - Ceph is a massively scalable, open source, distributed storage system
+     - By default, Compute uses KVM as the hypervisor
+     - Uses DPDK as an interface
 
-  * **Node 5**: This node has compute role.
+  * **Node 5**:
+     - This node has compute and Ceph-osd roles
+     - Ceph is a massively scalable, open source, distributed storage system
+     - By default, Compute uses KVM as the hypervisor
+     - Uses DPDK as an interface
 
   The below is the ``dea-override-config`` of the ha_nfv-kvm_nfv-ovs-dpdk-bar_heat_ceilometer_scenario.yaml file.
 
@@ -189,11 +199,15 @@ argument to deploy.py script
 
 * Baraometer plugin is also implemented along with KVM plugin
 
+* Hugepages for DPDK are configured in the attributes_1 section of the no-ha_nfv-kvm_nfv-ovs-dpdk_heat_ceilometer_scenario.yaml
+
+* Hugepages are only configured for compute nodes
+
 * This results in faster communication and data transfer among the compute nodes
 
 
 Scenario Usage Overview
-=======================
+------------------------
 .. Provide a brief overview on how to use the scenario and the features available to the
 .. user.  This should be an "introduction" to the userguide document, and explicitly link to it,
 .. where the specifics of the features are covered including examples and API's
@@ -209,14 +223,14 @@ Command to deploy the os-nosdn-kvm_ovs_dpdk_bar-ha scenario:
 .. code:: bash
 
         $ cd ~/fuel/ci/
-        $ sudo ./deploy.sh -f -b file:///tmp/opnfv-fuel/deploy/config -l devel-pipeline -p default -s no-ha_nfv-kvm_nfv-ovs-dpdk_heat_ceilometer_scenario.yaml -i file:///tmp/opnfv.iso
+        $ sudo ./deploy.sh -f -b file:///tmp/opnfv-fuel/deploy/config -l devel-pipeline -p default -s ha_nfv-kvm_nfv-ovs-dpdk-bar_heat_ceilometer_scenario.yaml -i file:///tmp/opnfv.iso
 
 where,
     -b is used to specify the configuration directory
 
     -i is used to specify the image downloaded from artifacts.
 
-Note:
+**Note:**
 
 .. code:: bash
 
@@ -231,16 +245,13 @@ Note:
   accessibility (IP , up & running).
 
 Known Limitations, Issues and Workarounds
-=========================================
+-----------------------------------------
 .. Explain any known limitations here.
 
 * Test scenario os-nosdn-kvm_ovs_dpdk_bar-ha result is not stable.
 
-* As Functest and Yardstick test suites are not stable. Instances are not getting IP address from DHCP (functest issue).
-
-
 References
-==========
+----------
 
 For more information on the OPNFV Danube release, please visit
 http://www.opnfv.org/Danube

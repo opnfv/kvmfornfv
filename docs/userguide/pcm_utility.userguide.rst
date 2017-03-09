@@ -1,6 +1,15 @@
-=========================================================
+.. This work is licensed under a Creative Commons Attribution 4.0 International License.
+
+.. http://creativecommons.org/licenses/by/4.0
+
+===========================
+PCM Utility in KVMFORNFV
+===========================
+
 Collecting Memory Bandwidth Information using PCM utility
-=========================================================
+---------------------------------------------------------
+This chapter includes how the PCM utility is used in kvmfornfv
+to collect memory bandwidth information
 
 About PCM utility
 -----------------
@@ -22,10 +31,10 @@ Version Features
 |                             |   cyclic testcases.                           |
 |                             |                                               |
 +-----------------------------+-----------------------------------------------+
+|                             | - pcm-memory.x will be executed before the    |
+|       Danube                |   execution of every testcase                 |
 |                             | - pcm-memory.x provides the memory bandwidth  |
 |                             |   data throught out the testcases             |
-|                             | - pcm-memory.x will be executedbefore the     |
-|       Danube                |   execution of every testcase                 |
 |                             | - used for all test-types (stress/idle)       |
 |                             | - Generated memory bandwidth logs which are   |
 |                             |   to published to the KVMFORFNV artifacts     |
@@ -124,3 +133,9 @@ signal will be passed to terminate the pcm-memory process which was executing th
 
   pcm-memory.x 60 &>/root/MBWInfo/MBWInfo_${testType}_${timeStamp}
 
+  where,
+  ${testType} = verify (or) daily
+
+Future Scope
+------------
+PCM information will be added to cyclictest of kvmfornfv in yardstick.

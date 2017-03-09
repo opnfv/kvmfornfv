@@ -2,22 +2,25 @@
 .. http://creativecommons.org/licenses/by/4.0
 .. (c) OPNFV, Intel Corporation, AT&T and others.
 
-============
+=======================
+kvmfornfv Requirements
+=======================
+
 Introduction
-============
+-------------
 The NFV hypervisors provide crucial functionality in the NFV
 Infrastructure(NFVI).The existing hypervisors, however, are not necessarily
 designed or targeted to meet the requirements for the NFVI.
 
 This document specifies the list of requirements that need to be met as part
-of this "NFV Hypervisors-KVM" project in Colorado release.
+of this "NFV Hypervisors-KVM" project in Danube release.
 
 As part of this project we need to make collaborative efforts towards enabling
 the NFV features.
 
-=================
+
 Scope and Purpose
-=================
+------------------
 
 The main purpose of this project is to enhance the KVM hypervisor for NFV, by
 looking at the following areas initially:
@@ -32,9 +35,8 @@ The output of this project would be list of the performance goals,comprehensive
 instructions for the system configurations,tools to measure Performance and
 interrupt latency.
 
-===========================
 Methods and Instrumentation
-===========================
+----------------------------
 
 The above areas would require software development and/or specific hardware
 features, and some need just configurations information for the system
@@ -56,20 +58,18 @@ scenario are:
     Technology(CAT) enabling can be tuned to improve the NFV
     performance/latency.
 
-=====================
 Features to be tested
-=====================
+----------------------
 
 The tests that need to be conducted to make sure that latency is addressed are:
-1. Timer test
-2. Device Interrupt Test
-3. Packet forwarding (DPDK OVS)
-4. Packet Forwarding (SR-IOV)
-5. Bare-metal Packet Forwarding
+ 1. Timer test
+ 2. Device Interrupt Test
+ 3. Packet forwarding (DPDK OVS)
+ 4. Packet Forwarding (SR-IOV)
+ 5. Bare-metal Packet Forwarding
 
-============
 Dependencies
-============
+-------------
 
 1. OPNFV Project: “Characterize vSwitch Performance for Telco NFV Use Cases”
    (VSPERF) for performance evaluation of ivshmem vs. vhost-user.
@@ -82,8 +82,8 @@ Dependencies
 5. In terms of HW dependencies, the aim is to use standard IA Server hardware
    for this project, as provided by OPNFV Pharos.
 
-=========
+
 Reference
-=========
+-----------
 
 https://wiki.opnfv.org/display/kvm/

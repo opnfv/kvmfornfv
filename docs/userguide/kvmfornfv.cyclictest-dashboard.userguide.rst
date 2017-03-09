@@ -2,12 +2,15 @@
 
 .. http://creativecommons.org/licenses/by/4.0
 
-========================================
+=======================================
+KVMFORNFV Dashboard Guide
+=======================================
+
 Dashboard for KVM4NFV Daily Test Results
-========================================
+----------------------------------------
 
 Abstract
-========
+---------
 
 This chapter explains the procedure to configure the InfluxDB and Grafana on Node1 or Node2
 depending on the testtype to publish KVM4NFV cyclic test results. The cyclictest cases are executed
@@ -15,11 +18,13 @@ and results are published on Yardstick Dashboard(Graphana).  InfluxDB is the dat
 store the cyclictest results and Grafana is a visualisation suite to view the maximum,minumum and
 average values of the timeseries data of cyclictest results.The framework is shown in below image.
 
-.. Figure:: ../images/dashboard-architecture.png
-
+.. figure:: images/dashboard-architecture.png
+   :name: dashboard-architecture
+   :width: 100%
+   :align: center
 
 Version Features
-================
+------------------
 
 +-----------------------------+--------------------------------------------+
 |                             |                                            |
@@ -42,7 +47,7 @@ Version Features
 
 
 Installation Steps:
-===================
+-------------------
 To configure Yardstick, InfluxDB and Grafana for KVMFORNFV project following sequence of steps are followed:
 
 **Note:**
@@ -73,7 +78,7 @@ The Yardstick document for Grafana and InfluxDB configuration can be found `here
 .. _here: https://wiki.opnfv.org/display/yardstick/How+to+deploy+InfluxDB+and+Grafana+locally
 
 Configuring the Dispatcher Type:
-================================
+---------------------------------
 Need to configure the dispatcher type in /etc/yardstick/yardstick.conf depending on the dispatcher
 methods which are used to store the cyclictest results. A sample yardstick.conf can be found at
 /yardstick/etc/yardstick.conf.sample, which can be copied to /etc/yardstick.
@@ -121,11 +126,11 @@ Dispatcher module of "Daily Job" is Influxdb.So the results are stored in influx
     debug = False
     dispatcher = http
 
-.. Figure:: ../images/UseCaseDashboard.png
+.. figure:: images/UseCaseDashboard.png
 
 
 Detailing the dispatcher module in verify and daily Jobs:
----------------------------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 KVM4NFV updates the dispatcher module in the yardstick configuration file(/etc/yardstick/yardstick.conf) depending on the Job type(Verify/Daily).Once the test is completed, results are published to the respective dispatcher modules.
 
@@ -182,9 +187,15 @@ Influxdb api which is already implemented in `Influxdb`_ will post the data in l
 - Grafana can be accessed at `Login`_ using credentials opnfv/opnfv and used for visualizing the collected test data as shown in `Visual`_\
 
 
-.. Figure:: ../images/Dashboard-screenshot-1.png
+.. figure:: images/Dashboard-screenshot-1.png
+   :name: dashboard-screenshot-1
+   :width: 100%
+   :align: center
 
-.. Figure:: ../images/Dashboard-screenshot-2.png
+.. figure:: images/Dashboard-screenshot-2.png
+   :name: dashboard-screenshot-2
+   :width: 100%
+   :align: center
 
 .. _Influxdb: https://git.opnfv.org/cgit/yardstick/tree/yardstick/dispatcher/influxdb.py
 
@@ -199,7 +210,7 @@ Influxdb api which is already implemented in `Influxdb`_ will post the data in l
 .. _GrafanaDoc: http://docs.grafana.org/
 
 Understanding Kvmfornfv Grafana Dashboard
-=========================================
+------------------------------------------
 
 The Kvmfornfv Dashboard found at http://testresults.opnfv.org/ currently supports graphical view of Cyclictest. For viewing Kvmfornfv Dashboard use,
 
@@ -226,33 +237,45 @@ Note:
 **A brief about what each graph of the dashboard represents:**
 
 1. Idle-Idle Graph
--------------------
+~~~~~~~~~~~~~~~~~~~~
 `Idle-Idle`_ graph displays the Average,Maximum and Minimum latency values obtained by running Idle_Idle test-type of the Cyclictest. Idle_Idle implies that no stress is applied on the Host or the Guest.
 
 .. _Idle-Idle: http://testresults.opnfv.org/grafana/dashboard/db/kvmfornfv-cyclictest?panelId=10&fullscreen
 
-.. Figure:: ../images/Idle-Idle.png
+.. figure:: images/Idle-Idle.png
+   :name: Idle-Idle graph
+   :width: 100%
+   :align: center
 
 2. CPU_Stress-Idle Graph
---------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~
 `Cpu_Stress-Idle`_ graph displays the Average,Maximum and Minimum latency values obtained by running Idle_Idle test-type of the Cyclictest. Idle_Idle implies that CPU stress is applied on the Host and no stress on the Guest.
 
 .. _Cpu_stress-Idle: http://testresults.opnfv.org/grafana/dashboard/db/kvmfornfv-cyclictest?panelId=11&fullscreen
 
-.. Figure:: ../images/Cpustress-Idle.png
+.. figure:: images/Cpustress-Idle.png
+   :name: cpustress-idle graph
+   :width: 100%
+   :align: center
 
 3. Memory_Stress-Idle Graph
-----------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 `Memory_Stress-Idle`_ graph displays the Average,Maximum and Minimum latency values obtained by running Idle_Idle test-type of the Cyclictest. Idle_Idle implies that Memory stress is applied on the Host and no stress on the Guest.
 
 .. _Memory_Stress-Idle: http://testresults.opnfv.org/grafana/dashboard/db/kvmfornfv-cyclictest?panelId=12&fullscreen
 
-.. Figure:: ../images/Memorystress-Idle.png
+.. figure:: images/Memorystress-Idle.png
+   :name: memorystress-idle graph
+   :width: 100%
+   :align: center
 
 4. IO_Stress-Idle Graph
-------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~
 `IO_Stress-Idle`_ graph displays the Average,Maximum and Minimum latency values obtained by running Idle_Idle test-type of the Cyclictest. Idle_Idle implies that IO stress is applied on the Host and no stress on the Guest.
 
 .. _IO_Stress-Idle: http://testresults.opnfv.org/grafana/dashboard/db/kvmfornfv-cyclictest?panelId=13&fullscreen
 
-.. Figure:: ../images/IOstress-Idle.png
+.. figure:: images/IOstress-Idle.png
+   :name: iostress-idle graph
+   :width: 100%
+   :align: center

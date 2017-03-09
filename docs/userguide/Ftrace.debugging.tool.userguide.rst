@@ -155,9 +155,8 @@ Examples:
      [tracing]# echo 1 > tracing_on;
 
 
-===================
 Ftrace in KVMFORNFV
-===================
+-------------------
 Ftrace is part of KVMFORNFV D-Release. Kvmfornfv currently uses 4.4-linux-Kernel as part of
 deployment and runs cyclictest for testing purpose generating latency values (max, min, avg values).
 Ftrace (or) function tracer is a stable kernel inbuilt debugging tool which tests kernel in real
@@ -252,6 +251,3 @@ The generated trace log is pushed to `artifacts`_ of Kvmfornfv project by releng
 .. _artifacts: https://artifacts.opnfv.org/
 
 .. _trigger: https://gerrit.opnfv.org/gerrit/gitweb?p=releng.git;a=blob;f=jjb/kvmfornfv/kvmfornfv-upload-artifact.sh;h=56fb4f9c18a83c689a916dc6c85f9e3ddf2479b2;hb=HEAD#l53
-
-
-.. include:: pcm_utility.userguide.rst

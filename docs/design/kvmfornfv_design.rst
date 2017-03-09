@@ -65,9 +65,9 @@ on KVM:
 
 .. Figure:: kvm1.png
 
-=====================
+
 Design Considerations
-=====================
+----------------------
 
 The latency variation and jitters can be minimized with the below
 steps (with some in parallel):
@@ -92,9 +92,9 @@ steps (with some in parallel):
     6. Measure latencies intensively. We leverage the existing testing methods.
        OSADL, for example, defines industry tests for timing correctness.
 
-====================
+
 Goals and Guidelines
-====================
+---------------------
 
 The output of this project will provide :
 
@@ -110,9 +110,9 @@ The output of this project will provide :
 
     4. Performance and interrupt latency measurement tools
 
-=========
+
 Test plan
-=========
+----------
 
 The tests that need to be conducted to make sure that all components from OPNFV
 meet the requirement are mentioned below:
@@ -148,8 +148,8 @@ packet forwarding scenario.
 
 .. Figure:: Bare-metalPacketForwarding.png
 
-=========
+----------
 Reference
-=========
+----------
 
 https://wiki.opnfv.org/display/kvm/

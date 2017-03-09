@@ -3,7 +3,7 @@
 .. http://creativecommons.org/licenses/by/4.0
 
 ==========================
-Using Colorado Features
+Using Danube Features
 ==========================
 
 The following sections of the user guide provide feature specific usage

@@ -13,11 +13,11 @@ such as OpenStack,KVM etc. which includes different source components or
 configurations.
 
 KVM4NFV Scenarios
-===================
+------------------
 
 Each KVM4NFV scenario provides unique features and capabilities, it is
 important to understand your target platform capabilities before installing
 and configuring. This configuration guide outlines how to install and
 configure components in order to enable the features required.
 
-.. include:: scenariomatrix.rst
+.. include:: ./scenariomatrix.rst

@@ -2,9 +2,12 @@
 
 .. http://creativecommons.org/licenses/by/4.0
 
+=========================================
+os-nosdn-kvm_nfv_ovs_dpdk-ha Description
+=========================================
 
 Introduction
-============
+------------
 
 .. In this section explain the purpose of the scenario and the
    types of capabilities provided
@@ -19,7 +22,7 @@ by deploying OpenStack multi-node setup with 3 controllers and 2 computes nodes.
 KVM4NFV packages will be installed on compute nodes as part of deployment. This scenario testcase deployment is happening on multi-node by using OPNFV Fuel deployer.
 
 Scenario Components and Composition
-===================================
+-----------------------------------
 .. In this section describe the unique components that make up the scenario,
 .. what each component provides and why it has been included in order
 .. to communicate to the user the capabilities available in this scenario.
@@ -29,7 +32,7 @@ configurations provided in ha_nfv-kvm_nfv-ovs-dpdk_heat_ceilometer_scenario.yaml
 This yaml file contains following configurations and is passed as an
 argument to deploy.py script
 
-* scenario.yaml:This configuration file defines translation between a
+* ``scenario.yaml:`` This configuration file defines translation between a
   short deployment scenario name(os-nosdn-kvm_ovs_dpdk-ha) and an actual deployment
   scenario configuration file(ha_nfv-kvm_nfv-ovs-dpdk_heat_ceilometer_scenario.yaml)
 
@@ -187,7 +190,7 @@ argument to deploy.py script
 
 
 Scenario Usage Overview
-=======================
+-----------------------
 .. Provide a brief overview on how to use the scenario and the features available to the
 .. user.  This should be an "introduction" to the userguide document, and explicitly link to it,
 .. where the specifics of the features are covered including examples and API's
@@ -225,7 +228,7 @@ Note:
   accessibility (IP , up & running).
 
 Known Limitations, Issues and Workarounds
-=========================================
+-----------------------------------------
 .. Explain any known limitations here.
 
 * Test scenario os-nosdn-kvm_ovs_dpdk-ha result is not stable.
@@ -234,7 +237,7 @@ Known Limitations, Issues and Workarounds
 
 
 References
-==========
+----------
 
 For more information on the OPNFV Danube release, please visit
 http://www.opnfv.org/Danube

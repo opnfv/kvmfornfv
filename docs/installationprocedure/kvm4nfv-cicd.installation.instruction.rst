@@ -33,15 +33,37 @@ the Rpms (on 'centos') and Debians (on 'ubuntu') builds in this case.
 
 * How to build Kernel/Qemu Rpms- To build rpm packages, build.sh script is run
   with -p and -o option (i.e. if -p package option is  passed as "centos" or in
-  default case). Example: sh ./ci/build.sh -p centos -o build_output
+  default case). Example:
+
+.. code:: bash
+
+   cd kvmfornfv/
+
+   For Kernel/Qemu RPMs,
+   sh ./ci/build.sh -p centos -o build_output
 
 * How to build Kernel/Qemu Debians- To build debian packages, build.sh script
   is run with -p and -o option (i.e. if -p package option is  passed as
-  "ubuntu"). Example: sh ./ci/build.sh -p ubuntu -o build_output
+  "ubuntu"). Example:
+
+.. code:: bash
+
+   cd kvmfornfv/
+
+   For Kernel/Qemu Debians,
+   sh ./ci/build.sh -p ubuntu -o build_output
+
 
 * How to build all Kernel & Qemu, Rpms & Debians- To build both debian and rpm
   packages, build.sh script is run with -p and -o option (i.e. if -p package
-  option is passed as "both"). Example: sh ./ci/build.sh -p both -o build_output
+  option is passed as "both"). Example:
+
+.. code:: bash
+
+   cd kvmfornfv/
+
+   For Kernel/Qemu RPMs and Debians,
+   sh ./ci/build.sh -p both -o build_output
 
 Installation instructions
 -------------------------

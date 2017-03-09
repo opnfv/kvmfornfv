@@ -15,7 +15,7 @@ and results are published on Yardstick Dashboard(Graphana).  InfluxDB is the dat
 store the cyclictest results and Grafana is a visualisation suite to view the maximum,minumum and
 average values of the timeseries data of cyclictest results.The framework is shown in below image.
 
-.. Figure:: ../images/dashboard-architecture.png
+.. figure:: ../images/dashboard-architecture.png
 
 
 Version Features
@@ -121,7 +121,7 @@ Dispatcher module of "Daily Job" is Influxdb.So the results are stored in influx
     debug = False
     dispatcher = http
 
-.. Figure:: ../images/UseCaseDashboard.png
+.. figure:: ../images/UseCaseDashboard.png
 
 
 Detailing the dispatcher module in verify and daily Jobs:
@@ -182,9 +182,9 @@ Influxdb api which is already implemented in `Influxdb`_ will post the data in l
 - Grafana can be accessed at `Login`_ using credentials opnfv/opnfv and used for visualizing the collected test data as shown in `Visual`_\
 
 
-.. Figure:: ../images/Dashboard-screenshot-1.png
+.. figure:: ../images/Dashboard-screenshot-1.png
 
-.. Figure:: ../images/Dashboard-screenshot-2.png
+.. figure:: ../images/Dashboard-screenshot-2.png
 
 .. _Influxdb: https://git.opnfv.org/cgit/yardstick/tree/yardstick/dispatcher/influxdb.py
 
@@ -231,7 +231,7 @@ Note:
 
 .. _Idle-Idle: http://testresults.opnfv.org/grafana/dashboard/db/kvmfornfv-cyclictest?panelId=10&fullscreen
 
-.. Figure:: ../images/Idle-Idle.png
+.. figure:: ../images/Idle-Idle.png
 
 2. CPU_Stress-Idle Graph
 --------------------------
@@ -239,7 +239,7 @@ Note:
 
 .. _Cpu_stress-Idle: http://testresults.opnfv.org/grafana/dashboard/db/kvmfornfv-cyclictest?panelId=11&fullscreen
 
-.. Figure:: ../images/Cpustress-Idle.png
+.. figure:: ../images/Cpustress-Idle.png
 
 3. Memory_Stress-Idle Graph
 ----------------------------
@@ -247,7 +247,7 @@ Note:
 
 .. _Memory_Stress-Idle: http://testresults.opnfv.org/grafana/dashboard/db/kvmfornfv-cyclictest?panelId=12&fullscreen
 
-.. Figure:: ../images/Memorystress-Idle.png
+.. figure:: ../images/Memorystress-Idle.png
 
 4. IO_Stress-Idle Graph
 ------------------------
@@ -255,4 +255,4 @@ Note:
 
 .. _IO_Stress-Idle: http://testresults.opnfv.org/grafana/dashboard/db/kvmfornfv-cyclictest?panelId=13&fullscreen
 
-.. Figure:: ../images/IOstress-Idle.png
+.. figure:: ../images/IOstress-Idle.png

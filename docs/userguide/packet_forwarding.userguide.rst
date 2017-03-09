@@ -47,14 +47,14 @@ VNF level testing and validation.
 
 For complete VSPERF documentation go to `link.`_
 
-.. _link.: <http://artifacts.opnfv.org/vswitchperf/colorado/index.html>
+.. _link.: http://artifacts.opnfv.org/vswitchperf/colorado/index.html
 
 
 Installation
 ------------
 Guidelines of installating `VSPERF`_.
 
-.. _VSPERF: <http://artifacts.opnfv.org/vswitchperf/colorado/configguide/index.html>
+.. _VSPERF: http://artifacts.opnfv.org/vswitchperf/colorado/configguide/index.html
 
 Supported Operating Systems
 ---------------------------
@@ -115,7 +115,7 @@ For running testcases VSPERF is installed on Intel pod1-node2 in which centos
 operating system is installed. Only VSPERF installion on Centos is discussed here.
 For installation steps on other operating systems please refer to `here`_.
 
-.. _here: <http://artifacts.opnfv.org/vswitchperf/colorado/configguide/index.html>
+.. _here: http://artifacts.opnfv.org/vswitchperf/colorado/configguide/index.html
 
 For CentOS 7
 -----------------
@@ -153,10 +153,10 @@ If you're behind a proxy, you'll likely want to configure this before running an
 
 .. code:: bash
 
-   export http_proxy=proxy.mycompany.com:123
-   export https_proxy=proxy.mycompany.com:123
-
-
+   export http_proxy="http://<username>:<password>@<proxy>:<port>/";
+   export https_proxy="https://<username>:<password>@<proxy>:<port>/";
+   export ftp_proxy="ftp://<username>:<password>@<proxy>:<port>/";
+   export socks_proxy="socks://<username>:<password>@<proxy>:<port>/";
 
 .. _a link: http://www.softwarecollections.org/en/scls/rhscl/python33/
 .. _virtualenv: https://virtualenv.readthedocs.org/en/latest/
@@ -169,7 +169,7 @@ Traffic-Generators
 -------------------
 VSPERF supports many Traffic-generators. For configuring VSPERF to work with the available traffic-generator go through `this`_.
 
-.. _this: <http://artifacts.opnfv.org/vswitchperf/colorado/configguide/trafficgen.html>
+.. _this: http://artifacts.opnfv.org/vswitchperf/colorado/configguide/trafficgen.html
 
 VSPERF supports the following traffic generators:
 
@@ -191,7 +191,7 @@ and configure the various traffic generators.
 
 As KVM4NFV uses only IXIA traffic generator, it is discussed here. For complete documentation regarding traffic generators please follow this `link`_.
 
-.. _link: <https://gerrit.opnfv.org/gerrit/gitweb?p=vswitchperf.git;a=blob;f=docs/configguide/trafficgen.rst;h=85fc35b886d30db3b92a6b7dcce7ca742b70cbdc;hb=HEAD>
+.. _link: https://gerrit.opnfv.org/gerrit/gitweb?p=vswitchperf.git;a=blob;f=docs/configguide/trafficgen.rst;h=85fc35b886d30db3b92a6b7dcce7ca742b70cbdc;hb=HEAD
 
 ==========
 IXIA Setup
@@ -219,7 +219,7 @@ Find the IxNetwork TCL server app (start -> All Programs -> IXIA -> IxNetwork ->
   - Right click on IxNetwork TCL Server, select properties
   - Under shortcut tab in the Target dialogue box make sure there is the argument "-tclport xxxx" where xxxx is your port number (take note of this port number you will need it for the 10_custom.conf file).
 
-.. Figure:: ../images/IXIA1.png
+.. figure:: ../images/IXIA1.png
 
 - Hit Ok and start the TCL server application
 
@@ -459,7 +459,7 @@ Packet Forwarding Host Scenario
 Here Host is NODE-2. It has VSPERF installed in it and is properly configured to use IXIA Traffic-generator by providing IXIA CARD, PORTS and Lib paths along with IP.
 please refer to figure.2
 
-.. Figure:: ../images/Host_Scenario.png
+.. figure:: ../images/Host_Scenario.png
 
 Packet Forwarding Guest Scenario
 --------------------------------
@@ -468,7 +468,7 @@ on Node-2 (Host) using  Qemu. In this scenario, the packet is initially forwarde
 then forwarded to the launched guest. The time taken by the packet to reach the IXIA traffic-generator
 via Host and Guest is calculated and published as a test result of this scenario.
 
-.. Figure:: ../images/Guest_Scenario.png
+.. figure:: ../images/Guest_Scenario.png
 
 Packet Forwarding SRIOV Scenario
 --------------------------------
@@ -477,7 +477,7 @@ directly forwarded to the Guest VM launched on Host by implementing SR-IOV inter
 of Host .i.e., Node-2. The time taken by the packet to reach the IXIA traffic-generator is calculated
 and published as a test result for this scenario. SRIOV-support_ is given below, it details how to use SR-IOV.
 
-.. Figure:: ../images/SRIOV_Scenario.png
+.. figure:: ../images/SRIOV_Scenario.png
 
 Using vfio_pci with DPDK
 ------------------------

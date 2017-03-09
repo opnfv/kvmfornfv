@@ -10,8 +10,7 @@ Release Note for KVM4NFV CICD
 Abstract
 ========
 
-This document contains the release notes for the Colorado release of
-OPNFV when using KVM4NFV CICD process.
+This document contains the release notes for the Danube release of OPNFV when using KVM4NFV CICD process.
 
 Introduction
 ============
@@ -134,5 +133,5 @@ See JIRA: <link>
 
 References
 ==========
-For more information on the OPNFV Brahmaputra release, please visit
-http://www.opnfv.org/brahmaputra
+For more information on the OPNFV Colorado release, please visit
+http://www.opnfv.org/colorado

@@ -1,0 +1,44 @@
+.. This work is licensed under a Creative Commons Attribution 4.0 International License.
+.. http://creativecommons.org/licenses/by/4.0
+
+*****************
+Scenario Abstract
+*****************
+This chapter includes detailed explanation of various sceanrios files deployed as part
+of kvmfornfv D-Release.
+
+Release Features
+----------------
+
++------------------------------------------+------------------+-----------------+
+| **Scenario Name**                        | **Colorado**     | **Danube**      |
+|                                          |                  |                 |
++------------------------------------------+------------------+-----------------+
+| - os-nosdn-kvm-ha                        |     ``Y``        |     ``Y``       |
+|                                          |                  |                 |
+| - os-nosdn-kvm_nfv_ovs_dpdk-noha         |                  |     ``Y``       |
+|                                          |                  |                 |
+| - os-nosdn-kvm_nfv_ovs_dpdk-ha           |                  |     ``Y``       |
+|                                          |                  |                 |
+| - os-nosdn-kvm_nfv_ovs_dpdk_bar-noha     |                  |     ``Y``       |
+|                                          |                  |                 |
+| - os-nosdn-kvm_nfv_ovs_dpdk_bar-ha       |                  |     ``Y``       |
+|                                          |                  |                 |
++------------------------------------------+------------------+-----------------+
+
+D- Release Scenario's overview
+-------------------------------
+
++--------------------------------------+-----------------------+---------------------+--------------------+-------------+------------+
+| **Scenario Name**                    | **No of Controllers** | **No of Computes**  | ** Plugins Name**  | ** DPDK**   | ** OVS **  |
+|                                      |                       |                     |                    |             |            |
++--------------------------------------+-----------------------+---------------------+--------------------+-------------+------------+
+| - os-nosdn-kvm_nfv_ovs_dpdk-noha     |     ``1``             |     ``3``           |     ``KVM``        |  ``Y``      |  ``Y``     |
+|                                      |                       |                     |                    |             |            |
+| - os-nosdn-kvm_nfv_ovs_dpdk-ha       |     ``3``             |     ``2``           |     ``KVM``        |  ``Y``      |  ``Y``     |
+|                                      |                       |                     |                    |             |            |
+| - os-nosdn-kvm_nfv_ovs_dpdk_bar-noha |     ``1``             |     ``2``           |    ``KVM & BAR``   |  ``Y``      |  ``Y``     |
+|                                      |                       |                     |                    |             |            |
+| - os-nosdn-kvm_nfv_ovs_dpdk_bar-ha   |     ``3``             |     ``3``           |    ``KVM & BAR``   |  ``Y``      |  ``Y``     |
+|                                      |                       |                     |                    |             |            |
++--------------------------------------+-----------------------+---------------------+--------------------+-------------+------------+

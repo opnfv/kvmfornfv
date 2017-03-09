@@ -2,17 +2,21 @@
 
 .. http://creativecommons.org/licenses/by/4.0
 
+==============
+Scenariomatrix
+==============
+
 Scenarios are implemented as deployable compositions through integration with an installation tool.
 OPNFV supports multiple installation tools and for any given release not all tools will support all
 scenarios. While our target is to establish parity across the installation tools to ensure they
 can provide all scenarios, the practical challenge of achieving that goal for any given feature and
 release results in some disparity.
 
-Colorado scenario overeview
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Danube scenario overeview
+^^^^^^^^^^^^^^^^^^^^^^^^^
 
 The following table provides an overview of the installation tools and available scenario's
-in the Colorado release of OPNFV.
+in the Danube release of OPNFV.
 
 Scenario status is indicated by a weather pattern icon. All scenarios listed with
 a weather pattern are possible to deploy and run in your environment or a Pharos lab,
@@ -23,17 +27,17 @@ Weather pattern icon legend:
 +---------------------------------------------+----------------------------------------------------------+
 | Weather Icon                                | Scenario Status                                          |
 +=============================================+==========================================================+
-| .. image:: ../images/weather-clear.jpg      | Stable, no known issues                                  |
+| .. image:: images/weather-clear.jpg         | Stable, no known issues                                  |
 +---------------------------------------------+----------------------------------------------------------+
-| .. image:: ../images/weather-few-clouds.jpg | Stable, documented limitations                           |
+| .. image:: images/weather-few-clouds.jpg    | Stable, documented limitations                           |
 +---------------------------------------------+----------------------------------------------------------+
-| .. image:: ../images/weather-overcast.jpg   | Deployable, stability or feature limitations             |
+| .. image:: images/weather-overcast.jpg      | Deployable, stability or feature limitations             |
 +---------------------------------------------+----------------------------------------------------------+
-| .. image:: ../images/weather-dash.jpg       | Not deployed with this installer                         |
+| .. image:: images/weather-dash.jpg          | Not deployed with this installer                         |
 +---------------------------------------------+----------------------------------------------------------+
 
 Scenarios that are not yet in a state of "Stable, no known issues" will continue to be stabilised
-and updates will be made on the stable/colorado branch. While we intend that all Colorado
+and updates will be made on the stable/danube branch. While we intend that all Danube
 scenarios should be stable it is worth checking regularly to see the current status.  Due to
 our dependency on upstream communities and code some issues may not be resolved prior to the D release.
 
@@ -43,47 +47,72 @@ Scenario Naming
 In OPNFV scenarios are identified by short scenario names, these names follow a scheme that
 identifies the key components and behaviours of the scenario. The rules for scenario naming are as follows:
 
+.. code:: bash
+
   os-[controller]-[feature]-[mode]-[option]
 
 Details of the fields are
-  * os: mandatory
+
+  * **[os]:** mandatory
 
     * Refers to the platform type used
     * possible value: os (OpenStack)
 
-* [controller]: mandatory
+  * **[controller]:** mandatory
 
     * Refers to the SDN controller integrated in the platform
     * example values: nosdn, ocl, odl, onos
 
-  * [feature]: mandatory
+  * **[feature]:** mandatory
 
     * Refers to the feature projects supported by the scenario
     * example values: nofeature, kvm, ovs, sfc
 
-  * [mode]: mandatory
+  * **[mode]:** mandatory
 
     * Refers to the deployment type, which may include for instance high availability
     * possible values: ha, noha
 
-  * [option]: optional
+  * **[option]:** optional
 
     * Used for the scenarios those do not fit into naming scheme.
     * The optional field in the short scenario name should not be included if there is no optional scenario.
 
 Some examples of supported scenario names are:
 
-  * os-nosdn-kvm-noha
+  * **os-nosdn-kvm-noha**
 
     * This is an OpenStack based deployment using neutron including the OPNFV enhanced KVM hypervisor
 
-  * os-onos-nofeature-ha
+  * **os-onos-nofeature-ha**
 
     * This is an OpenStack deployment in high availability mode including ONOS as the SDN controller
 
-  * os-odl_l2-sfc
+  * **os-odl_l2-sfc**
 
     * This is an OpenStack deployment using OpenDaylight and OVS enabled with SFC features
+
+  * **os-nosdn-kvm_nfv_ovs_dpdk-ha**
+
+    * This is an Openstack deployment with high availability using OVS, DPDK including the OPNFV enhanced KVM hypervisor
+    * This deployment has ``3-Contoller and 2-Compute nodes``
+
+  * **os-nosdn-kvm_nfv_ovs_dpdk-noha**
+
+    * This is an Openstack deployment without high availability using OVS, DPDK including the OPNFV enhanced KVM hypervisor
+    * This deployment has ``1-Contoller and 3-Compute nodes``
+
+  * **os-nosdn-kvm_nfv_ovs_dpdk_bar-ha**
+
+    * This is an Openstack deployment with high availability using OVS, DPDK including the OPNFV enhanced KVM hypervisor
+      and Barometer
+    * This deployment has ``3-Contoller and 2-Compute nodes``
+
+  * **os-nosdn-kvm_nfv_ovs_dpdk_bar-noha**
+
+    * This is an Openstack deployment without high availability using OVS, DPDK including the OPNFV enhanced KVM hypervisor
+      and Barometer
+    * This deployment has ``1-Contoller and 3-Compute nodes``
 
 Installing your scenario
 ^^^^^^^^^^^^^^^^^^^^^^^^
@@ -92,7 +121,7 @@ There are two main methods of deploying your target scenario, one method is to f
 walk you through the process of deploying to your hardware using scripts or ISO images, the other method is
 to set up a Jenkins slave and connect your infrastructure to the OPNFV Jenkins master.
 
-For the purposes of evaluation and development a number of Colorado scenarios are able to be deployed
+For the purposes of evaluation and development a number of Danube scenarios are able to be deployed
 virtually to mitigate the requirements on physical infrastructure. Details and instructions on performing
 virtual deployments can be found in the installer specific installation instructions.
 

@@ -17,6 +17,7 @@ KVMforNFV User Guide
    ./kvmfornfv.cyclictest-dashboard.userguide.rst
    ./low_latency.userguide.rst
    ./live_migration.userguide.rst
+   ./openstack.rst
    ./packet_forwarding.userguide.rst
    ./pcm_utility.userguide.rst
    ./tuning.userguide.rst

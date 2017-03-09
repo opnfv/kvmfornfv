@@ -2,31 +2,36 @@
 
 .. http://creativecommons.org/licenses/by/4.0
 
-========================================
+=========================
+KVMFORNFV Dashboard Guide
+=========================
+
 Dashboard for KVM4NFV Daily Test Results
-========================================
+----------------------------------------
 
 Abstract
-========
+--------
 
 This chapter explains the procedure to configure the InfluxDB and Grafana on Node1 or Node2
-depending on the testtype to publish KVM4NFV cyclic test results. The cyclictest cases are executed
-and results are published on Yardstick Dashboard(Graphana).  InfluxDB is the database which will
+depending on the testtype to publish KVM4NFV test results. The cyclictest cases are executed
+and results are published on Yardstick Dashboard(Grafana). InfluxDB is the database which will
 store the cyclictest results and Grafana is a visualisation suite to view the maximum,minumum and
-average values of the timeseries data of cyclictest results.The framework is shown in below image.
+average values of the time series data of cyclictest results.The framework is shown in below image.
 
-.. Figure:: ../images/dashboard-architecture.png
-
+.. figure:: images/dashboard-architecture.png
+   :name: dashboard-architecture
+   :width: 100%
+   :align: center
 
 Version Features
-================
+----------------
 
 +-----------------------------+--------------------------------------------+
 |                             |                                            |
 |      **Release**            |               **Features**                 |
 |                             |                                            |
 +=============================+============================================+
-|                             | - Data published in Json file Format       |
+|                             | - Data published in Json file format       |
 |       Colorado              | - No database support to store the test's  |
 |                             |   latency values of cyclictest             |
 |                             | - For each run, the previous run's output  |
@@ -36,13 +41,13 @@ Version Features
 |                             | - Test results are stored in Influxdb      |
 |                             | - Graphical representation of the latency  |
 |       Danube                |   values using Grafana suite. (Dashboard)  |
-|                             | - Supports Graphical view for multiple     |
+|                             | - Supports graphical view for multiple     |
 |                             |   testcases and test-types (Stress/Idle)   |
 +-----------------------------+--------------------------------------------+
 
 
 Installation Steps:
-===================
+-------------------
 To configure Yardstick, InfluxDB and Grafana for KVMFORNFV project following sequence of steps are followed:
 
 **Note:**
@@ -73,7 +78,7 @@ The Yardstick document for Grafana and InfluxDB configuration can be found `here
 .. _here: https://wiki.opnfv.org/display/yardstick/How+to+deploy+InfluxDB+and+Grafana+locally
 
 Configuring the Dispatcher Type:
-================================
+---------------------------------
 Need to configure the dispatcher type in /etc/yardstick/yardstick.conf depending on the dispatcher
 methods which are used to store the cyclictest results. A sample yardstick.conf can be found at
 /yardstick/etc/yardstick.conf.sample, which can be copied to /etc/yardstick.
@@ -91,9 +96,9 @@ Three type of dispatcher methods are available to store the cyclictest results.
 - InfluxDB
 - HTTP
 
-**1. File**:  Default Dispatcher module is file.If the dispatcher module is configured as a file,then the test results are stored in yardstick.out  file.
+**1. File**:  Default Dispatcher module is file. If the dispatcher module is configured as a file,then the test results are stored in a temporary file yardstick.out
 ( default path: /tmp/yardstick.out).
-Dispatcher module of "Verify Job" is "Default".So,the results are stored in Yardstick.out file for verify job. Storing all the verify jobs in InfluxDB database causes redundancy of latency values. Hence, a File output format is prefered.
+Dispatcher module of "Verify Job" is "Default". So,the results are stored in Yardstick.out file for verify job. Storing all the verify jobs in InfluxDB database causes redundancy of latency values. Hence, a File output format is prefered.
 
 .. code:: bash
 
@@ -101,9 +106,14 @@ Dispatcher module of "Verify Job" is "Default".So,the results are stored in Yard
     debug = False
     dispatcher = file
 
-**2. Influxdb**: If the dispatcher module is configured as influxdb, then the test results are stored in Influxdb.Users can check test results stored in the Influxdb(Database) on Grafana which is used to visualize the time series data.
+    [dispatcher_file]
+    file_path = /tmp/yardstick.out
+    max_bytes = 0
+    backup_count = 0
 
-To configure the influxdb ,the following content in /etc/yardstick/yardstick.conf need to updated
+**2. Influxdb**: If the dispatcher module is configured as influxdb, then the test results are stored in Influxdb. Users can check test resultsstored in the Influxdb(Database) on Grafana which is used to visualize the time series data.
+
+To configure the influxdb, the following content in /etc/yardstick/yardstick.conf need to updated
 
 .. code:: bash
 
@@ -111,7 +121,14 @@ To configure the influxdb ,the following content in /etc/yardstick/yardstick.con
     debug = False
     dispatcher = influxdb
 
-Dispatcher module of "Daily Job" is Influxdb.So the results are stored in influxdb and then published to Dashboard.
+    [dispatcher_influxdb]
+    timeout = 5
+    target = http://127.0.0.1:8086  ##Mention the IP where influxdb is running
+    db_name = yardstick
+    username = root
+    password = root
+
+Dispatcher module of "Daily Job" is Influxdb. So, the results are stored in influxdb and then published to Dashboard.
 
 **3. HTTP**: If the dispatcher module is configured as http, users can check test result on OPNFV testing dashboard which uses MongoDB as backend.
 
@@ -121,13 +138,17 @@ Dispatcher module of "Daily Job" is Influxdb.So the results are stored in influx
     debug = False
     dispatcher = http
 
-.. Figure:: ../images/UseCaseDashboard.png
+    [dispatcher_http]
+    timeout = 5
+    target = http://127.0.0.1:8000/results
+
+.. figure:: images/UseCaseDashboard.png
 
 
 Detailing the dispatcher module in verify and daily Jobs:
----------------------------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-KVM4NFV updates the dispatcher module in the yardstick configuration file(/etc/yardstick/yardstick.conf) depending on the Job type(Verify/Daily).Once the test is completed, results are published to the respective dispatcher modules.
+KVM4NFV updates the dispatcher module in the yardstick configuration file(/etc/yardstick/yardstick.conf) depending on the Job type(Verify/Daily). Once the test is completed, results are published to the respective dispatcher modules.
 
 Dispatcher module is configured for each Job type as mentioned below.
 
@@ -182,9 +203,15 @@ Influxdb api which is already implemented in `Influxdb`_ will post the data in l
 - Grafana can be accessed at `Login`_ using credentials opnfv/opnfv and used for visualizing the collected test data as shown in `Visual`_\
 
 
-.. Figure:: ../images/Dashboard-screenshot-1.png
+.. figure:: images/Dashboard-screenshot-1.png
+   :name: dashboard-screenshot-1
+   :width: 100%
+   :align: center
 
-.. Figure:: ../images/Dashboard-screenshot-2.png
+.. figure:: images/Dashboard-screenshot-2.png
+   :name: dashboard-screenshot-2
+   :width: 100%
+   :align: center
 
 .. _Influxdb: https://git.opnfv.org/cgit/yardstick/tree/yardstick/dispatcher/influxdb.py
 
@@ -199,9 +226,9 @@ Influxdb api which is already implemented in `Influxdb`_ will post the data in l
 .. _GrafanaDoc: http://docs.grafana.org/
 
 Understanding Kvmfornfv Grafana Dashboard
-=========================================
+------------------------------------------
 
-The Kvmfornfv Dashboard found at http://testresults.opnfv.org/ currently supports graphical view of Cyclictest. For viewing Kvmfornfv Dashboard use,
+The Kvmfornfv dashboard found at http://testresults.opnfv.org/ currently supports graphical view of cyclictest. For viewing Kvmfornfv dashboarduse,
 
 .. code:: bash
 
@@ -211,6 +238,15 @@ The Kvmfornfv Dashboard found at http://testresults.opnfv.org/ currently support
 
         Username: opnfv
         Password: opnfv
+
+
+.. code:: bash
+
+    The JSON of the kvmfonfv-cyclictest dashboard can be found at.,
+
+    $ git clone https://gerrit.opnfv.org/gerrit/yardstick.git
+    $ cd yardstick/dashboard
+    $ cat KVMFORNFV-Cyclictest
 
 The Dashboard has four tables, each representing a specific test-type of cyclictest case,
 
@@ -226,33 +262,49 @@ Note:
 **A brief about what each graph of the dashboard represents:**
 
 1. Idle-Idle Graph
--------------------
-`Idle-Idle`_ graph displays the Average,Maximum and Minimum latency values obtained by running Idle_Idle test-type of the Cyclictest. Idle_Idle implies that no stress is applied on the Host or the Guest.
+~~~~~~~~~~~~~~~~~~~~
+`Idle-Idle`_ graph displays the Average,Maximum and Minimum latency values obtained by running Idle_Idle test-type of the cyclictest. Idle_Idleimplies that no stress is applied on the Host or the Guest.
 
 .. _Idle-Idle: http://testresults.opnfv.org/grafana/dashboard/db/kvmfornfv-cyclictest?panelId=10&fullscreen
 
-.. Figure:: ../images/Idle-Idle.png
+.. figure:: images/Idle-Idle.png
+   :name: Idle-Idle graph
+   :width: 100%
+   :align: center
 
 2. CPU_Stress-Idle Graph
---------------------------
-`Cpu_Stress-Idle`_ graph displays the Average,Maximum and Minimum latency values obtained by running Idle_Idle test-type of the Cyclictest. Idle_Idle implies that CPU stress is applied on the Host and no stress on the Guest.
+~~~~~~~~~~~~~~~~~~~~~~~~~
+`Cpu_Stress-Idle`_ graph displays the Average,Maximum and Minimum latency values obtained by running Idle_Idle test-type of the cyclictest. Idle_Idle implies that CPU stress is applied on the Host and no stress on the Guest.
 
 .. _Cpu_stress-Idle: http://testresults.opnfv.org/grafana/dashboard/db/kvmfornfv-cyclictest?panelId=11&fullscreen
 
-.. Figure:: ../images/Cpustress-Idle.png
+.. figure:: images/Cpustress-Idle.png
+   :name: cpustress-idle graph
+   :width: 100%
+   :align: center
 
 3. Memory_Stress-Idle Graph
-----------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 `Memory_Stress-Idle`_ graph displays the Average,Maximum and Minimum latency values obtained by running Idle_Idle test-type of the Cyclictest. Idle_Idle implies that Memory stress is applied on the Host and no stress on the Guest.
 
 .. _Memory_Stress-Idle: http://testresults.opnfv.org/grafana/dashboard/db/kvmfornfv-cyclictest?panelId=12&fullscreen
 
-.. Figure:: ../images/Memorystress-Idle.png
+.. figure:: images/Memorystress-Idle.png
+   :name: memorystress-idle graph
+   :width: 100%
+   :align: center
 
 4. IO_Stress-Idle Graph
-------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~
 `IO_Stress-Idle`_ graph displays the Average,Maximum and Minimum latency values obtained by running Idle_Idle test-type of the Cyclictest. Idle_Idle implies that IO stress is applied on the Host and no stress on the Guest.
 
 .. _IO_Stress-Idle: http://testresults.opnfv.org/grafana/dashboard/db/kvmfornfv-cyclictest?panelId=13&fullscreen
 
-.. Figure:: ../images/IOstress-Idle.png
+.. figure:: images/IOstress-Idle.png
+   :name: iostress-idle graph
+   :width: 100%
+   :align: center
+
+Future Scope
+-------------
+The future work will include adding the kvmfornfv_Packet-forwarding test results into Grafana and influxdb.

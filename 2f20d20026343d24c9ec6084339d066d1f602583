@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dabed58f_95a3d59d",
+        "filename": "ci/apex_build.sh",
+        "patchSetId": 16
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2017-03-09T16:40:19Z",
+      "side": 1,
+      "message": "I mean clone from local directory?",
+      "revId": "2f20d20026343d24c9ec6084339d066d1f602583",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}

@@ -21,14 +21,24 @@ packetforward_result=0 #exit code of packet forward
 source $WORKSPACE/ci/envs/host-config
 
 function packetForward {
-#   source $WORKSPACE/ci/packet_forward_test.sh $HOST_IP
-   echo "Packetforwarding need to be implemented"
+   source $WORKSPACE/ci/cyclicTestTrigger.sh $HOST_IP
+   connect_host
+   #Waiting for ssh to be available for the host machine.
+   sleep 20
+   # copy files and rpms required for executing test cases
+   setUpPacketForwarding
+   #Verifying whether the test node is up and running
+   connect_host
+   sleep 10
+   runPacketForwarding $test_type
    packetforward_result=$?
    if [ ${packetforward_result} -ne 0 ];then
       echo "Packet Forwarding test case execution FAILED"
    else
       echo "Packet Forwarding test case executed SUCCESSFULLY"
    fi
+   sudo ssh root@${HOST_IP} "rm -rf /root/workspace/*"
+   host_clean
 }
 
 function cyclictest {
@@ -125,7 +135,8 @@ if [ ${test_type} == "verify" ];then
          sleep 10
       done
       #Execution of packet forwarding test cases.
-      packetForward
+      #packetForward
+      echo "packet forwarding test cases are not enabled for verify job"
    else
       for env in ${cyclictest_env_verify[@]}
       do
@@ -136,7 +147,8 @@ if [ ${test_type} == "verify" ];then
       env_clean
       host_clean
       #Execution of packet forwarding test cases.
-      packetForward
+      echo "packet forwarding test cases are not enabled for verify job"
+      #packetForward
    fi
       if [ ${cyclictest_result} -ne 0 ] ||  [ ${packetforward_result} -ne 0 ];then
          echo "Test case FAILED"

@@ -55,3 +55,23 @@ function copyLogs {
    sudo ssh root@${HOST_IP} "cd /root;rm -rf MBWInfo MBWInfo.tar.gz"
 }
 
+function packet_fwd_logs {
+   #Tar and copy logs for uploading to artifacts repository
+   echo "Copying Log files from Node to Jump Server"
+   mkdir -p $WORKSPACE/build_output/log/packet_fwd
+   scp -r root@${HOST_IP}:/tmp/packet_fwd_logs $WORKSPACE/build_output/log/packet_fwd
+   #removing collected logs on the node after copying.
+   sudo ssh root@${HOST_IP} "cd /tmp;rm -rf packet_fwd_logs"
+}
+
+function packet_fwd_exit {
+   exitCode=$1
+   TIMESTAMP=$(date -u +"%Y-%m-%d_%H-%M-%S")
+   cd $WORKSPACE/build_output/
+   if [ -d log ];then
+      tar -czvf log-${TIMESTAMP}.tar.gz log
+      GS_UPLOAD_LOCATION="gs://artifacts.opnfv.org/kvmfornfv/packet_fwd/${TIMESTAMP}"
+      gsutil cp -r $WORKSPACE/build_output/log-*.tar.gz $GS_LOG_LOCATION > $WORKSPACE/build_output/gsutil.log 2>&1
+   fi
+   exit $exitCode
+}

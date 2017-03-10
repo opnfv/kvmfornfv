@@ -11,7 +11,6 @@ HOST_IP=$1
 testTime=$2
 testType=$3
 testName=$4
-
 source $WORKSPACE/ci/envs/utils.sh
 source $WORKSPACE/ci/envs/host-config
 
@@ -118,6 +117,7 @@ function env_clean {
 #Cleaning the latest kernel changes on host after executing the test.
 function host_clean {
     sudo ssh root@${HOST_IP} "rpm=\$(rpm -qa | grep 'kernel-${KERNELRPM_VERSION}' | awk '{print \$1}'); rpm -ev \$rpm"
+    sudo ssh root@${HOST_IP} "rpm=\$(rpm -qa | grep 'kernel-devel-${KERNELRPM_VERSION}' | awk '{print \$1}'); rpm -ev \$rpm"
     sudo ssh root@${HOST_IP} "rm -rf /boot/initramfs-${KERNELRPM_VERSION}*.img"
     sudo ssh root@${HOST_IP} "grub2-mkconfig -o /boot/grub2/grub.cfg"
     sudo ssh root@${HOST_IP} "rpm=\$(rpm -qa | grep 'qemu-${QEMURPM_VERSION}'| awk '{print \$1}'); rpm -ev \$rpm"
@@ -134,6 +134,37 @@ function cleanup {
    else
       return 0
    fi
+}
+
+#environment setup for executing packet forwarding test cases
+function setUpPacketForwarding {
+   #copying required files to run packet forwarding test cases
+   ssh root@$HOST_IP "mkdir -p /root/workspace/image"
+   ssh root@$HOST_IP "mkdir -p /root/workspace/rpm"
+   ssh root@$HOST_IP "mkdir -p /root/workspace/scripts"
+   #Copying the configuration scipts on to host
+   scp -r $WORKSPACE/ci/envs/* root@$HOST_IP:/root/workspace/scripts
+   scp -r $WORKSPACE/build_output/kernel-${KERNELRPM_VERSION}*.rpm root@$HOST_IP:/root/workspace/rpm
+   scp -r $WORKSPACE/build_output/kernel-devel-${KERNELRPM_VERSION}*.rpm root@$HOST_IP:/root/workspace/rpm
+   scp -r $WORKSPACE/build_output/qemu-${QEMURPM_VERSION}*.rpm root@$HOST_IP:/root/workspace/rpm
+   execute host configuration script for installing kvm built kernel.
+   ssh root@$HOST_IP "cd /root/workspace/scripts ; ./host-setup0.sh"
+   ssh root@$HOST_IP "cd /root/workspace/rpm ; rpm -ivh kernel-devel-${KERNELRPM_VERSION}*.rpm"
+   ssh root@$HOST_IP "reboot"
+   sleep 10
+}
+
+#executing packet forwarding test cases
+function runPacketForwarding {
+   testType=$1
+   ssh -t -t root@$HOST_IP "cd /root/workspace/scripts ; sudo scl enable python33 'sh packet_forwarding.sh $testType $QEMURPM_VERSION'"
+   #Tar and copy logs for uploading to artifacts repository
+   echo "Copying Log files from Node to Jump Server"
+   sudo ssh root@${HOST_IP} "cd /tmp;tar -czvf packet_fwd_logs.tar.gz packet_fwd_logs"
+   mkdir -p $WORKSPACE/build_output/log/packet_fwd
+   scp root@${HOST_IP}:/tmp/packet_fwd_logs.tar.gz $WORKSPACE/build_output/log/packet_fwd
+   #removing collected logs on the node after copying.
+   sudo ssh root@${HOST_IP} "cd /tmp;rm -rf packet_fwd_logs packet_fwd_logs.tar.gz"
 }
 
 #Creating a docker image with yardstick installed and Verify the results of cyclictest

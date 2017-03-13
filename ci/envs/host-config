@@ -35,8 +35,8 @@ done
 stress_isolcpus=${first}-${last}
 echo "Stress tool runs on $stress_isolcpus"
 
-#Tar the log files generated during testcase execution.
-function err_exit {
+#Tar the log files generated during testcase execution and exit.
+function test_exit {
    exitCode=$1
    cd $WORKSPACE/build_output/
    if [ -d log ];then

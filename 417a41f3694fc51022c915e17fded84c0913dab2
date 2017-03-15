@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9ab8dda7_d6942a46",
+        "filename": "ci/envs/packet_forwarding.sh",
+        "patchSetId": 13
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 5765
+      },
+      "writtenOn": "2017-03-15T04:30:21Z",
+      "side": 1,
+      "message": "sure, working on it",
+      "parentUuid": "9ab8dda7_76d8de53",
+      "revId": "417a41f3694fc51022c915e17fded84c0913dab2",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9ab8dda7_56ba7ae2",
         "filename": "ci/envs/packet_forwarding.sh",
         "patchSetId": 13
@@ -30,6 +48,24 @@
       "writtenOn": "2017-03-15T04:11:38Z",
       "side": 1,
       "message": "same as above?",
+      "revId": "417a41f3694fc51022c915e17fded84c0913dab2",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ab8dda7_f6912e53",
+        "filename": "ci/envs/packet_forwarding.sh",
+        "patchSetId": 13
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 5765
+      },
+      "writtenOn": "2017-03-15T04:30:21Z",
+      "side": 1,
+      "message": "sure, working on it",
+      "parentUuid": "9ab8dda7_56ba7ae2",
       "revId": "417a41f3694fc51022c915e17fded84c0913dab2",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "9ab8dda7_16aba28a",
+        "filename": "ci/test_kvmfornfv.sh",
+        "patchSetId": 13
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 5765
+      },
+      "writtenOn": "2017-03-15T04:30:21Z",
+      "side": 1,
+      "message": "As this a testing patch i have reversed the roles of daily and verify jobs. Here i will change the if case to verify and in elif it will be daily.",
+      "parentUuid": "9ab8dda7_16b402f1",
+      "revId": "417a41f3694fc51022c915e17fded84c0913dab2",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9ab8dda7_36b906ea",
         "filename": "ci/test_kvmfornfv.sh",
         "patchSetId": 13
@@ -64,6 +118,24 @@
       "writtenOn": "2017-03-15T04:11:38Z",
       "side": 1,
       "message": "So $? will be the result of the echo command, right?",
+      "revId": "417a41f3694fc51022c915e17fded84c0913dab2",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ab8dda7_36b026f4",
+        "filename": "ci/test_kvmfornfv.sh",
+        "patchSetId": 13
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 5765
+      },
+      "writtenOn": "2017-03-15T04:30:21Z",
+      "side": 1,
+      "message": "As packet forwarding test cases is not yet implemented for verify i am taking $? value of the echo statement. In future if the vsperf configuration is done on node1/verify node then i will replace this echo statement with a script execution to trigger packet forwarding test cases that does not involve any packet generator(some setup checks)",
+      "parentUuid": "9ab8dda7_36b906ea",
       "revId": "417a41f3694fc51022c915e17fded84c0913dab2",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false

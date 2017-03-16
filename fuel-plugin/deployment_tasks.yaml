@@ -11,7 +11,7 @@
     puppet_modules: puppet/modules:/etc/puppet/modules
     timeout: 300
 
-- id: node_reboot
+- id: kvm_node_reboot
   type: reboot
   version: 2.1.0
   role: [compute]

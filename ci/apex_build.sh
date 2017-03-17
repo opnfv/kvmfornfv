@@ -12,6 +12,10 @@ if [ "$branch" == "master" ] || [ "$branch" == "danube" ];then
    echo "Checking out on $branch branch"
    echo "Commit-id is ${commit_id}"
    git checkout -f ${commit_id}
+   if [ $? -ne 0 ];then
+      echo "Please check the commit-id provided in apex.conf"
+      exit 1
+   fi
 fi
 mkdir ${output_dir}
 }

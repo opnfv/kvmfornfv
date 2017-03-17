@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9ab8dda7_c41f8fb6",
+        "filename": "ci/apex.conf",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 6471
+      },
+      "writtenOn": "2017-03-17T06:45:52Z",
+      "side": 1,
+      "message": "Hi David, \nI think the provided commit-id of kvmfornfv is not the working one. As checked in local test bed, facing the same issue(Bad object). Could you please provide the commit-id(merged one).\nPlease correct me if I am wrong.",
+      "range": {
+        "startLine": 2,
+        "startChar": 10,
+        "endLine": 2,
+        "endChar": 49
+      },
+      "revId": "dac45542f90c64ef95c02971aac91d0c9762f5c2",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}

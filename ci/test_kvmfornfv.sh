@@ -60,15 +60,8 @@ function cyclictest {
    updateYaml
    #Running PCM utility
    collect_MBWInfo $test_type
-   #Checking which test cases will be executed first and last from the list to perform cleaning operations.
-   first_test_case=cyclictest_env_$test_type[0]
-   last_test_case=cyclictest_env_$test_type[-1]
    #Cleaning the environment before running cyclictest through yardstick
-   if [ ${test_case} == "${!first_test_case}" ];then
-      env_clean
-   else
-      sudo ssh root@${HOST_IP} "pid=\$(ps aux | grep 'qemu' | awk '{print \$2}' | head -1); echo \$pid |xargs kill"
-   fi
+   env_clean
    #Creating a docker image with yardstick installed and launching ubuntu docker to run yardstick cyclic testcase
    if runCyclicTest;then
       cyclictest_result=`expr ${cyclictest_result} + 0`
@@ -78,9 +71,6 @@ function cyclictest {
    fi
    echo "Terminating PCM Process"
    sudo ssh root@${HOST_IP} "pid=\$(ps aux | grep 'pcm' | awk '{print \$2}' | head -1); echo \$pid |xargs kill -SIGTERM"
-   if [ ${test_case} != "${!last_test_case}" ];then
-      sudo ssh root@${HOST_IP} "reboot"
-   fi
 }
 function collect_MBWInfo {
    #Collecting the Memory Bandwidth Information using pcm-memory utility
@@ -147,8 +137,6 @@ if [ ${test_type} == "verify" ];then
          cyclictest ${env}
          sleep 10
       done
-      env_clean
-      host_clean
       #Execution of packet forwarding test cases.
       packetForward
    fi
@@ -194,8 +182,6 @@ elif [ ${test_type} == "daily" ];then
          cyclictest ${env}
          sleep 5
          done
-         env_clean
-         host_clean
       fi
          if [ ${cyclictest_result} -ne 0 ] ; then
             echo "Cyclictest case execution FAILED"

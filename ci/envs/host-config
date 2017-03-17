@@ -21,7 +21,7 @@ pcm_memory=/root/pcm/pcm-memory.x
 # Isolated cpus for nfv, must be given as a range '-' and Numa node1 CPU's should be considered
 host_isolcpus=`lscpu | grep "NUMA node1 CPU(s)"| awk -F ':' '{print \$2}' | sed 's/[[:space:]]//g'`
 first=$(echo ${host_isolcpus} | cut -f1 -d-)
-last=$(echo ${host_isolcpus} | cut -f2 -d-)
+last=$(echo ${host_isolcpus} | cut -f2 -d- | cut -d',' -f1 )
 
 # Bind cpus from host_isolcpus range for QEMU processor threads
 i=0

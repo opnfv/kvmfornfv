@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9ab8dda7_c2653a46",
+        "filename": "ci/apex_build.sh",
+        "patchSetId": 6
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2017-03-20T16:07:40Z",
+      "side": 1,
+      "message": "Do we need switch the branch? I notice this is comment out.",
+      "revId": "1ee6ff255bfec0da8bb929177156b08ef8be0ef0",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ab8dda7_22545653",
+        "filename": "ci/envs/host-config",
+        "patchSetId": 6
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2017-03-20T16:07:40Z",
+      "side": 1,
+      "message": "What\u0027s this for?",
+      "revId": "1ee6ff255bfec0da8bb929177156b08ef8be0ef0",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}

@@ -87,6 +87,24 @@
       "revId": "1ee6ff255bfec0da8bb929177156b08ef8be0ef0",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ab8dda7_0255921c",
+        "filename": "ci/envs/host-config",
+        "patchSetId": 6
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 6471
+      },
+      "writtenOn": "2017-03-20T16:59:45Z",
+      "side": 1,
+      "message": "Yes Yunhong,It\u0027s a small change so thought of adding here itself instead of pushing one more patch.",
+      "parentUuid": "9ab8dda7_2289b6ca",
+      "revId": "1ee6ff255bfec0da8bb929177156b08ef8be0ef0",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }

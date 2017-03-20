@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9ab8dda7_e292bef5",
+        "filename": "ci/envs/disable_trace.sh",
+        "patchSetId": 8
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 5765
+      },
+      "writtenOn": "2017-03-20T16:39:03Z",
+      "side": 1,
+      "message": "I noticed after disabling no logs available in trace, that\u0027s the reason collecting the logs just before disabling trace.\nplease correct me if i am wrong.",
+      "parentUuid": "9ab8dda7_a295a6e5",
+      "revId": "34f1cc2c58e7a58926d83d45fdd8227d343fca08",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9ab8dda7_629fae04",
         "filename": "ci/test_kvmfornfv.sh",
         "patchSetId": 8
@@ -30,6 +48,24 @@
       "writtenOn": "2017-03-20T16:32:34Z",
       "side": 1,
       "message": "On the final version, can we have this parameter change to another patch? We firstly have a patch to keep everything working, then have another patch to turn on the switch?",
+      "revId": "34f1cc2c58e7a58926d83d45fdd8227d343fca08",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ab8dda7_42862abb",
+        "filename": "ci/test_kvmfornfv.sh",
+        "patchSetId": 8
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 5765
+      },
+      "writtenOn": "2017-03-20T16:39:03Z",
+      "side": 1,
+      "message": "yes, we can switch it ON in a seperate patch.Working on it.",
+      "parentUuid": "9ab8dda7_629fae04",
       "revId": "34f1cc2c58e7a58926d83d45fdd8227d343fca08",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false

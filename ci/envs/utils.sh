@@ -43,7 +43,7 @@ function getQemuVersion {
 function checkRPMNames {
   rpm_dir="/root/workspace/rpm"
   if [ -d "$WORKSPACE" ];then
-     cd $WORKSPACE/build_output 2>/dev/null;RPMCOUNT=`ls kvmfornfv-* | wc -l`
+     cd $WORKSPACE/build_output 2>/dev/null;RPMCOUNT=`ls kvmfornfv-* 2>/dev/null | wc -l`
         if [ $RPMCOUNT -ne 0 ];then
            echo "Testcases are not executed for apex_build"
            exit 0

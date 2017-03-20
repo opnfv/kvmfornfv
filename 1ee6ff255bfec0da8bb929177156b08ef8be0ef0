@@ -69,6 +69,24 @@
       "revId": "1ee6ff255bfec0da8bb929177156b08ef8be0ef0",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ab8dda7_8272e2e3",
+        "filename": "ci/envs/host-config",
+        "patchSetId": 6
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2017-03-20T16:51:21Z",
+      "side": 1,
+      "message": "Aha, it\u0027s more a fixing for stress tools side and you\u0027d squeeze into this patch, am I right? just want to make sure my understanding is correct.",
+      "parentUuid": "9ab8dda7_2289b6ca",
+      "revId": "1ee6ff255bfec0da8bb929177156b08ef8be0ef0",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }

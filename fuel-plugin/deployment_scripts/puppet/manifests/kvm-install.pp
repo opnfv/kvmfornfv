@@ -2,7 +2,7 @@ $kvm_settings = hiera('fuel-plugin-kvm')
 
 case $::operatingsystem {
   'Ubuntu': {
-    $version         = '4.4.6-rt14nfv'
+    $version         = '4.4.50-rt62nfv'
     $kernel_kit      = ["linux-headers-${version}", "linux-image-${version}"]
     $kernel_src      = "/usr/src/linux-headers-${version}"
     $kernel_src_link = "/lib/modules/${version}/build"

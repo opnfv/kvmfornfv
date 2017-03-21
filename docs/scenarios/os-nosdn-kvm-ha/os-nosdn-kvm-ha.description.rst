@@ -2,9 +2,12 @@
 
 .. http://creativecommons.org/licenses/by/4.0
 
+============================
+os-nosdn-kvm-ha Description
+============================
 
 Introduction
-============
+-------------
 
 .. In this section explain the purpose of the scenario and the
    types of capabilities provided
@@ -21,7 +24,7 @@ This scenario testcase deployment is happening on multi-node by using
 OPNFV Fuel deployer.
 
 Scenario Components and Composition
-===================================
+-----------------------------------
 .. In this section describe the unique components that make up the scenario,
 .. what each component provides and why it has been included in order
 .. to communicate to the user the capabilities available in this scenario.
@@ -31,18 +34,18 @@ configurations provided in ha_nfv-kvm_heat_ceilometer_scenario.yaml.
 This yaml file contains following configurations and is passed as an
 argument to deploy.py script
 
-* scenario.yaml:This configuration file defines translation between a
+* ``scenario.yaml:`` This configuration file defines translation between a
   short deployment scenario name(os-nosdn-kvm-ha) and an actual deployment
   scenario configuration file(ha_nfv-kvm_heat_ceilometer_scenario.yaml)
 
-* deployment-scenario-metadata:Contains the configuration metadata like
+* ``deployment-scenario-metadata:`` Contains the configuration metadata like
   title,version,created,comment.
 
-* stack-extensions:Stack extentions are opnfv added value features in form
+* ``stack-extensions:`` Stack extentions are opnfv added value features in form
   of a fuel-plugin.Plugins listed in stack extensions are enabled and
   configured.
 
-* dea-override-config: Used to configure the HA mode,network segmentation
+* ``dea-override-config:`` Used to configure the HA mode,network segmentation
   types and role to node assignments.These configurations overrides
   corresponding keys in the dea_base.yaml and dea_pod_override.yaml.
   These keys are used to deploy multiple nodes(3 controllers,2 computes)
@@ -72,7 +75,7 @@ argument to deploy.py script
 
   * **Node 5**: This node has compute role.
 
-* dha-override-config:Provides information about the VM definition and
+* ``dha-override-config:`` Provides information about the VM definition and
   Network config for virtual deployment.These configurations overrides
   the pod dha definition and points to the controller,compute and
   fuel definition files.
@@ -81,7 +84,7 @@ argument to deploy.py script
   up and running
 
 Scenario Usage Overview
-=======================
+-----------------------
 .. Provide a brief overview on how to use the scenario and the features available to the
 .. user.  This should be an "introduction" to the userguide document, and explicitly link to it,
 .. where the specifics of the features are covered including examples and API's
@@ -93,12 +96,16 @@ Scenario Usage Overview
 
   -Example:
 
+.. code:: bash
+
   sudo python deploy.py -iso ~/ISO/opnfv.iso -dea ~/CONF/hardware/dea.yaml -dha ~/CONF/hardware/dha.yaml -s /mnt/images -b pxebr -log ~/Deployment-888.log.tar.gz
 
 * Install Fuel Master and deploy OPNFV Cloud from scratch on Virtual
   Environment:
 
   -Example:
+
+.. code:: bash
 
   sudo python deploy.py -iso ~/ISO/opnfv.iso -dea ~/CONF/virtual/dea.yaml -dha ~/CONF/virtual/dha.yaml -s /mnt/images -log ~/Deployment-888.log.tar.gz
 
@@ -112,7 +119,7 @@ Scenario Usage Overview
 * Observed that scenario is not running any testcase on top of deployment.
 
 Known Limitations, Issues and Workarounds
-=========================================
+-----------------------------------------
 .. Explain any known limitations here.
 
 * Test scenario os-nosdn-kvm-ha result is not stable. After node reboot
@@ -120,7 +127,7 @@ Known Limitations, Issues and Workarounds
   responding with in the given time.
 
 References
-==========
+----------
 
 For more information on the OPNFV Danube release, please visit
 http://www.opnfv.org/danube

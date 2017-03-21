@@ -9,9 +9,9 @@ FTrace Debugging Tool
 About Ftrace
 -------------
 Ftrace is an internal tracer designed to find what is going on inside the kernel. It can be used
-for debugging or analyzing latencies and performance issues that take place outside of user-space.
-Although ftrace is typically considered the function tracer, it is really a frame work of several
-assorted tracing utilities.
+for debugging or analyzing latencies and performance related issues that take place outside of
+user-space. Although ftrace is typically considered the function tracer, it is really a frame
+work of several assorted tracing utilities.
 
     One of the most common uses of ftrace is the event tracing.
 
@@ -33,7 +33,7 @@ Version Features
 +-----------------------------+-----------------------------------------------+
 |                             | - Ftrace aids in debugging the KVMFORNFV      |
 |       Danube                |   4.4-linux-kernel level issues               |
-|                             | - Option to diable if not required            |
+|                             | - Option to disable if not required           |
 +-----------------------------+-----------------------------------------------+
 
 
@@ -155,19 +155,16 @@ Examples:
      [tracing]# echo 1 > tracing_on;
 
 
-===================
 Ftrace in KVMFORNFV
-===================
-Ftrace is part of KVMFORNFV D-Release. Kvmfornfv currently uses 4.4-linux-Kernel as part of
-deployment and runs cyclictest for testing purpose generating latency values (max, min, avg values).
+-------------------
+Ftrace is part of KVMFORNFV D-Release. KVMFORNFV built 4.4-linux-Kernel will be tested by
+executing cyclictest and analyzing the results/latency values (max, min, avg) generated.
 Ftrace (or) function tracer is a stable kernel inbuilt debugging tool which tests kernel in real
 time and outputs a log as part of the code. These output logs are useful in following ways.
 
     - Kernel Debugging.
-    - Helps in Kernel code Optimization and
-    - Can be used to better understand the kernel Level code flow
-    - Log generation for each test run if enabled
-    - Choice of Disabling and Enabling
+    - Helps in Kernel code optimization and
+    - Can be used to better understand the kernel level code flow
 
 Ftrace logs for KVMFORNFV can be found `here`_:
 
@@ -184,7 +181,8 @@ Kvmfornfv has two scripts in /ci/envs to provide ftrace tool:
 Enabling Ftrace in KVMFORNFV
 ----------------------------
 
-The enable_trace.sh script is triggered by changing ftrace_enable value in test_kvmfornfv.sh script which is zero by default. Change as below to enable Ftrace and trigger the script,
+The enable_trace.sh script is triggered by changing ftrace_enable value in test_kvmfornfv.sh
+script to 1 (which is zero by default). Change as below to enable Ftrace.
 
 .. code:: bash
 
@@ -197,7 +195,7 @@ Note:
 Details of enable_trace script
 ------------------------------
 
-- CPU Coremask is calculated using getcpumask()
+- CPU coremask is calculated using getcpumask()
 - All the required events are enabled by,
    echoing "1" to $TRACEDIR/events/event_name/enable file
 
@@ -230,19 +228,21 @@ The set_event file contains all the enabled events list
 
 - Once tracing is diabled, disable_trace.sh script is triggered.
 
-Details of Disable_trace Script
+Details of disable_trace Script
 -------------------------------
 In disable trace script the following are done:
 
-- The trace file is copied and moved to /tmp folfer based on timestamp.
+- The trace file is copied and moved to /tmp folder based on timestamp
 - The current tracer file is set to ``nop``
 - The set_event file is cleared i.e., all the enabled events are disabled
-- Kernel Ftarcer is diabled/unmounted
+- Kernel Ftrace is disabled/unmounted
 
 
 Publishing Ftrace logs:
 -----------------------
-The generated trace log is pushed to `artifacts`_ of Kvmfornfv project by releng team, which is done by a script in JJB of releng. The `trigger`_ in the script is.,
+The generated trace log is pushed to `artifacts`_ by kvmfornfv-upload-artifact.sh
+script available in releng which will be triggered as a part of kvmfornfv daily job.
+The `trigger`_ in the script is.,
 
 .. code:: bash
 
@@ -252,6 +252,3 @@ The generated trace log is pushed to `artifacts`_ of Kvmfornfv project by releng
 .. _artifacts: https://artifacts.opnfv.org/
 
 .. _trigger: https://gerrit.opnfv.org/gerrit/gitweb?p=releng.git;a=blob;f=jjb/kvmfornfv/kvmfornfv-upload-artifact.sh;h=56fb4f9c18a83c689a916dc6c85f9e3ddf2479b2;hb=HEAD#l53
-
-
-.. include:: pcm_utility.userguide.rst

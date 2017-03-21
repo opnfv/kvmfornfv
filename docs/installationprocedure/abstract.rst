@@ -2,6 +2,10 @@
 
 .. http://creativecommons.org/licenses/by/4.0
 
+********
+Abstract
+********
+
 This document will give the user instructions on how to deploy available
-KVM4NFV CICD build scenario verfied for the Colorado release of the OPNFV
+KVM4NFV CICD build scenario verfied for the Danube release of the OPNFV
 platform.

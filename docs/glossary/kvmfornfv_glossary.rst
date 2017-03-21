@@ -5,12 +5,13 @@
 **************
 OPNFV Glossary
 **************
-Colorado 1.0
+
+Danube 1.0
 ------------
 
-========
+
 Contents
-========
+--------
 
 This glossary provides a common definition of phrases and words commonly used
 in OPNFV.
@@ -18,7 +19,7 @@ in OPNFV.
 --------
 
 A
--
+~
 
 Arno
 
@@ -36,7 +37,7 @@ AVX2
 --------
 
 B
--
+~
 
 Brahmaputra
 
@@ -58,7 +59,7 @@ Bogomips
 --------
 
 C
--
+~
 
 CAT
 
@@ -95,7 +96,7 @@ CPU
 --------
 
 D
--
+~
 
 Data plane
 
@@ -125,7 +126,7 @@ DSCP
 --------
 
 F
--
+~
 
 Flavors
 
@@ -138,7 +139,7 @@ Fuel
 --------
 
 H
--
+~
 
 Horizon
 
@@ -152,7 +153,7 @@ Hypervisor
 --------
 
 I
--
+~
 
 IGMP
 
@@ -178,7 +179,7 @@ IRQ affinity
 --------
 
 J
--
+~
 
 Jenkins
 
@@ -200,7 +201,7 @@ JumpHost
 --------
 
 K
--
+~
 
 Kernel
 
@@ -210,7 +211,7 @@ Kernel
 --------
 
 L
--
+~
 
 Latency
 
@@ -225,7 +226,7 @@ libvirt
 --------
 
 M
--
+~
 
 Migration
 
@@ -235,7 +236,7 @@ Migration
 --------
 
 N
--
+~
 
 NFV
 
@@ -257,7 +258,7 @@ NUMA
 --------
 
 O
--
+~
 
 OPNFV
 
@@ -267,7 +268,7 @@ OPNFV
 --------
 
 P
--
+~
 
 Pharos
 
@@ -291,7 +292,7 @@ Pools
 --------
 
 Q
--
+~
 
 Qemu
 
@@ -301,7 +302,7 @@ Qemu
 --------
 
 R
--
+~
 
 RDMA
 
@@ -316,7 +317,7 @@ Rest-Api
 --------
 
 S
--
+~
 
 Scaling
 
@@ -343,7 +344,7 @@ Storage
 --------
 
 T
--
+~
 
 Tenant
 
@@ -362,7 +363,7 @@ TSC
 --------
 
 V
--
+~
 
 VLAN
 
@@ -380,7 +381,7 @@ VNF
 --------
 
 X
--
+~
 
 XBZRLE
 
@@ -389,7 +390,7 @@ XBZRLE
 --------
 
 Y
--
+~
 
 Yardstick
 

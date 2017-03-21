@@ -39,6 +39,15 @@ function verifyGuestImage {
    fi
 }
 
+#disabling ftrace and collecting the logs to upload to artifact repository.
+function ftrace_disable {
+   sudo ssh root@${HOST_IP} "sh /root/workspace/scripts/disable_trace.sh"
+   sudo ssh root@${HOST_IP} "cd /tmp ;  mv trace.txt cyclictest_${env}.txt"
+   mkdir -p $WORKSPACE/build_output/log/kernel_trace
+   scp root@${HOST_IP}:/tmp/cyclictest_${env}.txt $WORKSPACE/build_output/log/kernel_trace/
+   sudo ssh root@${HOST_IP} "cd /tmp ; rm -rf cyclictest_${env}.txt"
+}
+
 #Verifying the availability of the host after reboot
 function connect_host {
    n=0
@@ -158,6 +167,7 @@ function runPacketForwarding {
 
 #Creating a docker image with yardstick installed and Verify the results of cyclictest
 function runCyclicTest {
+   ftrace_enable=$1
    docker_image_dir=$WORKSPACE/docker_image_build
    ( cd ${docker_image_dir}; sudo docker build  -t kvmfornfv:latest --no-cache=true . )
    if [ ${?} -ne 0 ] ; then
@@ -181,6 +191,11 @@ function runCyclicTest {
    cyclictest_output=$?
    if [ "$testName" == "iostress_idle" ];then
       copyLogs
+   fi
+
+   #Disabling ftrace after completion of executing test cases.
+   if [ ${ftrace_enable} -eq '1' ]; then
+      ftrace_disable
    fi
 
    #Verifying the results of cyclictest

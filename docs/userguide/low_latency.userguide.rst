@@ -180,7 +180,7 @@ The host is under constant Input/Output stress .i.e., multiple read-write operat
 increase stress. Cyclictest will run on the guest VM that is launched on the same host, where the guest
 is under no stress. It outputs Avg, Min and Max latency values.
 
-.. figure:: images/io-stress-test-type.png
+.. figure:: images/io-stress-idle-test-type.png
    :name: io-stress-idle test type
    :width: 100%
    :align: center

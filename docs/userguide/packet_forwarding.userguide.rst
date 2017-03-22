@@ -3,7 +3,7 @@
 .. http://creativecommons.org/licenses/by/4.0
 
 =================
-PACKET FORWARDING
+Packet Forwarding
 =================
 
 About Packet Forwarding
@@ -30,8 +30,7 @@ Version Features
 |                             | - Implements three scenarios (Host/Guest/SRIOV)   |
 |                             |   as part of testing in KVMFORNFV                 |
 |       Danube                | - Uses automated test framework of OPNFV          |
-|                             |    VSWITCHPERF software (PVP/PVVP)                |
-|                             |                                                   |
+|                             |   VSWITCHPERF software (PVP/PVVP)                 |
 |                             | - Works with IXIA Traffic Generator               |
 +-----------------------------+---------------------------------------------------+
 
@@ -47,7 +46,7 @@ VNF level testing and validation.
 
 For complete VSPERF documentation go to `link.`_
 
-.. _link.: http://artifacts.opnfv.org/vswitchperf/colorado/index.html
+.. _link.: http://artifacts.opnfv.org/vswitchperf/danube/index.html
 
 
 Installation
@@ -78,7 +77,7 @@ The vSwitch must support Open Flow 1.3 or greater.
 Supported Hypervisors
 ~~~~~~~~~~~~~~~~~~~~~
 
-* Qemu version 2.3.
+* Qemu version 2.6.
 
 Other Requirements
 ~~~~~~~~~~~~~~~~~~
@@ -91,8 +90,7 @@ environment and compilation of OVS, DPDK and QEMU is performed by
 script **systems/build_base_machine.sh**. It should be executed under
 user account, which will be used for vsperf execution.
 
- **Please Note:** Password-less sudo access must be configured for given user
-                  before script is executed.
+ **Please Note:** Password-less sudo access must be configured for given user before script is executed.
 
 Execution of installation script:
 
@@ -209,7 +207,7 @@ runs the IXIA client software and a CentOS Linux release 7.1.1503 (Core) host.
 Installation
 ~~~~~~~~~~~~
 
-Follow the [installation instructions] to install.
+Follow the installation instructions to install.
 
 On the CentOS 7 system
 ~~~~~~~~~~~~~~~~~~~~~~
@@ -379,12 +377,6 @@ l2fwd Kernel Module
 A Kernel Module that provides OSI Layer 2 Ipv4 termination or forwarding with
 support for Destination Network Address Translation (DNAT) for both the MAC and
 IP addresses. l2fwd can be found in <vswitchperf_dir>/src/l2fwd
-
-.. figure:: images/Guest_Scenario.png
-   :name: Guest_Scenario
-   :width: 100%
-   :align: center
-
 
 Executing tests
 ~~~~~~~~~~~~~~~~
@@ -614,7 +606,7 @@ Using QEMU with PCI passthrough support
 
 Raw virtual machine throughput performance can be measured by execution of PVP
 test with direct access to NICs by PCI passthrough. To execute VM with direct
-access to PCI devices, enable vfio-pci_. In order to use virtual functions,
+access to PCI devices, enable vfio-pci. In order to use virtual functions,
 SRIOV-support_ must be enabled.
 
 Execution of test with PCI passthrough with vswitch disabled:
@@ -624,10 +616,8 @@ Execution of test with PCI passthrough with vswitch disabled:
     $ ./vsperf --conf-file=<path_to_custom_conf>/10_custom.conf \
                --vswitch none --vnf QemuPciPassthrough pvp_tput
 
-Any of supported guest-loopback-application_ can be used inside VM with
+Any of supported guest-loopback-application can be used inside VM with
 PCI passthrough support.
 
 Note: Qemu with PCI passthrough support can be used only with PVP test
 deployment.
-
-.. _guest-loopback-application:

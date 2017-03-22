@@ -17,9 +17,9 @@ HW requirements
 ---------------
 
 These build scripts are triggered on the Jenkins-Slave build server. Currently
-Intel POD1 is used as test environment for kvmfornfv to execute cyclictest. As
-part of this test environment Intel pod1-jump is configured as jenkins slave
-and all the latest build artifacts are downloaded on to it. Intel pod1-node1
+Intel POD10 is used as test environment for kvmfornfv to execute cyclictest. As
+part of this test environment Intel pod10-jump is configured as jenkins slave
+and all the latest build artifacts are downloaded on to it. Intel pod10-node1
 is the host on which a guest vm will be launched as a part of running cylictest
 through yardstick.
 
@@ -28,7 +28,9 @@ Build instructions
 
 Builds are possible for the following packages-
 
-**kvmfornfv source code**- The ./ci/build.sh is the main script used to trigger
+**kvmfornfv source code**
+
+The ./ci/build.sh is the main script used to trigger
 the Rpms (on 'centos') and Debians (on 'ubuntu') builds in this case.
 
 * How to build Kernel/Qemu Rpms- To build rpm packages, build.sh script is run

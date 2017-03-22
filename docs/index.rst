@@ -62,8 +62,8 @@ KVMFORNFV Configuration Guide
 
    ./configurationguide/abstract.rst
    ./configurationguide/configuration.options.render.rst
-   ./configurationguide/low-latency.feature.configuration.description.rst
    ./configurationguide/scenariomatrix.rst
+   ./configurationguide/low-latency.feature.configuration.description.rst
 
 ********************************************
 KVMFORNFV Scenarios Overview and Description

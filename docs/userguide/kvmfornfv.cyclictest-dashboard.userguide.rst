@@ -15,7 +15,7 @@ Abstract
 This chapter explains the procedure to configure the InfluxDB and Grafana on Node1 or Node2
 depending on the testtype to publish KVM4NFV test results. The cyclictest cases are executed
 and results are published on Yardstick Dashboard(Grafana). InfluxDB is the database which will
-store the cyclictest results and Grafana is a visualisation suite to view the maximum,minumum and
+store the cyclictest results and Grafana is a visualisation suite to view the maximum,minimum and
 average values of the time series data of cyclictest results.The framework is shown in below image.
 
 .. figure:: images/dashboard-architecture.png
@@ -263,7 +263,7 @@ Note:
 
 1. Idle-Idle Graph
 ~~~~~~~~~~~~~~~~~~~~
-`Idle-Idle`_ graph displays the Average,Maximum and Minimum latency values obtained by running Idle_Idle test-type of the cyclictest. Idle_Idleimplies that no stress is applied on the Host or the Guest.
+`Idle-Idle`_ graph displays the Average, Maximum and Minimum latency values obtained by running Idle_Idle test-type of the cyclictest. Idle_Idle implies that no stress is applied on the Host or the Guest.
 
 .. _Idle-Idle: http://testresults.opnfv.org/grafana/dashboard/db/kvmfornfv-cyclictest?panelId=10&fullscreen
 
@@ -274,7 +274,7 @@ Note:
 
 2. CPU_Stress-Idle Graph
 ~~~~~~~~~~~~~~~~~~~~~~~~~
-`Cpu_Stress-Idle`_ graph displays the Average,Maximum and Minimum latency values obtained by running Idle_Idle test-type of the cyclictest. Idle_Idle implies that CPU stress is applied on the Host and no stress on the Guest.
+`Cpu_Stress-Idle`_ graph displays the Average, Maximum and Minimum latency values obtained by running Cpu-stress_Idle test-type of the cyclictest. Cpu-stress_Idle implies that CPU stress is applied on the Host and no stress on the Guest.
 
 .. _Cpu_stress-Idle: http://testresults.opnfv.org/grafana/dashboard/db/kvmfornfv-cyclictest?panelId=11&fullscreen
 
@@ -285,7 +285,7 @@ Note:
 
 3. Memory_Stress-Idle Graph
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-`Memory_Stress-Idle`_ graph displays the Average,Maximum and Minimum latency values obtained by running Idle_Idle test-type of the Cyclictest. Idle_Idle implies that Memory stress is applied on the Host and no stress on the Guest.
+`Memory_Stress-Idle`_ graph displays the Average, Maximum and Minimum latency values obtained by running Memory-stress_Idle test-type of the Cyclictest. Memory-stress_Idle implies that Memory stress is applied on the Host and no stress on the Guest.
 
 .. _Memory_Stress-Idle: http://testresults.opnfv.org/grafana/dashboard/db/kvmfornfv-cyclictest?panelId=12&fullscreen
 
@@ -296,7 +296,7 @@ Note:
 
 4. IO_Stress-Idle Graph
 ~~~~~~~~~~~~~~~~~~~~~~~~~
-`IO_Stress-Idle`_ graph displays the Average,Maximum and Minimum latency values obtained by running Idle_Idle test-type of the Cyclictest. Idle_Idle implies that IO stress is applied on the Host and no stress on the Guest.
+`IO_Stress-Idle`_ graph displays the Average, Maximum and Minimum latency values obtained by running IO-stress_Idle test-type of the Cyclictest. IO-stress_Idle implies that IO stress is applied on the Host and no stress on the Guest.
 
 .. _IO_Stress-Idle: http://testresults.opnfv.org/grafana/dashboard/db/kvmfornfv-cyclictest?panelId=13&fullscreen
 

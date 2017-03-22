@@ -108,10 +108,10 @@ function execute_vsperf() {
             # figure out log file name
             LOG_SUBDIR="OvsDpdkVhost"
             LOG_FILE="${LOG_FILE_PREFIX}_${LOG_SUBDIR}_${DATE_SUFFIX}.log"
-            echo "    $VSPERF_BIN $OPNFVPOD --vswitch OvsDpdkVhost --vnf QemuDpdkVhostUser $CONF_FILE $TESTPARAM $TESTCASES > $LOG_FILE"
-            echo "daily test cases started"
             cd $HOME/vswitchperf
             $VSPERF_BIN --list
+            echo "daily test cases started"
+            echo "    $VSPERF_BIN --vswitch OvsDpdkVhost --vnf QemuDpdkVhostUser $CONF_FILE $TESTPARAM $TESTCASES > $LOG_FILE"
             $VSPERF_BIN  --vswitch OvsDpdkVhost --vnf QemuDpdkVhostUser $CONF_FILE $TESTPARAM $TESTCASES &>> $LOG_FILE
             ;;
     esac
@@ -146,8 +146,8 @@ function execute_vsperf() {
 
     # copy logs into dedicated directory
     mkdir -p ${TEST_REPORT_LOG_DIR}/${LOG_SUBDIR}
-    [ -f "$LOG_FILE" ] && cp -a "${LOG_FILE}" "${TEST_REPORT_LOG_DIR}/${LOG_SUBDIR}" &> /dev/null
-    [ -d "$RES_DIR" ] && cp -ar "$RES_DIR" "${TEST_REPORT_LOG_DIR}/${LOG_SUBDIR}" &> /dev/null
+    [ -f "$LOG_FILE" ] && mv "${LOG_FILE}" "${TEST_REPORT_LOG_DIR}/${LOG_SUBDIR}" &> /dev/null
+    [ -d "$RES_DIR" ] && mv "$RES_DIR" "${TEST_REPORT_LOG_DIR}/${LOG_SUBDIR}" &> /dev/null
 }
 
 #Install vsperf and set up the environment
@@ -159,9 +159,9 @@ install_qemu
 # execute job based on passed parameter
 case $1 in
     "daily")
-        echo "================"
-        echo "VSPERF daily job"
-        echo "================"
+        echo "========================================================"
+        echo "KVM4NFV daily job executing packet forwarding test cases"
+        echo "========================================================"
         execute_vsperf OVS_with_DPDK_and_vHost_User $1
         execute_vsperf SRIOV $1
         exit $EXIT

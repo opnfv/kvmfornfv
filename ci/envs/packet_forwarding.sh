@@ -108,10 +108,10 @@ function execute_vsperf() {
             # figure out log file name
             LOG_SUBDIR="OvsDpdkVhost"
             LOG_FILE="${LOG_FILE_PREFIX}_${LOG_SUBDIR}_${DATE_SUFFIX}.log"
-            echo "    $VSPERF_BIN $OPNFVPOD --vswitch OvsDpdkVhost --vnf QemuDpdkVhostUser $CONF_FILE $TESTPARAM $TESTCASES > $LOG_FILE"
-            echo "daily test cases started"
             cd $HOME/vswitchperf
             $VSPERF_BIN --list
+            echo "daily test cases started"
+            echo "    $VSPERF_BIN --vswitch OvsDpdkVhost --vnf QemuDpdkVhostUser $CONF_FILE $TESTPARAM $TESTCASES > $LOG_FILE"
             $VSPERF_BIN  --vswitch OvsDpdkVhost --vnf QemuDpdkVhostUser $CONF_FILE $TESTPARAM $TESTCASES &>> $LOG_FILE
             ;;
     esac
@@ -159,9 +159,9 @@ install_qemu
 # execute job based on passed parameter
 case $1 in
     "daily")
-        echo "================"
-        echo "VSPERF daily job"
-        echo "================"
+        echo "========================================================"
+        echo "KVM4NFV daily job executing packet forwarding test cases"
+        echo "========================================================"
         execute_vsperf OVS_with_DPDK_and_vHost_User $1
         execute_vsperf SRIOV $1
         exit $EXIT

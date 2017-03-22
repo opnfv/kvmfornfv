@@ -84,19 +84,19 @@ Feature additions
 | **JIRA REFERENCE**                   | **SLOGAN**                           |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
-| JIRA:                                | NFV Hypervisors-KVMKVMFORNFV-34      |
+| JIRA:                                | NFV Hypervisors-KVMFORNFV-34         |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
-| JIRA:                                | NFV Hypervisors-KVMKVMFORNFV-57      |
+| JIRA:                                | NFV Hypervisors-KVMFORNFV-57         |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
-| JIRA:                                | NFV Hypervisors-KVMKVMFORNFV-58      |
+| JIRA:                                | NFV Hypervisors-KVMFORNFV-58         |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
-| JIRA:                                | NFV Hypervisors-KVMKVMFORNFV-59      |
+| JIRA:                                | NFV Hypervisors-KVMFORNFV-59         |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
-| JIRA:                                | NFV Hypervisors-KVMKVMFORNFV-60      |
+| JIRA:                                | NFV Hypervisors-KVMFORNFV-60         |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
 
@@ -129,7 +129,7 @@ Known issues
 | **JIRA REFERENCE**                   | **SLOGAN**                           |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
-| JIRA:                                |                                      |
+| JIRA:                                | NFV Hypervisors-KVMFORNFV-75         |
 +--------------------------------------+--------------------------------------+
 | JIRA:                                |                                      |
 +--------------------------------------+--------------------------------------+
@@ -137,7 +137,7 @@ Known issues
 
 Workarounds
 -----------
-See JIRA: <link>
+See JIRA: https://jira.opnfv.org/projects
 
 
 References

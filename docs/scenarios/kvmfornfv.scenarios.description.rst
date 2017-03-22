@@ -2,11 +2,11 @@
 
 .. http://creativecommons.org/licenses/by/4.0
 
-========================
-KVM4NFV SCENARIO-TESTING
-========================
+==============================
+KVMFORNFV Scenario-Description
+==============================
 
-ABSTRACT
+Abstract
 --------
 
 This document describes the procedure to deploy/test KVM4NFV scenarios in a nested virtualization
@@ -40,7 +40,7 @@ Version Features
 +-----------------------------+---------------------------------------------+
 
 
-INTRODUCTION
+Introduction
 ------------
 The purpose of os-nosdn-kvm_ovs_dpdk-ha,os-nosdn-kvm_ovs_dpdk_bar-ha and
 os-nosdn-kvm_ovs_dpdk-noha,os-nosdn-kvm_ovs_dpdk_bar-noha scenarios testing is to
@@ -60,8 +60,8 @@ multi-node setup with 1 Fuel-Master,1 controllers and 3 computes nodes.
 KVMFORNFV packages will be installed on compute nodes as part of deployment.
 The scenario testcase deploys a multi-node setup by using OPNFV Fuel deployer.
 
-1. System pre-requisites
-------------------------
+System pre-requisites
+---------------------
 
 - RAM - Minimum 16GB
 - HARD DISK - Minimum 500GB
@@ -98,11 +98,11 @@ If Nested virtualization is disabled, enable it by,
        EOF
      $ sudo reboot
 
-2. Environment Setup
---------------------
+Environment Setup
+-----------------
 
-**2.1  Configuring Proxy**
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+** Configuring Proxy**
+~~~~~~~~~~~~~~~~~~~~~~
 
 For **Ubuntu**.,
 Create an apt.conf file in /etc/apt if it doesn't exist. Used to set proxy for apt-get if working behind a proxy server.
@@ -121,8 +121,8 @@ Edit /etc/yum.conf to work behind a proxy server by adding the below line.
 
    $ echo "proxy=http://<username>:<password>@<proxy>:<port>/" >> /etc/yum.conf
 
-**2.2 Network Time Protocol (NTP) setup and configuration**
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+**Network Time Protocol (NTP) setup and configuration**
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Install ntp by:
 
@@ -146,24 +146,24 @@ Restart the ntp server to apply the changes
 
     $ sudo service ntp restart
 
-3. Scenario Testing
--------------------
+Scenario Testing
+----------------
 
 There are three ways of performing scenario testing,
-    - 3.1 Fuel
-    - 3.2 OPNFV-Playground
-    - 3.3 Jenkins Project
+    - 1 Fuel
+    - 2 OPNFV-Playground
+    - 3 Jenkins Project
 
-3.1 Fuel
-~~~~~~~~
+Fuel
+~~~~
 
-**3.1.1 Clone the fuel repo :**
+**1 Clone the fuel repo :**
 
 .. code:: bash
 
    $ git clone https://gerrit.opnfv.org/gerrit/fuel.git
 
-**3.1.2 Checkout to the specific version of the branch to deploy by:**
+**2 Checkout to the specific version of the branch to deploy by:**
 
 The default branch is master, to use a stable release-version use the below.,
 
@@ -174,7 +174,7 @@ The default branch is master, to use a stable release-version use the below.,
     To check out a specific branch
     $ git checkout stable/Colorado
 
-**3.1.3  Building the Fuel iso :**
+**3  Building the Fuel iso :**
 
 .. code:: bash
 
@@ -197,7 +197,7 @@ Create a ``customized iso`` as per the deployment needs.
 
    http://artifacts.opnfv.org/fuel.html
 
-**3.1.4 Creating a new deployment scenario**
+**4 Creating a new deployment scenario**
 
 ``(i). Naming the scenario file:``
 
@@ -208,6 +208,7 @@ Include the new deployment scenario yaml file in ~/fuel/deploy/scenario/. The fi
     <ha | no-ha>_<SDN Controller>_<feature-1>_..._<feature-n>.yaml
 
 ``(ii). Meta data``
+
 The deployment configuration file should contain configuration metadata as stated below:
 
 .. code:: bash
@@ -218,7 +219,8 @@ The deployment configuration file should contain configuration metadata as state
                       created:
 
 ``(iii). “stack-extentions” Module``
- To include fuel plugins in the deployment configuration file, use the “stack-extentions” key:
+
+To include fuel plugins in the deployment configuration file, use the “stack-extentions” key:
 
 .. code:: bash
 
@@ -233,9 +235,11 @@ The deployment configuration file should contain configuration metadata as state
 **Note:**
 The “module-config-name” and “module-config-version” should be same as the name of plugin configuration file.
 
-The “module-config-override” is used to configure the plugin by overrriding the corresponding keys in the plugin config yaml file present in ~/fuel/deploy/config/plugins/.
+The “module-config-override” is used to configure the plugin by overrriding the corresponding keys in
+the plugin config yaml file present in ~/fuel/deploy/config/plugins/.
 
 ``(iv).  “dea-override-config” Module``
+
 To configure the HA/No-HA mode, network segmentation types and role to node assignments, use the “dea-override-config” key.
 
 .. code:: bash
@@ -284,10 +288,12 @@ and {nodes:1,2,...} and can also enable additional stack features such ceph,heat
 corresponding keys in the dea_base.yaml and dea_pod_override.yaml.
 
 ``(v). “dha-override-config”  Module``
+
 In order to configure the pod dha definition, use the “dha-override-config” key.
 This is an optional key present at the ending of the scenario file.
 
 ``(vi). Mapping to short scenario name``
+
 The scenario.yaml file is used to map the short names of scenario's to the one or more deployment scenario configuration yaml files.
 The short scenario names should follow the scheme below:
 
@@ -334,8 +340,7 @@ Note:
 
 - ( _ ) used to separate the values belong to the same field. [os-nosdn-kvm_ovs_bar-ha].
 
-**3.1.5 Deploying the scenario**
-
+**5 Deploying the scenario**
 
 Command to deploy the os-nosdn-kvm_ovs_dpdk-ha scenario:
 
@@ -364,8 +369,8 @@ where,
            Check $ sudo ./deploy.sh -h for further information.
 
 
-3.2 OPNFV-Playground
-~~~~~~~~~~~~~~~~~~~~
+OPNFV-Playground
+~~~~~~~~~~~~~~~~
 
 Install OPNFV-playground (the tool chain to deploy/test CI scenarios in fuel@opnfv, ):
 
@@ -384,17 +389,20 @@ Install OPNFV-playground (the tool chain to deploy/test CI scenarios in fuel@opn
 
 
 
-``3.2.1 Downgrade paramiko package from 2.x.x to 1.10.0``
+``1 Downgrade paramiko package from 2.x.x to 1.10.0``
 
 The paramiko package 2.x.x doesn’t work with OPNFV-playground  tool chain now, Jira ticket FUEL - 188 has been raised for the same.
 
 Check paramiko package version by following below steps in your system:
 
-$ python
-Python 2.7.6 (default, Jun 22 2015, 17:58:13) [GCC 4.8.2] on linux2 Type "help", "copyright", "credits" or "license" for more information.
->>> import paramiko
->>> print paramiko.__version__
->>> exit()
+.. code:: bash
+
+   $ python
+   Python 2.7.6 (default, Jun 22 2015, 17:58:13) [GCC 4.8.2] on linux2 Type "help", "copyright", "credits" or "license" for more information.
+
+   >>> import paramiko
+   >>> print paramiko.__version__
+   >>> exit()
 
 You will get the current paramiko package version, if it is 2.x.x, uninstall this version by
 
@@ -419,7 +427,7 @@ Verify it by following:
    >>> exit()
 
 
-``3.2.2  Clone the fuel@opnfv``
+``2  Clone the fuel@opnfv``
 
 Check out the specific version of specific branch of fuel@opnfv
 
@@ -432,11 +440,11 @@ Check out the specific version of specific branch of fuel@opnfv
    $ git checkout stable/Danube
 
 
-``3.2.3 Creating the scenario``
+``3 Creating the scenario``
 
 Implement the scenario file as described in 3.1.4
 
-``3.2.4 Deploying the scenario``
+``4 Deploying the scenario``
 
 You can use the following command to deploy/test os-nosdn kvm_ovs_dpdk-(no)ha and os-nosdn-kvm_ovs_dpdk_bar-(no)ha scenario
 
@@ -469,15 +477,15 @@ Note:
    Check $ ./ci_pipeline.sh -h for further information.
 
 
-3.3 Jenkins Project
-~~~~~~~~~~~~~~~~~~~
+Jenkins Project
+~~~~~~~~~~~~~~~
 
 os-nosdn-kvm_ovs_dpdk-(no)ha and os-nosdn-kvm_ovs_dpdk_bar-(no)ha scenario can be executed from the jenkins project :
 
-    HA scenarios:
+    ``HA scenarios:``
         1.  "fuel-os-nosdn-kvm_ovs_dpdk-ha-baremetal-daily-master" (os-nosdn-kvm_ovs_dpdk-ha)
         2.  "fuel-os-nosdn-kvm_ovs_dpdk_bar-ha-baremetal-daily-master" (os-nosdn-kvm_ovs_dpdk_bar-ha)
 
-    NOHA scenarios:
-       1.  "fuel-os-nosdn-kvm_ovs_dpdk-noha-baremetal-daily-master" (os-nosdn-kvm_ovs_dpdk-noha)
-       2.  "fuel-os-nosdn-kvm_ovs_dpdk_bar-noha-baremetal-daily-master" (os-nosdn-kvm_ovs_dpdk_bar-noha)
+    ``NOHA scenarios:``
+       1.  "fuel-os-nosdn-kvm_ovs_dpdk-noha-virtual-daily-master" (os-nosdn-kvm_ovs_dpdk-noha)
+       2.  "fuel-os-nosdn-kvm_ovs_dpdk_bar-noha-virtual-daily-master" (os-nosdn-kvm_ovs_dpdk_bar-noha)

@@ -80,10 +80,10 @@ Parameters
 |    Mem Ch 3: Reads (MB/s): 6867.47    |    Mem Ch 3: Reads (MB/s): 7403.66    |
 |              Writes(MB/s): 1805.53    |              Writes(MB/s): 1950.95    |
 |                                       |                                       |
-|    NODE0 Mem Read (MB/s):  27478.96   |    NODE1 Mem Read (MB/s):  29624.51   |
+|    NODE0 Mem Read (MB/s) :  27478.96  |    NODE1 Mem Read (MB/s) :  29624.51  |
 |    NODE0 Mem Write (MB/s):  7225.79   |    NODE1 Mem Write (MB/s):  7811.36   |
-|    NODE0 P. Write (T/s) :    214810   |    NODE1 P. Write (T/s):     238294   |
-|    NODE0 Memory (MB/s):    34704.75   |    NODE1 Memory (MB/s):    37435.87   |
+|    NODE0 P. Write (T/s)  :  214810    |    NODE1 P. Write (T/s)  :  238294    |
+|    NODE0 Memory (MB/s)   :  34704.75  |    NODE1 Memory (MB/s)   :  37435.87  |
 +---------------------------------------+---------------------------------------+
 |                    - System Read Throughput(MB/s):  57103.47                  |
 |                    - System Write Throughput(MB/s):  15037.15                 |
@@ -121,9 +121,9 @@ In install_Pcm function, it handles the installation of pcm utility and the requ
 
 .. code:: bash
 
-   git clone https://github.com/opcm/pcm
-   cd pcm
-   make
+   $ git clone https://github.com/opcm/pcm
+   $ cd pcm
+   $ make
 
 In collect_MBWInfo Function,the below command is executed on the node which was collected to the logs
 with the timestamp and testType.The function will be called at the begining of each testcase and
@@ -131,7 +131,7 @@ signal will be passed to terminate the pcm-memory process which was executing th
 
 .. code:: bash
 
-  pcm-memory.x 60 &>/root/MBWInfo/MBWInfo_${testType}_${timeStamp}
+  $ pcm-memory.x 60 &>/root/MBWInfo/MBWInfo_${testType}_${timeStamp}
 
   where,
   ${testType} = verify (or) daily

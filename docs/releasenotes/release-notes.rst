@@ -15,18 +15,18 @@ This document provides the release notes for Danube 1.0 release of KVMFORNFV.
 
 **Contents**
 
- 1  Version History
+ **1  Version History**
 
- 2  Important notes
+ **2  Important notes**
 
- 3  Summary
+ **3  Summary**
 
- 4  Delivery Data
+ **4  Delivery Data**
 
- 5  References
+ **5  References**
 
-1.  Version history
---------------------
+Version history
+---------------
 
 +--------------------+--------------------+--------------------+----------------------+
 | **Date**           | **Ver.**           | **Author**         | **Comment**          |
@@ -39,13 +39,13 @@ This document provides the release notes for Danube 1.0 release of KVMFORNFV.
 |                    |                    |                    |                      |
 +--------------------+--------------------+--------------------+----------------------+
 
-2.  Important notes
---------------------
+Important notes
+---------------
 
 The KVMFORNFV project is currently supported on the Fuel installer.
 
-3.  Summary
-------------
+Summary
+-------
 
 This Danube 1.0 release provides *KVMFORNFV* as a framework to enhance the
 KVM Hypervisor for NFV and OPNFV scenario testing, automated in the OPNFV
@@ -57,9 +57,9 @@ CI pipeline, including:
 
 *   Cyclictests execution to check the latency
 
-*   “os-sdn-kvm-ha”,“os-sdn-kvm-_nfv_ovs_dpdk-ha”,“os-sdn-kvm_nfv_ovs_dpdk-noha”,“os-sdn-kvm_nfv_ovs_dpdk_bar-ha”,“os-sdn-kvm_nfv_ovs_dpdk_bar-noha” Scenarios testing for high availability configuration using Fuel installer
+*   “os-nosdn-kvm-ha”,“os-nosdn-kvm_nfv_ovs_dpdk-ha”,“os-nosdn-kvm_nfv_ovs_dpdk-noha”,“os-nosdn-kvm_nfv_ovs_dpdk_bar-ha”,“os-nosdn-kvm_nfv_ovs_dpdk_bar-noha” Scenarios testing for ``high availability/no-high avaliability`` configuration using Fuel installer
 
-* Documentation created
+* Documentation created for,
 
   * User Guide
 
@@ -69,11 +69,13 @@ CI pipeline, including:
 
   * Release notes (this document)
 
+  * Scenarios
+
 The *KVMFORNFV framework* is developed in the OPNFV community, by the
 KVMFORNFV_ team.
 
-4.  Release Data
------------------
+Release Data
+------------
 
 +--------------------------------------+--------------------------------------+
 | **Project**                          | NFV Hypervisors-KVM                  |
@@ -92,16 +94,16 @@ KVMFORNFV_ team.
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
 
-4.1 Version change
-------------------
+Version change
+--------------
 
-4.1.1   Module version changes
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1   Module version changes
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 This is the Danube 1.0 main release. It is based on following upstream
 versions:
 
-*   RT Kernel 4.4.6-rt14
+*   RT Kernel 4.4.50-rt62
 
 *   QEMU 2.6
 
@@ -110,59 +112,59 @@ versions:
 This is the second tracked release of KVMFORNFV
 
 
-4.1.2   Document version changes
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+2   Document version changes
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 This is the initial version of the KVMFORNFV framework in OPNFV.
 
-4.2 Reason for version
-----------------------
+Reason for version
+------------------
 
-4.2.1 Feature additions
-~~~~~~~~~~~~~~~~~~~~~~~
+1 Feature additions
+~~~~~~~~~~~~~~~~~~~
 
 +--------------------------------------+--------------------------------------+
 | **JIRA REFERENCE**                   | **SLOGAN**                           |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
-| JIRA:                                | NFV Hypervisors-KVMKVMFORNFV-57      |
+| JIRA:                                | NFV Hypervisors-KVMFORNFV-57         |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
-| JIRA:                                | NFV Hypervisors-KVMKVMFORNFV-58      |
+| JIRA:                                | NFV Hypervisors-KVMFORNFV-58         |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
-| JIRA:                                | NFV Hypervisors-KVMKVMFORNFV-59      |
+| JIRA:                                | NFV Hypervisors-KVMFORNFV-59         |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
-| JIRA:                                | NFV Hypervisors-KVMKVMFORNFV-61      |
+| JIRA:                                | NFV Hypervisors-KVMFORNFV-61         |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
-| JIRA:                                | NFV Hypervisors-KVMKVMFORNFV-62      |
+| JIRA:                                | NFV Hypervisors-KVMFORNFV-62         |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
-| JIRA:                                | NFV Hypervisors-KVMKVMFORNFV-63      |
+| JIRA:                                | NFV Hypervisors-KVMFORNFV-63         |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
-| JIRA:                                | NFV Hypervisors-KVMKVMFORNFV-64      |
+| JIRA:                                | NFV Hypervisors-KVMFORNFV-64         |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
-| JIRA:                                | NFV Hypervisors-KVMKVMFORNFV-65      |
+| JIRA:                                | NFV Hypervisors-KVMFORNFV-65         |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
 
-4.2.2 Bug corrections
-~~~~~~~~~~~~~~~~~~~~~
+2 Bug corrections
+~~~~~~~~~~~~~~~~~
 
 Initial Release
 
-4.3 Deliverables
-----------------
+Deliverables
+------------
 
-4.3.1   Software deliverables
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1   Software deliverables
+~~~~~~~~~~~~~~~~~~~~~~~~~
 Danube 1.0 release of the KVMFORNFV RPM and debian for Fuel.
 
-4.3.2   Documentation deliverables
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+2   Documentation deliverables
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The below documents are delivered for Danube KVMFORNFV Release:
 
@@ -180,8 +182,8 @@ The below documents are delivered for Danube KVMFORNFV Release:
 
   * Scenarios
 
-5. References
---------------
+References
+----------
 
 For more information on the KVMFORNFV Danube release, please see:
 

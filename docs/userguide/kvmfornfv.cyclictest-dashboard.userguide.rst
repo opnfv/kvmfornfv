@@ -15,7 +15,7 @@ Abstract
 This chapter explains the procedure to configure the InfluxDB and Grafana on Node1 or Node2
 depending on the testtype to publish KVM4NFV test results. The cyclictest cases are executed
 and results are published on Yardstick Dashboard(Grafana). InfluxDB is the database which will
-store the cyclictest results and Grafana is a visualisation suite to view the maximum,minumum and
+store the cyclictest results and Grafana is a visualisation suite to view the maximum,minimum and
 average values of the time series data of cyclictest results.The framework is shown in below image.
 
 .. figure:: images/dashboard-architecture.png
@@ -98,7 +98,8 @@ Three type of dispatcher methods are available to store the cyclictest results.
 
 **1. File**:  Default Dispatcher module is file. If the dispatcher module is configured as a file,then the test results are stored in a temporary file yardstick.out
 ( default path: /tmp/yardstick.out).
-Dispatcher module of "Verify Job" is "Default". So,the results are stored in Yardstick.out file for verify job. Storing all the verify jobs in InfluxDB database causes redundancy of latency values. Hence, a File output format is prefered.
+Dispatcher module of "Verify Job" is "Default". So,the results are stored in Yardstick.out file for verify job.
+Storing all the verify jobs in InfluxDB database causes redundancy of latency values. Hence, a File output format is prefered.
 
 .. code:: bash
 
@@ -111,7 +112,8 @@ Dispatcher module of "Verify Job" is "Default". So,the results are stored in Yar
     max_bytes = 0
     backup_count = 0
 
-**2. Influxdb**: If the dispatcher module is configured as influxdb, then the test results are stored in Influxdb. Users can check test resultsstored in the Influxdb(Database) on Grafana which is used to visualize the time series data.
+**2. Influxdb**: If the dispatcher module is configured as influxdb, then the test results are stored in Influxdb.
+Users can check test resultsstored in the Influxdb(Database) on Grafana which is used to visualize the time series data.
 
 To configure the influxdb, the following content in /etc/yardstick/yardstick.conf need to updated
 
@@ -148,7 +150,8 @@ Dispatcher module of "Daily Job" is Influxdb. So, the results are stored in infl
 Detailing the dispatcher module in verify and daily Jobs:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-KVM4NFV updates the dispatcher module in the yardstick configuration file(/etc/yardstick/yardstick.conf) depending on the Job type(Verify/Daily). Once the test is completed, results are published to the respective dispatcher modules.
+KVM4NFV updates the dispatcher module in the yardstick configuration file(/etc/yardstick/yardstick.conf) depending on the Job type(Verify/Daily).
+Once the test is completed, results are published to the respective dispatcher modules.
 
 Dispatcher module is configured for each Job type as mentioned below.
 
@@ -198,7 +201,8 @@ Influxdb api which is already implemented in `Influxdb`_ will post the data in l
 
 ``Displaying Results on Grafana dashboard:``
 
-- Once the test results are stored in Influxdb, dashboard configuration file(Json) which used to display the cyclictest results on Grafana need to be created by following the `Grafana-procedure`_ and then pushed into `yardstick-repo`_
+- Once the test results are stored in Influxdb, dashboard configuration file(Json) which used to display the cyclictest results
+on Grafana need to be created by following the `Grafana-procedure`_ and then pushed into `yardstick-repo`_
 
 - Grafana can be accessed at `Login`_ using credentials opnfv/opnfv and used for visualizing the collected test data as shown in `Visual`_\
 
@@ -263,7 +267,8 @@ Note:
 
 1. Idle-Idle Graph
 ~~~~~~~~~~~~~~~~~~~~
-`Idle-Idle`_ graph displays the Average,Maximum and Minimum latency values obtained by running Idle_Idle test-type of the cyclictest. Idle_Idleimplies that no stress is applied on the Host or the Guest.
+`Idle-Idle`_ graph displays the Average, Maximum and Minimum latency values obtained by running Idle_Idle test-type of the cyclictest.
+Idle_Idle implies that no stress is applied on the Host or the Guest.
 
 .. _Idle-Idle: http://testresults.opnfv.org/grafana/dashboard/db/kvmfornfv-cyclictest?panelId=10&fullscreen
 
@@ -274,7 +279,8 @@ Note:
 
 2. CPU_Stress-Idle Graph
 ~~~~~~~~~~~~~~~~~~~~~~~~~
-`Cpu_Stress-Idle`_ graph displays the Average,Maximum and Minimum latency values obtained by running Idle_Idle test-type of the cyclictest. Idle_Idle implies that CPU stress is applied on the Host and no stress on the Guest.
+`Cpu_Stress-Idle`_ graph displays the Average, Maximum and Minimum latency values obtained by running Cpu-stress_Idle test-type of the cyclictest.
+Cpu-stress_Idle implies that CPU stress is applied on the Host and no stress on the Guest.
 
 .. _Cpu_stress-Idle: http://testresults.opnfv.org/grafana/dashboard/db/kvmfornfv-cyclictest?panelId=11&fullscreen
 
@@ -285,7 +291,8 @@ Note:
 
 3. Memory_Stress-Idle Graph
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-`Memory_Stress-Idle`_ graph displays the Average,Maximum and Minimum latency values obtained by running Idle_Idle test-type of the Cyclictest. Idle_Idle implies that Memory stress is applied on the Host and no stress on the Guest.
+`Memory_Stress-Idle`_ graph displays the Average, Maximum and Minimum latency values obtained by running Memory-stress_Idle test-type of the Cyclictest.
+Memory-stress_Idle implies that Memory stress is applied on the Host and no stress on the Guest.
 
 .. _Memory_Stress-Idle: http://testresults.opnfv.org/grafana/dashboard/db/kvmfornfv-cyclictest?panelId=12&fullscreen
 
@@ -296,7 +303,8 @@ Note:
 
 4. IO_Stress-Idle Graph
 ~~~~~~~~~~~~~~~~~~~~~~~~~
-`IO_Stress-Idle`_ graph displays the Average,Maximum and Minimum latency values obtained by running Idle_Idle test-type of the Cyclictest. Idle_Idle implies that IO stress is applied on the Host and no stress on the Guest.
+`IO_Stress-Idle`_ graph displays the Average, Maximum and Minimum latency values obtained by running IO-stress_Idle test-type of the Cyclictest.
+IO-stress_Idle implies that IO stress is applied on the Host and no stress on the Guest.
 
 .. _IO_Stress-Idle: http://testresults.opnfv.org/grafana/dashboard/db/kvmfornfv-cyclictest?panelId=13&fullscreen
 

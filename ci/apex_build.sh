@@ -5,11 +5,13 @@ build_dir=/opt/kvmfornfv/
 mkdir -p /tmp/kvmfornfv
 SRC=/tmp/kvmfornfv
 source ${build_dir}/ci/apex.conf
+#Cloning into /tmp/kvmfornfv
 cd $SRC
-#Cloning into /tmp/kvmfornfv from local repository
-git clone $build_dir $SRC
-if [ "$branch" == "master" ] || [ "$branch" == "danube" ];then
-   echo "Checking out on $branch branch"
+if [[ "$branch" == "master" ]] || [[ "$branch" == *"danube"* ]];then
+   git branch
+   echo "Cloning the repository of $branch"
+   git clone -b $branch https://gerrit.opnfv.org/gerrit/kvmfornfv.git /tmp/kvmfornfv
+   git branch
    echo "Commit-id is ${commit_id}"
    git checkout -f ${commit_id}
    if [ $? -ne 0 ];then

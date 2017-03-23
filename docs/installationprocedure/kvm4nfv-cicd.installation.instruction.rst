@@ -17,7 +17,7 @@ HW requirements
 ---------------
 
 These build scripts are triggered on the Jenkins-Slave build server. Currently
-Intel POD10 is used as test environment for kvmfornfv to execute cyclictest. As
+Intel POD10 is used as test environment for kvm4nfv to execute cyclictest. As
 part of this test environment Intel pod10-jump is configured as jenkins slave
 and all the latest build artifacts are downloaded on to it. Intel pod10-node1
 is the host on which a guest vm will be launched as a part of running cylictest

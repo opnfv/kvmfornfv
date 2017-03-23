@@ -2,9 +2,9 @@
 
 .. http://creativecommons.org/licenses/by/4.0
 
-=========================
-KVMFORNFV Dashboard Guide
-=========================
+=======================
+KVM4NFV Dashboard Guide
+=======================
 
 Dashboard for KVM4NFV Daily Test Results
 ----------------------------------------
@@ -48,7 +48,7 @@ Version Features
 
 Installation Steps:
 -------------------
-To configure Yardstick, InfluxDB and Grafana for KVMFORNFV project following sequence of steps are followed:
+To configure Yardstick, InfluxDB and Grafana for KVM4NFV project following sequence of steps are followed:
 
 **Note:**
 
@@ -229,10 +229,10 @@ on Grafana need to be created by following the `Grafana-procedure`_ and then pus
 
 .. _GrafanaDoc: http://docs.grafana.org/
 
-Understanding Kvmfornfv Grafana Dashboard
-------------------------------------------
+Understanding Kvm4nfv Grafana Dashboard
+---------------------------------------
 
-The Kvmfornfv dashboard found at http://testresults.opnfv.org/ currently supports graphical view of cyclictest. For viewing Kvmfornfv dashboarduse,
+The Kvm4nfv dashboard found at http://testresults.opnfv.org/ currently supports graphical view of cyclictest. For viewing Kvm4nfv dashboarduse,
 
 .. code:: bash
 

@@ -2,7 +2,7 @@
 .. http://creativecommons.org/licenses/by/4.0
 
 ================
-KVMFORNFV Design
+KVM4NFV Design
 ================
 
 .. toctree::

@@ -16,9 +16,9 @@ Overview of Documentation
 
    ./overview/kvmfornfv_overview.rst
 
-********************************
-KVMFORNFV Installation Procedure
-********************************
+******************************
+KVM4NFV Installation Procedure
+******************************
 
 .. toctree::
    :caption: Installation Procedure
@@ -29,9 +29,9 @@ KVMFORNFV Installation Procedure
    ./installationprocedure/kvm4nfv-cicd.installation.instruction.rst
    ./installationprocedure/kvm4nfv-cicd.release.notes.rst
 
-**********************
-KVMFORNFV Design Guide
-**********************
+********************
+KVM4NFV Design Guide
+********************
 
 .. toctree::
    :caption: Design Overview and Description
@@ -40,9 +40,9 @@ KVMFORNFV Design Guide
 
    ./design/kvmfornfv_design.rst
 
-****************************
-KVMFORNFV Requirements Guide
-****************************
+**************************
+KVM4NFV Requirements Guide
+**************************
 
 .. toctree::
    :caption: Requirements
@@ -51,9 +51,9 @@ KVMFORNFV Requirements Guide
 
    ./requirements/kvmfornfv_requirements.rst
 
-*****************************
-KVMFORNFV Configuration Guide
-*****************************
+***************************
+KVM4NFV Configuration Guide
+***************************
 
 .. toctree::
    :caption: Configuration Guide
@@ -65,9 +65,9 @@ KVMFORNFV Configuration Guide
    ./configurationguide/scenariomatrix.rst
    ./configurationguide/low-latency.feature.configuration.description.rst
 
-********************************************
-KVMFORNFV Scenarios Overview and Description
-********************************************
+******************************************
+KVM4NFV Scenarios Overview and Description
+******************************************
 
 .. toctree::
    :caption: Scenario Overview and Description
@@ -121,9 +121,9 @@ os-nosdn-kvm_nfv_ovs_dpdk_bar-ha Overview and Description
 
    ./scenarios/os-nosdn-kvm_nfv_ovs_dpdk_bar-ha/os-nosdn-kvm_nfv_ovs_dpdk_bar-ha.description.rst
 
-********************
-KVMFORNFV User Guide
-********************
+******************
+KVM4NFV User Guide
+******************
 
 .. toctree::
    :caption: User Guide
@@ -143,9 +143,9 @@ KVMFORNFV User Guide
    ./userguide/pcm_utility.userguide.rst
    ./userguide/tuning.userguide.rst
 
-**********************
-KVMFORNFV Releasenotes
-**********************
+********************
+KVM4NFV Releasenotes
+********************
 
 .. toctree::
    :caption: Releasenotes
@@ -154,9 +154,9 @@ KVMFORNFV Releasenotes
 
    ./releasenotes/release-notes.rst
 
-******************
-KVMFORNFV Glossary
-******************
+****************
+KVM4NFV Glossary
+****************
 
 .. toctree::
    :caption: Glossary

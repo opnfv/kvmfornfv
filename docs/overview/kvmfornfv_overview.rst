@@ -2,9 +2,9 @@
 
 .. http://creativecommons.org/licenses/by/4.0
 
-===============================
-KVMFORNFV CICD Project Overview
-===============================
+=============================
+KVM4NFV CICD Project Overview
+=============================
 
 The detailed understanding of this project is organized into different sections-
 
@@ -21,7 +21,7 @@ The detailed understanding of this project is organized into different sections-
 * **design** - This includes the parameters or design considerations taken into
   account for achieving minimal interrupt latency for the data VNFs.
 * **scenarios** - This includes the sceanrios that are currently implemented in the
-  kvmfornfv project,features of each scenario and a general guide to how to deploy them.
+  kvm4nfv project,features of each scenario and a general guide to how to deploy them.
 * **release notes** - This describes a brief summary of recent changes, enhancements
   and bug fixes in the KVM4NFV project.
 * **glossary** - It includes the definition of terms, used in the KVM4NFV project.

@@ -2,9 +2,9 @@
 
 .. http://creativecommons.org/licenses/by/4.0
 
-********************
-KVMforNFV User Guide
-********************
+******************
+KVM4NFV User Guide
+******************
 
 .. toctree::
    :maxdepth: 3

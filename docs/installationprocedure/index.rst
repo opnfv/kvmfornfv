@@ -2,9 +2,9 @@
 
 .. http://creativecommons.org/licenses/by/4.0
 
-**********************************
-KVMforNFV Installation instruction
-**********************************
+********************************
+KVM4NFV Installation instruction
+********************************
 
 .. toctree::
    :numbered:

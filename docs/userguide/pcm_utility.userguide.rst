@@ -2,13 +2,13 @@
 
 .. http://creativecommons.org/licenses/by/4.0
 
-===========================
-PCM Utility in KVMFORNFV
-===========================
+======================
+PCM Utility in KVM4NFV
+======================
 
 Collecting Memory Bandwidth Information using PCM utility
 ---------------------------------------------------------
-This chapter includes how the PCM utility is used in kvmfornfv
+This chapter includes how the PCM utility is used in kvm4nfv
 to collect memory bandwidth information
 
 About PCM utility
@@ -90,10 +90,10 @@ Parameters
 |                    - System Memory Throughput(MB/s):  72140.62                |
 +-------------------------------------------------------------------------------+
 
-pcm-memory.x in KVMFORNFV:
+pcm-memory.x in KVM4NFV:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-pcm-memory is a part of KVMFORNFV in D release.pcm-memory.x will be executed with delay of 60 seconds
+pcm-memory is a part of KVM4NFV in D release.pcm-memory.x will be executed with delay of 60 seconds
 before starting every testcase to monitor the memory traffic intensity which was handled in
 collect_MBWInfo function .The memory bandwidth information will be collected into the logs through
 the testcase updating every 60 seconds.
@@ -107,7 +107,7 @@ the testcase updating every 60 seconds.
    3.Installing MSR registers
 
 
-Memory Bandwidth logs for KVMFORNFV can be found `here`_:
+Memory Bandwidth logs for KVM4NFV can be found `here`_:
 
 .. code:: bash
 
@@ -138,4 +138,4 @@ signal will be passed to terminate the pcm-memory process which was executing th
 
 Future Scope
 ------------
-PCM information will be added to cyclictest of kvmfornfv in yardstick.
+PCM information will be added to cyclictest of kvm4nfv in yardstick.

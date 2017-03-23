@@ -10,7 +10,7 @@ Release Notes
 Abstract
 ---------
 
-This document provides the release notes for Danube 1.0 release of KVMFORNFV.
+This document provides the release notes for Danube 1.0 release of KVM4NFV.
 
 
 **Contents**
@@ -42,12 +42,12 @@ Version history
 Important notes
 ---------------
 
-The KVMFORNFV project is currently supported on the Fuel installer.
+The KVM4NFV project is currently supported on the Fuel installer.
 
 Summary
 -------
 
-This Danube 1.0 release provides *KVMFORNFV* as a framework to enhance the
+This Danube 1.0 release provides *KVM4NFV* as a framework to enhance the
 KVM Hypervisor for NFV and OPNFV scenario testing, automated in the OPNFV
 CI pipeline, including:
 
@@ -73,8 +73,8 @@ CI pipeline, including:
 
   * Scenarios
 
-The *KVMFORNFV framework* is developed in the OPNFV community, by the
-KVMFORNFV_ team.
+The *KVM4NFV framework* is developed in the OPNFV community, by the
+KVM4NFV_ team.
 
 Release Data
 ------------
@@ -111,12 +111,12 @@ versions:
 
 *   Fuel plugin based on Fuel 10.0
 
-This is the second tracked release of KVMFORNFV
+This is the second tracked release of KVM4NFV
 
 
 2   Document version changes
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-This is the initial version of the KVMFORNFV framework in OPNFV.
+This is the initial version of the KVM4NFV framework in OPNFV.
 
 Reason for version
 ------------------
@@ -163,12 +163,12 @@ Deliverables
 
 1   Software deliverables
 ~~~~~~~~~~~~~~~~~~~~~~~~~
-Danube 1.0 release of the KVMFORNFV RPM and debian for Fuel.
+Danube 1.0 release of the KVM4NFV RPM and debian for Fuel.
 
 2   Documentation deliverables
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The below documents are delivered for Danube KVMFORNFV Release:
+The below documents are delivered for Danube KVM4NFV Release:
 
   * User Guide
 
@@ -187,6 +187,6 @@ The below documents are delivered for Danube KVMFORNFV Release:
 References
 ----------
 
-For more information on the KVMFORNFV Danube release, please see:
+For more information on the KVM4NFV Danube release, please see:
 
 https://wiki.opnfv.org/display/kvm/

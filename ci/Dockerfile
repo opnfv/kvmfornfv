@@ -10,6 +10,7 @@ RUN yum -y update && yum -y install \
   glib2-devel \
   make \
   gettext \
+  openssl-devel \
   bc \
   bison\
   flex\

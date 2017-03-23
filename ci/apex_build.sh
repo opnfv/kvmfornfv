@@ -8,8 +8,11 @@ source ${build_dir}/ci/apex.conf
 cd $SRC
 #Cloning into /tmp/kvmfornfv from local repository
 git clone $build_dir $SRC
-if [ "$branch" == "master" ] || [ "$branch" == "danube" ];then
+if [[ "$branch" == "master" ]] || [[ "$branch" == *"danube"* ]];then
    echo "Checking out on $branch branch"
+   git branch
+   git fetch origin
+   git checkout $branch
    echo "Commit-id is ${commit_id}"
    git checkout -f ${commit_id}
    if [ $? -ne 0 ];then

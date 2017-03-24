@@ -10,7 +10,7 @@ Release Notes
 Abstract
 ---------
 
-This document provides the release notes for Danube 1.0 release of KVMFORNFV.
+This document provides the release notes for Danube 1.0 release of KVM4NFV.
 
 
 **Contents**
@@ -42,12 +42,12 @@ Version history
 Important notes
 ---------------
 
-The KVMFORNFV project is currently supported on the Fuel installer.
+The KVM4NFV project is currently supported on the Fuel installer.
 
 Summary
 -------
 
-This Danube 1.0 release provides *KVMFORNFV* as a framework to enhance the
+This Danube 1.0 release provides *KVM4NFV* as a framework to enhance the
 KVM Hypervisor for NFV and OPNFV scenario testing, automated in the OPNFV
 CI pipeline, including:
 
@@ -69,12 +69,16 @@ CI pipeline, including:
 
   * Installation Procedure
 
-  * Release notes (this document)
+  * Release notes
 
-  * Scenarios
+  * Scenarios Guide
 
-The *KVMFORNFV framework* is developed in the OPNFV community, by the
-KVMFORNFV_ team.
+  * Design Guide
+
+  * Requirements Guide
+
+The *KVM4NFV framework* is developed in the OPNFV community, by the
+KVM4NFV_ team.
 
 Release Data
 ------------
@@ -111,12 +115,12 @@ versions:
 
 *   Fuel plugin based on Fuel 10.0
 
-This is the second tracked release of KVMFORNFV
+This is the second tracked release of KVM4NFV
 
 
 2   Document version changes
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-This is the initial version of the KVMFORNFV framework in OPNFV.
+This is the second version of the KVM4NFV framework in OPNFV.
 
 Reason for version
 ------------------
@@ -153,22 +157,102 @@ Reason for version
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
 
-2 Bug corrections
-~~~~~~~~~~~~~~~~~
+A brief ``Description of the the JIRA tickets``:
 
-Initial Release
++---------------------------------------+-------------------------------------------------------------+
+| **JIRA REFERENCE**                    | **DESCRIPTION**                                             |
+|                                       |                                                             |
++---------------------------------------+-------------------------------------------------------------+
+| KVMFORNFV-57                          | CI/CD Integration into Yardstick                            |
+|                                       |                                                             |
++---------------------------------------+-------------------------------------------------------------+
+| KVMFORNFV-58                          | Complete the integration of test plan into Yardstick        |
+|                                       | and Jenkins infrastructure to include latency testing       |
+|                                       |                                                             |
++---------------------------------------+-------------------------------------------------------------+
+| KVMFORNFV-59                          | Enable capability to publish results on Yardstick Dashboard |
+|                                       |                                                             |
++---------------------------------------+-------------------------------------------------------------+
+| KVMFORNFV-61                          | Define and integrate additional scenario - KVM+OVS+DPDK     |
+|                                       | with HA and NOHA for baremetal and virtual environments     |
+|                                       |                                                             |
++---------------------------------------+-------------------------------------------------------------+
+| KVMFORNFV-62                          | Define and integrate additional scenario - KVM+OVS+DPDK+BAR |
+|                                       | with HA and NOHA for bare metal and virtual environments    |
+|                                       |                                                             |
++---------------------------------------+-------------------------------------------------------------+
+| KVMFORNFV-63                          | Setup Local fuel environment                                |
+|                                       |                                                             |
++---------------------------------------+-------------------------------------------------------------+
+| KVMFORNFV-64                          | Fuel environment setup for local machine to debug Fuel      |
+|                                       | related integration issues                                  |
++---------------------------------------+-------------------------------------------------------------+
 
 Deliverables
 ------------
 
 1   Software deliverables
 ~~~~~~~~~~~~~~~~~~~~~~~~~
-Danube 1.0 release of the KVMFORNFV RPM and debian for Fuel.
+* Danube 1.0 release of the KVM4NFV RPM and debian for kvm4nfv
 
-2   Documentation deliverables
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+* Added the following scenarios as part of D-Release:
 
-The below documents are delivered for Danube KVMFORNFV Release:
+  * os-nosdn-kvm_nfv_ovs_dpdk-noha
+
+  * os-nosdn-kvm_nfv_ovs_dpdk_bar-noha
+
+  * os-nosdn-kvm_nfv_ovs_dpdk-ha
+
+  * os-nosdn-kvm_nfv_ovs_dpdk_bar-ha
+
+* Configured influxdb and `Graphana dashboard`_ for publishing kvm4nfv test results
+
+.. _Graphana_dashboard: http://testresults.opnfv.org/grafana/dashboard/db/kvmfornfv-cyclictest
+
+* Cyclictest test case is successfully implemented, it has the below test types.,
+
+  * idle-idle
+
+  * CPUstress-idle
+
+  * IOstress-idle
+
+  * Memorystress-idle
+
+* Implemented Noisy Neighbour feature ., cyclictest under stress testing is implemented
+
+* Packet forwarding test case is implemented and it supports the following test types currently,
+
+  * Packet forwarding to Host
+
+  * Packet forwarding to Guest
+
+  * Packet forwarding to Guest using SRIOV
+
+* Ftrace debugging tool is supported in D-Release. The logs collected by ftrace are stored in artifacts for future needs
+
+* PCM Utility is part of D-Release. The future scope may include collection of read/write data and publishing in grafana
+
+* Either Apex or Fuel can be used for deployment of os-nosdn-kvm-ha scenario
+
++------------------------------------------+------------------+-----------------+
+| **Scenario Name**                        | **Apex**         | **Fuel**        |
+|                                          |                  |                 |
++==========================================+==================+=================+
+| - os-nosdn-kvm-ha                        |     ``Y``        |     ``Y``       |
++------------------------------------------+------------------+-----------------+
+| - os-nosdn-kvm_nfv_ovs_dpdk-noha         |                  |     ``Y``       |
++------------------------------------------+------------------+-----------------+
+| - os-nosdn-kvm_nfv_ovs_dpdk-ha           |                  |     ``Y``       |
++------------------------------------------+------------------+-----------------+
+| - os-nosdn-kvm_nfv_ovs_dpdk_bar-noha     |                  |     ``Y``       |
++------------------------------------------+------------------+-----------------+
+| - os-nosdn-kvm_nfv_ovs_dpdk_bar-ha       |                  |     ``Y``       |
++------------------------------------------+------------------+-----------------+
+
+* Future scope may include adding Apex support for all the remaining scenarios
+
+* The below documents are delivered for Danube KVM4NFV Release:
 
   * User Guide
 
@@ -178,15 +262,19 @@ The below documents are delivered for Danube KVMFORNFV Release:
 
   * Overview
 
-  * Release notes (this document)
+  * Release notes
 
   * Glossary
 
   * Scenarios
 
+  * Requirements Guide
+
+  * Overview Guide
+
 References
 ----------
 
-For more information on the KVMFORNFV Danube release, please see:
+For more information on the KVM4NFV Danube release, please see:
 
 https://wiki.opnfv.org/display/kvm/

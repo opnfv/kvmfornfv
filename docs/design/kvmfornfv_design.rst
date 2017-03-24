@@ -1,24 +1,9 @@
 .. This work is licensed under a Creative Commons Attribution 4.0 International License.
 .. http://creativecommons.org/licenses/by/4.0
 
-============
-Introduction
-============
-
-**Purpose**:
-
- This document provides an overview of the areas that can be addressed to
- enhance the KVM Hypervisor for NFV. It is intended to capture and convey the
- significant changes which have been made on the KVM Hypervisor.
-
-
-===================
-Project description
-===================
-
-The NFV hypervisors provide crucial functionality in the NFV
-Infrastructure(NFVI).The existing hypervisors, however, are not necessarily
-designed or targeted to meet the requirements for the NFVI.
+==========================
+KVM4NFV design description
+==========================
 
 This design focuses on the enhancement of following area for KVM Hypervisor
 
@@ -26,10 +11,6 @@ This design focuses on the enhancement of following area for KVM Hypervisor
    * Minimal Timing Variation for Timing correctness of real-time VNFs
    * Minimal packet latency variation for data-plane VNFs
 * Fast live migration
-
-While these items require software development and/or specific hardware features
-there are also some adjustments that need to be made to system configuration
-information, like hardware, BIOS, OS, etc.
 
 **Minimal Interrupt latency variation for data plane VNFs**
 
@@ -131,7 +112,7 @@ interrupt handled in the VNF.
 
 .. Figure:: DeviceInterruptTest.png
 
-**Packet forwarding (DPDK OVS)**:A packet is sent from TC (Traffic Generator)
+**Packet forwarding (DPDK OVS)**:A packet is sent from TG (Traffic Generator)
 to a VNF.  The VNF, after processing the packet, forwards the packet to another
 NIC and in the end the packet is received by the traffic generator. The test
 check the latency from the packet is sent out by the TC to the time the packet

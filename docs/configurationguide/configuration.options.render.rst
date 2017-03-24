@@ -12,12 +12,15 @@ problems for the deployment of VNF's. KVM4NFV scenario includes components
 such as OpenStack,KVM etc. which includes different source components or
 configurations.
 
-KVM4NFV Scenarios
-------------------
+.. note::
 
-Each KVM4NFV scenario provides unique features and capabilities, it is
-important to understand your target platform capabilities before installing
-and configuring. This configuration guide outlines how to install and
-configure components in order to enable the features required.
+  * Each KVM4NFV `scenario`_ provides unique features and capabilities, it is
+    important to understand your target platform capabilities before installing
+    and configuring. This configuration guide outlines how to configure components
+    in order to enable the features required.
 
-#.. include:: ./scenariomatrix.rst
+  * More deatils of kvm4nfv scenarios installation and description can be found in the `scenario guide`_ of kvm4nfv docs
+
+.. _scenario: http://artifacts.opnfv.org/kvmfornfv/docs/index.html#document-scenarios/kvmfornfv.scenarios.description
+
+.. _scenario guide: http://artifacts.opnfv.org/kvmfornfv/docs/index.html#document-scenarios/abstract

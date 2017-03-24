@@ -6,6 +6,6 @@
 Abstract
 ********
 
-This document will give the user instructions on how to deploy available
-KVM4NFV CICD build scenario verfied for the Danube release of the OPNFV
+This document will give the instructions to user on how to deploy available
+KVM4NFV build scenario verfied for the Danube release of the OPNFV
 platform.

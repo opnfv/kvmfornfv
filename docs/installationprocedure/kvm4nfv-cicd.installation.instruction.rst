@@ -2,9 +2,9 @@
 
 .. http://creativecommons.org/licenses/by/4.0
 
-=====================================
-KVM4NFV CICD Installation Instruction
-=====================================
+================================
+KVM4NFV Installation Instruction
+================================
 
 Preparing the installation
 --------------------------
@@ -17,7 +17,7 @@ HW requirements
 ---------------
 
 These build scripts are triggered on the Jenkins-Slave build server. Currently
-Intel POD10 is used as test environment for kvmfornfv to execute cyclictest. As
+Intel POD10 is used as test environment for kvm4nfv to execute cyclictest. As
 part of this test environment Intel pod10-jump is configured as jenkins slave
 and all the latest build artifacts are downloaded on to it. Intel pod10-node1
 is the host on which a guest vm will be launched as a part of running cylictest
@@ -66,6 +66,21 @@ the Rpms (on 'centos') and Debians (on 'ubuntu') builds in this case.
 
    For Kernel/Qemu RPMs and Debians,
    sh ./ci/build.sh -p both -o build_output
+
+.. note:: Kvm4nfv can be installed in two ways
+
+          1. As part of a `scenario deployment`_
+          2. As a `stand alone`_ component
+
+.. _scenario deployment: http://artifacts.opnfv.org/kvmfornfv/docs/index.html#document-scenarios/kvmfornfv.scenarios.description
+.. _stand alone: http://artifacts.opnfv.org/kvmfornfv/docs/index.html#build-instructions
+
+For installation of kvmfornfv as part of scenario deployment use this `link`_
+
+.. code:: bash
+
+   http://artifacts.opnfv.org/kvmfornfv/docs/index.html#document-scenarios/kvmfornfv.scenarios.description
+
 
 Installation instructions
 -------------------------

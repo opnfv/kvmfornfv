@@ -11,7 +11,7 @@ Overview
 
 The project "NFV Hypervisors-KVM" makes collaborative efforts to enable NFV
 features for existing hypervisors, which are not necessarily designed or
-targeted to meet the requirements for the NFVI.The KVM4NFV CICD scenario
+targeted to meet the requirements for the NFVI.The KVM4NFV scenario
 consists of Continuous Integration builds, deployments and testing
 combinations of virtual infrastructure components.
 
@@ -51,6 +51,38 @@ install and configure them.
 General usage guidelines
 ------------------------
 
-The user guide for KVM4NFV CICD features and capabilities provide step by step
+The user guide for KVM4NFV features and capabilities provide step by step
 instructions for using features that have been configured according to the
 installation and configuration instructions.
+
+Scenarios User Guide
+====================
+
+The procedure to deploy/test `KVM4NFV scenarios`_ in a nested virtualization
+or on bare-metal environment is mentioned in the below link. The kvm4nfv user guide can
+be found at docs/scenarios
+
+.. code:: bash
+
+    http://artifacts.opnfv.org/kvmfornfv/docs/index.html#kvmfornfv-scenarios-overview-and-description
+
+.. _KVM4NFV scenarios: http://artifacts.opnfv.org/kvmfornfv/docs/index.html#kvmfornfv-scenarios-overview-and-description
+
+The deployment has been verified for `os-nosdn-kvm-ha`_, os-nosdn-kvm-noha, `os-nosdn-kvm_ovs_dpdk-ha`_,
+`os-nosdn-kvm_ovs_dpdk-noha`_ and `os-nosdn-kvm_ovs_dpdk_bar-ha`_, `os-nosdn-kvm_ovs_dpdk_bar-noha`_ test scenarios.
+
+For brief view of the above scenarios use:
+
+.. code:: bash
+
+  http://artifacts.opnfv.org/kvmfornfv/docs/index.html#scenario-abstract
+
+.. _os-nosdn-kvm-ha: http://artifacts.opnfv.org/kvmfornfv/docs/index.html#kvmfornfv-scenarios-overview-and-description
+
+.. _os-nosdn-kvm_ovs_dpdk-ha: http://artifacts.opnfv.org/kvmfornfv/docs/index.html#os-nosdn-kvm-nfv-ovs-dpdk-ha-overview-and-description
+
+.. _os-nosdn-kvm_ovs_dpdk-noha: http://artifacts.opnfv.org/kvmfornfv/docs/index.html#os-nosdn-kvm-nfv-ovs-dpdk-noha-overview-and-description
+
+.. _os-nosdn-kvm_ovs_dpdk_bar-ha: http://artifacts.opnfv.org/kvmfornfv/docs/index.html#os-nosdn-kvm-nfv-ovs-dpdk_bar-ha-overview-and-description
+
+.. _os-nosdn-kvm_ovs_dpdk_bar-noha: http://artifacts.opnfv.org/kvmfornfv/docs/index.html#os-nosdn-kvm-nfv-ovs-dpdk_bar-noha-overview-and-description

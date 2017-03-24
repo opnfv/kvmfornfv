@@ -8,12 +8,12 @@ Release Note for KVM4NFV CICD
 
 
 Abstract
-========
+--------
 
 This document contains the release notes for the Danube release of OPNFV when using KVM4NFV CICD process.
 
 Introduction
-============
+------------
 
 Provide a brief introduction of how this configuration is used in OPNFV release
 using KVM4VFV CICD as scenario.
@@ -21,7 +21,7 @@ using KVM4VFV CICD as scenario.
 Be sure to reference your scenario installation instruction.
 
 Release Data
-============
+------------
 
 +--------------------------------------+--------------------------------------+
 | **Project**                          | NFV Hypervisors-KVM                  |
@@ -33,39 +33,19 @@ Release Data
 | **Release designation**              |                                      |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
-| **Release date**                     |                                      |
+| **Release date**                     | 2017-03-27                           |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
-| **Purpose of the delivery**          |  Automate the KVM4VFV CICD scenario  |
+| **Purpose of the delivery**          | - Automate the KVM4VFV CICD scenario |
+|                                      | - Executing latency test cases       |
+|                                      | - Collection of logs for debugging   |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
 
-Deliverables
-------------
-
-Software deliverables
-~~~~~~~~~~~~~~~~~~~~~
-Kernel and Qemu- RPM and Debian build packages
-
-Documentation deliverables
-~~~~~~~~~~~~~~~~~~~~~~~~~~
-- KVM4NFV CICD process documentation available under <project>/docs/ under
-  various categories.
-
-Version change
---------------
-.. This section describes the changes made since the last version of this
-.. document.
-
-Module version change
-~~~~~~~~~~~~~~~~~~~~~
-- Build scripts made available for Kernel rpm, Kernel deb, Qemu rpm, Qemu
-  deb packages.
-- Releng scripts made available to trigger these kvm4nfv build scripts for
-  automating complete CICD process.
 
 Document version change
-~~~~~~~~~~~~~~~~~~~~~~~
+-----------------------
+
 The following documents are added-
  - configurationguide
  - installationprocedure
@@ -100,26 +80,6 @@ Feature additions
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
 
-Bug corrections
-~~~~~~~~~~~~~~~
-
-**JIRA TICKETS:**
-
-+--------------------------------------+--------------------------------------+
-| **JIRA REFERENCE**                   | **SLOGAN**                           |
-|                                      |                                      |
-+--------------------------------------+--------------------------------------+
-| JIRA:                                |                                      |
-|                                      |                                      |
-+--------------------------------------+--------------------------------------+
-
-
-Known Limitations, Issues and Workarounds
-=========================================
-
-System Limitations
-------------------
-
 Known issues
 ------------
 
@@ -131,9 +91,6 @@ Known issues
 +--------------------------------------+--------------------------------------+
 | JIRA:                                | NFV Hypervisors-KVMFORNFV-75         |
 +--------------------------------------+--------------------------------------+
-| JIRA:                                |                                      |
-+--------------------------------------+--------------------------------------+
-
 
 Workarounds
 -----------

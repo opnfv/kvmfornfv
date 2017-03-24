@@ -2,9 +2,11 @@
 
 .. http://creativecommons.org/licenses/by/4.0
 
-==============================
-KVMFORNFV Scenario-Description
-==============================
+.. _scenario-guide:
+
+============================
+KVM4NFV Scenario-Description
+============================
 
 Abstract
 --------
@@ -22,11 +24,11 @@ Version Features
 |                             |                                             |
 +=============================+=============================================+
 |                             | - Scenario Testing feature was not part of  |
-|       Colorado              |   the Colorado release of KVMFORNFV         |
+|       Colorado              |   the Colorado release of KVM4NFV           |
 |                             |                                             |
 +-----------------------------+---------------------------------------------+
 |                             | - High Availability/No-High Availability    |
-|                             |   deployment configuration of KVMFORNFV     |
+|                             |   deployment configuration of KVM4NFV       |
 |                             |   software suite                            |
 |        Danube               | - Multi-node setup with 3 controller and    |
 |                             |   2 compute nodes are deployed for HA       |
@@ -47,7 +49,7 @@ os-nosdn-kvm_ovs_dpdk-noha,os-nosdn-kvm_ovs_dpdk_bar-noha scenarios testing is t
 test the High Availability/No-High Availability deployment and configuration of
 OPNFV software suite with OpenStack and without SDN software.
 
-This OPNFV software suite includes OPNFV KVMFORNFV latest software packages
+This OPNFV software suite includes OPNFV KVM4NFV latest software packages
 for Linux Kernel and QEMU patches for achieving low latency and also OPNFV Barometer for traffic,
 performance and platform monitoring.
 
@@ -57,7 +59,7 @@ multi-node setup with 1 Fuel-Master,3 controllers and 2 computes nodes.
 No-High Availability feature is achieved by deploying OpenStack
 multi-node setup with 1 Fuel-Master,1 controllers and 3 computes nodes.
 
-KVMFORNFV packages will be installed on compute nodes as part of deployment.
+KVM4NFV packages will be installed on compute nodes as part of deployment.
 The scenario testcase deploys a multi-node setup by using OPNFV Fuel deployer.
 
 System pre-requisites

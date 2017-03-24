@@ -5,7 +5,7 @@
 Scenario Abstract
 *****************
 This chapter includes detailed explanation of various sceanrios files deployed as part
-of kvmfornfv D-Release.
+of kvm4nfv D-Release.
 
 Release Features
 ----------------

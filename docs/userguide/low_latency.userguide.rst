@@ -73,7 +73,7 @@ more explanation.
 
 Test cases to measure Latency
 -----------------------------
-The performance of the kvmfornfv is assesed by the latency values. Cyclictest and Packet forwarding
+The performance of the kvm4nfv is assesed by the latency values. Cyclictest and Packet forwarding
 Test cases result in real time latency values of average, minimum and maximum.
 
 * Cyclictest
@@ -83,7 +83,7 @@ Test cases result in real time latency values of average, minimum and maximum.
 1. Cyclictest case
 -------------------
 Cyclictest results are the most frequently cited real-time Linux metric. The core concept of Cyclictest is very simple.
-In KVMFORNFV cyclictest is implemented on the Guest-VM with 4.4-Kernel RPM installed. It generated Max,Min and Avg
+In KVM4NFV cyclictest is implemented on the Guest-VM with 4.4-Kernel RPM installed. It generated Max,Min and Avg
 values which help in assesing the kernel used. Cyclictest in currently divided into the following test types,
 
 * Idle-Idle
@@ -132,20 +132,19 @@ Version Features
 |                       |                  |                 |
 +-----------------------+------------------+-----------------+
 | - Idle - Idle         |     ``Y``        |     ``Y``       |
-|                       |                  |                 |
++-----------------------+------------------+-----------------+
 | - Cpustress - Idle    |                  |     ``Y``       |
-|                       |                  |                 |
++-----------------------+------------------+-----------------+
 | - Memorystress - Idle |                  |     ``Y``       |
-|                       |                  |                 |
++-----------------------+------------------+-----------------+
 | - IOstress - Idle     |                  |     ``Y``       |
-|                       |                  |                 |
 +-----------------------+------------------+-----------------+
 
 
 Idle-Idle test-type
 ~~~~~~~~~~~~~~~~~~~
 Cyclictest in run on the Guest VM when Host,Guest are not under any kind of stress. This is the basic
-cyclictest of the KVMFORNFV project. Outputs Avg, Min and Max latency values.
+cyclictest of the KVM4NFV project. Outputs Avg, Min and Max latency values.
 
 .. figure:: images/idle-idle-test-type.png
    :name: idle-idle test type
@@ -199,10 +198,10 @@ Not implemented for Danube release.
 
 2. Packet Forwarding Test cases
 -------------------------------
-Packet forwarding is an other test case of Kvmfornfv. It measures the time taken by a packet to return
+Packet forwarding is an other test case of Kvm4nfv. It measures the time taken by a packet to return
 to source after reaching its destination. This test case uses automated test-framework provided by
-OPNFV VSWITCHPERF project and a traffic generator (IXIA is used for kvmfornfv). Only latency results
-generating test cases are triggered as a part of kvmfornfv daily job.
+OPNFV VSWITCHPERF project and a traffic generator (IXIA is used for kvm4nfv). Only latency results
+generating test cases are triggered as a part of kvm4nfv daily job.
 
 Latency test measures the time required for a frame to travel from the originating device through the
 network to the destination device. Please note that RFC2544 Latency measurement will be superseded with

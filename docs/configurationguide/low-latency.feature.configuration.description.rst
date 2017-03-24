@@ -141,11 +141,9 @@ configurations.
 Hardware configuration
 ~~~~~~~~~~~~~~~~~~~~~~
 
-Currently Intel POD10 is used as test environment for kvmfornfv to execute
+Currently Intel POD10 is used as test environment for kvm4nfv to execute
 cyclictest. As part of this test environment Intel pod10-jump is configured as
 jenkins slave and all the latest build artifacts are downloaded on to it.
-Intel pod10-node1 is the host on which a guest vm will be launched as a part of
-running cylictest through yardstick.
 
 * For more information regarding hardware configuration, please visit
   https://wiki.opnfv.org/display/pharos/Intel+Pod10

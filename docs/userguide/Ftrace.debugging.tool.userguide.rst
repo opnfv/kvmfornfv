@@ -16,7 +16,7 @@ work of several assorted tracing utilities.
     One of the most common uses of ftrace is the event tracing.
 
 **Note:**
-- For KVMFORNFV, Ftrace is preferred as it is in-built kernel tool
+- For KVM4NFV, Ftrace is preferred as it is in-built kernel tool
 - More stable compared to other debugging tools
 
 Version Features
@@ -28,10 +28,10 @@ Version Features
 |                             |                                               |
 +=============================+===============================================+
 |                             | - Ftrace Debugging tool is not implemented in |
-|       Colorado              |   Colorado release of KVMFORNFV               |
+|       Colorado              |   Colorado release of KVM4NFV                 |
 |                             |                                               |
 +-----------------------------+-----------------------------------------------+
-|                             | - Ftrace aids in debugging the KVMFORNFV      |
+|                             | - Ftrace aids in debugging the KVM4NFV        |
 |       Danube                |   4.4-linux-kernel level issues               |
 |                             | - Option to disable if not required           |
 +-----------------------------+-----------------------------------------------+
@@ -155,31 +155,36 @@ Examples:
      [tracing]# echo 1 > tracing_on;
 
 
-Ftrace in KVMFORNFV
--------------------
-Ftrace is part of KVMFORNFV D-Release. KVMFORNFV built 4.4-linux-Kernel will be tested by
+Ftrace in KVM4NFV
+-----------------
+Ftrace is part of KVM4NFV D-Release. KVM4NFV built 4.4-linux-Kernel will be tested by
 executing cyclictest and analyzing the results/latency values (max, min, avg) generated.
-Ftrace (or) function tracer is a stable kernel inbuilt debugging tool which tests kernel in real
-time and outputs a log as part of the code. These output logs are useful in following ways.
+Ftrace (or) function tracer is a stable kernel inbuilt debugging tool which tests real time
+kernel and outputs a log as part of the code. These output logs are useful in following ways.
 
     - Kernel Debugging.
     - Helps in Kernel code optimization and
     - Can be used to better understand the kernel level code flow
 
-Ftrace logs for KVMFORNFV can be found `here`_:
+Ftrace logs for KVM4NFV can be found `here`_:
 
 
 .. _here: http://artifacts.opnfv.org/kvmfornfv.html
 
-Ftrace Usage in KVMFORNFV Kernel Debugging:
--------------------------------------------
-Kvmfornfv has two scripts in /ci/envs to provide ftrace tool:
+Ftrace Usage in KVM4NFV Kernel Debugging:
+-----------------------------------------
+Kvm4nfv has two scripts in /ci/envs to provide ftrace tool:
 
     - enable_trace.sh
     - disable_trace.sh
 
-Enabling Ftrace in KVMFORNFV
-----------------------------
+.. code:: bash
+
+    Found at.,
+    $ cd kvmfornfv/ci/envs
+
+Enabling Ftrace in KVM4NFV
+--------------------------
 
 The enable_trace.sh script is triggered by changing ftrace_enable value in test_kvmfornfv.sh
 script to 1 (which is zero by default). Change as below to enable Ftrace.
@@ -241,7 +246,7 @@ In disable trace script the following are done:
 Publishing Ftrace logs:
 -----------------------
 The generated trace log is pushed to `artifacts`_ by kvmfornfv-upload-artifact.sh
-script available in releng which will be triggered as a part of kvmfornfv daily job.
+script available in releng which will be triggered as a part of kvm4nfv daily job.
 The `trigger`_ in the script is.,
 
 .. code:: bash

@@ -496,6 +496,12 @@ static bool pi_test_and_clear_on(struct pi_desc *pi_desc)
 			(unsigned long *)&pi_desc->control);
 }
 
+static inline void pi_clear_on(struct pi_desc *pi_desc)
+{
+	return clear_bit(POSTED_INTR_ON,
+			(unsigned long *)&pi_desc->control);
+}
+
 static int pi_test_and_set_pir(int vector, struct pi_desc *pi_desc)
 {
 	return test_and_set_bit(vector, (unsigned long *)pi_desc->pir);
@@ -883,7 +889,7 @@ static void vmx_get_segment(struct kvm_vcpu *vcpu,
 			    struct kvm_segment *var, int seg);
 static bool guest_state_valid(struct kvm_vcpu *vcpu);
 static u32 vmx_segment_access_rights(struct kvm_segment *var);
-static void vmx_sync_pir_to_irr_dummy(struct kvm_vcpu *vcpu);
+static void vmx_hwapic_irr_update(struct kvm_vcpu *vcpu, int max_irr);
 static void copy_vmcs12_to_shadow(struct vcpu_vmx *vmx);
 static void copy_shadow_to_vmcs12(struct vcpu_vmx *vmx);
 static int alloc_identity_pagetable(struct kvm *kvm);
@@ -4665,25 +4671,32 @@ static void vmx_deliver_posted_interrupt(struct kvm_vcpu *vcpu, int vector)
 	if (pi_test_and_set_pir(vector, &vmx->pi_desc))
 		return;
 
-	r = pi_test_and_set_on(&vmx->pi_desc);
-	kvm_make_request(KVM_REQ_EVENT, vcpu);
-	if (r || !kvm_vcpu_trigger_posted_interrupt(vcpu))
+	/* If a previous notification has sent the IPI, nothing to do.  */
+	if (pi_test_and_set_on(&vmx->pi_desc))
+		return;
+
+	if (!kvm_vcpu_trigger_posted_interrupt(vcpu))
 		kvm_vcpu_kick(vcpu);
 }
 
-static void vmx_sync_pir_to_irr(struct kvm_vcpu *vcpu)
+static int vmx_sync_pir_to_irr(struct kvm_vcpu *vcpu)
 {
 	struct vcpu_vmx *vmx = to_vmx(vcpu);
+	int max_irr;
 
-	if (!pi_test_and_clear_on(&vmx->pi_desc))
-		return;
-
-	kvm_apic_update_irr(vcpu, vmx->pi_desc.pir);
-}
-
-static void vmx_sync_pir_to_irr_dummy(struct kvm_vcpu *vcpu)
-{
-	return;
+	if (vmx_cpu_uses_apicv(vcpu) && pi_test_on(&vmx->pi_desc)) {
+		pi_clear_on(&vmx->pi_desc);
+		/*
+		 * IOMMU can write to PIR.ON, so the barrier matters even on UP.
+		 * But on x86 this is just a compiler barrier anyway.
+		 */
+		smp_mb__after_atomic();
+		max_irr = kvm_apic_update_irr(vcpu, vmx->pi_desc.pir);
+	} else {
+		max_irr = kvm_lapic_find_highest_irr(vcpu);
+	}
+	vmx_hwapic_irr_update(vcpu, max_irr);
+	return max_irr;
 }
 
 /*
@@ -6292,8 +6305,10 @@ static __init int hardware_setup(void)
 	if (!cpu_has_vmx_ple())
 		ple_gap = 0;
 
-	if (!cpu_has_vmx_apicv())
+	if (!cpu_has_vmx_apicv()) {
 		enable_apicv = 0;
+		kvm_x86_ops->sync_pir_to_irr = NULL;
+	}
 
 	if (cpu_has_vmx_tsc_scaling()) {
 		kvm_has_tsc_control = true;
@@ -6307,7 +6322,7 @@ static __init int hardware_setup(void)
 		kvm_x86_ops->hwapic_irr_update = NULL;
 		kvm_x86_ops->hwapic_isr_update = NULL;
 		kvm_x86_ops->deliver_posted_interrupt = NULL;
-		kvm_x86_ops->sync_pir_to_irr = vmx_sync_pir_to_irr_dummy;
+		kvm_x86_ops->sync_pir_to_irr = NULL;
 	}
 
 	vmx_disable_intercept_for_msr(MSR_FS_BASE, false);

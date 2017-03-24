@@ -2762,7 +2762,8 @@ void kvm_arch_vcpu_put(struct kvm_vcpu *vcpu)
 static int kvm_vcpu_ioctl_get_lapic(struct kvm_vcpu *vcpu,
 				    struct kvm_lapic_state *s)
 {
-	kvm_x86_ops->sync_pir_to_irr(vcpu);
+	if (kvm_x86_ops->sync_pir_to_irr)
+		kvm_x86_ops->sync_pir_to_irr(vcpu);
 	memcpy(s->regs, vcpu->arch.apic->regs, sizeof *s);
 
 	return 0;
@@ -6346,7 +6347,8 @@ static void vcpu_scan_ioapic(struct kvm_vcpu *vcpu)
 	if (irqchip_split(vcpu->kvm))
 		kvm_scan_ioapic_routes(vcpu, vcpu->arch.eoi_exit_bitmap);
 	else {
-		kvm_x86_ops->sync_pir_to_irr(vcpu);
+		if (kvm_x86_ops->sync_pir_to_irr)
+			kvm_x86_ops->sync_pir_to_irr(vcpu);
 		kvm_ioapic_scan_entry(vcpu, vcpu->arch.eoi_exit_bitmap);
 	}
 	kvm_x86_ops->load_eoi_exitmap(vcpu);
@@ -6483,20 +6485,6 @@ static int vcpu_enter_guest(struct kvm_vcpu *vcpu)
 		}
 	}
 
-	/*
-	 * KVM_REQ_EVENT is not set when posted interrupts are set by
-	 * VT-d hardware, so we have to update RVI unconditionally.
-	 */
-	if (kvm_lapic_enabled(vcpu)) {
-		/*
-		 * Update architecture specific hints for APIC
-		 * virtual interrupt delivery.
-		 */
-		if (kvm_x86_ops->hwapic_irr_update)
-			kvm_x86_ops->hwapic_irr_update(vcpu,
-				kvm_lapic_find_highest_irr(vcpu));
-	}
-
 	if (kvm_check_request(KVM_REQ_EVENT, vcpu) || req_int_win) {
 		kvm_apic_accept_events(vcpu);
 		if (vcpu->arch.mp_state == KVM_MP_STATE_INIT_RECEIVED) {
@@ -6530,16 +6518,39 @@ static int vcpu_enter_guest(struct kvm_vcpu *vcpu)
 	kvm_x86_ops->prepare_guest_switch(vcpu);
 	if (vcpu->fpu_active)
 		kvm_load_guest_fpu(vcpu);
+
+	/*
+	 * Disabling IRQs before setting IN_GUEST_MODE.  Posted interrupt
+	 * IPI are then delayed after guest entry, which ensures that they
+	 * result in virtual interrupt delivery.
+	 */
+	local_irq_disable();
 	vcpu->mode = IN_GUEST_MODE;
 
 	srcu_read_unlock(&vcpu->kvm->srcu, vcpu->srcu_idx);
 
-	/* We should set ->mode before check ->requests,
-	 * see the comment in make_all_cpus_request.
+	/*
+	 * 1) We should set ->mode before checking ->requests.  Please see
+	 * the comment in kvm_make_all_cpus_request.
+	 *
+	 * 2) For APICv, we should set ->mode before checking PIR.ON.  This
+	 * pairs with the memory barrier implicit in pi_test_and_set_on
+	 * (see vmx_deliver_posted_interrupt).
+	 *
+	 * 3) This also orders the write to mode from any reads to the page
+	 * tables done while the VCPU is running.  Please see the comment
+	 * in kvm_flush_remote_tlbs.
 	 */
 	smp_mb__after_srcu_read_unlock();
 
-	local_irq_disable();
+	if (kvm_lapic_enabled(vcpu)) {
+		/*
+		 * This handles the case where a posted interrupt was
+		 * notified with kvm_vcpu_kick.
+		 */
+		if (kvm_x86_ops->sync_pir_to_irr)
+			kvm_x86_ops->sync_pir_to_irr(vcpu);
+	}
 
 	if (vcpu->mode == EXITING_GUEST_MODE || vcpu->requests
 	    || need_resched() || signal_pending(current)) {
@@ -6684,6 +6695,9 @@ static inline int vcpu_block(struct kvm *kvm, struct kvm_vcpu *vcpu)
 
 static inline bool kvm_vcpu_running(struct kvm_vcpu *vcpu)
 {
+	if (is_guest_mode(vcpu) && kvm_x86_ops->check_nested_events)
+		kvm_x86_ops->check_nested_events(vcpu, false);
+
 	return (vcpu->arch.mp_state == KVM_MP_STATE_RUNNABLE &&
 		!vcpu->arch.apf.halted);
 }
@@ -8040,9 +8054,6 @@ static inline bool kvm_vcpu_has_events(struct kvm_vcpu *vcpu)
 
 int kvm_arch_vcpu_runnable(struct kvm_vcpu *vcpu)
 {
-	if (is_guest_mode(vcpu) && kvm_x86_ops->check_nested_events)
-		kvm_x86_ops->check_nested_events(vcpu, false);
-
 	return kvm_vcpu_running(vcpu) || kvm_vcpu_has_events(vcpu);
 }
 

@@ -1,0 +1,7 @@
+Verified+1: jenkins-ci <jenkins-opnfv-ci@opnfv.org>
+Code-Review+2: Jiang, Yunhong <yunhong.jiang@intel.com>
+Submitted-by: Jiang, Yunhong <yunhong.jiang@intel.com>
+Submitted-at: Mon, 27 Mar 2017 15:57:06 +0000
+Reviewed-on: https://gerrit.opnfv.org/gerrit/31843
+Project: kvmfornfv
+Branch: refs/heads/stable/danube

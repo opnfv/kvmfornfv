@@ -16,6 +16,24 @@
       "revId": "c1a17f3ad621173a68ad6b083638b0b477c9af6a",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ab8dda7_5b3a7ace",
+        "filename": "ci/test_kvmfornfv.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 5765
+      },
+      "writtenOn": "2017-03-28T18:31:29Z",
+      "side": 1,
+      "message": "yes, will revert the patch once we are done with the documentation.",
+      "parentUuid": "9ab8dda7_3b1a266f",
+      "revId": "c1a17f3ad621173a68ad6b083638b0b477c9af6a",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }

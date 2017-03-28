@@ -155,14 +155,3 @@ KVM4NFV Releasenotes
    :maxdepth: 3
 
    ./release/releasenotes/release-notes.rst
-
-****************
-KVM4NFV Glossary
-****************
-
-.. toctree::
-   :caption: Glossary
-   :numbered:
-   :maxdepth: 3
-
-   ./release/glossary/kvmfornfv_glossary.rst

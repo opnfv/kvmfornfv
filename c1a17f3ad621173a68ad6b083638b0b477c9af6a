@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9ab8dda7_3b1a266f",
+        "filename": "ci/test_kvmfornfv.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2017-03-28T17:59:00Z",
+      "side": 1,
+      "message": "wow, I though you will change the cyclictest_env_verify, but anyway, it\u0027s just a workaround and I\u0027m ok :)",
+      "revId": "c1a17f3ad621173a68ad6b083638b0b477c9af6a",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}

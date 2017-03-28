@@ -127,7 +127,8 @@ if [ ${test_type} == "verify" ];then
       for env in ${cyclictest_env_verify[@]}
       do
          #Executing cyclictest through yardstick.
-         cyclictest ${env}
+         #cyclictest ${env}
+         echo "Debugging in progress.Execution of cyclictest is disabled"
          sleep 10
       done
       #Execution of packet forwarding test cases.

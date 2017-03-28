@@ -16,7 +16,7 @@ Overview of Documentation
    :numbered:
    :maxdepth: 4
 
-   ./overview/kvmfornfv_overview.rst
+   ./development/overview/kvmfornfv_overview.rst
 
 ******************************
 KVM4NFV Installation Procedure
@@ -27,9 +27,9 @@ KVM4NFV Installation Procedure
    :numbered:
    :maxdepth: 4
 
-   ./installationprocedure/abstract.rst
-   ./installationprocedure/kvm4nfv-cicd.installation.instruction.rst
-   ./installationprocedure/kvm4nfv-cicd.release.notes.rst
+   ./release/installationprocedure/abstract.rst
+   ./release/installationprocedure/kvm4nfv-cicd.installation.instruction.rst
+   ./release/installationprocedure/kvm4nfv-cicd.release.notes.rst
 
 ********************
 KVM4NFV Design Guide
@@ -40,7 +40,7 @@ KVM4NFV Design Guide
    :numbered:
    :maxdepth: 4
 
-   ./design/kvmfornfv_design.rst
+   ./development/design/kvmfornfv_design.rst
 
 **************************
 KVM4NFV Requirements Guide
@@ -51,7 +51,7 @@ KVM4NFV Requirements Guide
    :numbered:
    :maxdepth: 4
 
-   ./requirements/kvmfornfv_requirements.rst
+   ./development/requirements/kvmfornfv_requirements.rst
 
 ***************************
 KVM4NFV Configuration Guide
@@ -62,10 +62,10 @@ KVM4NFV Configuration Guide
    :numbered:
    :maxdepth: 4
 
-   ./configurationguide/abstract.rst
-   ./configurationguide/configuration.options.render.rst
-   ./configurationguide/scenariomatrix.rst
-   ./configurationguide/low-latency.feature.configuration.description.rst
+   ./release/configurationguide/abstract.rst
+   ./release/configurationguide/configuration.options.render.rst
+   ./release/configurationguide/scenariomatrix.rst
+   ./release/configurationguide/low-latency.feature.configuration.description.rst
 
 ******************************************
 KVM4NFV Scenarios Overview and Description
@@ -76,8 +76,8 @@ KVM4NFV Scenarios Overview and Description
    :numbered:
    :maxdepth: 4
 
-   ./scenarios/abstract.rst
-   ./scenarios/kvmfornfv.scenarios.description.rst
+   ./release/scenarios/abstract.rst
+   ./release/scenarios/kvmfornfv.scenarios.description.rst
 
 *******************************************************
 os-nosdn-kvm_nfv_ovs_dpdk-noha Overview and Description
@@ -88,7 +88,7 @@ os-nosdn-kvm_nfv_ovs_dpdk-noha Overview and Description
    :numbered:
    :maxdepth: 3
 
-   ./scenarios/os-nosdn-kvm_nfv_ovs_dpdk-noha/os-nosdn-kvm_nfv_ovs_dpdk-noha.description.rst
+   ./release/scenarios/os-nosdn-kvm_nfv_ovs_dpdk-noha/os-nosdn-kvm_nfv_ovs_dpdk-noha.description.rst
 
 *****************************************************
 os-nosdn-kvm_nfv_ovs_dpdk-ha Overview and Description
@@ -99,7 +99,7 @@ os-nosdn-kvm_nfv_ovs_dpdk-ha Overview and Description
    :numbered:
    :maxdepth: 3
 
-   ./scenarios/os-nosdn-kvm_nfv_ovs_dpdk-ha/os-nosdn-kvm_nfv_ovs_dpdk-ha.description.rst
+   ./release/scenarios/os-nosdn-kvm_nfv_ovs_dpdk-ha/os-nosdn-kvm_nfv_ovs_dpdk-ha.description.rst
 
 ***********************************************************
 os-nosdn-kvm_nfv_ovs_dpdk_bar-noha Overview and Description
@@ -110,7 +110,7 @@ os-nosdn-kvm_nfv_ovs_dpdk_bar-noha Overview and Description
    :numbered:
    :maxdepth: 3
 
-   ./scenarios/os-nosdn-kvm_nfv_ovs_dpdk_bar-noha/os-nosdn-kvm_nfv_ovs_dpdk_bar-noha.description.rst
+   ./release/scenarios/os-nosdn-kvm_nfv_ovs_dpdk_bar-noha/os-nosdn-kvm_nfv_ovs_dpdk_bar-noha.description.rst
 
 *********************************************************
 os-nosdn-kvm_nfv_ovs_dpdk_bar-ha Overview and Description
@@ -121,7 +121,7 @@ os-nosdn-kvm_nfv_ovs_dpdk_bar-ha Overview and Description
    :numbered:
    :maxdepth: 3
 
-   ./scenarios/os-nosdn-kvm_nfv_ovs_dpdk_bar-ha/os-nosdn-kvm_nfv_ovs_dpdk_bar-ha.description.rst
+   ./release/scenarios/os-nosdn-kvm_nfv_ovs_dpdk_bar-ha/os-nosdn-kvm_nfv_ovs_dpdk_bar-ha.description.rst
 
 ******************
 KVM4NFV User Guide
@@ -132,18 +132,18 @@ KVM4NFV User Guide
    :numbered:
    :maxdepth: 3
 
-   ./userguide/abstract.rst
-   ./userguide/introduction.rst
-   ./userguide/common.platform.render.rst
-   ./userguide/feature.userguide.render.rst
-   ./userguide/Ftrace.debugging.tool.userguide.rst
-   ./userguide/kvmfornfv.cyclictest-dashboard.userguide.rst
-   ./userguide/low_latency.userguide.rst
-   ./userguide/live_migration.userguide.rst
-   ./userguide/openstack.rst
-   ./userguide/packet_forwarding.userguide.rst
-   ./userguide/pcm_utility.userguide.rst
-   ./userguide/tuning.userguide.rst
+   ./release/userguide/abstract.rst
+   ./release/userguide/introduction.rst
+   ./release/userguide/common.platform.render.rst
+   ./release/userguide/feature.userguide.render.rst
+   ./release/userguide/Ftrace.debugging.tool.userguide.rst
+   ./release/userguide/kvmfornfv.cyclictest-dashboard.userguide.rst
+   ./release/userguide/low_latency.userguide.rst
+   ./release/userguide/live_migration.userguide.rst
+   ./release/userguide/openstack.rst
+   ./release/userguide/packet_forwarding.userguide.rst
+   ./release/userguide/pcm_utility.userguide.rst
+   ./release/userguide/tuning.userguide.rst
 
 ********************
 KVM4NFV Releasenotes
@@ -154,7 +154,7 @@ KVM4NFV Releasenotes
    :numbered:
    :maxdepth: 3
 
-   ./releasenotes/release-notes.rst
+   ./release/releasenotes/release-notes.rst
 
 ****************
 KVM4NFV Glossary
@@ -165,4 +165,4 @@ KVM4NFV Glossary
    :numbered:
    :maxdepth: 3
 
-   ./glossary/kvmfornfv_glossary.rst
+   ./release/glossary/kvmfornfv_glossary.rst

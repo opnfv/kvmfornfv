@@ -77,8 +77,6 @@ CI pipeline, including:
 
   * Requirements Guide
 
-The *KVM4NFV framework* is developed in the OPNFV community, by the
-KVM4NFV_ team.
 
 Release Data
 ------------
@@ -205,7 +203,7 @@ Deliverables
 
   * os-nosdn-kvm_nfv_ovs_dpdk_bar-ha
 
-* Configured influxdb and `Graphana dashboard`_ for publishing kvm4nfv test results
+* Configured influxdb and `Graphana_dashboard`_ for publishing kvm4nfv test results
 
 .. _Graphana_dashboard: http://testresults.opnfv.org/grafana/dashboard/db/kvmfornfv-cyclictest
 

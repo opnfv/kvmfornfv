@@ -12,5 +12,6 @@ KVM4NFV Installation instruction
    :numbered:
    :maxdepth: 2
 
-   abstract.rst
-   kvm4nfv-cicd.installation.instruction.rst
+   ./abstract.rst
+   ./kvm4nfv-cicd.installation.instruction.rst
+   ./kvm4nfv-cicd.release.notes.rst

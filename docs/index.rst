@@ -23,13 +23,13 @@ KVM4NFV Installation Procedure
 ******************************
 
 .. toctree::
-   :caption: Installation Procedure
+   :caption: Installation
    :numbered:
    :maxdepth: 4
 
-   ./release/installationprocedure/abstract.rst
-   ./release/installationprocedure/kvm4nfv-cicd.installation.instruction.rst
-   ./release/installationprocedure/kvm4nfv-cicd.release.notes.rst
+   ./release/installation/abstract.rst
+   ./release/installation/kvm4nfv-cicd.installation.instruction.rst
+   ./release/installation/kvm4nfv-cicd.release.notes.rst
 
 ********************
 KVM4NFV Design Guide
@@ -62,10 +62,10 @@ KVM4NFV Configuration Guide
    :numbered:
    :maxdepth: 4
 
-   ./release/configurationguide/abstract.rst
-   ./release/configurationguide/configuration.options.render.rst
-   ./release/configurationguide/scenariomatrix.rst
-   ./release/configurationguide/low-latency.feature.configuration.description.rst
+   ./release/configguide/abstract.rst
+   ./release/configguide/configuration.options.render.rst
+   ./release/configguide/scenariomatrix.rst
+   ./release/configguide/low-latency.feature.configuration.description.rst
 
 ******************************************
 KVM4NFV Scenarios Overview and Description
@@ -155,14 +155,3 @@ KVM4NFV Releasenotes
    :maxdepth: 3
 
    ./release/releasenotes/release-notes.rst
-
-****************
-KVM4NFV Glossary
-****************
-
-.. toctree::
-   :caption: Glossary
-   :numbered:
-   :maxdepth: 3
-
-   ./release/glossary/kvmfornfv_glossary.rst

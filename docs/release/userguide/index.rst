@@ -23,3 +23,4 @@ KVM4NFV User Guide
    ./packet_forwarding.userguide.rst
    ./pcm_utility.userguide.rst
    ./tuning.userguide.rst
+   ./kvmfornfv_glossary.rst

@@ -16,4 +16,4 @@ Danube 1.0
    ./abstract.rst
    ./configuration.options.render.rst
    ./low-latency.feature.configuration.description.rst
-   ./os-nosdn-kvm-ha.description.rst
+   ./scenariomatrix.rst

@@ -202,7 +202,7 @@ Influxdb api which is already implemented in `Influxdb`_ will post the data in l
 ``Displaying Results on Grafana dashboard:``
 
 - Once the test results are stored in Influxdb, dashboard configuration file(Json) which used to display the cyclictest results
-on Grafana need to be created by following the `Grafana-procedure`_ and then pushed into `yardstick-repo`_
+on Grafana need to be created by following the `Grafana-procedure`_ and then pushed into `yardstick-repo`_\
 
 - Grafana can be accessed at `Login`_ using credentials opnfv/opnfv and used for visualizing the collected test data as shown in `Visual`_\
 

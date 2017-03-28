@@ -153,7 +153,7 @@ cyclictest of the KVM4NFV project. Outputs Avg, Min and Max latency values.
 
 CPU_Stress-Idle test-type
 ~~~~~~~~~~~~~~~~~~~~~~~~~
-Here, the host is under CPU stress, where multiple times sqrt() function is called on kernel which
+In this type, the host is under CPU stress, where multiple times sqrt() function is called on kernel which
 results increased CPU load. The cyclictest will run on the guest, where the guest is under no stress.
 Outputs Avg, Min and Max latency values.
 

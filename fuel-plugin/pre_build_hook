@@ -4,6 +4,10 @@ set -eux
 
 BUILD_FOR=${BUILD_FOR:-ubuntu}
 DIR="$(dirname `readlink -f $0`)"
+MODULES="${DIR}/deployment_scripts/puppet/modules"
+
+SHELLVAR_VERSION='2.2.1'
+SHELLVAR_URL="https://github.com/hercules-team/augeasproviders_shellvar/archive/${SHELLVAR_VERSION}.tar.gz"
 
 function build_pkg {
   case $1 in
@@ -25,3 +29,7 @@ for system in $BUILD_FOR
 do
   build_pkg $system
 done
+
+rm -rf ${MODULES}/shellvar
+mkdir -p ${MODULES}/shellvar
+wget -qO- ${SHELLVAR_URL} |  tar -C ${MODULES}/shellvar --strip-components=1 -zxvf -

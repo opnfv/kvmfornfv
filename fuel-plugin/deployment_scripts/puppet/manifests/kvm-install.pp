@@ -6,6 +6,14 @@ case $::operatingsystem {
     $kernel_kit      = ["linux-headers-${version}", "linux-image-${version}"]
     $kernel_src      = "/usr/src/linux-headers-${version}"
     $kernel_src_link = "/lib/modules/${version}/build"
+
+    shellvar { 'GRUB_DEFAULT':
+      ensure => present,
+      target => '/etc/default/grub',
+      value  => "Advanced options for Ubuntu>Ubuntu, with Linux ${version}",
+      quoted => 'double',
+      notify => Exec['update_grub'],
+    }
   }
   default: {
     fail("Unsupported operating system: ${::osfamily}/${::operatingsystem}")
@@ -19,6 +27,11 @@ if $kvm_settings['use_kvm'] {
 } else {
   $ensure_pkg  = 'purged'
   $ensure_link = 'absent'
+}
+
+exec { 'update_grub':
+  command     => '/usr/sbin/update-grub',
+  refreshonly => true,
 }
 
 package { $kernel_kit:

@@ -59,7 +59,7 @@ function cyclictest {
    #Update kvmfornfv_cyclictest_${testName}.yaml with test_time and pod.yaml with IP
    updateYaml
    #Running PCM utility
-   collect_MBWInfo $test_type
+   #collect_MBWInfo $test_type
    #Cleaning the environment before running cyclictest through yardstick
    env_clean
    #Creating a docker image with yardstick installed and launching ubuntu docker to run yardstick cyclic testcase
@@ -69,6 +69,8 @@ function cyclictest {
       echo "Test case execution FAILED for ${test_case} environment"
       cyclictest_result=`expr ${cyclictest_result} + 1`
    fi
+   echo "Checking the logs"
+   sudo ssh root@${HOST_IP} "cd /root/MBWInfo;ls -ltr"
    echo "Terminating PCM Process"
    sudo ssh root@${HOST_IP} "pid=\$(ps aux | grep 'pcm' | awk '{print \$2}' | head -1); echo \$pid |xargs kill -SIGTERM"
 }

@@ -75,21 +75,33 @@ function updateYaml {
        idle_idle)
                 ;;
        cpustress_idle)
+                      sed -i '/host-setup0.sh/i \    -\ "host-collect-MBWinfo.sh '"$testName"' '"$testType"'\"' kvmfornfv_cyclictest_${testName}.yaml
+                      sed -i '/host-setup1.sh/i \    -\ "host-collect-MBWinfo.sh '"$testName"' '"$testType"'\"' kvmfornfv_cyclictest_${testName}.yaml               
                       sed -i '/host-run-qemu.sh/a\    \- \"stress_daily.sh cpu\"' kvmfornfv_cyclictest_${testName}.yaml
                       ;;
        memorystress_idle)
+                      sed -i '/host-setup0.sh/i \    -\ "host-collect-MBWinfo.sh '"$testName"' '"$testType"'\"' kvmfornfv_cyclictest_${testName}.yaml
+                      sed -i '/host-setup1.sh/i \    -\ "host-collect-MBWinfo.sh '"$testName"' '"$testType"'\"' kvmfornfv_cyclictest_${testName}.yaml
                       sed -i '/host-run-qemu.sh/a\    \- \"stress_daily.sh memory\"' kvmfornfv_cyclictest_${testName}.yaml
                       ;;
        iostress_idle)
+                      sed -i '/host-setup0.sh/i \    -\ "host-collect-MBWinfo.sh '"$testName"' '"$testType"'\"' kvmfornfv_cyclictest_${testName}.yaml
+                      sed -i '/host-setup1.sh/i \    -\ "host-collect-MBWinfo.sh '"$testName"' '"$testType"'\"' kvmfornfv_cyclictest_${testName}.yaml
                       sed -i '/host-run-qemu.sh/a\    \- \"stress_daily.sh io\"' kvmfornfv_cyclictest_${testName}.yaml
                       ;;
        idle_cpustress)
+                      sed -i '/host-setup0.sh/i \    -\ "host-collect-MBWinfo.sh '"$testName"' '"$testType"'\"' kvmfornfv_cyclictest_${testName}.yaml
+                      sed -i '/host-setup1.sh/i \    -\ "host-collect-MBWinfo.sh '"$testName"' '"$testType"'\"' kvmfornfv_cyclictest_${testName}.yaml                 
                       sed -i '/guest-setup1.sh/a\    \- \"stress_daily.sh cpu\"' kvmfornfv_cyclictest_${testName}.yaml
                       ;;
        idle_memorystress)
+                      sed -i '/host-setup0.sh/i \    -\ "host-collect-MBWinfo.sh '"$testName"' '"$testType"'\"' kvmfornfv_cyclictest_${testName}.yaml
+                      sed -i '/host-setup1.sh/i \    -\ "host-collect-MBWinfo.sh '"$testName"' '"$testType"'\"' kvmfornfv_cyclictest_${testName}.yaml
                       sed -i '/guest-setup1.sh/a\    \- \"stress_daily.sh memory\"' kvmfornfv_cyclictest_${testName}.yaml
                       ;;
        idle_iostress)
+                      sed -i '/host-setup0.sh/i \    -\ "host-collect-MBWinfo.sh '"$testName"' '"$testType"'\"' kvmfornfv_cyclictest_${testName}.yaml
+                      sed -i '/host-setup1.sh/i \    -\ "host-collect-MBWinfo.sh '"$testName"' '"$testType"'\"' kvmfornfv_cyclictest_${testName}.yaml
                       sed -i '/guest-setup1.sh/a\    \- \"stress_daily.sh io\"' kvmfornfv_cyclictest_${testName}.yaml
                       ;;
         *)
@@ -182,7 +194,9 @@ function runCyclicTest {
    if [ "$testName" == "iostress_idle" ];then
       copyLogs
    fi
-
+   echo "Checking for logs"
+   cd /root/MBWInfo
+   ls -ltr *
    #Verifying the results of cyclictest
    if [ "$testType" == "verify" ];then
       result=`grep -o '"errors":[^,]*' ${volume}/yardstick.out | awk -F '"' '{print $4}'`

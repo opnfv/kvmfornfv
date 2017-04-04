@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9ab8dda7_1296124d",
+        "filename": "ci/apex_build.sh",
+        "patchSetId": 12
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2017-04-04T16:42:56Z",
+      "side": 1,
+      "message": "I\u0027m ok to this change now, since I assume this code is not executed often.\n\nPossibly in future we can enhance it if needed. I think if we first clone from local build_dir and then fetch the remote one, it will reduce the time for the clone. But it\u0027s ok for now.",
+      "revId": "6cd1a71456bc1ae7f84571c5944fa250989fd110",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}

@@ -12,10 +12,10 @@ EXIT=0
 EXIT_TC_FAILED=1
 
 # DAILY - run selected TCs for defined packet sizes
-TESTCASES_DAILY='phy2phy_tput phy2phy_tput_mod_vlan pvp_tput'
-TESTPARAM_DAILY='--test-params TRAFFICGEN_PKT_SIZES=(64,128,512,1024,1518)'
+TESTCASES_DAILY='phy2phy_tput'
+#TESTPARAM_DAILY='--test-params TRAFFICGEN_PKT_SIZES=(64,128,512,1024,1518)'
 TESTCASES_SRIOV='pvp_tput'
-TESTPARAM_SRIOV='--test-params TRAFFICGEN_PKT_SIZES=(64,128,512,1024,1518)'
+#TESTPARAM_SRIOV='--test-params TRAFFICGEN_PKT_SIZES=(64,128,512,1024,1518)'
 
 #mounting shared directory for collecting ixia test results.
 shared_dir=$(sudo mount | grep ixia_results)
@@ -87,7 +87,7 @@ function publish_results() {
 function execute_vsperf() {
     # figure out list of TCs and execution parameters
     case $2 in
-        "daily")
+        "verify")
             TESTPARAM=$TESTPARAM_DAILY
             TESTCASES=$TESTCASES_DAILY
             ;;
@@ -168,12 +168,12 @@ install_qemu
 
 # execute job based on passed parameter
 case $1 in
-    "daily")
+    "verify")
         echo "========================================================"
         echo "KVM4NFV daily job executing packet forwarding test cases"
         echo "========================================================"
         execute_vsperf OVS_with_DPDK_and_vHost_User $1
-        execute_vsperf SRIOV $1
+        #execute_vsperf SRIOV $1
         exit $EXIT
         ;;
     *)

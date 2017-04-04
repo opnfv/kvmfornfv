@@ -21,11 +21,12 @@ packetforward_result=0 #exit code of packet forward
 source $WORKSPACE/ci/envs/host-config
 
 function packetForward {
+   HOST_IP="10.10.100.22"
    #executing packet forwarding test cases based on the job type.
-   if [ ${test_type} == "verify" ];then
+   if [ ${test_type} == "daily" ];then
       echo "packet forwarding test cases are not yet implemented for verify job"
       packetforward_result=0
-   elif [ ${test_type} == "daily" ];then
+   elif [ ${test_type} == "verify" ];then
       source $WORKSPACE/ci/cyclicTestTrigger.sh $HOST_IP
       connect_host
       #Waiting for ssh to be available for the host machine.
@@ -127,8 +128,9 @@ if [ ${test_type} == "verify" ];then
       for env in ${cyclictest_env_verify[@]}
       do
          #Executing cyclictest through yardstick.
-         cyclictest ${env}
-         sleep 10
+         echo "skipping the cyclictest test cases for now"
+         #cyclictest ${env}
+         sleep 1
       done
       #Execution of packet forwarding test cases.
       packetForward

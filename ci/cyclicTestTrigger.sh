@@ -154,7 +154,7 @@ function setUpPacketForwarding {
    scp -r $WORKSPACE/build_output/qemu-${QEMURPM_VERSION}*.rpm root@$HOST_IP:/root/workspace/rpm
    #execute host configuration script for installing kvm built kernel.
    ssh root@$HOST_IP "cd /root/workspace/scripts ; ./host-setup0.sh"
-   ssh root@$HOST_IP "cd /root/workspace/rpm ; rpm -ivh kernel-devel-${KERNELRPM_VERSION}*.rpm"
+   #ssh root@$HOST_IP "cd /root/workspace/rpm ; rpm -ivh kernel-devel-${KERNELRPM_VERSION}*.rpm"
    ssh root@$HOST_IP "reboot"
    sleep 10
 }

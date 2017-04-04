@@ -12,10 +12,10 @@ EXIT=0
 EXIT_TC_FAILED=1
 
 # DAILY - run selected TCs for defined packet sizes
-TESTCASES_DAILY='phy2phy_tput phy2phy_tput_mod_vlan pvp_tput'
-TESTPARAM_DAILY='--test-params TRAFFICGEN_PKT_SIZES=(64,128,512,1024,1518)'
+TESTCASES_DAILY='phy2phy_tput_mod_vlan'
+#TESTPARAM_DAILY='--test-params TRAFFICGEN_PKT_SIZES=(64,128,512,1024,1518)'
 TESTCASES_SRIOV='pvp_tput'
-TESTPARAM_SRIOV='--test-params TRAFFICGEN_PKT_SIZES=(64,128,512,1024,1518)'
+#TESTPARAM_SRIOV='--test-params TRAFFICGEN_PKT_SIZES=(64,128)'
 
 #mounting shared directory for collecting ixia test results.
 shared_dir=$(sudo mount | grep ixia_results)
@@ -80,14 +80,15 @@ function print_results() {
 function publish_results() {
     test_type=$1
     results_dir=${TEST_REPORT_LOG_DIR}/${LOG_SUBDIR}/results*
-    time_stamp=$(date -u +"%Y-%m-%d-%H-%M-%S")
-    ( cd /root/workspace/scripts ; python data_publish.py $time_stamp $test_type $results_dir )
+    time_stamp=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+    #time_stamp=`ls | grep results* |  awk -F '_' '{print $2,$3}' | awk '{ gsub (" ", "-", $0); print}'`
+    ( cd /root/workspace/scripts ; python2.7 data_publish.py $time_stamp $test_type $results_dir )
 }
 
 function execute_vsperf() {
     # figure out list of TCs and execution parameters
     case $2 in
-        "daily")
+        "verify")
             TESTPARAM=$TESTPARAM_DAILY
             TESTCASES=$TESTCASES_DAILY
             ;;
@@ -168,7 +169,7 @@ install_qemu
 
 # execute job based on passed parameter
 case $1 in
-    "daily")
+    "verify")
         echo "========================================================"
         echo "KVM4NFV daily job executing packet forwarding test cases"
         echo "========================================================"

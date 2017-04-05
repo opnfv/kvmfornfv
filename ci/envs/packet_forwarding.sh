@@ -77,6 +77,13 @@ function print_results() {
     done
 }
 
+function publish_results() {
+    test_type=$1
+    results_dir=${TEST_REPORT_LOG_DIR}/${LOG_SUBDIR}/results*
+    time_stamp=$(date -u +"%Y-%m-%d-%H-%M-%S")
+    ( cd /root/workspace/scripts ; python data_publish.py $time_stamp $test_type $results_dir )
+}
+
 function execute_vsperf() {
     # figure out list of TCs and execution parameters
     case $2 in
@@ -148,6 +155,9 @@ function execute_vsperf() {
     mkdir -p ${TEST_REPORT_LOG_DIR}/${LOG_SUBDIR}
     [ -f "$LOG_FILE" ] && mv "${LOG_FILE}" "${TEST_REPORT_LOG_DIR}/${LOG_SUBDIR}" &> /dev/null
     [ -d "$RES_DIR" ] && mv "$RES_DIR" "${TEST_REPORT_LOG_DIR}/${LOG_SUBDIR}" &> /dev/null
+
+    # Publish test cases results to Grafana Dashboard
+    publish_results $1
 }
 
 #Install vsperf and set up the environment

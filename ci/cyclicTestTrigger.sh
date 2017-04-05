@@ -189,7 +189,7 @@ function runCyclicTest {
    sudo docker run -i -v ${volume}:/opt --net=host --name kvmfornfv_${testType}_${testName} \
    kvmfornfv:latest /bin/bash -c "cd /opt/scripts && ls; ./cyclictest.sh $testType $testName"
    cyclictest_output=$?
-   if [ "$testName" == "iostress_idle" ];then
+   if [ "$testName" == "memorystress_idle" ];then
       copyLogs
    fi
 

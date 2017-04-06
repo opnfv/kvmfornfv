@@ -31,6 +31,7 @@ qmp_sock="/tmp/qmp-sock"
 #    -nographic -serial /dev/null -parallel /dev/null
 
 ${qemu} -smp ${guest_cpus} -monitor unix:${qmp_sock},server,nowait \
+     -cpu host,migratable=off,+invtsc,+tsc-deadline,pmu=off
      -drive file=/root/guest1.qcow2 -daemonize \
      -netdev user,id=net0,hostfwd=tcp:$HOST_IP:5555-:22 \
      -realtime mlock=on -mem-prealloc -enable-kvm -m 1G \

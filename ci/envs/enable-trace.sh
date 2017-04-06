@@ -47,12 +47,11 @@ bash -c "echo 1 > $TRACEDIR/events/kvm/enable"
 bash -c "echo 1 > $TRACEDIR/events/workqueue/enable"
 bash -c "echo 1 > $TRACEDIR/events/power/enable"
 bash -c "echo 1 > $TRACEDIR/events/signal/enable"
-
-bash -c "echo 1 > events/tlb/enable"
+bash -c "echo 1 > $TRACEDIR/events/tlb/enable"
 
 # Clean original log info
 bash -c "echo > $TRACEDIR/trace"
-bash -c "echo function > $TRACEDIR/current_tracer"
+#bash -c "echo function > $TRACEDIR/current_tracer"
 sysctl kernel.ftrace_enabled=1
 #echo 0 >tracing_on; sleep 1; echo 1 >tracing_on; sleep 20; echo 0 >tracing_on;sleep 1; cat trace >/tmp/123.txt
 bash -c "echo 1 >$TRACEDIR/tracing_on"

@@ -71,13 +71,33 @@ function test_exit {
    exit $exitCode
 }
 
+function mbw_publish {
+   for file_name in $WORKSPACE/build_output/log/MBWInfo/*
+   do
+   echo "Current file is: $file_name"
+   time_stamp=$(echo $file_name | sed 's/.*_//')
+   test_name=$(echo $file_name | cut --delimiter="/" -f 11 | cut --delimiter="_" -f 2,3)
+   #Delay parameter in seconds provided to pcm-memory.x command
+   time_iteration=60
+
+   read=`grep -inr "System Read Throughput" ${file_name} | awk -F '|--' '{print $2}' | awk -F, '{gsub(/ /, "", $0); print}'|awk -F ' :' '{print $2}'`
+   write=`grep -inr "System Write Throughput" ${file_name} | awk -F '|--' '{print $2}' | awk -F, '{gsub(/ /, "", $0); print}'|awk -F ':' '{print $2}'`
+   memory=`grep -inr "System Memory Throughput" ${file_name} | awk -F '|--' '{print $2}' | awk -F, '{gsub(/ /, "", $0); print}'|awk -F ':' '{print $2}'`
+   echo $read $write $memory 
+   echo "Time stamp and testname:$time_stamp $test_name"
+# Calling MBW_influx_publish.py script to publish the read/write throughput values by timstamp into influxdb
+   python2.7 $WORKSPACE/tests/MBW_influx_publish.py $test_name $time_stamp $time_iteration -r "${read}" -w "${write}" -m "${memory}"
+   done
+}
+
 function copyLogs {
    echo "Copying Log files from Node to Jump Server"
    sudo ssh root@${HOST_IP} "cd /root;tar -czvf MBWInfo.tar.gz MBWInfo"
-   mkdir -p $WORKSPACE/build_output/log/MBWInfo
-   scp root@${HOST_IP}:/root/MBWInfo.tar.gz $WORKSPACE/build_output/log/MBWInfo
+   mkdir -p $WORKSPACE/build_output/log
+   scp root@${HOST_IP}:/root/MBWInfo.tar.gz $WORKSPACE/build_output/log
    echo "Listing all the logs collected"
-   cd $WORKSPACE;ls build_output/log/MBWInfo;
+   cd $WORKSPACE/build_output/log;tar -xvzf MBWInfo.tar.gz;
+   ls $WORKSPACE/build_output/log/MBWInfo
    sudo ssh root@${HOST_IP} "cd /root;rm -rf MBWInfo MBWInfo.tar.gz"
 }
 

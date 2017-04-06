@@ -53,18 +53,20 @@ function getTestParams {
 function cyclictest {
    test_case=$1
    source $WORKSPACE/ci/cyclicTestTrigger.sh $HOST_IP $test_time $test_type $test_case
-   #Verifying whether the test node is up and running
+    #Verifying whether the test node is up and running
    connect_host
    #Waiting for ssh to be available for the host machine.
    sleep 20
+   if [ ${test_case} != "idle_idle" ];then
+   echo "Checking the logs"
+   sudo ssh root@${HOST_IP} "cd /root/MBWInfo;ls -ltr MBW*"
+   fi
    #calculating and verifying sha512sum of the guestimage.
    if ! verifyGuestImage;then
       exit 1
    fi
    #Update kvmfornfv_cyclictest_${testName}.yaml with test_time and pod.yaml with IP
    updateYaml
-   #Running PCM utility
-   collect_MBWInfo $test_type
    #Cleaning the environment before running cyclictest through yardstick
    env_clean
    #Creating a docker image with yardstick installed and launching ubuntu docker to run yardstick cyclic testcase
@@ -74,18 +76,10 @@ function cyclictest {
       echo "Test case execution FAILED for ${test_case} environment"
       cyclictest_result=`expr ${cyclictest_result} + 1`
    fi
-   echo "Terminating PCM Process"
-   sudo ssh root@${HOST_IP} "pid=\$(ps aux | grep 'pcm' | awk '{print \$2}' | head -1); echo \$pid |xargs kill -SIGTERM"
 }
-#Collecting the Memory Bandwidth Information using pcm-memory utility
-function collect_MBWInfo {
-   testType=$1
-   timeStamp=$(date +%Y%m%d%H%M%S)
-   echo "Running PCM memory to collect memory bandwidth"
-   sudo ssh root@${HOST_IP} "mkdir -p /root/MBWInfo"
-   sudo ssh root@${HOST_IP} "${pcm_memory} 60 &>/root/MBWInfo/MBWInfo_${testType}_${timeStamp} &disown"
-}
+
 function install_pcm {
+   sudo ssh root@${HOST_IP} "echo "Disabling NMI watchdog";echo 0 > /proc/sys/kernel/nmi_watchdog"
    sudo ssh root@${HOST_IP} '
    modelName=`cat /proc/cpuinfo | grep -i "model name" | uniq`
    if echo "$modelName" | grep -i "xeon" ;then

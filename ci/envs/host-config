@@ -71,13 +71,39 @@ function test_exit {
    exit $exitCode
 }
 
+function mbw_publish {
+   sudo ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ${HOST_IP} '
+   cd /root
+   ls -ltr MBWInfo/*
+   if [ -d "MBWInfo" ]; then
+      for file_name in MBWInfo/*
+      do
+        echo "Current file is: $file_name"
+        cat $file_name
+        time_stamp=$(echo $file_name | sed "s/.*_//")
+        test_name=$(echo $file_name | cut --delimiter="/" -f 2 | cut --delimiter="_" -f 2,3)
+        time_iteration=60
+        read=`grep -inr "System Read Throughput" ${file_name} | sed "s/ //g" | cut -d":" -f 3 | cut -d"-" -f 1`
+        write=`grep -inr "System Write Throughput" ${file_name} | sed "s/ //g" | cut -d":" -f 3 | cut -d"-" -f 1`
+        memory=`grep -inr "System Memory Throughput" ${file_name} | sed "s/ //g" | cut -d":" -f 3 | cut -d"-" -f 1`
+        echo $read $write $memory
+        echo "Time stamp and testname:$time_stamp $test_name"
+        python workspace/scripts/MBW_influx_publish.py $test_name $time_stamp $time_iteration -r "${read}" -w "${write}" -m "${memory}"
+      done
+   else
+      echo " No logs found"
+   fi
+   '
+}
+
 function copyLogs {
    echo "Copying Log files from Node to Jump Server"
    sudo ssh root@${HOST_IP} "cd /root;tar -czvf MBWInfo.tar.gz MBWInfo"
-   mkdir -p $WORKSPACE/build_output/log/MBWInfo
-   scp root@${HOST_IP}:/root/MBWInfo.tar.gz $WORKSPACE/build_output/log/MBWInfo
+   mkdir -p $WORKSPACE/build_output/log
+   scp root@${HOST_IP}:/root/MBWInfo.tar.gz $WORKSPACE/build_output/log
    echo "Listing all the logs collected"
-   cd $WORKSPACE;ls build_output/log/MBWInfo;
+   cd $WORKSPACE/build_output/log;tar -xvzf MBWInfo.tar.gz;
+   ls $WORKSPACE/build_output/log/MBWInfo
    sudo ssh root@${HOST_IP} "cd /root;rm -rf MBWInfo MBWInfo.tar.gz"
 }
 

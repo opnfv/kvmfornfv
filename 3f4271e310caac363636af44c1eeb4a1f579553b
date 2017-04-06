@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9ab8dda7_5e7d716d",
+        "filename": "ci/envs/enable-trace.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2017-04-06T17:26:10Z",
+      "side": 1,
+      "message": "Can you please change this too? It should have $TRACEDIR.",
+      "revId": "3f4271e310caac363636af44c1eeb4a1f579553b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}

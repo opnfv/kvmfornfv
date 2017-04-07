@@ -81,15 +81,23 @@ function updateYaml {
    sed -ri "s/tc: \"kvmfornfv_cyclictest-node-context\"/tc: \"kvmfornfv_cyclictest_${testName}\"/" kvmfornfv_cyclictest_${testName}.yaml
    case $testName in
 
-       idle_idle)
+       idle_idle) 
+                sed -i '/host-setup0.sh/i \    -\ "host-collect-MBWinfo.sh '"$testName"' '"$testType"'\"' kvmfornfv_cyclictest_${testName}.yaml
+                sed -i '/host-setup1.sh/i \    -\ "host-collect-MBWinfo.sh '"$testName"' '"$testType"'\"' kvmfornfv_cyclictest_${testName}.yaml
                 ;;
        cpustress_idle)
+                      sed -i '/host-setup0.sh/i \    -\ "host-collect-MBWinfo.sh '"$testName"' '"$testType"'\"' kvmfornfv_cyclictest_${testName}.yaml
+                      sed -i '/host-setup1.sh/i \    -\ "host-collect-MBWinfo.sh '"$testName"' '"$testType"'\"' kvmfornfv_cyclictest_${testName}.yaml
                       sed -i '/host-run-qemu.sh/a\    \- \"stress_daily.sh cpu\"' kvmfornfv_cyclictest_${testName}.yaml
                       ;;
        memorystress_idle)
+                      sed -i '/host-setup0.sh/i \    -\ "host-collect-MBWinfo.sh '"$testName"' '"$testType"'\"' kvmfornfv_cyclictest_${testName}.yaml
+                      sed -i '/host-setup1.sh/i \    -\ "host-collect-MBWinfo.sh '"$testName"' '"$testType"'\"' kvmfornfv_cyclictest_${testName}.yaml 
                       sed -i '/host-run-qemu.sh/a\    \- \"stress_daily.sh memory\"' kvmfornfv_cyclictest_${testName}.yaml
                       ;;
        iostress_idle)
+                      sed -i '/host-setup0.sh/i \    -\ "host-collect-MBWinfo.sh '"$testName"' '"$testType"'\"' kvmfornfv_cyclictest_${testName}.yaml
+                      sed -i '/host-setup1.sh/i \    -\ "host-collect-MBWinfo.sh '"$testName"' '"$testType"'\"' kvmfornfv_cyclictest_${testName}.yaml
                       sed -i '/host-run-qemu.sh/a\    \- \"stress_daily.sh io\"' kvmfornfv_cyclictest_${testName}.yaml
                       ;;
        idle_cpustress)
@@ -114,8 +122,11 @@ function env_clean {
     sudo docker stop ${container_id}
     sudo docker rm ${container_id}
     sudo ssh root@${HOST_IP} "rm -rf /root/workspace/*"
+    sudo ssh root@${HOST_IP} "rm -rf /root/MBWInfo"
     sudo ssh root@${HOST_IP} "pid=\$(ps aux | grep 'qemu' | awk '{print \$2}' | head -1); echo \$pid |xargs kill"
     sudo rm -rf /tmp/kvmtest-${testType}*
+    echo "Terminating PCM Process"
+    sudo ssh root@${HOST_IP} "pid=\$(ps aux | grep 'pcm' | awk '{print \$2}' | head -1);echo \$pid; echo \$pid |xargs kill -SIGTERM"
 }
 
 #Cleaning the latest kernel changes on host after executing the test.
@@ -190,6 +201,8 @@ function runCyclicTest {
    kvmfornfv:latest /bin/bash -c "cd /opt/scripts && ls; ./cyclictest.sh $testType $testName"
    cyclictest_output=$?
    if [ "$testName" == "memorystress_idle" ];then
+      echo "Inserting read/write values into influxdb"
+      mbw_publish
       copyLogs
    fi
 

@@ -114,8 +114,11 @@ function env_clean {
     sudo docker stop ${container_id}
     sudo docker rm ${container_id}
     sudo ssh root@${HOST_IP} "rm -rf /root/workspace/*"
+    sudo ssh root@${HOST_IP} "rm -rf /root/MBWInfo"
     sudo ssh root@${HOST_IP} "pid=\$(ps aux | grep 'qemu' | awk '{print \$2}' | head -1); echo \$pid |xargs kill"
     sudo rm -rf /tmp/kvmtest-${testType}*
+    echo "Terminating PCM Process"
+    sudo ssh root@${HOST_IP} "pid=\$(ps aux | grep 'pcm' | awk '{print \$2}' | head -1);echo \$pid; echo \$pid |xargs kill -SIGTERM"
 }
 
 #Cleaning the latest kernel changes on host after executing the test.
@@ -190,6 +193,8 @@ function runCyclicTest {
    kvmfornfv:latest /bin/bash -c "cd /opt/scripts && ls; ./cyclictest.sh $testType $testName"
    cyclictest_output=$?
    if [ "$testName" == "memorystress_idle" ];then
+      echo "Inserting read/write values into influxdb"
+      mbw_publish
       copyLogs
    fi
 

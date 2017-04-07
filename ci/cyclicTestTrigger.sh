@@ -82,14 +82,22 @@ function updateYaml {
    case $testName in
 
        idle_idle)
+                sed -i '/host-setup0.sh/i \    -\ "host-collect-MBWinfo.sh '"$testName"' '"$testType"'\"' kvmfornfv_cyclictest_${testName}.yaml
+                sed -i '/host-setup1.sh/i \    -\ "host-collect-MBWinfo.sh '"$testName"' '"$testType"'\"' kvmfornfv_cyclictest_${testName}.yaml
                 ;;
        cpustress_idle)
+                      sed -i '/host-setup0.sh/i \    -\ "host-collect-MBWinfo.sh '"$testName"' '"$testType"'\"' kvmfornfv_cyclictest_${testName}.yaml
+                      sed -i '/host-setup1.sh/i \    -\ "host-collect-MBWinfo.sh '"$testName"' '"$testType"'\"' kvmfornfv_cyclictest_${testName}.yaml
                       sed -i '/host-run-qemu.sh/a\    \- \"stress_daily.sh cpu\"' kvmfornfv_cyclictest_${testName}.yaml
                       ;;
        memorystress_idle)
+                      sed -i '/host-setup0.sh/i \    -\ "host-collect-MBWinfo.sh '"$testName"' '"$testType"'\"' kvmfornfv_cyclictest_${testName}.yaml
+                      sed -i '/host-setup1.sh/i \    -\ "host-collect-MBWinfo.sh '"$testName"' '"$testType"'\"' kvmfornfv_cyclictest_${testName}.yaml
                       sed -i '/host-run-qemu.sh/a\    \- \"stress_daily.sh memory\"' kvmfornfv_cyclictest_${testName}.yaml
                       ;;
        iostress_idle)
+                      sed -i '/host-setup0.sh/i \    -\ "host-collect-MBWinfo.sh '"$testName"' '"$testType"'\"' kvmfornfv_cyclictest_${testName}.yaml
+                      sed -i '/host-setup1.sh/i \    -\ "host-collect-MBWinfo.sh '"$testName"' '"$testType"'\"' kvmfornfv_cyclictest_${testName}.yaml
                       sed -i '/host-run-qemu.sh/a\    \- \"stress_daily.sh io\"' kvmfornfv_cyclictest_${testName}.yaml
                       ;;
        idle_cpustress)
@@ -116,6 +124,8 @@ function env_clean {
     sudo ssh root@${HOST_IP} "rm -rf /root/workspace/*"
     sudo ssh root@${HOST_IP} "pid=\$(ps aux | grep 'qemu' | awk '{print \$2}' | head -1); echo \$pid |xargs kill"
     sudo rm -rf /tmp/kvmtest-${testType}*
+    echo "Terminating PCM Process"
+    sudo ssh root@${HOST_IP} "pid=\$(ps aux | grep 'pcm' | awk '{print \$2}' | head -1);echo \$pid; echo \$pid |xargs kill -SIGTERM"
 }
 
 #Cleaning the latest kernel changes on host after executing the test.
@@ -189,8 +199,13 @@ function runCyclicTest {
    sudo docker run -i -v ${volume}:/opt --net=host --name kvmfornfv_${testType}_${testName} \
    kvmfornfv:latest /bin/bash -c "cd /opt/scripts && ls; ./cyclictest.sh $testType $testName"
    cyclictest_output=$?
-   if [ "$testName" == "memorystress_idle" ];then
-      copyLogs
+   #Publishing results of PCM only for daily job
+   if [ "$testType" == "daily" ];then
+      if [ "$testName" == "memorystress_idle" ];then
+         echo "Inserting read/write throughput values into influxdb"
+         mbw_publish
+         copyLogs
+      fi
    fi
 
    #Disabling ftrace after completion of executing test cases.

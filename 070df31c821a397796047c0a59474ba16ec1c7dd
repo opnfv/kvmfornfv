@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9ab8dda7_980d3c3a",
+        "filename": "ci/envs/data_publish.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2017-04-10T05:38:57Z",
+      "side": 1,
+      "message": "I assume this local InfluxDB is just a temp solution, right?\n If yes, then I don\u0027t think we should merge this in, although it can sure be used as a testing patch?",
+      "revId": "070df31c821a397796047c0a59474ba16ec1c7dd",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}

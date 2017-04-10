@@ -119,6 +119,10 @@ then
     output_dir=$WORKSPACE/build_output
 fi
 
+echo "Job name is: $JOB_NAME"
+job_type=`echo $JOB_NAME | cut -d '-' -f 2`
+echo "Job type is: $job_type"
+
 echo ""
 echo "Building for $type package in $output_dir"
 echo ""
@@ -138,4 +142,19 @@ if [ ${apex_build_flag} -eq 1 ];then
     rename 's/^/kvmfornfv-'${short_hash}'-apex-/' kernel-*
     variable=`ls kvmfornfv-* | grep "devel" | awk -F "_" '{print $3}' | awk -F "." '{print $1}'`
     rename "s/${variable}/centos/" kvmfornfv-*
+fi
+
+# Uploading rpms only for daily job
+if [ $job_type == "verify" ]; then
+   if [ $type == "centos" ]; then
+      echo "Removing kernel-debuginfo rpm from output_dir"
+      rm -f ${output_dir}/kernel-debug*
+      echo "Checking packages in output_dir"
+      ls -lrth ${output_dir}
+   else
+     echo "Removing debug debian from output_dir"
+     rm -f ${output_dir}/*dbg*
+     echo "Checking packages in output_dir"
+     ls -lrth ${output_dir}
+   fi
 fi

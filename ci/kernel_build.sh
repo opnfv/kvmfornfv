@@ -50,8 +50,8 @@ EOF
 
 # Build the kernel debs
 make-kpkg clean
-fakeroot make-kpkg --initrd --revision=$VERSION kernel_image kernel_headers
-make
+fakeroot make-kpkg --initrd --revision=$VERSION kernel_image kernel_headers kernel_debug -j$(nproc)
+make  
 mv /root/kvmfornfv/linux-* /root/kvmfornfv/build_output
 }
 

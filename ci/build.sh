@@ -24,15 +24,17 @@ function checking_apex_build() {
 
 function usage() {
     echo ""
-    echo "Usage --> $0 [-p package_type] [-o output_dir] [-h]"
+    echo "Usage --> $0 [-p package_type] [-o output_dir] [-t job_type] [-h]"
     echo "  package_type : centos/ubuntu/both ;  default is centos"
     echo "  output_dir : stores rpm and debian packages"
+    echo "  job_type : verify/daily"
     echo "  -h : Help section"
     echo ""
 }
 
 output_dir=""
 type=""
+job_type=""
 
 function run() {
    case $1 in
@@ -81,13 +83,16 @@ function build_package() {
 }
 
 ##  --- Parse command line arguments / parameters ---
-while getopts ":o:p:h" option; do
+while getopts ":o:t:p:h" option; do
     case $option in
         p) # package
           type=$OPTARG
           ;;
         o) # output_dir
           output_dir=$OPTARG
+          ;;
+        t) # job_type
+          job_type=$OPTARG
           ;;
         :)
           echo "Option -$OPTARG requires an argument."
@@ -119,6 +124,11 @@ then
     output_dir=$WORKSPACE/build_output
 fi
 
+if [[ -z "$job_type" ]]
+then
+    job_type='verify'
+fi
+
 echo ""
 echo "Building for $type package in $output_dir"
 echo ""
@@ -138,4 +148,15 @@ if [ ${apex_build_flag} -eq 1 ];then
     rename 's/^/kvmfornfv-'${short_hash}'-apex-/' kernel-*
     variable=`ls kvmfornfv-* | grep "devel" | awk -F "_" '{print $3}' | awk -F "." '{print $1}'`
     rename "s/${variable}/centos/" kvmfornfv-*
+fi
+
+# Modifying the packages in build_output based on the job_type(verify/daily)
+if [ $job_type == "verify" ]; then
+   if [ $type == "centos" ]; then
+      echo "Remove kernel-debuginfo rpm package from build_output" 
+      rm -f $WORKSPACE/${output_dir}/kernel-debuginfo*
+   else
+      echo "Remove linux-image-dbg debian package from build_output" 
+      rm -f $WORKSPACE/${output_dir}/*dbg.rpm
+   fi
 fi

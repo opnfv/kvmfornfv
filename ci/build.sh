@@ -139,3 +139,7 @@ if [ ${apex_build_flag} -eq 1 ];then
     variable=`ls kvmfornfv-* | grep "devel" | awk -F "_" '{print $3}' | awk -F "." '{print $1}'`
     rename "s/${variable}/centos/" kvmfornfv-*
 fi
+
+# Checking the rpms in output_dir
+cd ${output_dir}
+ls -lrth

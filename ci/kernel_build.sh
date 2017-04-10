@@ -5,6 +5,10 @@ source ./ci/kernelConfigValidate.sh
 kernel_build_validate $@
 kernel_build_prep
 
+echo "job name is: $JOB_NAME"
+job_type=`echo $JOB_NAME | cut -d '-' -f 2`
+echo "job_type is: $job_type"
+
 kernel_rpm_build() {
    rpmbuild_dir=/tmp/kvmfornfv_rpmbuild.$$
    artifact_dir=${rpmbuild_dir}/RPMS/x86_64
@@ -17,6 +21,9 @@ kernel_rpm_build() {
       echo "${0}: Kernel build failed"
       rm -rf ${rpmbuild_dir}
       exit 1
+   fi
+   if [ $job_type == "verify" ] ; then
+      rm -f ${artifact_dir}/kernel-debug*
    fi
    cp -f ${artifact_dir}/* ${output_dir}
    rm -rf ${rpmbuild_dir}
@@ -50,8 +57,11 @@ EOF
 
 # Build the kernel debs
 make-kpkg clean
-fakeroot make-kpkg --initrd --revision=$VERSION kernel_image kernel_headers
+fakeroot make-kpkg --initrd --revision=$VERSION kernel_image kernel_headers kernel_debug -j$(nproc)
 make
+if [ $job_type == "verify" ] ; then
+   rm -f /root/kvmfornfv/*dbg*
+fi   
 mv /root/kvmfornfv/linux-* /root/kvmfornfv/build_output
 }
 

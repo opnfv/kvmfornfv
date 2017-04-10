@@ -39,10 +39,9 @@ if ! $PREBUILT; then
 echo "Source: kernel-$__KERNELRELEASE.tar.gz"
 fi
 
+echo "%undefine _missing_build_ids_terminate_build"
 echo "BuildRoot: %{_tmppath}/%{name}-%{PACKAGE_VERSION}-root"
 echo "Provides: $PROVIDES"
-echo "%define __spec_install_post /usr/lib/rpm/brp-compress || :"
-echo "%define debug_package %{nil}"
 echo ""
 echo "%description"
 echo "The Linux Kernel, the operating system core itself"
@@ -81,6 +80,8 @@ echo "make clean && make %{?_smp_mflags}"
 echo ""
 fi
 
+echo ""
+
 echo "%install"
 echo 'KBUILD_IMAGE=$(make image_name)'
 echo "%ifarch ia64"
@@ -90,7 +91,8 @@ echo 'mkdir -p $RPM_BUILD_ROOT/boot $RPM_BUILD_ROOT/lib/modules'
 echo "%endif"
 echo 'mkdir -p $RPM_BUILD_ROOT'"/lib/firmware/$KERNELRELEASE"
 
-echo 'INSTALL_MOD_PATH=$RPM_BUILD_ROOT make %{?_smp_mflags} KBUILD_SRC= mod-fw= modules_install'
+echo 'INSTALL_MOD_PATH=$RPM_BUILD_ROOT make %{?_smp_mflags} INSTALL_MOD_STRIP=1 KBUILD_SRC= mod-fw= modules_install'
+echo '/opt/kvmfornfv/ci/kernel_debug.sh $RPM_BUILD_ROOT'
 echo 'INSTALL_FW_PATH=$RPM_BUILD_ROOT'"/lib/firmware/$KERNELRELEASE"
 echo 'make INSTALL_FW_PATH=$INSTALL_FW_PATH' firmware_install
 echo "%ifarch ia64"
@@ -110,15 +112,15 @@ echo 'cp System.map $RPM_BUILD_ROOT'"/boot/System.map-$KERNELRELEASE"
 
 echo 'cp .config $RPM_BUILD_ROOT'"/boot/config-$KERNELRELEASE"
 
-echo "%ifnarch ppc64"
-echo 'bzip2 -9 --keep vmlinux'
-echo 'mv vmlinux.bz2 $RPM_BUILD_ROOT'"/boot/vmlinux-$KERNELRELEASE.bz2"
-echo "%endif"
+#echo "%ifnarch ppc64"
+#echo 'bzip2 -9 --keep vmlinux'
+#echo 'mv vmlinux.bz2 $RPM_BUILD_ROOT'"/boot/vmlinux-$KERNELRELEASE.bz2"
+#echo "%endif"
 
 if ! $PREBUILT; then
 echo 'rm -f $RPM_BUILD_ROOT'"/lib/modules/$KERNELRELEASE/{build,source}"
 echo "mkdir -p "'$RPM_BUILD_ROOT'"/usr/src/kernels/$KERNELRELEASE"
-echo "EXCLUDES=\"$RCS_TAR_IGNORE --exclude .tmp_versions --exclude=*vmlinux* --exclude=*.o --exclude=*.ko --exclude=*.cmd --exclude=Documentation --exclude=firmware --exclude .config.old --exclude .missing-syscalls.d\""
+echo "EXCLUDES=\"$RCS_TAR_IGNORE --exclude .tmp_versions --exclude=*.o --exclude=*.ko --exclude=*.cmd --exclude=Documentation --exclude=firmware --exclude .config.old --exclude .missing-syscalls.d\""
 echo "tar "'$EXCLUDES'" -cf- . | (cd "'$RPM_BUILD_ROOT'"/usr/src/kernels/$KERNELRELEASE;tar xvf -)"
 echo 'cd $RPM_BUILD_ROOT'"/lib/modules/$KERNELRELEASE"
 echo "ln -sf /usr/src/kernels/$KERNELRELEASE build"

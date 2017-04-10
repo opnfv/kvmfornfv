@@ -123,6 +123,7 @@ echo ""
 echo "Building for $type package in $output_dir"
 echo ""
 
+echo "Job name is: $JOB_NAME"
 checking_apex_build
 mkdir -p $output_dir
 build_package $type
@@ -138,4 +139,15 @@ if [ ${apex_build_flag} -eq 1 ];then
     rename 's/^/kvmfornfv-'${short_hash}'-apex-/' kernel-*
     variable=`ls kvmfornfv-* | grep "devel" | awk -F "_" '{print $3}' | awk -F "." '{print $1}'`
     rename "s/${variable}/centos/" kvmfornfv-*
+fi
+
+# Modifying the packages in build_output based on the job_type(verify/daily)
+if [ $JOB_NAME == "verify" ]; then
+   if [ $type == "centos" ]; then
+      echo "Remove kernel-debuginfo rpm package from build_output"
+      rm -f $WORKSPACE/${output_dir}/kernel-debuginfo*
+   else
+      echo "Remove linux-image-dbg debian package from build_output"
+      rm -f $WORKSPACE/${output_dir}/*dbg.rpm
+   fi
 fi

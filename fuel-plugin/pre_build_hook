@@ -7,7 +7,10 @@ DIR="$(dirname `readlink -f $0`)"
 MODULES="${DIR}/deployment_scripts/puppet/modules"
 
 SHELLVAR_VERSION='2.2.1'
+AUGCORE_VERSION='2.1.3'
+
 SHELLVAR_URL="https://github.com/hercules-team/augeasproviders_shellvar/archive/${SHELLVAR_VERSION}.tar.gz"
+AUGCORE_URL="https://github.com/hercules-team/augeasproviders_core/archive/${AUGCORE_VERSION}.tar.gz"
 
 function build_pkg {
   case $1 in
@@ -30,6 +33,8 @@ do
   build_pkg $system
 done
 
-rm -rf ${MODULES}/shellvar
-mkdir -p ${MODULES}/shellvar
-wget -qO- ${SHELLVAR_URL} |  tar -C ${MODULES}/shellvar --strip-components=1 -zxvf -
+rm -rf ${MODULES}/*
+mkdir -p ${MODULES}/shellvar ${MODULES}/augcore
+
+wget -qO- ${SHELLVAR_URL} | tar -C ${MODULES}/shellvar --strip-components=1 -zxvf -
+wget -qO- ${AUGCORE_URL} | tar -C ${MODULES}/augcore --strip-components=1 -zxvf -

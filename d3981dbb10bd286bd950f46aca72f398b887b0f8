@@ -1,0 +1,10 @@
+Verified+1: jenkins-ci <jenkins-opnfv-ci@opnfv.org>
+Code-Review+1: Paul-Ionut Vaduva <paul.vaduva@enea.com>
+Code-Review+1: Navya Bathula <navyax.bathula@intel.com>
+Code-Review+1: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+Code-Review+2: David Chou <david.j.chou@intel.com>
+Submitted-by: Jiang, Yunhong <yunhong.jiang@intel.com>
+Submitted-at: Tue, 11 Apr 2017 17:33:15 +0000
+Reviewed-on: https://gerrit.opnfv.org/gerrit/33255
+Project: kvmfornfv
+Branch: refs/heads/master

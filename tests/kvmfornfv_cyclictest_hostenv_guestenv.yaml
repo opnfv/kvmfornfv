@@ -17,6 +17,7 @@ scenarios:
     affinity: 1
     interval: 1000
     priority: 99
+    breaktrace: 1200000
     loops: 600000
     threads: 1
     histogram: 90

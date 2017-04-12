@@ -165,8 +165,6 @@ elif [ ${test_type} == "daily" ];then
             sed -i '/host-setup1.sh/a\    \- \"enable-trace.sh\"' kvmfornfv_cyclictest_hostenv_guestenv.yaml
             #Executing cyclictest through yardstick.
             cyclictest ${env}
-            #disabling ftrace and collecting the logs to upload to artifact repository.
-            ftrace_disable
             sleep 5
          done
       else

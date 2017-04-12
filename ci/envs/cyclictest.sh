@@ -8,6 +8,7 @@ source utils.sh
 
 testType=$1 #daily/verify/merge
 testName=$2 #idle_idle/stress_idle
+ftrace_enable=$3
 HOST_IP=$( getHostIP )
 pod_config='/opt/scripts/pod.yaml'
 cyclictest_context_file='/opt/kvmfornfv_cyclictest_'${testName}'.yaml'
@@ -25,6 +26,15 @@ fi
 #setting up of image for launching guest vm.
 ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
 root@$HOST_IP "cp /root/images/guest1.qcow2 /root/"
+
+#disabling ftrace and collecting the logs to upload to artifact repository.
+function ftrace_disable {
+   sudo ssh root@${HOST_IP} "sh /root/workspace/scripts/disable_trace.sh"
+   sudo ssh root@${HOST_IP} "cd /tmp ;  mv trace.txt cyclictest_${testName}.txt"
+   mkdir -p $WORKSPACE/build_output/log/kernel_trace
+   scp root@${HOST_IP}:/tmp/cyclictest_${testName}.txt $WORKSPACE/build_output/log/kernel_trace/
+   sudo ssh root@${HOST_IP} "cd /tmp ; rm -rf cyclictest_${testName}.txt"
+}
 
 #Updating the yardstick.conf file for daily
 function updateConfDaily() {
@@ -58,6 +68,11 @@ fi
 #Running cyclictest through yardstick
 yardstick -d task start ${cyclictest_context_file}
 output=$?
+
+#Disabling ftrace after completion of executing test cases.
+if [ ${ftrace_enable} -eq '1' ]; then
+   ftrace_disable
+fi
 
 if [ "$testType" == "verify" ];then
    chmod 777 /tmp/yardstick.out

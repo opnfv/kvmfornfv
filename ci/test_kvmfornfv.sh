@@ -13,7 +13,7 @@
 
 test_type=$1
 test_name=$2
-ftrace_enable=0
+ftrace_enable=1
 cyclictest_env_verify=("idle_idle" "memorystress_idle") #cyclictest environment
 cyclictest_env_daily=("idle_idle" "cpustress_idle" "memorystress_idle" "iostress_idle")
 cyclictest_result=0 #exit code of cyclictest
@@ -163,8 +163,6 @@ elif [ ${test_type} == "daily" ];then
             sed -i '/host-setup1.sh/a\    \- \"enable-trace.sh\"' kvmfornfv_cyclictest_hostenv_guestenv.yaml
             #Executing cyclictest through yardstick.
             cyclictest ${env}
-            #disabling ftrace and collecting the logs to upload to artifact repository.
-            ftrace_disable
             sleep 5
          done
       else

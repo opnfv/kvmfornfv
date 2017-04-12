@@ -58,6 +58,7 @@ fi
 #Running cyclictest through yardstick
 yardstick -d task start ${cyclictest_context_file}
 output=$?
+sleep 60
 
 if [ "$testType" == "verify" ];then
    chmod 777 /tmp/yardstick.out

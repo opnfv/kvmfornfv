@@ -52,7 +52,7 @@ function setHostIP {
 function setTestTime {
    test_type=$1
    if [ ${test_type} == "verify" ];then
-      test_time=1000 # 1s
+      test_time=120000 # 1s
    elif [ ${test_type} == "daily" ];then
       test_time=3600000 # 1hr
    else

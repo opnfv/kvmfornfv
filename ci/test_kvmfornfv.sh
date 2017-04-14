@@ -143,8 +143,9 @@ elif [ ${test_type} == "daily" ];then
    getTestParams
    install_pcm
    if [ ${test_name} == "packet_forward" ];then
-      packetForward
-      packet_fwd_logs
+      #packetForward
+      #packet_fwd_logs
+      echo "Packet forwarding test cases are disabled temporarily"
       #clean the test environment after the test case execution.
       sudo ssh root@${HOST_IP} "rm -rf /root/workspace/*"
       host_clean
@@ -162,7 +163,8 @@ elif [ ${test_type} == "daily" ];then
             #Enabling ftrace for kernel debugging.
             sed -i '/host-setup1.sh/a\    \- \"enable-trace.sh\"' kvmfornfv_cyclictest_hostenv_guestenv.yaml
             #Executing cyclictest through yardstick.
-            cyclictest ${env}
+            echo "Cyclictest test cases are disabled temporarily"
+            #cyclictest ${env}
             #disabling ftrace and collecting the logs to upload to artifact repository.
             ftrace_disable
             sleep 5
@@ -171,7 +173,8 @@ elif [ ${test_type} == "daily" ];then
          for env in ${cyclictest_env_daily[@]}
          do
          #Executing cyclictest through yardstick.
-         cyclictest ${env}
+         echo "Cyclictest test cases are disabled temporarily"
+         #cyclictest ${env}
          sleep 5
          done
       fi

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9ab8dda7_6161b038",
+        "filename": "ci/cyclicTestTrigger.sh",
+        "patchSetId": 7
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2017-04-17T16:38:24Z",
+      "side": 0,
+      "message": "So you mean the purpose of this change is to stop ftrace before copyLogs? But per our discussion and also your discussion with Kubi, we want to call ftrace_stop right after cyclictest on the guest, right?\n\nThanks\n--jyh",
+      "revId": "d3981dbb10bd286bd950f46aca72f398b887b0f8",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}

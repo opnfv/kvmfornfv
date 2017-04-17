@@ -1,0 +1,7 @@
+Code-Review+2: Jiang, Yunhong <yunhong.jiang@intel.com>
+Verified+1: jenkins-ci <jenkins-opnfv-ci@opnfv.org>
+Submitted-by: Jiang, Yunhong <yunhong.jiang@intel.com>
+Submitted-at: Mon, 17 Apr 2017 16:31:14 +0000
+Reviewed-on: https://gerrit.opnfv.org/gerrit/33171
+Project: kvmfornfv
+Branch: refs/heads/master

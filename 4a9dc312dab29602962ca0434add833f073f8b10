@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9ab8dda7_e154c055",
+        "filename": "ci/envs/host-config",
+        "patchSetId": 7
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 5765
+      },
+      "writtenOn": "2017-04-17T16:55:55Z",
+      "side": 1,
+      "message": "yes, included this as well as a part of testing. Will remove this. Working on it",
+      "parentUuid": "9ab8dda7_a177a801",
+      "revId": "4a9dc312dab29602962ca0434add833f073f8b10",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9ab8dda7_e16da033",
         "filename": "ci/test_kvmfornfv.sh",
         "patchSetId": 7
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "9ab8dda7_415eec77",
+        "filename": "ci/test_kvmfornfv.sh",
+        "patchSetId": 7
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 5765
+      },
+      "writtenOn": "2017-04-17T16:55:55Z",
+      "side": 1,
+      "message": "yes, this is only for testing. Working on it.",
+      "parentUuid": "9ab8dda7_e16da033",
+      "revId": "4a9dc312dab29602962ca0434add833f073f8b10",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9ab8dda7_4187ccd7",
         "filename": "tests/kvmfornfv_cyclictest_hostenv_guestenv.yaml",
         "patchSetId": 7
@@ -47,6 +83,24 @@
       "writtenOn": "2017-04-17T16:31:58Z",
       "side": 1,
       "message": "I assume the breaktrace number should comes from the maximum value, right?",
+      "revId": "4a9dc312dab29602962ca0434add833f073f8b10",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ab8dda7_215bb888",
+        "filename": "tests/kvmfornfv_cyclictest_hostenv_guestenv.yaml",
+        "patchSetId": 7
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 5765
+      },
+      "writtenOn": "2017-04-17T16:55:55Z",
+      "side": 1,
+      "message": "yes, it should come from the maximum value. I have mentioned the value here only for now as a part of testing. Working on it.",
+      "parentUuid": "9ab8dda7_4187ccd7",
       "revId": "4a9dc312dab29602962ca0434add833f073f8b10",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false

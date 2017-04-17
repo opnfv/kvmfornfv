@@ -16,6 +16,24 @@
       "revId": "d3981dbb10bd286bd950f46aca72f398b887b0f8",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ab8dda7_0150f45c",
+        "filename": "ci/cyclicTestTrigger.sh",
+        "patchSetId": 7
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 5765
+      },
+      "writtenOn": "2017-04-17T16:55:55Z",
+      "side": 0,
+      "message": "yes, that\u0027s right. This change is to stop ftrace before copyLogs to reduce the logs for debugging until yardstick implement and provide us the post-execute script option to disable the ftrace right after cyclictest on the guest. In discussion with yardstick and will make it done asap.",
+      "parentUuid": "9ab8dda7_6161b038",
+      "revId": "d3981dbb10bd286bd950f46aca72f398b887b0f8",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }

@@ -66,7 +66,10 @@ function test_exit {
    exitCode=$1
    cd $WORKSPACE/build_output/
    if [ -d log ];then
+      TIMESTAMP=$(date -u +"%Y-%m-%d_%H-%M-%S")
       tar -czvf log-$(date -u +"%Y-%m-%d_%H-%M-%S").tar.gz log
+      gsutil cp -r log-*.tar.gz gs://artifacts.opnfv.org/kvmfornfv/kvmfornfv_logs_${TIMESTAMP} > $WORKSPACE/build_output/gsutil.log 2>&1
+      echo "http://artifacts.opnfv.org/kvmfornfv/kvmfornfv_logs_${TIMESTAMP}
    fi
    exit $exitCode
 }

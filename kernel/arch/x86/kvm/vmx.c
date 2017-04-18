@@ -1988,9 +1988,12 @@ static void vmx_save_host_state(struct kvm_vcpu *vcpu)
 #endif
 
 #ifdef CONFIG_X86_64
-	rdmsrl(MSR_KERNEL_GS_BASE, vmx->msr_host_kernel_gs_base);
+	local_irq_disable();
+	asm volatile("swapgs; rdgsbase %0" : "=r" (vmx->msr_host_kernel_gs_base));
 	if (is_long_mode(&vmx->vcpu))
-		wrmsrl(MSR_KERNEL_GS_BASE, vmx->msr_guest_kernel_gs_base);
+		asm volatile("wrgsbase %0" : : "r" (vmx->msr_guest_kernel_gs_base));
+	asm volatile("swapgs");
+	local_irq_enable();
 #endif
 	if (boot_cpu_has(X86_FEATURE_MPX))
 		rdmsrl(MSR_IA32_BNDCFGS, vmx->host_state.msr_host_bndcfgs);
@@ -2002,14 +2005,20 @@ static void vmx_save_host_state(struct kvm_vcpu *vcpu)
 
 static void __vmx_load_host_state(struct vcpu_vmx *vmx)
 {
+	unsigned long flags;
+
 	if (!vmx->host_state.loaded)
 		return;
 
 	++vmx->vcpu.stat.host_state_reload;
 	vmx->host_state.loaded = 0;
 #ifdef CONFIG_X86_64
+	local_irq_save(flags);
+	asm("swapgs");
 	if (is_long_mode(&vmx->vcpu))
-		rdmsrl(MSR_KERNEL_GS_BASE, vmx->msr_guest_kernel_gs_base);
+		asm volatile("rdgsbase %0" : "=r" (vmx->msr_guest_kernel_gs_base));
+	asm volatile("wrgsbase %0; swapgs" : : "r" (vmx->msr_host_kernel_gs_base));
+	local_irq_restore(flags);
 #endif
 	if (vmx->host_state.gs_ldt_reload_needed) {
 		kvm_load_ldt(vmx->host_state.ldt_sel);
@@ -2026,11 +2035,7 @@ static void __vmx_load_host_state(struct vcpu_vmx *vmx)
 		loadsegment(ds, vmx->host_state.ds_sel);
 		loadsegment(es, vmx->host_state.es_sel);
 	}
-#endif
-	reload_tss();
-#ifdef CONFIG_X86_64
-	wrmsrl(MSR_KERNEL_GS_BASE, vmx->msr_host_kernel_gs_base);
-#endif
+	//reload_tss();
 	if (vmx->host_state.msr_host_bndcfgs)
 		wrmsrl(MSR_IA32_BNDCFGS, vmx->host_state.msr_host_bndcfgs);
 	/*
@@ -3121,6 +3126,7 @@ static int hardware_enable(void)
 		wrmsrl(MSR_IA32_FEATURE_CONTROL, old | test_bits);
 	}
 	cr4_set_bits(X86_CR4_VMXE);
+	cr4_set_bits(X86_CR4_FSGSBASE);
 
 	if (vmm_exclusive) {
 		kvm_cpu_vmxon(phys_addr);

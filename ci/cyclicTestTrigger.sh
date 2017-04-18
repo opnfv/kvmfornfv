@@ -189,15 +189,16 @@ function runCyclicTest {
    sudo docker run -i -v ${volume}:/opt --net=host --name kvmfornfv_${testType}_${testName} \
    kvmfornfv:latest /bin/bash -c "cd /opt/scripts && ls; ./cyclictest.sh $testType $testName"
    cyclictest_output=$?
-   if [ "$testName" == "memorystress_idle" ];then
-      copyLogs
-   fi
 
    #Disabling ftrace after completion of executing test cases.
    if [ ${ftrace_enable} -eq '1' ]; then
       ftrace_disable
    fi
-
+   
+   if [ "$testName" == "memorystress_idle" ];then
+      copyLogs
+   fi
+   
    #Verifying the results of cyclictest
    if [ "$testType" == "verify" ];then
       result=`grep -o '"errors":[^,]*' ${volume}/yardstick.out | awk -F '"' '{print $4}'`

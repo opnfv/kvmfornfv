@@ -110,6 +110,7 @@ static int i8259A_irq_pending(unsigned int irq)
 static void make_8259A_irq(unsigned int irq)
 {
 	disable_irq_nosync(irq);
+        spin_lock(&kmmio_lock);
 	io_apic_irqs &= ~(1<<irq);
 	irq_set_chip_and_handler(irq, &i8259A_chip, handle_level_irq);
 	enable_irq(irq);

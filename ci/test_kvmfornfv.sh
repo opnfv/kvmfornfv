@@ -13,7 +13,7 @@
 
 test_type=$1
 test_name=$2
-ftrace_enable=0
+ftrace_enable=1
 cyclictest_env_verify=("idle_idle" "memorystress_idle") #cyclictest environment
 cyclictest_env_daily=("idle_idle" "cpustress_idle" "memorystress_idle" "iostress_idle")
 cyclictest_result=0 #exit code of cyclictest

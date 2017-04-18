@@ -5,7 +5,7 @@
 # For this sample just like running the command below on the test vm and
 # getting latencies info back to the yardstick.
 #
-# sudo bash cyclictest -a 1 -i 1000 -p 99 -l 1000 -t 1 -h 90 -m -n -q
+# sudo bash cyclictest -a 1 -b 1000 -i 1000 -p 99 -l 1000 -t 1 -h 90 -m -n -q
 #
 
 schema: "yardstick:task:0.1"
@@ -15,6 +15,7 @@ scenarios:
   type: Cyclictest
   options:
     affinity: 1
+    breaktrace: 1000
     interval: 1000
     priority: 99
     loops: 600000
@@ -28,8 +29,8 @@ scenarios:
   tc: "kvmfornfv_cyclictest-node-context"
   sla:
     max_min_latency: 100
-    max_avg_latency: 600000
-    max_max_latency: 1200000
+    max_avg_latency: 200
+    max_max_latency: 1000
     action: monitor
   setup_options:
     rpm_dir: "/opt/rpm"

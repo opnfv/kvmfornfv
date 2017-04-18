@@ -6855,7 +6855,10 @@ int kvm_arch_vcpu_ioctl_run(struct kvm_vcpu *vcpu, struct kvm_run *kvm_run)
 	} else
 		WARN_ON(vcpu->arch.pio.count || vcpu->mmio_needed);
 
-	r = vcpu_run(vcpu);
+        if (kvm_run->immediate_exit)
+		r = -EINTR;
+	else
+		r = vcpu_run(vcpu);
 
 out:
 	post_kvm_run_save(vcpu);

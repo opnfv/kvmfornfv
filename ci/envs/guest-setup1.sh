@@ -21,6 +21,9 @@ echo 0 > /proc/sys/kernel/nmi_watchdog
 # Route device interrupts to non-RT CPU
 set_irq_affinity
 
+# Disable kernel timer migration
+sysctl kernel.timer_migration=0
+
 # Disable RT throttling
 echo -1 > /proc/sys/kernel/sched_rt_period_us
 echo -1 > /proc/sys/kernel/sched_rt_runtime_us

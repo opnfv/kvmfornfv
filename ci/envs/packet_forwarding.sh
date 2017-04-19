@@ -79,9 +79,11 @@ function print_results() {
 
 function publish_results() {
     test_type=$1
-    results_dir=${TEST_REPORT_LOG_DIR}/${LOG_SUBDIR}/results*
+    for results_dir in ${TEST_REPORT_LOG_DIR}/${LOG_SUBDIR}/results*
+    do
     time_stamp=$(date -u +"%Y-%m-%d-%H-%M-%S")
     ( cd /root/workspace/scripts ; python data_publish.py $time_stamp $test_type $results_dir )
+    done
 }
 
 function execute_vsperf() {

@@ -52,7 +52,7 @@ function setHostIP {
 function setTestTime {
    test_type=$1
    if [ ${test_type} == "verify" ];then
-      test_time=120000 # 2m
+      test_time=1000 # 1s
    elif [ ${test_type} == "daily" ];then
       test_time=3600000 # 1hr
    else
@@ -70,14 +70,35 @@ function test_exit {
    fi
    exit $exitCode
 }
+function mbw_publish {
+   sudo ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ${HOST_IP} '
+   cd /root
+   ls -ltr MBWInfo/*
+   cat MBWInfo/*/*
+   echo "********************"
+   find MBWInfo/ -name "*.csv" -type f -exec sed -i -e "1,24d" -e "/DEBUG/d" -e "s/ //g" -e "s/;/,/g" -e "/^$/d" {} \;
+   cat MBWInfo/*/*
+   if [ -d "MBWInfo" ]; then
+      for file_name in MBWInfo/*
+      do
+        echo "Started inserting values for $file_name"
+        test_name=$(echo $file_name | cut --delimiter="/" -f 2 | cut --delimiter="_" -f 2,3)
+        python2.7 workspace/scripts/data_publish.py $test_name /root/$file_name
+      done
+      echo "Completed Inserting read/write throughput values into influxdb"
+   else
+      echo " No logs found"
+   fi
+   '
+}
 
 function copyLogs {
    echo "Copying Log files from Node to Jump Server"
    sudo ssh root@${HOST_IP} "cd /root;tar -czvf MBWInfo.tar.gz MBWInfo"
-   mkdir -p $WORKSPACE/build_output/log/MBWInfo
-   scp root@${HOST_IP}:/root/MBWInfo.tar.gz $WORKSPACE/build_output/log/MBWInfo
+   mkdir -p $WORKSPACE/build_output/log
+   scp root@${HOST_IP}:/root/MBWInfo.tar.gz $WORKSPACE/build_output/log
    echo "Listing all the logs collected"
-   cd $WORKSPACE;ls build_output/log/MBWInfo;
+   cd $WORKSPACE/build_output/log;tar -xvzf MBWInfo.tar.gz;
    sudo ssh root@${HOST_IP} "cd /root;rm -rf MBWInfo MBWInfo.tar.gz"
 }
 

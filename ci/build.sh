@@ -111,7 +111,7 @@ done
 
 if [[ -z "$type" ]]
 then
-    type='centos'
+    type='ubuntu'
 fi
 
 if [[ -z "$output_dir" ]]

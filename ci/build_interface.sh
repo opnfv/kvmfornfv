@@ -8,8 +8,17 @@ tmp_output_dir=$tmp_build_dir/build_output
 output_dir=$build_dir/build_output
 cp -r $build_dir $tmp_build_dir
 
+echo "displaying the contenet in /root/kvmfornfv"
+
+
 # Build qemu rpm packages
+cd $tmp_build_dir
+ls -ltr
+git rm -rf qemu
+git submodule add git://git.qemu-project.org/qemu.git
 cd $tmp_build_dir/qemu
+git submodule init
+git submodule update --recursive
 make clean
 ./configure
 

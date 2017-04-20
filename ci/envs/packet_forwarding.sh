@@ -80,8 +80,10 @@ function print_results() {
 function publish_results() {
     test_type=$1
     results_dir=${TEST_REPORT_LOG_DIR}/${LOG_SUBDIR}/results*
-    time_stamp=$(date -u +"%Y-%m-%d-%H-%M-%S")
-    ( cd /root/workspace/scripts ; python data_publish.py $time_stamp $test_type $results_dir )
+    time_stamp=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+    ( cd /root/workspace/scripts ; python2.7 data_publish.py $time_stamp $test_type $results_dir )
+    #cleaning the results after publishing on grafana dashboard.
+    ( cd ${TEST_REPORT_LOG_DIR}/${LOG_SUBDIR} ; rm -rf results* )
 }
 
 function execute_vsperf() {

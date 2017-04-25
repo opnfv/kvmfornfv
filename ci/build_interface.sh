@@ -9,7 +9,14 @@ output_dir=$build_dir/build_output
 cp -r $build_dir $tmp_build_dir
 
 # Build qemu rpm packages
-cd $tmp_build_dir/qemu
+cd $tmp_build_dir
+#Initialize the submodule
+git submodule init
+#Update the submodules recursively to the latest commit
+git submodule update --recursive
+cd qemu
+git submodule init
+git submodule update --recursive
 make clean
 ./configure
 

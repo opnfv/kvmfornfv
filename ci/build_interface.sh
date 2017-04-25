@@ -10,6 +10,7 @@ cp -r $build_dir $tmp_build_dir
 
 # Build qemu rpm packages
 cd $tmp_build_dir/qemu
+git pull && git submodule update --init --recursive
 make clean
 ./configure
 

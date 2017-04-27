@@ -46,7 +46,7 @@ make oldconfig </dev/null
 # Build the kernel debs
 make-kpkg clean
 
-fakeroot make-kpkg --initrd --revision=$VERSION kernel_image kernel_headers
+fakeroot make-kpkg --initrd --revision=$VERSION kernel_image kernel_headers -j$(nproc)
 
 cp $SRC/kvmfornfv/linux-headers*.deb /kvmfornfv/.
 cp $SRC/kvmfornfv/linux-image*.deb /kvmfornfv/.

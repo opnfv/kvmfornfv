@@ -19,10 +19,171 @@
 #include "malloc.h" // free
 #include "output.h" // dprintf
 #include "pci.h" // pci_config_readl
+#include "pcidevice.h" // pci_find_capability
 #include "pci_regs.h" // PCI_BASE_ADDRESS_0
 #include "string.h" // memset
 #include "virtio-pci.h"
 #include "virtio-ring.h"
+
+u64 _vp_read(struct vp_cap *cap, u32 offset, u8 size)
+{
+    u64 var = 0;
+
+    switch (cap->mode) {
+    case VP_ACCESS_IO:
+    {
+        u32 addr = cap->ioaddr + offset;
+        switch (size) {
+        case 8:
+            var = inl(addr);
+            var |= (u64)inl(addr+4) << 32;
+            break;
+        case 4:
+            var = inl(addr);
+            break;
+        case 2:
+            var = inw(addr);
+            break;
+        case 1:
+            var = inb(addr);
+            break;
+        }
+        break;
+    }
+
+    case VP_ACCESS_MMIO:
+    {
+        void *addr = cap->memaddr + offset;
+        switch (size) {
+        case 8:
+            var = readl(addr);
+            var |= (u64)readl(addr+4) << 32;
+            break;
+        case 4:
+            var = readl(addr);
+            break;
+        case 2:
+            var = readw(addr);
+            break;
+        case 1:
+            var = readb(addr);
+            break;
+        }
+        break;
+    }
+
+    case VP_ACCESS_PCICFG:
+    {
+        u32 addr = cap->baroff + offset;
+        pci_config_writeb(cap->bdf, cap->cfg +
+                          offsetof(struct virtio_pci_cfg_cap, cap.bar),
+                          cap->bar);
+        pci_config_writel(cap->bdf, cap->cfg +
+                          offsetof(struct virtio_pci_cfg_cap, cap.offset),
+                          addr);
+        pci_config_writel(cap->bdf, cap->cfg +
+                          offsetof(struct virtio_pci_cfg_cap, cap.length),
+                          (size > 4) ? 4 : size);
+        switch (size) {
+        case 8:
+            var = pci_config_readl(cap->bdf, cap->cfg +
+                                   offsetof(struct virtio_pci_cfg_cap, pci_cfg_data));
+            pci_config_writel(cap->bdf, cap->cfg +
+                              offsetof(struct virtio_pci_cfg_cap, cap.offset),
+                              addr + 4);
+            var |= (u64)pci_config_readl(cap->bdf, cap->cfg +
+                                         offsetof(struct virtio_pci_cfg_cap, pci_cfg_data)) << 32;
+            break;
+        case 4:
+            var = pci_config_readl(cap->bdf, cap->cfg +
+                                   offsetof(struct virtio_pci_cfg_cap, pci_cfg_data));
+            break;
+        case 2:
+            var = pci_config_readw(cap->bdf, cap->cfg +
+                                   offsetof(struct virtio_pci_cfg_cap, pci_cfg_data));
+            break;
+        case 1:
+            var = pci_config_readb(cap->bdf, cap->cfg +
+                                   offsetof(struct virtio_pci_cfg_cap, pci_cfg_data));
+            break;
+        }
+    }
+    }
+    dprintf(9, "vp read   %x (%d) -> 0x%llx\n", cap->ioaddr + offset, size, var);
+    return var;
+}
+
+void _vp_write(struct vp_cap *cap, u32 offset, u8 size, u64 var)
+{
+    dprintf(9, "vp write  %x (%d) <- 0x%llx\n", cap->ioaddr + offset, size, var);
+
+    switch (cap->mode) {
+    case VP_ACCESS_IO:
+    {
+        u32 addr = cap->ioaddr + offset;
+        switch (size) {
+        case 4:
+            outl(var, addr);
+            break;
+        case 2:
+            outw(var, addr);
+            break;
+        case 1:
+            outb(var, addr);
+            break;
+        }
+        break;
+    }
+
+    case VP_ACCESS_MMIO:
+    {
+        void *addr = cap->memaddr + offset;
+        switch (size) {
+        case 4:
+            writel(addr, var);
+            break;
+        case 2:
+            writew(addr, var);
+            break;
+        case 1:
+            writeb(addr, var);
+            break;
+        }
+        break;
+    }
+
+    case VP_ACCESS_PCICFG:
+    {
+        u32 addr = cap->baroff + offset;
+        pci_config_writeb(cap->bdf, cap->cfg +
+                          offsetof(struct virtio_pci_cfg_cap, cap.bar),
+                          cap->bar);
+        pci_config_writel(cap->bdf, cap->cfg +
+                          offsetof(struct virtio_pci_cfg_cap, cap.offset),
+                          addr);
+        pci_config_writel(cap->bdf, cap->cfg +
+                          offsetof(struct virtio_pci_cfg_cap, cap.length),
+                          size);
+        switch (size) {
+        case 4:
+            pci_config_writel(cap->bdf, cap->cfg +
+                              offsetof(struct virtio_pci_cfg_cap, pci_cfg_data),
+                              var);
+            break;
+        case 2:
+            pci_config_writew(cap->bdf, cap->cfg +
+                              offsetof(struct virtio_pci_cfg_cap, pci_cfg_data),
+                              var);
+            break;
+        case 1:
+            pci_config_writeb(cap->bdf, cap->cfg +
+                              offsetof(struct virtio_pci_cfg_cap, pci_cfg_data),
+                              var);
+            break;
+        }
+    }
+    }
+}
 
 u64 vp_get_features(struct vp_device *vp)
 {
@@ -100,16 +261,30 @@ void vp_reset(struct vp_device *vp)
 void vp_notify(struct vp_device *vp, struct vring_virtqueue *vq)
 {
     if (vp->use_modern) {
-        u32 addr = vp->notify.addr +
-            vq->queue_notify_off *
-            vp->notify_off_multiplier;
-        if (vp->notify.is_io) {
-            outw(vq->queue_index, addr);
-        } else {
-            writew((void*)addr, vq->queue_index);
+        u32 offset = vq->queue_notify_off * vp->notify_off_multiplier;
+        switch (vp->notify.mode) {
+        case VP_ACCESS_IO:
+            outw(vq->queue_index, vp->notify.ioaddr + offset);
+            break;
+        case VP_ACCESS_MMIO:
+            writew(vp->notify.memaddr + offset, vq->queue_index);
+            break;
+        case VP_ACCESS_PCICFG:
+            pci_config_writeb(vp->notify.bdf, vp->notify.cfg +
+                              offsetof(struct virtio_pci_cfg_cap, cap.bar),
+                              vp->notify.bar);
+            pci_config_writel(vp->notify.bdf, vp->notify.cfg +
+                              offsetof(struct virtio_pci_cfg_cap, cap.offset),
+                              vp->notify.baroff + offset);
+            pci_config_writel(vp->notify.bdf, vp->notify.cfg +
+                              offsetof(struct virtio_pci_cfg_cap, cap.length),
+                              2);
+            pci_config_writew(vp->notify.bdf, vp->notify.cfg +
+                              offsetof(struct virtio_pci_cfg_cap, pci_cfg_data),
+                              vq->queue_index);
         }
         dprintf(9, "vp notify %x (%d) -- 0x%x\n",
-                addr, 2, vq->queue_index);
+                vp->notify.ioaddr, 2, vq->queue_index);
     } else {
         vp_write(&vp->legacy, virtio_pci_legacy, queue_notify, vq->queue_index);
     }
@@ -208,7 +383,9 @@ void vp_init_simple(struct vp_device *vp, struct pci_device *pci)
 {
     u8 cap = pci_find_capability(pci, PCI_CAP_ID_VNDR, 0);
     struct vp_cap *vp_cap;
-    u32 addr, offset, mul;
+    const char *mode;
+    u32 offset, base, mul;
+    u64 addr;
     u8 type;
 
     memset(vp, 0, sizeof(*vp));
@@ -230,6 +407,20 @@ void vp_init_simple(struct vp_device *vp, struct pci_device *pci)
         case VIRTIO_PCI_CAP_DEVICE_CFG:
             vp_cap = &vp->device;
             break;
+        case VIRTIO_PCI_CAP_PCI_CFG:
+            vp->common.cfg = cap;
+            vp->common.bdf = pci->bdf;
+            vp->notify.cfg = cap;
+            vp->notify.bdf = pci->bdf;
+            vp->isr.cfg = cap;
+            vp->isr.bdf = pci->bdf;
+            vp->device.cfg = cap;
+            vp->device.bdf = pci->bdf;
+            vp_cap = NULL;
+            dprintf(1, "pci dev %x:%x virtio cap at 0x%x type %d [pci cfg access]\n",
+                    pci_bdf_to_bus(pci->bdf), pci_bdf_to_dev(pci->bdf),
+                    cap, type);
+            break;
         default:
             vp_cap = NULL;
             break;
@@ -240,40 +431,71 @@ void vp_init_simple(struct vp_device *vp, struct pci_device *pci)
                                            offsetof(struct virtio_pci_cap, bar));
             offset = pci_config_readl(pci->bdf, cap +
                                       offsetof(struct virtio_pci_cap, offset));
-            addr = pci_config_readl(pci->bdf, PCI_BASE_ADDRESS_0 + 4 * vp_cap->bar);
+            base = PCI_BASE_ADDRESS_0 + 4 * vp_cap->bar;
+            addr = pci_config_readl(pci->bdf, base);
             if (addr & PCI_BASE_ADDRESS_SPACE_IO) {
-                vp_cap->is_io = 1;
                 addr &= PCI_BASE_ADDRESS_IO_MASK;
-            } else {
-                vp_cap->is_io = 0;
+                vp_cap->mode = VP_ACCESS_IO;
+            } else if ((addr & PCI_BASE_ADDRESS_MEM_TYPE_MASK) ==
+                       PCI_BASE_ADDRESS_MEM_TYPE_64) {
                 addr &= PCI_BASE_ADDRESS_MEM_MASK;
+                addr |= (u64)pci_config_readl(pci->bdf, base + 4) << 32;
+                vp_cap->mode = (addr > 0xffffffffll) ?
+                    VP_ACCESS_PCICFG : VP_ACCESS_MMIO;
+            } else {
+                addr &= PCI_BASE_ADDRESS_MEM_MASK;
+                vp_cap->mode = VP_ACCESS_MMIO;
             }
-            vp_cap->addr = addr + offset;
-            dprintf(3, "pci dev %x:%x virtio cap at 0x%x type %d "
-                    "bar %d at 0x%08x off +0x%04x [%s]\n",
+            switch (vp_cap->mode) {
+            case VP_ACCESS_IO:
+            {
+                u32 addr = pci_enable_iobar(pci, base);
+                if (!addr)
+                    return;
+                vp_cap->ioaddr = addr + offset;
+                mode = "io";
+                break;
+            }
+            case VP_ACCESS_MMIO:
+            {
+                void *addr = pci_enable_membar(pci, base);
+                if (!addr)
+                    return;
+                vp_cap->memaddr = addr + offset;
+                mode = "mmio";
+                break;
+            }
+            case VP_ACCESS_PCICFG:
+                mode = "pcicfg";
+                vp_cap->baroff = offset;
+                break;
+            default:
+                mode = "Huh?";
+                break;
+            }
+            dprintf(1, "pci dev %x:%x virtio cap at 0x%x type %d "
+                    "bar %d at 0x%08llx off +0x%04x [%s]\n",
                     pci_bdf_to_bus(pci->bdf), pci_bdf_to_dev(pci->bdf),
-                    vp_cap->cap, type, vp_cap->bar, addr, offset,
-                    vp_cap->is_io ? "io" : "mmio");
+                    vp_cap->cap, type, vp_cap->bar, addr, offset, mode);
         }
 
         cap = pci_find_capability(pci, PCI_CAP_ID_VNDR, cap);
     }
 
     if (vp->common.cap && vp->notify.cap && vp->isr.cap && vp->device.cap) {
-        dprintf(1, "pci dev %x:%x using modern (1.0) virtio mode\n",
-                pci_bdf_to_bus(pci->bdf), pci_bdf_to_dev(pci->bdf));
+        dprintf(1, "pci dev %pP using modern (1.0) virtio mode\n", pci);
         vp->use_modern = 1;
     } else {
-        dprintf(1, "pci dev %x:%x using legacy (0.9.5) virtio mode\n",
-                pci_bdf_to_bus(pci->bdf), pci_bdf_to_dev(pci->bdf));
+        dprintf(1, "pci dev %pP using legacy (0.9.5) virtio mode\n", pci);
         vp->legacy.bar = 0;
-        vp->legacy.addr = pci_config_readl(pci->bdf, PCI_BASE_ADDRESS_0) &
-            PCI_BASE_ADDRESS_IO_MASK;
-        vp->legacy.is_io = 1;
+        vp->legacy.ioaddr = pci_enable_iobar(pci, PCI_BASE_ADDRESS_0);
+        if (!vp->legacy.ioaddr)
+            return;
+        vp->legacy.mode = VP_ACCESS_IO;
     }
 
     vp_reset(vp);
-    pci_config_maskw(pci->bdf, PCI_COMMAND, 0, PCI_COMMAND_MASTER);
+    pci_enable_busmaster(pci);
     vp_set_status(vp, VIRTIO_CONFIG_S_ACKNOWLEDGE |
                   VIRTIO_CONFIG_S_DRIVER );
 }

@@ -26,10 +26,6 @@
 \ Words missing in *.in files
 VARIABLE mask -1 mask !
 
-VARIABLE huge-tftp-load 1 huge-tftp-load !
-\ Default implementation for sms-get-tftp-blocksize that return 1432 (decimal)
-: sms-get-tftp-blocksize 598 ;
-
 : default-hw-exception s" Exception #" type . ;
 
 ' default-hw-exception to hw-exception-handler
@@ -45,19 +41,6 @@ VARIABLE huge-tftp-load 1 huge-tftp-load !
 ;
 
 : 0.r  0 swap <# 0 ?DO # LOOP #> type ;
-
-\ count the number of bits equal 1
-\ the idea is to clear in each step the least significant bit
-\ v&(v-1) does exactly this, so count the steps until v == 0
-: cnt-bits  ( 64-bit-value -- #bits=1 )
-	dup IF
-		41 1 DO dup 1- and dup 0= IF drop i LEAVE THEN LOOP
-	THEN
-;
-
-: bcd-to-bin  ( bcd -- bin )
-   dup f and swap 4 rshift a * +
-;
 
 \ calcs the exponent of the highest power of 2 not greater than n
 : 2log ( n -- lb{n} )
@@ -584,26 +567,3 @@ defer cursor-off ( -- )
 
 : $dnumber base @ >r decimal $number r> base ! ;
 : (.d) base @ >r decimal (.) r> base ! ;
-
-\ IP address conversion
-
-: (ipaddr) ( "a.b.c.d" -- FALSE | n1 n2 n3 n4 TRUE )
-   base @ >r decimal
-   over s" 000.000.000.000" comp 0= IF 2drop false r> base ! EXIT THEN
-   [char] . left-parse-string $number IF 2drop false r> base ! EXIT THEN -rot
-   [char] . left-parse-string $number IF 2drop false r> base ! EXIT THEN -rot
-   [char] . left-parse-string $number IF 2drop false r> base ! EXIT THEN -rot
-   $number IF false r> base ! EXIT THEN
-   true r> base !
-;
-
-: (ipformat)  ( n1 n2 n3 n4 -- str len )
-   base @ >r decimal
-   0 <# # # # [char] . hold drop # # # [char] . hold
-   drop # # # [char] . hold drop # # #s #>
-   r> base !
-;
-
-: ipformat  ( n1 n2 n3 n4 -- ) (ipformat) type ;
-
-

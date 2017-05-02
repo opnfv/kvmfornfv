@@ -39,6 +39,7 @@ extern int bridge_config_cb(const pci_config_t *config);
 extern int ebus_config_cb(const pci_config_t *config);
 extern int i82378_config_cb(const pci_config_t *config);
 extern int usb_ohci_config_cb(const pci_config_t *config);
+extern int rtl8139_config_cb(const pci_config_t *config);
 
 static inline int pci_compat_len(const pci_dev_t *dev)
 {
@@ -55,3 +56,5 @@ static inline int pci_compat_len(const pci_dev_t *dev)
 extern const pci_dev_t *pci_find_device(uint8_t class, uint8_t subclass,
 					uint8_t iface, uint16_t vendor,
 					uint16_t product);
+
+extern void ob_pci_enable_bus_master(const pci_config_t *config);

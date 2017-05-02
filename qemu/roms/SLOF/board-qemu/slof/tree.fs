@@ -45,7 +45,9 @@ device-end
 
 \ Fixup timebase frequency from device-tree
 : fixup-tbfreq
-    " /cpus/@0" find-device
+    " /cpus" find-device
+    get-node child dup 0= ABORT" CPU not found"
+    set-node
     " timebase-frequency" get-node get-package-property IF
         2drop
     ELSE
@@ -95,8 +97,6 @@ include fbuffer.fs
 
 \ Now do it
 populate-vios
-
-580 cp
 
 5a0 cp
 
@@ -153,24 +153,17 @@ populate-pci-busses
 \ Add rtas cleanup last
 ' rtas-quiesce add-quiesce-xt
 
-640 cp
-
-690 cp
-
-6a0 cp
-
-6a8 cp
-
-6b0 cp
-
-6b8 cp
-
 6c0 cp
 
-s" /cpus/@0" open-dev encode-int s" cpu" set-chosen
-s" /memory@0" open-dev encode-int s" memory" set-chosen
+\ Do not assume that cpu0 is available
+: set-chosen-cpu
+    " /cpus" find-device
+    get-node child dup 0= ABORT" CPU not found"
+    node>path open-dev encode-int s" cpu" set-chosen
+;
+set-chosen-cpu
 
-6e0 cp
+s" /memory@0" open-dev encode-int s" memory" set-chosen
 
 700 cp
 

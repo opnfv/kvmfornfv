@@ -14,9 +14,9 @@
 	.data
 	.align	8
 
-client_stack:
+client_context:
 	.xword	0
-client_tba:
+client_stack:
 	.xword	0
 client_window:
 	.skip	2048
@@ -36,20 +36,13 @@ client_window:
 sparc64_of_client_interface:
 
 	/* Save globals on callers stack */
-	add	%sp, -248, %sp
-
-	stx	%g1, [%sp + 2047 + 192]
-	stx	%g2, [%sp + 2047 + 200]
-	stx	%g3, [%sp + 2047 + 208]
-	stx	%g4, [%sp + 2047 + 216]
-	stx	%g5, [%sp + 2047 + 224]
-	stx	%g6, [%sp + 2047 + 232]
-	stx	%g7, [%sp + 2047 + 240]
-
-	/* Save client trap table */
-	setx	client_tba, %g6, %g7
-	rdpr	%tba, %g6
-	stx	%g6, [%g7]
+	stx	%g1, [%sp + 2047 - 248 + 192]
+	stx	%g2, [%sp + 2047 - 248 + 200]
+	stx	%g3, [%sp + 2047 - 248 + 208]
+	stx	%g4, [%sp + 2047 - 248 + 216]
+	stx	%g5, [%sp + 2047 - 248 + 224]
+	stx	%g6, [%sp + 2047 - 248 + 232]
+	stx	%g7, [%sp + 2047 - 248 + 240]
 
 	/* Save existing stack */
 	setx	client_stack, %g6, %g7
@@ -61,8 +54,38 @@ sparc64_of_client_interface:
 	add	%g1, -CONTEXT_STATE_SIZE, %g1
 	stx	%g1, [%g7]
 	
-	SAVE_CPU_WINDOW_STATE(cif)
-
+	/* Save globals */
+	ldx	[%sp + 2047 - 248 + 192], %g7
+	stx	%g7, [%g1 + 0x30]
+	ldx	[%sp + 2047 - 248 + 200], %g7
+	stx	%g7, [%g1 + 0x38]
+	ldx	[%sp + 2047 - 248 + 208], %g7
+	stx	%g7, [%g1 + 0x40]
+	ldx	[%sp + 2047 - 248 + 216], %g7
+	stx	%g7, [%g1 + 0x48]
+	ldx	[%sp + 2047 - 248 + 224], %g7
+	stx	%g7, [%g1 + 0x50]
+	ldx	[%sp + 2047 - 248 + 232], %g7
+	stx	%g7, [%g1 + 0x58]
+	ldx	[%sp + 2047 - 248 + 240], %g7
+	stx	%g7, [%g1 + 0x60]
+	
+	/* Save %pc */
+	mov	%o7, %g7
+	add	%g7, 8, %g7
+	stx	%g7, [%g1 + 0x4d0]
+	
+	SAVE_CPU_STATE(cif)
+	
+	RESET_CPU_WINDOW_STATE(cif)
+	
+	/* Update __context to point to saved area */
+	setx	__context, %g6, %g7
+	ldx	[%g7], %g3
+	setx	client_context, %g4, %g5
+	stx	%g3, [%g5]
+	stx	%g1, [%g7]
+	
 	/* Move to OpenBIOS context stack */
 	setx	_fcstack_ptr, %g6, %g7
 	ldx	[%g7], %g6
@@ -76,7 +99,7 @@ sparc64_of_client_interface:
 
 	/* Call client inteface */
 	call of_client_interface
-	 ldx	[%g1 + 0x30], %o0
+	 ldx	[%g1 + 0x70], %o0
 
 	/* Restore windows */
 	setx	_fcstack_ptr, %g6, %g7
@@ -86,33 +109,34 @@ sparc64_of_client_interface:
 	stx	%g1, [%g7]
 	
 	/* Return value */
-	stx	%o0, [%g1 + 0x30]
+	stx	%o0, [%g1 + 0x70]
 	
-	RESTORE_CPU_WINDOW_STATE(cif)
+	/* Restore __context */
+	setx	client_context, %g4, %g5
+	ldx	[%g5], %g3
+	setx	__context, %g6, %g7
+	stx	%g3, [%g7]
 	
-	add	%g1, CONTEXT_STATE_SIZE, %g1
+	RESTORE_CPU_STATE(cif)
+	
+	add	%g1, CONTEXT_STATE_SIZE, %g5
 	setx	_fcstack_ptr, %g6, %g7
-	stx	%g1, [%g7]
+	stx	%g5, [%g7]
 	
 	/* Restore stack */
 	setx	client_stack, %g6, %g7
 	ldx	[%g7], %sp
-
-	/* Restore client trap table */
-	setx	client_tba, %g6, %g7
-	ldx	[%g7], %g6
-	wrpr	%g6, %tba
-
+	
+	/* Restore %pc */
+	ldx	[%g1 + 0x4d0], %o7
+	
 	/* Restore globals */
-	ldx	[%sp + 2047 + 192], %g1
-	ldx	[%sp + 2047 + 200], %g2
-	ldx	[%sp + 2047 + 208], %g3
-	ldx	[%sp + 2047 + 216], %g4
-	ldx	[%sp + 2047 + 224], %g5
-	ldx	[%sp + 2047 + 232], %g6
-	ldx	[%sp + 2047 + 240], %g7
-
-	add	%sp, 248, %sp
-
-	jmp	%o7+8
-	 nop
+	ldx	[%g1 + 0x38], %g2
+	ldx	[%g1 + 0x40], %g3
+	ldx	[%g1 + 0x48], %g4 
+	ldx	[%g1 + 0x50], %g5 
+	ldx	[%g1 + 0x58], %g6
+	ldx	[%g1 + 0x60], %g7
+	
+	jmp	%o7
+	 ldx	[%g1 + 0x30], %g1

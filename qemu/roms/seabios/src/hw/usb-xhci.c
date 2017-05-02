@@ -9,7 +9,7 @@
 #include "malloc.h" // memalign_low
 #include "memmap.h" // PAGE_SIZE
 #include "output.h" // dprintf
-#include "pci.h" // pci_bdf_to_bus
+#include "pcidevice.h" // foreachpci
 #include "pci_ids.h" // PCI_CLASS_SERIAL_USB_XHCI
 #include "pci_regs.h" // PCI_BASE_ADDRESS_0
 #include "string.h" // memcpy
@@ -230,7 +230,6 @@ struct usb_xhci_s {
     struct usb_s         usb;
 
     /* devinfo */
-    u32                  baseaddr;
     u32                  xcap;
     u32                  ports;
     u32                  slots;
@@ -285,20 +284,6 @@ static const int speed_to_xhci[] = {
     [ USB_LOWSPEED   ] = 2,
     [ USB_HIGHSPEED  ] = 3,
     [ USB_SUPERSPEED ] = 4,
-};
-
-static const int eptype_to_xhci_in[] = {
-    [ USB_ENDPOINT_XFER_CONTROL] = 4,
-    [ USB_ENDPOINT_XFER_ISOC   ] = 5,
-    [ USB_ENDPOINT_XFER_BULK   ] = 6,
-    [ USB_ENDPOINT_XFER_INT    ] = 7,
-};
-
-static const int eptype_to_xhci_out[] = {
-    [ USB_ENDPOINT_XFER_CONTROL] = 4,
-    [ USB_ENDPOINT_XFER_ISOC   ] = 1,
-    [ USB_ENDPOINT_XFER_BULK   ] = 2,
-    [ USB_ENDPOINT_XFER_INT    ] = 3,
 };
 
 static int wait_bit(u32 *reg, u32 mask, int value, u32 timeout)
@@ -527,21 +512,21 @@ fail:
 static void
 xhci_controller_setup(struct pci_device *pci)
 {
+    void *baseaddr = pci_enable_membar(pci, PCI_BASE_ADDRESS_0);
+    if (!baseaddr)
+        return;
+
     struct usb_xhci_s *xhci = malloc_high(sizeof(*xhci));
     if (!xhci) {
         warn_noalloc();
         return;
     }
     memset(xhci, 0, sizeof(*xhci));
-
-    wait_preempt();  // Avoid pci_config_readl when preempting
-    xhci->baseaddr = pci_config_readl(pci->bdf, PCI_BASE_ADDRESS_0)
-        & PCI_BASE_ADDRESS_MEM_MASK;
-    xhci->caps  = (void*)(xhci->baseaddr);
-    xhci->op    = (void*)(xhci->baseaddr + readb(&xhci->caps->caplength));
-    xhci->pr    = (void*)(xhci->baseaddr + readb(&xhci->caps->caplength) + 0x400);
-    xhci->db    = (void*)(xhci->baseaddr + readl(&xhci->caps->dboff));
-    xhci->ir    = (void*)(xhci->baseaddr + readl(&xhci->caps->rtsoff) + 0x20);
+    xhci->caps  = baseaddr;
+    xhci->op    = baseaddr + readb(&xhci->caps->caplength);
+    xhci->pr    = baseaddr + readb(&xhci->caps->caplength) + 0x400;
+    xhci->db    = baseaddr + readl(&xhci->caps->dboff);
+    xhci->ir    = baseaddr + readl(&xhci->caps->rtsoff) + 0x20;
 
     u32 hcs1 = readl(&xhci->caps->hcsparams1);
     u32 hcc  = readl(&xhci->caps->hccparams);
@@ -553,16 +538,16 @@ xhci_controller_setup(struct pci_device *pci)
     xhci->usb.pci = pci;
     xhci->usb.type = USB_TYPE_XHCI;
 
-    dprintf(1, "XHCI init on dev %02x:%02x.%x: regs @ %p, %d ports, %d slots"
+    dprintf(1, "XHCI init on dev %pP: regs @ %p, %d ports, %d slots"
             ", %d byte contexts\n"
-            , pci_bdf_to_bus(pci->bdf), pci_bdf_to_dev(pci->bdf)
-            , pci_bdf_to_fn(pci->bdf), xhci->caps
-            , xhci->ports, xhci->slots, xhci->context64 ? 64 : 32);
+            , pci, xhci->caps, xhci->ports, xhci->slots
+            , xhci->context64 ? 64 : 32);
 
     if (xhci->xcap) {
-        u32 off, addr = xhci->baseaddr + xhci->xcap;
+        u32 off;
+        void *addr = baseaddr + xhci->xcap;
         do {
-            struct xhci_xcap *xcap = (void*)addr;
+            struct xhci_xcap *xcap = addr;
             u32 ports, name, cap = readl(&xcap->cap);
             switch (cap & 0xff) {
             case 0x02:
@@ -581,7 +566,7 @@ xhci_controller_setup(struct pci_device *pci)
                         , ports >> 16);
                 break;
             default:
-                dprintf(1, "XHCI    extcap 0x%x @ %x\n", cap & 0xff, addr);
+                dprintf(1, "XHCI    extcap 0x%x @ %p\n", cap & 0xff, addr);
                 break;
             }
             off = (cap >> 8) & 0xff;
@@ -597,7 +582,7 @@ xhci_controller_setup(struct pci_device *pci)
         return;
     }
 
-    pci_config_maskw(pci->bdf, PCI_COMMAND, 0, PCI_COMMAND_MASTER);
+    pci_enable_busmaster(pci);
 
     run_thread(configure_xhci, xhci);
 }
@@ -658,9 +643,15 @@ static void xhci_process_events(struct usb_xhci_s *xhci)
         }
         case ER_PORT_STATUS_CHANGE:
         {
-            u32 portid = (etrb->ptr_low >> 24) & 0xff;
-            dprintf(3, "%s: status change port #%d\n",
-                    __func__, portid);
+            u32 port = ((etrb->ptr_low >> 24) & 0xff) - 1;
+            // Read status, and clear port status change bits
+            u32 portsc = readl(&xhci->pr[port].portsc);
+            u32 pclear = (((portsc & ~(XHCI_PORTSC_PED|XHCI_PORTSC_PR))
+                           & ~(XHCI_PORTSC_PLS_MASK<<XHCI_PORTSC_PLS_SHIFT))
+                          | (1<<XHCI_PORTSC_PLS_SHIFT));
+            writel(&xhci->pr[port].portsc, pclear);
+
+            xhci_print_port_state(3, __func__, port, portsc);
             break;
         }
         default:
@@ -779,7 +770,6 @@ static int xhci_cmd_enable_slot(struct usb_xhci_s *xhci)
     return (xhci->cmds->evt.control >> 24) & 0xff;
 }
 
-#if 0
 static int xhci_cmd_disable_slot(struct usb_xhci_s *xhci, u32 slotid)
 {
     struct xhci_trb cmd = {
@@ -791,7 +781,6 @@ static int xhci_cmd_disable_slot(struct usb_xhci_s *xhci, u32 slotid)
     dprintf(3, "%s: slotid %d\n", __func__, slotid);
     return xhci_cmd_submit(xhci, &cmd);
 }
-#endif
 
 static int xhci_cmd_address_device(struct usb_xhci_s *xhci, u32 slotid
                                    , struct xhci_inctx *inctx)
@@ -986,7 +975,6 @@ xhci_alloc_pipe(struct usbdevice_s *usbdev
         }
         dprintf(3, "%s: enable slot: got slotid %d\n", __func__, slotid);
         memset(dev, 0, size);
-        pipe->slotid = usbdev->slotid = slotid;
         xhci->devs[slotid].ptr_low = (u32)dev;
         xhci->devs[slotid].ptr_high = 0;
 
@@ -994,10 +982,20 @@ xhci_alloc_pipe(struct usbdevice_s *usbdev
         int cc = xhci_cmd_address_device(xhci, slotid, in);
         if (cc != CC_SUCCESS) {
             dprintf(1, "%s: address device: failed (cc %d)\n", __func__, cc);
+            cc = xhci_cmd_disable_slot(xhci, slotid);
+            if (cc != CC_SUCCESS) {
+                dprintf(1, "%s: disable failed (cc %d)\n", __func__, cc);
+                goto fail;
+            }
+            xhci->devs[slotid].ptr_low = 0;
+            free(dev);
             goto fail;
         }
+        pipe->slotid = slotid;
     } else {
-        pipe->slotid = usbdev->slotid;
+        struct xhci_pipe *defpipe = container_of(
+            usbdev->defpipe, struct xhci_pipe, pipe);
+        pipe->slotid = defpipe->slotid;
         // Send configure command.
         int cc = xhci_cmd_configure_endpoint(xhci, pipe->slotid, in);
         if (cc != CC_SUCCESS) {

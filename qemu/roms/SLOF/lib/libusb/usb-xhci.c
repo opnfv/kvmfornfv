@@ -25,6 +25,23 @@
 #define dprintf(_x ...)
 #endif
 
+struct port_state ps_array_usb2[] = {
+	{1, 0, 0, 0, PORTSC_PLS_U0, "ERROR"}
+};
+
+struct port_state ps_array_usb3[] = {
+	{0, 0, 0, 0, PORTSC_PLS_DISABLED, "Powered-OFF"},
+	{1, 0, 0, 0, PORTSC_PLS_POLLING,  "Polling"},
+	{1, 0, 0, 0, PORTSC_PLS_U0,       "Polling"},
+	{1, 0, 0, 0, PORTSC_PLS_RXDETECT, "***  Disconnected ***"},
+	{1, 0, 0, 0, PORTSC_PLS_DISABLED, "Disabled"},
+	{1, 0, 0, 0, PORTSC_PLS_INACTIVE, "Error"},
+	{1, 0, 0, 0, PORTSC_PLS_TEST_MODE,"Loopback"},
+	{1, 0, 0, 0, PORTSC_PLS_COMP_MODE,"Compliancek"},
+	{1, 1, 0, 1, PORTSC_PLS_U0,       "******  Reset  ******"},
+	{1, 1, 1, 0, PORTSC_PLS_U0,       "****** Enabled ******"},
+};
+
 static void dump_xhci_regs(struct xhci_hcd *xhcd)
 {
 #ifdef XHCI_DEBUG
@@ -238,7 +255,7 @@ static uint64_t xhci_poll_event(struct xhci_hcd *xhcd,
 	flags = le32_to_cpu(event->flags);
 
 	dprintf("Reading from event ptr %p %08x\n", event, flags);
-	time = SLOF_GetTimer() + USB_TIMEOUT;
+	time = SLOF_GetTimer() + ((event_type == XHCI_POLL_NO_WAIT)? 0: USB_TIMEOUT);
 
 	while ((flags & TRB_CYCLE_STATE) != xhcd->ering.cycle_state) {
 		mb();
@@ -511,7 +528,8 @@ static uint32_t usb_control_max_packet(uint32_t speed)
 	return max_packet;
 }
 
-static bool xhci_alloc_dev(struct xhci_hcd *xhcd, uint32_t slot_id, uint32_t port)
+static bool xhci_alloc_dev(struct xhci_hcd *xhcd, struct usb_dev *hub,
+			   uint32_t slot_id, uint32_t port, uint32_t slotspeed)
 {
 	struct usb_dev *dev;
 	struct xhci_dev *xdev;
@@ -520,7 +538,13 @@ static bool xhci_alloc_dev(struct xhci_hcd *xhcd, uint32_t slot_id, uint32_t por
 	struct xhci_ep_ctx *ep0;
 	uint32_t ctx_size, val;
 	uint16_t max_packet;
-	uint32_t newport;
+	uint32_t newport, rootport;
+
+	if (slot_id > XHCI_CONFIG_MAX_SLOT) {
+		printf("USB3 slot ID %d is too high (max is %d)\n", slot_id,
+			XHCI_CONFIG_MAX_SLOT);
+		return false;
+	}
 
 	ctx_size = CTX_SIZE(xhcd->hcc_csz_64);
 	xdev = &xhcd->xdevs[slot_id];
@@ -541,10 +565,16 @@ static bool xhci_alloc_dev(struct xhci_hcd *xhcd, uint32_t slot_id, uint32_t por
 
 	/* Step 3 */
 	slot = xhci_get_slot_ctx(&xdev->in_ctx, ctx_size);
-	newport = port + 1;
-	val = LAST_CONTEXT(1) | SLOT_SPEED_SS | (newport << 16); /* FIXME speed, read from PS */
+	newport = rootport = port + 1;
+	val = newport & 0xf;
+	for (dev = hub; dev != NULL; dev = dev->hub) {
+		val = (val << 4) | (dev->port & 0xf);	/* Build route string */
+		rootport = dev->port;
+	}
+	val >>= 4;			/* Remove root hub ID from the string */
+	val |= LAST_CONTEXT(1) | slotspeed;
 	slot->field1 = cpu_to_le32(val);
-	slot->field2 = cpu_to_le32(ROOT_HUB_PORT(newport)); /* FIXME how to get port no */
+	slot->field2 = cpu_to_le32(ROOT_HUB_PORT(rootport));
 
 	/* Step 4 */
 	if (!xhci_alloc_seg(&xdev->control, XHCI_CONTROL_TRBS_SIZE, TYPE_CTRL)) {
@@ -606,6 +636,7 @@ static bool xhci_alloc_dev(struct xhci_hcd *xhcd, uint32_t slot_id, uint32_t por
 	dev->speed = USB_SUPER_SPEED;
 	dev->addr = USB_DEV_ADDRESS(slot->field4);
 	dev->port = newport;
+	dev->hub = hub;
 	dev->priv = xdev;
 	xdev->dev = dev;
 	if (usb_setup_new_device(dev, newport)) {
@@ -631,7 +662,8 @@ static void xhci_free_dev(struct xhci_dev *xdev)
 	xhci_free_ctx(&xdev->out_ctx, XHCI_CTX_BUF_SIZE);
 }
 
-static bool usb3_dev_init(struct xhci_hcd *xhcd, uint32_t port)
+bool usb3_dev_init(struct xhci_hcd *xhcd, struct usb_dev *hub, uint32_t port,
+		   uint32_t slotspeed)
 {
 	/* Device enable slot */
 	xhci_send_enable_slot(xhcd, port);
@@ -640,7 +672,7 @@ static bool usb3_dev_init(struct xhci_hcd *xhcd, uint32_t port)
 		return false;
 	}
 	dprintf("SLOT ID: %d\n", xhcd->slot_id);
-	if (!xhci_alloc_dev(xhcd, xhcd->slot_id, port)) {
+	if (!xhci_alloc_dev(xhcd, hub, xhcd->slot_id, port, slotspeed)) {
 		dprintf("Unable to allocate device\n");
 		return false;
 	}
@@ -718,7 +750,8 @@ static int xhci_port_scan(struct xhci_hcd *xhcd,
 				dprintf("Port reset complete %d\n", i);
 			}
 			print_port_status(prs);
-			if (!usb3_dev_init(xhcd, (i - (port_off - 1)))) {
+			if (!usb3_dev_init(xhcd, NULL, i - (port_off - 1),
+					   ((portsc >> 10) & 0xf) << 20)) {
 				dprintf("USB device initialization failed\n");
 			}
 		}
@@ -973,6 +1006,7 @@ static void fill_trb_buff(struct xhci_command_trb *cmd,  uint32_t field1,
 	cycle_state = (val & 0x1) ? 0 : 1;
 	val =  cycle_state | (field4 & ~0x1);
 	cmd->field[3] = cpu_to_le32(val);
+	mb();
 
 	dprintf("CMD %016lx val %08x cycle_state %d field1 %08x, field2  %08x, field3 %08x field4 %08x\n",
 		cmd, val, cycle_state,
@@ -1016,9 +1050,9 @@ static void fill_setup_data(struct xhci_command_trb *cmd, void *data,
 	field1 = TRB_ADDR_LOW(data);
 	field2 = TRB_ADDR_HIGH(data);
 	field3 = size;
+	field4 = TRB_CMD_TYPE(TRB_DATA_STAGE);
 	if (dir)
-		field4 = TRB_DIR_IN;
-	field4 |= TRB_CMD_TYPE(TRB_DATA_STAGE);
+		field4 |= TRB_DIR_IN;
 	fill_trb_buff(cmd, field1, field2, field3, field4);
 }
 
@@ -1029,10 +1063,9 @@ static void fill_status_trb(struct xhci_command_trb *cmd, uint32_t dir)
 	field1 = 0;
 	field2 = 0;
 	field3 = 0;
+	field4 = TRB_CMD_TYPE(TRB_STATUS_STAGE) | TRB_IOC;
 	if (dir)
-		field4 = TRB_DIR_IN;
-
-	field4 |= TRB_CMD_TYPE(TRB_STATUS_STAGE) | TRB_IOC;
+		field4 |= TRB_DIR_IN;
 	fill_trb_buff(cmd, field1, field2, field3, field4);
 }
 
@@ -1147,9 +1180,34 @@ static inline void *xhci_get_trb(struct xhci_seg *seg)
 	return (void *)enq;
 }
 
+static inline void *xhci_get_trb_deq(struct xhci_seg *seg)
+{
+	uint64_t deq_next, deq;
+	int index;
+
+	deq = seg->deq;
+	deq_next = deq + XHCI_TRB_SIZE;
+	index = (deq - (uint64_t)seg->trbs) / XHCI_TRB_SIZE + 1;
+	dprintf("%s: deq %llx, deq_next %llx index %x\n", __func__, deq, deq_next, index);
+	/* TRBs being a cyclic buffer, here we cycle back to beginning. */
+	if (index == (seg->size - 1)) {
+		dprintf("%s: rounding \n", __func__);
+		seg->deq = (uint64_t)seg->trbs;
+	}
+	else {
+		seg->deq = deq_next;
+	}
+	return (void *)deq;
+}
+
 static uint64_t xhci_get_trb_phys(struct xhci_seg *seg, uint64_t trb)
 {
 	return seg->trbs_dma + (trb - (uint64_t)seg->trbs);
+}
+
+static uint32_t xhci_trb_get_index(struct xhci_seg *seg, struct xhci_transfer_trb *trb)
+{
+	return trb - (struct xhci_transfer_trb *)seg->trbs;
 }
 
 static int usb_kb = false;
@@ -1331,9 +1389,9 @@ static int xhci_get_pipe_intr(struct usb_pipe *pipe,
 		xhci_init_seg(seg, XHCI_EVENT_TRBS_SIZE, TYPE_BULK);
 	}
 
-	xpipe->buf = buf;
-	xpipe->buf_phys = SLOF_dma_map_in(buf, len, false);
-	xpipe->buflen = len;
+	xpipe->buflen = pipe->mps * XHCI_INTR_TRBS_SIZE/(sizeof(struct xhci_transfer_trb));
+	xpipe->buf = SLOF_dma_alloc(xpipe->buflen);
+	xpipe->buf_phys = SLOF_dma_map_in(xpipe->buf, xpipe->buflen, false);
 
 	ctrl = xhci_get_control_ctx(&xdev->in_ctx);
 	x_epno = xhci_get_epno(pipe);
@@ -1349,7 +1407,8 @@ static int xhci_get_pipe_intr(struct usb_pipe *pipe,
 	xpipe->seg = seg;
 
 	trb = xhci_get_trb(seg);
-	fill_normal_trb(trb, (void *)xpipe->buf_phys, pipe->mps);
+	buf = (char *)(xpipe->buf_phys + xhci_trb_get_index(seg, trb) * pipe->mps);
+	fill_normal_trb(trb, (void *)buf, pipe->mps);
 	return true;
 }
 
@@ -1411,6 +1470,7 @@ static void xhci_put_pipe(struct usb_pipe *pipe)
 	} else if (pipe->type == USB_EP_TYPE_INTR) {
 		xpipe = xhci_pipe_get_xpipe(pipe);
 		SLOF_dma_map_out(xpipe->buf_phys, xpipe->buf, xpipe->buflen);
+		SLOF_dma_free(xpipe->buf, xpipe->buflen);
 		xpipe->seg = NULL;
 	}
 	if (xhcd->end)
@@ -1448,26 +1508,26 @@ static int xhci_poll_intr(struct usb_pipe *pipe, uint8_t *data)
 	if (usb_kb == true) {
 		/* This event was consumed by bulk transfer */
 		usb_kb = false;
+		xhci_get_trb_deq(seg);
 		goto skip_poll;
 	}
-	buf = xpipe->buf;
-	memset(buf, 0, 8);
 
-	mb();
 	/* Ring the doorbell - x_epno */
 	dbr = xhcd->db_regs;
 	write_reg32(&dbr->db[xdev->slot_id], x_epno);
-	if (!xhci_poll_event(xhcd, 0)) {
-		printf("poll intr failed\n");
+	if (!xhci_poll_event(xhcd, XHCI_POLL_NO_WAIT)) {
 		return 0;
 	}
 	mb();
+	trb = xhci_get_trb_deq(seg);
+	buf = xpipe->buf + xhci_trb_get_index(seg, trb) * pipe->mps;
 	memcpy(data, buf, 8);
+	memset(buf, 0, 8);
 
 skip_poll:
 	trb = xhci_get_trb(seg);
-	fill_normal_trb(trb, (void *)xpipe->buf_phys, pipe->mps);
-	mb();
+	buf = (uint8_t *)(xpipe->buf_phys + xhci_trb_get_index(seg, trb) * pipe->mps);
+	fill_normal_trb(trb, (void *)buf, pipe->mps);
 	return ret;
 }
 

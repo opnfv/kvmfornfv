@@ -79,11 +79,11 @@ static struct profiler ipv4_rx_profiler __profiler = { .name = "ipv4.rx" };
  * @v address		IPv4 address
  * @v netmask		Subnet mask
  * @v gateway		Gateway address (if any)
- * @ret miniroute	Routing table entry, or NULL
+ * @ret rc		Return status code
  */
-static struct ipv4_miniroute * __malloc
-add_ipv4_miniroute ( struct net_device *netdev, struct in_addr address,
-		     struct in_addr netmask, struct in_addr gateway ) {
+static int add_ipv4_miniroute ( struct net_device *netdev,
+				struct in_addr address, struct in_addr netmask,
+				struct in_addr gateway ) {
 	struct ipv4_miniroute *miniroute;
 
 	DBGC ( netdev, "IPv4 add %s", inet_ntoa ( address ) );
@@ -96,7 +96,7 @@ add_ipv4_miniroute ( struct net_device *netdev, struct in_addr address,
 	miniroute = malloc ( sizeof ( *miniroute ) );
 	if ( ! miniroute ) {
 		DBGC ( netdev, "IPv4 could not add miniroute\n" );
-		return NULL;
+		return -ENOMEM;
 	}
 
 	/* Record routing information */
@@ -114,7 +114,7 @@ add_ipv4_miniroute ( struct net_device *netdev, struct in_addr address,
 		list_add ( &miniroute->list, &ipv4_miniroutes );
 	}
 
-	return miniroute;
+	return 0;
 }
 
 /**
@@ -358,8 +358,11 @@ static int ipv4_tx ( struct io_buffer *iobuf,
 			       ( ( netdev->rx_stats.good & 0xf ) << 0 ) );
 
 	/* Fix up checksums */
-	if ( trans_csum )
+	if ( trans_csum ) {
 		*trans_csum = ipv4_pshdr_chksum ( iobuf, *trans_csum );
+		if ( ! *trans_csum )
+			*trans_csum = tcpip_protocol->zero_csum;
+	}
 	iphdr->chksum = tcpip_chksum ( iphdr, sizeof ( *iphdr ) );
 
 	/* Print IP4 header for debugging */
@@ -714,6 +717,7 @@ struct tcpip_net_protocol ipv4_tcpip_protocol __tcpip_net_protocol = {
 	.name = "IPv4",
 	.sa_family = AF_INET,
 	.header_len = sizeof ( struct iphdr ),
+	.net_protocol = &ipv4_protocol,
 	.tx = ipv4_tx,
 	.netdev = ipv4_netdev,
 };
@@ -784,7 +788,7 @@ int format_ipv4_setting ( const struct setting_type *type __unused,
 }
 
 /** IPv4 address setting */
-const struct setting ip_setting __setting ( SETTING_IP, ip ) = {
+const struct setting ip_setting __setting ( SETTING_IP4, ip ) = {
 	.name = "ip",
 	.description = "IP address",
 	.tag = DHCP_EB_YIADDR,
@@ -792,7 +796,7 @@ const struct setting ip_setting __setting ( SETTING_IP, ip ) = {
 };
 
 /** IPv4 subnet mask setting */
-const struct setting netmask_setting __setting ( SETTING_IP, netmask ) = {
+const struct setting netmask_setting __setting ( SETTING_IP4, netmask ) = {
 	.name = "netmask",
 	.description = "Subnet mask",
 	.tag = DHCP_SUBNET_MASK,
@@ -800,7 +804,7 @@ const struct setting netmask_setting __setting ( SETTING_IP, netmask ) = {
 };
 
 /** Default gateway setting */
-const struct setting gateway_setting __setting ( SETTING_IP, gateway ) = {
+const struct setting gateway_setting __setting ( SETTING_IP4, gateway ) = {
 	.name = "gateway",
 	.description = "Default gateway",
 	.tag = DHCP_ROUTERS,
@@ -808,33 +812,69 @@ const struct setting gateway_setting __setting ( SETTING_IP, gateway ) = {
 };
 
 /**
- * Create IPv4 routing table based on configured settings
+ * Send gratuitous ARP, if applicable
  *
+ * @v netdev		Network device
+ * @v address		IPv4 address
+ * @v netmask		Subnet mask
+ * @v gateway		Gateway address (if any)
  * @ret rc		Return status code
  */
-static int ipv4_create_routes ( void ) {
-	struct ipv4_miniroute *miniroute;
-	struct ipv4_miniroute *tmp;
+static int ipv4_gratuitous_arp ( struct net_device *netdev,
+				 struct in_addr address,
+				 struct in_addr netmask __unused,
+				 struct in_addr gateway __unused ) {
+	int rc;
+
+	/* Do nothing if network device already has this IPv4 address */
+	if ( ipv4_has_addr ( netdev, address ) )
+		return 0;
+
+	/* Transmit gratuitous ARP */
+	DBGC ( netdev, "IPv4 sending gratuitous ARP for %s via %s\n",
+	       inet_ntoa ( address ), netdev->name );
+	if ( ( rc = arp_tx_request ( netdev, &ipv4_protocol, &address,
+				     &address ) ) != 0 ) {
+		DBGC ( netdev, "IPv4 could not transmit gratuitous ARP: %s\n",
+		       strerror ( rc ) );
+		/* Treat failures as non-fatal */
+	}
+
+	return 0;
+}
+
+/**
+ * Process IPv4 network device settings
+ *
+ * @v apply		Application method
+ * @ret rc		Return status code
+ */
+static int ipv4_settings ( int ( * apply ) ( struct net_device *netdev,
+					     struct in_addr address,
+					     struct in_addr netmask,
+					     struct in_addr gateway ) ) {
 	struct net_device *netdev;
 	struct settings *settings;
 	struct in_addr address = { 0 };
 	struct in_addr netmask = { 0 };
 	struct in_addr gateway = { 0 };
+	int rc;
 
-	/* Delete all existing routes */
-	list_for_each_entry_safe ( miniroute, tmp, &ipv4_miniroutes, list )
-		del_ipv4_miniroute ( miniroute );
-
-	/* Create a route for each configured network device */
+	/* Process settings for each network device */
 	for_each_netdev ( netdev ) {
+
+		/* Get network device settings */
 		settings = netdev_settings ( netdev );
+
 		/* Get IPv4 address */
 		address.s_addr = 0;
 		fetch_ipv4_setting ( settings, &ip_setting, &address );
 		if ( ! address.s_addr )
 			continue;
+
 		/* Get subnet mask */
 		fetch_ipv4_setting ( settings, &netmask_setting, &netmask );
+
 		/* Calculate default netmask, if necessary */
 		if ( ! netmask.s_addr ) {
 			if ( IN_IS_CLASSA ( address.s_addr ) ) {
@@ -845,14 +885,38 @@ static int ipv4_create_routes ( void ) {
 				netmask.s_addr = INADDR_NET_CLASSC;
 			}
 		}
+
 		/* Get default gateway, if present */
 		fetch_ipv4_setting ( settings, &gateway_setting, &gateway );
-		/* Configure route */
-		miniroute = add_ipv4_miniroute ( netdev, address,
-						 netmask, gateway );
-		if ( ! miniroute )
-			return -ENOMEM;
+
+		/* Apply settings */
+		if ( ( rc = apply ( netdev, address, netmask, gateway ) ) != 0 )
+			return rc;
 	}
+
+	return 0;
+}
+
+/**
+ * Create IPv4 routing table based on configured settings
+ *
+ * @ret rc		Return status code
+ */
+static int ipv4_create_routes ( void ) {
+	struct ipv4_miniroute *miniroute;
+	struct ipv4_miniroute *tmp;
+	int rc;
+
+	/* Send gratuitous ARPs for any new IPv4 addresses */
+	ipv4_settings ( ipv4_gratuitous_arp );
+
+	/* Delete all existing routes */
+	list_for_each_entry_safe ( miniroute, tmp, &ipv4_miniroutes, list )
+		del_ipv4_miniroute ( miniroute );
+
+	/* Create a route for each configured network device */
+	if ( ( rc = ipv4_settings ( add_ipv4_miniroute ) ) != 0 )
+		return rc;
 
 	return 0;
 }

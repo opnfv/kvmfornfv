@@ -49,18 +49,27 @@ int virtioscsi_send(struct virtio_device *dev,
 	virtio_fill_desc(&vq_desc[id], dev->is_modern, (uint64_t)req, sizeof(*req), VRING_DESC_F_NEXT,
 			 (id + 1) % vq_size);
 
-	/* Set up virtqueue descriptor for data */
-	if (buf && buf_len) {
+	if (buf == NULL || buf_len == 0) {
+		/* Set up descriptor for response information */
+		virtio_fill_desc(&vq_desc[(id + 1) % vq_size], dev->is_modern,
+				 (uint64_t)resp, sizeof(*resp),
+				 VRING_DESC_F_WRITE, 0);
+	} else if (is_read) {
+		/* Set up descriptor for response information */
 		virtio_fill_desc(&vq_desc[(id + 1) % vq_size], dev->is_modern,
 				 (uint64_t)resp, sizeof(*resp),
 				 VRING_DESC_F_NEXT | VRING_DESC_F_WRITE,
 				 (id + 2) % vq_size);
-		/* Set up virtqueue descriptor for status */
+		/* Set up virtqueue descriptor for data from device */
 		virtio_fill_desc(&vq_desc[(id + 2) % vq_size], dev->is_modern,
-				 (uint64_t)buf, buf_len,
-				 (is_read ? VRING_DESC_F_WRITE : 0), 0);
+				 (uint64_t)buf, buf_len, VRING_DESC_F_WRITE, 0);
 	} else {
+		/* Set up virtqueue descriptor for data to device */
 		virtio_fill_desc(&vq_desc[(id + 1) % vq_size], dev->is_modern,
+				 (uint64_t)buf, buf_len, VRING_DESC_F_NEXT,
+				 (id + 2) % vq_size);
+		/* Set up descriptor for response information */
+		virtio_fill_desc(&vq_desc[(id + 2) % vq_size], dev->is_modern,
 				 (uint64_t)resp, sizeof(*resp),
 				 VRING_DESC_F_WRITE, 0);
 	}
@@ -90,10 +99,9 @@ int virtioscsi_send(struct virtio_device *dev,
  */
 int virtioscsi_init(struct virtio_device *dev)
 {
-	struct vring_avail *vq_avail;
-	unsigned int idx = 0;
-	int qsize = 0;
+	struct vqs vq_ctrl, vq_event, vq_request;
 	int status = VIRTIO_STAT_ACKNOWLEDGE;
+	uint16_t flags;
 
 	/* Reset device */
 	// XXX That will clear the virtq base. We need to move
@@ -117,17 +125,20 @@ int virtioscsi_init(struct virtio_device *dev)
 		virtio_set_guest_features(dev, 0);
 	}
 
-	while(1) {
-		qsize = virtio_get_qsize(dev, idx);
-		if (!qsize)
-			break;
-		virtio_vring_size(qsize);
+	if (virtio_queue_init_vq(dev, &vq_ctrl, VIRTIO_SCSI_CONTROL_VQ) ||
+	    virtio_queue_init_vq(dev, &vq_event, VIRTIO_SCSI_EVENT_VQ) ||
+	    virtio_queue_init_vq(dev, &vq_request, VIRTIO_SCSI_REQUEST_VQ))
+		goto dev_error;
 
-		vq_avail = virtio_get_vring_avail(dev, idx);
-		vq_avail->flags = virtio_cpu_to_modern16(dev, VRING_AVAIL_F_NO_INTERRUPT);
-		vq_avail->idx = 0;
-		idx++;
-	}
+	flags = virtio_cpu_to_modern16(dev, VRING_AVAIL_F_NO_INTERRUPT);
+	vq_ctrl.avail->flags = flags;
+	vq_ctrl.avail->idx = 0;
+
+	vq_event.avail->flags = flags;
+	vq_event.avail->idx = 0;
+
+	vq_request.avail->flags = flags;
+	vq_request.avail->idx = 0;
 
 	/* Tell HV that setup succeeded */
 	status |= VIRTIO_STAT_DRIVER_OK;

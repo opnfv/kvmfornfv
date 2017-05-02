@@ -9,7 +9,7 @@
 #include "output.h" // dprintf
 #include "malloc.h" // free
 #include "memmap.h" // PAGE_SIZE
-#include "pci.h" // pci_bdf_to_bus
+#include "pcidevice.h" // foreachpci
 #include "pci_ids.h" // PCI_CLASS_SERIAL_USB_UHCI
 #include "pci_regs.h" // PCI_BASE_ADDRESS_0
 #include "string.h" // memset
@@ -295,10 +295,9 @@ fail:
 static void
 ehci_controller_setup(struct pci_device *pci)
 {
-    wait_preempt();  // Avoid pci_config_readl when preempting
-    u16 bdf = pci->bdf;
-    u32 baseaddr = pci_config_readl(bdf, PCI_BASE_ADDRESS_0);
-    struct ehci_caps *caps = (void*)(baseaddr & PCI_BASE_ADDRESS_MEM_MASK);
+    struct ehci_caps *caps = pci_enable_membar(pci, PCI_BASE_ADDRESS_0);
+    if (!caps)
+        return;
     u32 hcc_params = readl(&caps->hccparams);
 
     struct usb_ehci_s *cntl = malloc_tmphigh(sizeof(*cntl));
@@ -316,11 +315,9 @@ ehci_controller_setup(struct pci_device *pci)
         cntl->regs->ctrldssegment = 0;
     PendingEHCI++;
 
-    dprintf(1, "EHCI init on dev %02x:%02x.%x (regs=%p)\n"
-            , pci_bdf_to_bus(bdf), pci_bdf_to_dev(bdf)
-            , pci_bdf_to_fn(bdf), cntl->regs);
+    dprintf(1, "EHCI init on dev %pP (regs=%p)\n", pci, cntl->regs);
 
-    pci_config_maskw(bdf, PCI_COMMAND, 0, PCI_COMMAND_MASTER);
+    pci_enable_busmaster(pci);
 
     // XXX - check for and disable SMM control?
 
@@ -337,10 +334,14 @@ ehci_setup(void)
         if (pci_classprog(pci) == PCI_CLASS_SERIAL_USB_EHCI)
             ehci_controller_setup(pci);
     }
+}
 
-    // Wait for all EHCI controllers to initialize.  This forces OHCI/UHCI
-    // setup to always be after any EHCI ports are routed to EHCI.
-    while (PendingEHCI)
+// Wait for all EHCI controllers to initialize.  This forces OHCI/UHCI
+// setup to always be after any EHCI ports are routed to EHCI.
+void
+ehci_wait_controllers(void)
+{
+    while (CONFIG_USB_EHCI && CONFIG_THREADS && PendingEHCI)
         yield();
 }
 

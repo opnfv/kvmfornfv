@@ -8,11 +8,13 @@
 #include "config.h" // CONFIG_*
 #include "malloc.h" // free
 #include "output.h" // dprintf
-#include "pci.h" // pci_bdf_to_bus
+#include "pci.h" // pci_config_writew
+#include "pcidevice.h" // foreachpci
 #include "pci_ids.h" // PCI_CLASS_SERIAL_USB_UHCI
 #include "pci_regs.h" // PCI_BASE_ADDRESS_4
 #include "string.h" // memset
 #include "usb.h" // struct usb_s
+#include "usb-ehci.h" // ehci_wait_controllers
 #include "usb-uhci.h" // USBLEGSUP
 #include "util.h" // msleep
 #include "x86.h" // outw
@@ -94,6 +96,9 @@ static int
 check_uhci_ports(struct usb_uhci_s *cntl)
 {
     ASSERT32FLAT();
+    // Wait for ehci init - in case this is a "companion controller"
+    ehci_wait_controllers();
+
     struct usbhub_s hub;
     memset(&hub, 0, sizeof(hub));
     hub.cntl = &cntl->usb;
@@ -240,26 +245,25 @@ fail:
 static void
 uhci_controller_setup(struct pci_device *pci)
 {
-    u16 bdf = pci->bdf;
+    u16 iobase = pci_enable_iobar(pci, PCI_BASE_ADDRESS_4);
+    if (!iobase)
+        return;
+
     struct usb_uhci_s *cntl = malloc_tmphigh(sizeof(*cntl));
     if (!cntl) {
         warn_noalloc();
         return;
     }
-    wait_preempt();  // Avoid pci_config_readl when preempting
     memset(cntl, 0, sizeof(*cntl));
     cntl->usb.pci = pci;
     cntl->usb.type = USB_TYPE_UHCI;
-    cntl->iobase = (pci_config_readl(bdf, PCI_BASE_ADDRESS_4)
-                    & PCI_BASE_ADDRESS_IO_MASK);
+    cntl->iobase = iobase;
 
-    dprintf(1, "UHCI init on dev %02x:%02x.%x (io=%x)\n"
-            , pci_bdf_to_bus(bdf), pci_bdf_to_dev(bdf)
-            , pci_bdf_to_fn(bdf), cntl->iobase);
+    dprintf(1, "UHCI init on dev %pP (io=%x)\n", pci, cntl->iobase);
 
-    pci_config_maskw(bdf, PCI_COMMAND, 0, PCI_COMMAND_MASTER);
+    pci_enable_busmaster(pci);
 
-    reset_uhci(cntl, bdf);
+    reset_uhci(cntl, pci->bdf);
 
     run_thread(configure_uhci, cntl);
 }

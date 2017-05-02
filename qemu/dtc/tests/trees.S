@@ -92,9 +92,12 @@ test_tree1_struct:
 	PROP_INT(test_tree1, prop_int, TEST_VALUE_1)
 	PROP_INT64(test_tree1, prop_int64, TEST_VALUE64_1)
 	PROP_STR(test_tree1, prop_str, TEST_STRING_1)
+	PROP_INT(test_tree1, address_cells, 1)
+	PROP_INT(test_tree1, size_cells, 0)
 
 	BEGIN_NODE("subnode@1")
 	PROP_STR(test_tree1, compatible, "subnode1")
+	PROP_INT(test_tree1, reg, 1)
 	PROP_INT(test_tree1, prop_int, TEST_VALUE_1)
 
 	BEGIN_NODE("subsubnode")
@@ -108,10 +111,14 @@ test_tree1_struct:
 	END_NODE
 
 	BEGIN_NODE("subnode@2")
+	PROP_INT(test_tree1, reg, 2)
 	PROP_INT(test_tree1, linux_phandle, PHANDLE_1)
 	PROP_INT(test_tree1, prop_int, TEST_VALUE_2)
+	PROP_INT(test_tree1, address_cells, 1)
+	PROP_INT(test_tree1, size_cells, 0)
 
 	BEGIN_NODE("subsubnode@0")
+	PROP_INT(test_tree1, reg, 0)
 	PROP_INT(test_tree1, phandle, PHANDLE_2)
 	PROP_STR(test_tree1, compatible, "subsubnode2\0subsubnode")
 	PROP_INT(test_tree1, prop_int, TEST_VALUE_2)
@@ -133,6 +140,9 @@ test_tree1_strings:
 	STRING(test_tree1, prop_str, "prop-str")
 	STRING(test_tree1, linux_phandle, "linux,phandle")
 	STRING(test_tree1, phandle, "phandle")
+	STRING(test_tree1, reg, "reg")
+	STRING(test_tree1, address_cells, "#address-cells")
+	STRING(test_tree1, size_cells, "#size-cells")
 test_tree1_strings_end:
 test_tree1_end:
 
@@ -199,3 +209,34 @@ bad_prop_char_strings:
 	STRING(bad_prop_char, prop, "prop$erty")
 bad_prop_char_strings_end:
 bad_prop_char_end:
+
+
+	/* overflow_size_strings */
+	.balign	8
+	.globl	_ovf_size_strings
+_ovf_size_strings:
+ovf_size_strings:
+	FDTLONG(FDT_MAGIC)
+	FDTLONG(ovf_size_strings_end - ovf_size_strings)
+	FDTLONG(ovf_size_strings_struct - ovf_size_strings) 
+	FDTLONG(ovf_size_strings_strings - ovf_size_strings)
+	FDTLONG(ovf_size_strings_rsvmap - ovf_size_strings)
+	FDTLONG(0x11)
+	FDTLONG(0x10)
+	FDTLONG(0)
+	FDTLONG(0xffffffff)
+	FDTLONG(ovf_size_strings_struct_end - ovf_size_strings_struct)
+	EMPTY_RSVMAP(ovf_size_strings)
+
+ovf_size_strings_struct:
+	BEGIN_NODE("")
+	PROP_INT(ovf_size_strings, bad_string, 0)
+	END_NODE
+	FDTLONG(FDT_END)
+ovf_size_strings_struct_end:
+
+ovf_size_strings_strings:
+	STRING(ovf_size_strings, x, "x")
+	ovf_size_strings_bad_string = ovf_size_strings_strings + 0x10000000
+ovf_size_strings_strings_end:
+ovf_size_strings_end:

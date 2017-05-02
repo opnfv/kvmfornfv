@@ -405,9 +405,9 @@ escc_add_channel(const char *path, const char *node, phys_addr_t addr,
             { 0x20, 0x30, 0x50 }
         },{
             /* legacy ch-b */
-            { 0x0, 0x2, 0x8 },
+            { 0x0, 0x4, 0x8 },
             /* legacy ch-a */
-            { 0x4, 0x6, 0xa }
+            { 0x2, 0x6, 0xa }
         }
     };
     
@@ -429,14 +429,15 @@ escc_add_channel(const char *path, const char *node, phys_addr_t addr,
 
     /* add aliases */
 
-    aliases = find_dev("/aliases");
+    if (!legacy) {
+            aliases = find_dev("/aliases");
 
-    snprintf(buf, sizeof(buf), "%s/ch-%s", path, node);
-    OLDWORLD(snprintf(tty, sizeof(tty), "tty%s", node));
-    OLDWORLD(set_property(aliases, tty, buf, strlen(buf) + 1));
-    snprintf(tty, sizeof(tty), "scc%s", node);
-    set_property(aliases, tty, buf, strlen(buf) + 1);
-
+            snprintf(buf, sizeof(buf), "%s/ch-%s", path, node);
+            OLDWORLD(snprintf(tty, sizeof(tty), "tty%s", node));
+            OLDWORLD(set_property(aliases, tty, buf, strlen(buf) + 1));
+            snprintf(tty, sizeof(tty), "scc%s", node);
+            set_property(aliases, tty, buf, strlen(buf) + 1);
+    }
     /* add properties */
 
     dnode = find_dev(buf);

@@ -101,24 +101,6 @@ struct port_state {
 	char *state;
 };
 
-
-struct port_state ps_array_usb2[] = {
-	{1, 0, 0, 0, PORTSC_PLS_U0, "ERROR"}
-};
-
-struct port_state ps_array_usb3[] = {
-	{0, 0, 0, 0, PORTSC_PLS_DISABLED, "Powered-OFF"},
-	{1, 0, 0, 0, PORTSC_PLS_POLLING,  "Polling"},
-	{1, 0, 0, 0, PORTSC_PLS_U0,       "Polling"},
-	{1, 0, 0, 0, PORTSC_PLS_RXDETECT, "***  Disconnected ***"},
-	{1, 0, 0, 0, PORTSC_PLS_DISABLED, "Disabled"},
-	{1, 0, 0, 0, PORTSC_PLS_INACTIVE, "Error"},
-	{1, 0, 0, 0, PORTSC_PLS_TEST_MODE,"Loopback"},
-	{1, 0, 0, 0, PORTSC_PLS_COMP_MODE,"Compliancek"},
-	{1, 1, 0, 1, PORTSC_PLS_U0,       "******  Reset  ******"},
-	{1, 1, 1, 0, PORTSC_PLS_U0,       "****** Enabled ******"},
-};
-
 /* 5.4 Host Controller Operational Registers
  * Table 26
  */
@@ -144,7 +126,7 @@ struct xhci_op_regs {
 #define XHCI_DCBAAP_MAX_SIZE      2048
 
 	uint32_t config;         /* Configure */
-#define XHCI_CONFIG_MAX_SLOT      4
+#define XHCI_CONFIG_MAX_SLOT      44
 
 	uint8_t reserved2[964]; /* 3C - 3FF */
 	/* USB Port register set */
@@ -269,6 +251,8 @@ struct xhci_seg {
 #define XHCI_INTR_TRBS_SIZE    4096
 #define XHCI_ERST_NUM_SEGS     1
 
+#define XHCI_POLL_NO_WAIT      1
+
 #define XHCI_MAX_BULK_SIZE    0xF000
 
 struct xhci_erst_entry {
@@ -387,5 +371,8 @@ struct xhci_pipe {
 	long buf_phys;
 	uint32_t buflen;
 };
+
+extern bool usb3_dev_init(struct xhci_hcd *xhcd, struct usb_dev *hub,
+			  uint32_t port, uint32_t slotspeed);
 
 #endif	/* USB_XHCI_H */

@@ -54,6 +54,11 @@ struct virtio_pci_notify_cap {
     u32 notify_off_multiplier;   /* Multiplier for queue_notify_off. */
 };
 
+struct virtio_pci_cfg_cap {
+    struct virtio_pci_cap cap;
+    u8 pci_cfg_data[4]; /* Data for BAR access. */
+};
+
 typedef struct virtio_pci_common_cfg {
     /* About the whole device. */
     u32 device_feature_select;   /* read-write */
@@ -85,11 +90,21 @@ typedef struct virtio_pci_isr {
 
 /* --- driver structs ----------------------------------------------- */
 
+#define VP_ACCESS_IO       1
+#define VP_ACCESS_MMIO     2
+#define VP_ACCESS_PCICFG   3
+
 struct vp_cap {
-    u32 addr;
+    union {
+        void *memaddr;
+        u32 ioaddr;
+        u32 baroff;
+    };
+    u16 bdf;
     u8 cap;
+    u8 cfg;
     u8 bar;
-    u8 is_io;
+    u8 mode;
 };
 
 struct vp_device {
@@ -98,83 +113,8 @@ struct vp_device {
     u8 use_modern;
 };
 
-static inline u64 _vp_read(struct vp_cap *cap, u32 offset, u8 size)
-{
-    u32 addr = cap->addr + offset;
-    u64 var;
-
-    if (cap->is_io) {
-        switch (size) {
-        case 8:
-            var = inl(addr);
-            var |= (u64)inl(addr+4) << 32;
-            break;
-        case 4:
-            var = inl(addr);
-            break;
-        case 2:
-            var = inw(addr);
-            break;
-        case 1:
-            var = inb(addr);
-            break;
-        default:
-            var = 0;
-        }
-    } else {
-        switch (size) {
-        case 8:
-            var = readl((void*)addr);
-            var |= (u64)readl((void*)(addr+4)) << 32;
-            break;
-        case 4:
-            var = readl((void*)addr);
-            break;
-        case 2:
-            var = readw((void*)addr);
-            break;
-        case 1:
-            var = readb((void*)addr);
-            break;
-        default:
-            var = 0;
-        }
-    }
-    dprintf(9, "vp read   %x (%d) -> 0x%llx\n", addr, size, var);
-    return var;
-}
-
-static inline void _vp_write(struct vp_cap *cap, u32 offset, u8 size, u64 var)
-{
-    u32 addr = cap->addr + offset;
-
-    dprintf(9, "vp write  %x (%d) <- 0x%llx\n", addr, size, var);
-    if (cap->is_io) {
-        switch (size) {
-        case 4:
-            outl(var, addr);
-            break;
-        case 2:
-            outw(var, addr);
-            break;
-        case 1:
-            outb(var, addr);
-            break;
-        }
-    } else {
-        switch (size) {
-        case 4:
-            writel((void*)addr, var);
-            break;
-        case 2:
-            writew((void*)addr, var);
-            break;
-        case 1:
-            writeb((void*)addr, var);
-            break;
-        }
-    }
-}
+u64 _vp_read(struct vp_cap *cap, u32 offset, u8 size);
+void _vp_write(struct vp_cap *cap, u32 offset, u8 size, u64 var);
 
 #define vp_read(_cap, _struct, _field)        \
     _vp_read(_cap, offsetof(_struct, _field), \

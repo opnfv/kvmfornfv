@@ -9,11 +9,21 @@
  *
  */
 
+#include "autoconf.h"
+
 /* State size for context (see below) */
-#define CONTEXT_STATE_SIZE 0x510
+#define CONTEXT_STATE_SIZE 0x570
 
 /* Stack size for context (allocated inline of the context stack) */
 #define CONTEXT_STACK_SIZE 0x2000
+
+/* %cwp save/restore direction */
+#if defined(CONFIG_QEMU)
+    /* QEMU SPARCv9 %cwp save/restore direction is reversed compared to real hardware */
+    #define CWP_DIRECTION -1
+#else
+    #define CWP_DIRECTION  1
+#endif
 
 /*
  * SAVE_CPU_STATE and RESTORE_CPU_STATE are macros used to enable a context switch
@@ -33,6 +43,18 @@
  * invoke the miss handler.
  */
 
+#define SAVE_CPU_GENERAL_STATE(type) \
+	/* Save generate state into context at %g1 */ \
+	rdpr	%pstate, %g7; \
+	stx	%g7, [%g1 + 0xb0]; \
+	rd	%y, %g7; \
+	stx	%g7, [%g1 + 0xb8]; \
+	rd	%fprs, %g7; \
+	stx	%g7, [%g1 + 0xc0]; \
+	rdpr    %tl, %g7; \
+	stx     %g7, [%g1 + 0xc8];
+
+
 #define SAVE_CPU_WINDOW_STATE(type) \
 	/* Save window state into context at %g1 */ \
 	rdpr	%cwp, %g7; \
@@ -48,26 +70,19 @@
 	rdpr	%cleanwin, %g7; \
 	stx	%g7, [%g1 + 0x28]; \
 	\
-	stx	%o0, [%g1 + 0x30]; \
-	stx	%o1, [%g1 + 0x38]; \
-	stx	%o2, [%g1 + 0x40]; \
-	stx	%o3, [%g1 + 0x48]; \
-	stx	%o4, [%g1 + 0x50]; \
-	stx	%o5, [%g1 + 0x58]; \
-	stx	%o6, [%g1 + 0x60]; \
-	stx	%o7, [%g1 + 0x68]; \
+	/* %g1-%g7 stored at 0x30 - 0x68 */ \
 	\
-	rdpr	%pstate, %g7; \
-	stx	%g7, [%g1 + 0x70]; \
-	rd	%y, %g7; \
-	stx	%g7, [%g1 + 0x78]; \
-	rd	%fprs, %g7; \
-	stx	%g7, [%g1 + 0x80]; \
-	rdpr    %tl, %g7; \
-	stx     %g7, [%g1 + 0x88]; \
+	stx	%o0, [%g1 + 0x70]; \
+	stx	%o1, [%g1 + 0x78]; \
+	stx	%o2, [%g1 + 0x80]; \
+	stx	%o3, [%g1 + 0x88]; \
+	stx	%o4, [%g1 + 0x90]; \
+	stx	%o5, [%g1 + 0x98]; \
+	stx	%o6, [%g1 + 0xa0]; \
+	stx	%o7, [%g1 + 0xa8]; \
 	\
 	/* Now iterate through all of the windows saving all l and i registers */ \
-	add	%g1, 0x90, %g5; \
+	add	%g1, 0xd0, %g5; \
 	\
 	/* Get the number of windows in %g6 */ \
 	rdpr	%ver, %g6; \
@@ -97,15 +112,17 @@ save_cpu_window_##type: \
 	stx	%i5, [%g5 + 0x68]; \
 	stx	%i6, [%g5 + 0x70]; \
 	stx	%i7, [%g5 + 0x78]; \
-	dec	%g7; \
+	add	%g7, CWP_DIRECTION, %g7; \
 	and	%g7, %g6, %g7; \
 	subcc	%g4, 1, %g4; \
 	bne	save_cpu_window_##type; \
 	 add	%g5, 0x80, %g5; \
 	\
 	/* For 8 windows with 16 registers to save in the window, memory required \
-	is 16*8*8 = 0x400 bytes */ \
-	\
+	is 16*8*8 = 0x400 bytes */
+
+#define RESET_CPU_WINDOW_STATE(type) \
+	wrpr	%g0, %cwp; \
 	/* Now we should be in window 0 so update the other window registers */ \
 	rdpr	%ver, %g6; \
 	and	%g6, 0xf, %g6; \
@@ -114,13 +131,17 @@ save_cpu_window_##type: \
 	\
 	wrpr	%g0, %cleanwin; \
 	wrpr	%g0, %canrestore; \
-	wrpr	%g0, %otherwin; \
+	wrpr	%g0, %otherwin;
 
-	
 #define SAVE_CPU_TRAP_STATE(type) \
 	/* Save trap state into context at %g1 */ \
-	add	%g1, 0x490, %g5; \
+	rdpr	%tba, %g5; \
+	stx	%g5, [%g1 + 0x4e0]; \
+	add	%g1, 0x4f0, %g5; \
 	mov	4, %g6; \
+	\
+	/* Save current trap level */ \
+	rdpr	%tl, %g4; \
 	\
 save_trap_state_##type: \
 	deccc	%g6; \
@@ -137,14 +158,28 @@ save_trap_state_##type: \
 	 add	%g5, 0x20, %g5; \
 	\
 	/* For 4 trap levels with 4 registers, memory required is \
-	4*8*4 = 0x80 bytes */
+	4*8*4 = 0x80 bytes */ \
+	\
+	/* Switch back to original trap level */ \
+	wrpr	%g4, %tl;
 
 /* Save all state into context at %g1 */
 #define SAVE_CPU_STATE(type) \
+	SAVE_CPU_GENERAL_STATE(type); \
 	SAVE_CPU_WINDOW_STATE(type); \
 	SAVE_CPU_TRAP_STATE(type);
 
 
+#define RESTORE_CPU_GENERAL_STATE(type) \
+	/* Restore general state from context at %g1 */ \
+	ldx	[%g1 + 0xb0], %g7; \
+	wrpr	%g7, %pstate; \
+	ldx	[%g1 + 0xb8], %g7; \
+	wr	%g7, 0, %y; \
+	ldx	[%g1 + 0xc0], %g7; \
+	wr	%g7, 0, %fprs;
+	
+	
 #define RESTORE_CPU_WINDOW_STATE(type) \
 	/* Restore window state from context at %g1 */ \
 	\
@@ -159,7 +194,7 @@ save_trap_state_##type: \
 	ldx	[%g1], %g7; \
 	\
 	/* Now iterate through all of the windows restoring all l and i registers */ \
-	add	%g1, 0x90, %g5; \
+	add	%g1, 0xd0, %g5; \
 	\
 restore_cpu_window_##type: \
 	wrpr	%g7, %cwp; \
@@ -179,7 +214,7 @@ restore_cpu_window_##type: \
 	ldx	[%g5 + 0x68], %i5; \
 	ldx	[%g5 + 0x70], %i6; \
 	ldx	[%g5 + 0x78], %i7; \
-	dec	%g7; \
+	add	%g7, CWP_DIRECTION, %g7; \
 	and	%g7, %g6, %g7; \
 	subcc	%g4, 1, %g4; \
 	bne	restore_cpu_window_##type; \
@@ -199,26 +234,21 @@ restore_cpu_window_##type: \
 	ldx	[%g1 + 0x28], %g7; \
 	wrpr	%g7, %cleanwin; \
 	\
-	ldx	[%g1 + 0x30], %o0; \
-	ldx	[%g1 + 0x38], %o1; \
-	ldx	[%g1 + 0x40], %o2; \
-	ldx	[%g1 + 0x48], %o3; \
-	ldx	[%g1 + 0x50], %o4; \
-	ldx	[%g1 + 0x58], %o5; \
-	ldx	[%g1 + 0x60], %o6; \
-	ldx	[%g1 + 0x68], %o7; \
+	/* %g1-%g7 stored at 0x30 - 0x68 */ \
 	\
-	ldx	[%g1 + 0x70], %g7; \
-	wrpr	%g7, %pstate; \
-	ldx	[%g1 + 0x78], %g7; \
-	wr	%g7, 0, %y; \
-	ldx	[%g1 + 0x80], %g7; \
-	wr	%g7, 0, %fprs; \
+	ldx	[%g1 + 0x70], %o0; \
+	ldx	[%g1 + 0x78], %o1; \
+	ldx	[%g1 + 0x80], %o2; \
+	ldx	[%g1 + 0x88], %o3; \
+	ldx	[%g1 + 0x90], %o4; \
+	ldx	[%g1 + 0x98], %o5; \
+	ldx	[%g1 + 0xa0], %o6; \
+	ldx	[%g1 + 0xa8], %o7;
 
 
 #define RESTORE_CPU_TRAP_STATE(type) \
 	/* Restore trap state from context at %g1 */ \
-	add	%g1, 0x490, %g5; \
+	add	%g1, 0x4f0, %g5; \
 	mov	4, %g6; \
 	\
 restore_trap_state_##type: \
@@ -235,10 +265,14 @@ restore_trap_state_##type: \
 	bne	restore_trap_state_##type; \
 	 add	%g5, 0x20, %g5; \
 	\
-	ldx	[%g1 + 0x88], %g7; \
-	wrpr	%g7, %tl
+	ldx	[%g1 + 0xc8], %g7; \
+	wrpr	%g7, %tl; \
+	ldx	[%g1 + 0x4e0], %g7; \
+	wrpr	%g7, %tba
+
 
 /* Restore all state from context at %g1 */
 #define RESTORE_CPU_STATE(type) \
+	RESTORE_CPU_GENERAL_STATE(type); \
 	RESTORE_CPU_WINDOW_STATE(type); \
 	RESTORE_CPU_TRAP_STATE(type);

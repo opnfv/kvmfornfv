@@ -179,9 +179,7 @@ ps2_recvbyte(int aux, int needack, int timeout)
         }
 
         if (timer_check(end)) {
-            // Don't warn on second byte of a reset
-            if (timeout > 100)
-                warn_timeout();
+            warn_timeout();
             return -1;
         }
         yield();
@@ -451,8 +449,19 @@ ps2_check_event(void)
 static void
 ps2_keyboard_setup(void *data)
 {
-    /* flush incoming keys */
+    // flush incoming keys (also verifies port is likely present)
     int ret = i8042_flush();
+    if (ret)
+        return;
+
+    // Disable keyboard / mouse and drain any input they may have sent
+    ret = i8042_command(I8042_CMD_KBD_DISABLE, NULL);
+    if (ret)
+        return;
+    ret = i8042_command(I8042_CMD_AUX_DISABLE, NULL);
+    if (ret)
+        return;
+    ret = i8042_flush();
     if (ret)
         return;
 

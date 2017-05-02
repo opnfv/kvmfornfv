@@ -39,6 +39,7 @@ FILE_LICENCE ( GPL2_OR_LATER_OR_UBDL );
 #include <ipxe/nap.h>
 #include <ipxe/malloc.h>
 #include <ipxe/iobuf.h>
+#include <ipxe/bitops.h>
 #include <ipxe/hyperv.h>
 #include <ipxe/vmbus.h>
 
@@ -559,7 +560,7 @@ static void vmbus_signal_monitor ( struct vmbus_device *vmdev ) {
 	group = ( vmdev->monitor / ( 8 * sizeof ( trigger->pending ) ));
 	bit = ( vmdev->monitor % ( 8 * sizeof ( trigger->pending ) ) );
 	trigger = &vmbus->monitor_out->trigger[group];
-	hv_set_bit ( trigger, bit );
+	set_bit ( bit, trigger );
 }
 
 /**
@@ -720,7 +721,7 @@ static int vmbus_send ( struct vmbus_device *vmdev,
 		return 0;
 
 	/* Set channel bit in interrupt page */
-	hv_set_bit ( vmbus->intr->out, vmdev->channel );
+	set_bit ( vmdev->channel, vmbus->intr->out );
 
 	/* Signal the host */
 	vmdev->signal ( vmdev );
@@ -1120,6 +1121,7 @@ static int vmbus_probe_channels ( struct hv_hypervisor *hv,
 	const struct vmbus_message_header *header = &vmbus->message->header;
 	const struct vmbus_offer_channel *offer = &vmbus->message->offer;
 	const union uuid *type;
+	union uuid instance;
 	struct vmbus_driver *driver;
 	struct vmbus_device *vmdev;
 	struct vmbus_device *tmp;
@@ -1164,8 +1166,11 @@ static int vmbus_probe_channels ( struct hv_hypervisor *hv,
 				rc = -ENOMEM;
 				goto err_alloc_vmdev;
 			}
+			memcpy ( &instance, &offer->instance,
+				 sizeof ( instance ) );
+			uuid_mangle ( &instance );
 			snprintf ( vmdev->dev.name, sizeof ( vmdev->dev.name ),
-				   "vmbus:%02x", channel );
+				   "{%s}", uuid_ntoa ( &instance ) );
 			vmdev->dev.desc.bus_type = BUS_TYPE_HV;
 			INIT_LIST_HEAD ( &vmdev->dev.children );
 			list_add_tail ( &vmdev->dev.siblings,

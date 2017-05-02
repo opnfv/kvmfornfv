@@ -6,24 +6,17 @@
 // This file may be distributed under the terms of the GNU LGPLv3 license.
 
 #include "biosvar.h" // SET_BDA
+#include "block.h" // block_setup
 #include "bregs.h" // struct bregs
 #include "config.h" // CONFIG_*
 #include "e820map.h" // e820_add
 #include "fw/paravirt.h" // qemu_cfg_preinit
 #include "fw/xen.h" // xen_preinit
-#include "hw/ahci.h" // ahci_setup
-#include "hw/ata.h" // ata_setup
-#include "hw/esp-scsi.h" // esp_scsi_setup
-#include "hw/lsi-scsi.h" // lsi_scsi_setup
-#include "hw/megasas.h" // megasas_setup
-#include "hw/pvscsi.h" // pvscsi_setup
 #include "hw/pic.h" // pic_setup
 #include "hw/ps2port.h" // ps2port_setup
 #include "hw/rtc.h" // rtc_write
 #include "hw/serialio.h" // serial_debug_preinit
 #include "hw/usb.h" // usb_setup
-#include "hw/virtio-blk.h" // virtio_blk_setup
-#include "hw/virtio-scsi.h" // virtio_scsi_setup
 #include "malloc.h" // malloc_init
 #include "memmap.h" // SYMBOL
 #include "output.h" // dprintf
@@ -41,10 +34,6 @@ ivt_init(void)
 {
     dprintf(3, "init ivt\n");
 
-    // Setup reset-vector entry point (controls legacy reboots).
-    HaveRunPost = 1;
-    rtc_write(CMOS_RESET_CODE, 0);
-
     // Initialize all vectors to the default handler.
     int i;
     for (i=0; i<256; i++)
@@ -58,6 +47,7 @@ ivt_init(void)
 
     // Initialize software handlers.
     SET_IVT(0x02, FUNC16(entry_02));
+    SET_IVT(0x05, FUNC16(entry_05));
     SET_IVT(0x10, FUNC16(entry_10));
     SET_IVT(0x11, FUNC16(entry_11));
     SET_IVT(0x12, FUNC16(entry_12));
@@ -138,21 +128,10 @@ device_hardware_setup(void)
 {
     usb_setup();
     ps2port_setup();
+    block_setup();
     lpt_setup();
     serial_setup();
-
-    floppy_setup();
-    ata_setup();
-    ahci_setup();
-    sdcard_setup();
     cbfs_payload_setup();
-    ramdisk_setup();
-    virtio_blk_setup();
-    virtio_scsi_setup();
-    lsi_scsi_setup();
-    esp_scsi_setup();
-    megasas_setup();
-    pvscsi_setup();
 }
 
 static void
@@ -304,10 +283,26 @@ reloc_preinit(void *f, void *arg)
     func(arg);
 }
 
+// Runs after all code is present and prior to any modifications
+void
+code_mutable_preinit(void)
+{
+    if (HaveRunPost)
+        // Already run
+        return;
+    // Setup reset-vector entry point (controls legacy reboots).
+    rtc_write(CMOS_RESET_CODE, 0);
+    barrier();
+    HaveRunPost = 1;
+    barrier();
+}
+
 // Setup for code relocation and then relocate.
 void VISIBLE32INIT
 dopost(void)
 {
+    code_mutable_preinit();
+
     // Detect ram and setup internal malloc.
     qemu_preinit();
     coreboot_preinit();

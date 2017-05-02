@@ -35,6 +35,7 @@
 #define NO_QEMU_PROTOS
 #include "arch/common/fw_cfg.h"
 #include "arch/ppc/processor.h"
+#include "context.h"
 
 #define UUID_FMT "%02x%02x%02x%02x-%02x%02x-%02x%02x-%02x%02x-%02x%02x%02x%02x%02x%02x"
 
@@ -594,22 +595,15 @@ id_cpu(void)
     }
 }
 
-static void go(void);
+static void arch_go(void);
 
 static void
-go(void)
+arch_go(void)
 {
-    ucell addr;
-
     /* Insert copyright property for MacOS 9 and below */
     if (find_dev("/rom/macos")) {
         fword("insert-copyright-property");
     }
-    
-    feval("saved-program-state >sps.entry @");
-    addr = POP();
-
-    call_elf(0, 0, addr);
 }
 
 static void kvm_of_init(void)
@@ -925,11 +919,11 @@ arch_of_init(void)
     if (fw_cfg_read_i16(FW_CFG_NOGRAPHIC)) {
         if (is_apple()) {
             if (CONFIG_SERIAL_PORT) {
-                stdin_path = "scca";
-                stdout_path = "scca";
-            } else {
                 stdin_path = "sccb";
                 stdout_path = "sccb";
+            } else {
+                stdin_path = "scca";
+                stdout_path = "scca";
             }
         } else {
             stdin_path = "ttya";
@@ -1014,5 +1008,5 @@ arch_of_init(void)
     bind_func("(adler32)", adler32);
     
     bind_func("platform-boot", boot);
-    bind_func("(go)", go);
+    bind_func("(arch-go)", arch_go);
 }

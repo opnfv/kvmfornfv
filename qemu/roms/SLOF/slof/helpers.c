@@ -18,6 +18,7 @@
 #include <cpu.h>
 #include "helpers.h"
 #include "paflof.h"
+#include "../lib/libnet/time.h"   /* TODO: Get rid of old timer code */
 
 /**
  * get msec-timer value
@@ -46,6 +47,23 @@ void SLOF_usleep(uint32_t time)
 	forth_eval("us");
 }
 
+static unsigned int dest_timer;
+
+void set_timer(int val)
+{
+	dest_timer = SLOF_GetTimer() + val;
+}
+
+int get_timer()
+{
+	return dest_timer - SLOF_GetTimer();
+}
+
+int get_sec_ticks(void)
+{
+	return 1000;	/* number of ticks in 1 second */
+}
+
 void *SLOF_dma_alloc(long size)
 {
 	forth_push(size);
@@ -69,9 +87,14 @@ void *SLOF_alloc_mem(long size)
 
 void *SLOF_alloc_mem_aligned(long size, long align)
 {
-	unsigned long addr = (unsigned long)SLOF_alloc_mem(size + align - 1);
-	addr = addr + align - 1;
-	addr = addr & ~(align - 1);
+	unsigned long addr = (unsigned long)SLOF_alloc_mem(size);
+
+	if (addr % align) {
+		SLOF_free_mem((void *)addr, size);
+		addr = (unsigned long)SLOF_alloc_mem(size + align - 1);
+		addr = addr + align - 1;
+		addr = addr & ~(align - 1);
+	}
 
 	return (void *)addr;
 }
@@ -147,4 +170,13 @@ void *SLOF_translate_my_address(void *addr)
 	forth_push((long)addr);
 	forth_eval("translate-my-address");
 	return (void *)forth_pop();
+}
+
+int write_mm_log(char *data, unsigned int len, unsigned short type)
+{
+	forth_push((unsigned long)data);
+	forth_push(len);
+	forth_push(type);
+
+	return forth_eval_pop("write-mm-log");
 }

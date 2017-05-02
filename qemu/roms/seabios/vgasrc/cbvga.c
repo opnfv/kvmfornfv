@@ -5,12 +5,13 @@
 // This file may be distributed under the terms of the GNU LGPLv3 license.
 
 #include "biosvar.h" // GET_BDA
-#include "cbvga.h" // cbvga_setup
 #include "output.h" // dprintf
 #include "stdvga.h" // SEG_CTEXT
 #include "string.h" // memset16_far
 #include "util.h" // find_cb_table
-#include "vgabios.h" // VGAREG_*
+#include "vgabios.h" // SET_VGA
+#include "vgafb.h" // handle_gfx_op
+#include "vgautil.h" // VBE_total_memory
 
 static int CBmode VAR16;
 static struct vgamode_s CBmodeinfo VAR16;

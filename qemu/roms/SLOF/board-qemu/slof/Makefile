@@ -21,7 +21,7 @@ all: version.o Makefile.dep OF.ffs paflof $(SLOFCMNDIR)/xvect.bin
 CPPFLAGS = -I$(LIBCMNDIR)/libbootmsg -I$(LIBCMNDIR)/libhvcall \
 	   -I$(LIBCMNDIR)/libvirtio -I$(LIBCMNDIR)/libnvram \
 	   -I$(LIBCMNDIR)/libusb -I$(LIBCMNDIR)/libveth \
-	   -I$(LIBCMNDIR)/libe1k
+	   -I$(LIBCMNDIR)/libe1k -I$(LIBCMNDIR)/libnet
 SLOF_LIBS = \
 	$(LIBCMNDIR)/libbootmsg.a \
 	$(LIBCMNDIR)/libelf.a \
@@ -30,7 +30,8 @@ SLOF_LIBS = \
 	$(LIBCMNDIR)/libusb.a \
 	$(LIBCMNDIR)/libnvram.a \
 	$(LIBCMNDIR)/libveth.a \
-	$(LIBCMNDIR)/libe1k.a
+	$(LIBCMNDIR)/libe1k.a \
+	$(LIBCMNDIR)/libnet.a
 BOARD_SLOF_IN = \
 	$(LIBCMNDIR)/libhvcall/hvcall.in \
 	$(LIBCMNDIR)/libvirtio/virtio.in \
@@ -40,7 +41,8 @@ BOARD_SLOF_IN = \
 	$(LIBCMNDIR)/libnvram/libnvram.in \
 	$(LIBCMNDIR)/libbases/libbases.in \
 	$(LIBCMNDIR)/libveth/veth.in \
-	$(LIBCMNDIR)/libe1k/e1k.in
+	$(LIBCMNDIR)/libe1k/e1k.in \
+	$(LIBCMNDIR)/libnet/libnet.in
 BOARD_SLOF_CODE = $(BOARD_SLOF_IN:%.in=%.code)
 
 include $(SLOFCMNDIR)/Makefile.inc
@@ -69,15 +71,19 @@ VIO_FFS_FILES = \
 	$(SLOFBRDDIR)/pci-device_1af4_1041.fs \
 	$(SLOFBRDDIR)/pci-device_1af4_1001.fs \
 	$(SLOFBRDDIR)/pci-device_1af4_1042.fs \
+	$(SLOFBRDDIR)/pci-device_1af4_1003.fs \
+	$(SLOFBRDDIR)/pci-device_1af4_1043.fs \
 	$(SLOFBRDDIR)/pci-device_1af4_1004.fs \
 	$(SLOFBRDDIR)/pci-device_1af4_1048.fs \
 	$(SLOFBRDDIR)/pci-device_1af4_1009.fs \
+	$(SLOFBRDDIR)/pci-device_1af4_1049.fs \
 	$(SLOFBRDDIR)/pci-device_1af4_1050.fs \
 	$(SLOFBRDDIR)/vio-hvterm.fs \
 	$(SLOFBRDDIR)/vio-vscsi.fs \
 	$(SLOFBRDDIR)/vio-veth.fs \
 	$(SLOFBRDDIR)/rtas-nvram.fs \
 	$(SLOFBRDDIR)/virtio-net.fs \
+	$(SLOFBRDDIR)/virtio-serial.fs \
 	$(SLOFBRDDIR)/virtio-block.fs \
 	$(SLOFBRDDIR)/virtio-fs.fs \
 	$(SLOFBRDDIR)/dev-null.fs \
@@ -100,6 +106,7 @@ OF_FFS_FILES = \
 	$(SLOFCMNDIR)/fs/scsi-host-helpers.fs \
 	$(SLOFCMNDIR)/fs/scsi-probe-helpers.fs \
 	$(SLOFCMNDIR)/fs/scsi-support.fs \
+	$(SLOFCMNDIR)/fs/fcode/evaluator.fs \
 	$(SLOFBRDDIR)/default-font.bin \
 	$(SLOFBRDDIR)/pci-phb.fs \
 	$(SLOFBRDDIR)/rtas.fs \

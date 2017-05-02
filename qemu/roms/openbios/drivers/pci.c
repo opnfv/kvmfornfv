@@ -567,6 +567,21 @@ int eth_config_cb (const pci_config_t *config)
         return 0;
 }
 
+int rtl8139_config_cb(const pci_config_t *config)
+{
+#ifdef CONFIG_PPC
+	/* Apple's OF seemingly enables bus mastering on some cards by
+	 * default, which means that some buggy drivers forget to
+	 * explicitly set it (OS X, MorphOS). Mimic this behaviour so
+	 * that these buggy drivers work under emulation. */
+	if (is_apple()) {
+		ob_pci_enable_bus_master(config);
+	}
+#endif
+
+	return eth_config_cb(config);
+}
+
 static inline void pci_decode_pci_addr(pci_addr addr, int *flags,
 				       int *space_code, uint32_t *mask)
 {
@@ -656,10 +671,7 @@ static void ob_pci_reload_device_path(phandle_t phandle, pci_config_t *config)
 {
     /* since "name" and "reg" are now assigned
        we need to reload current node name */
-
-    PUSH(phandle);
-    fword("get-package-path");
-    char *new_path = pop_fstr_copy();
+    char *new_path = get_path_from_ph(phandle);
     if (new_path) {
         if (0 != strcmp(config->path, new_path)) {
             PCI_DPRINTF("\n=== CHANGED === package path old=%s new=%s\n",
@@ -773,42 +785,50 @@ int macio_keylargo_config_cb (const pci_config_t *config)
 
 int vga_config_cb (const pci_config_t *config)
 {
+#ifdef CONFIG_PPC
         unsigned long rom;
-        uint32_t rom_size, size, mask;
-        int flags, space_code;
+        uint32_t rom_size, size, bar;
         phandle_t ph;
-
+#endif
         if (config->assigned[0] != 0x00000000) {
             setup_video();
 
-            pci_decode_pci_addr(config->assigned[1],
-                &flags, &space_code, &mask);
+#ifdef CONFIG_PPC
+            if (config->assigned[6]) {
+                    rom = pci_bus_addr_to_host_addr(MEMORY_SPACE_32,
+                                                    config->assigned[6] & ~0x0000000F);
+                    rom_size = config->sizes[6];
 
-            rom = pci_bus_addr_to_host_addr(space_code,
-                                            config->assigned[1] & ~0x0000000F);
+                    bar = pci_config_read32(config->dev, PCI_ROM_ADDRESS);
+                    bar |= PCI_ROM_ADDRESS_ENABLE;
+                    pci_config_write32(config->dev, PCI_COMMAND, bar);
+                    ph = get_cur_dev();
 
-            rom_size = config->sizes[1];
+                    if (rom_size >= 8) {
+                            const char *p;
 
-            ph = get_cur_dev();
-
-            if (rom_size >= 8) {
-                const char *p;
-
-                p = (const char *)rom;
-                if (p[0] == 'N' && p[1] == 'D' && p[2] == 'R' && p[3] == 'V') {
-                    size = *(uint32_t*)(p + 4);
-                    set_property(ph, "driver,AAPL,MacOS,PowerPC", p + 8, size);
-                }
+                            p = (const char *)rom;
+                            if (p[0] == 'N' && p[1] == 'D' && p[2] == 'R' && p[3] == 'V') {
+                                    size = *(uint32_t*)(p + 4);
+                                    set_property(ph, "driver,AAPL,MacOS,PowerPC",
+                                                 p + 8, size);
+                            } else if (p[0] == 'J' && p[1] == 'o' &&
+                                       p[2] == 'y' && p[3] == '!') {
+                                    set_property(ph, "driver,AAPL,MacOS,PowerPC",
+                                                 p, rom_size);
+                            }
+                    }
             }
+#endif
 
-            /* Currently we don't read FCode from the hardware but execute it directly */
+            /* Currently we don't read FCode from the hardware but execute
+             * it directly */
             feval("['] vga-driver-fcode 2 cells + 1 byte-load");
 
 #ifdef CONFIG_MOL
-	    /* Install special words for Mac On Linux */
-	    molvideo_init();
+            /* Install special words for Mac On Linux */
+            molvideo_init();
 #endif
-
         }
 
 	return 0;
@@ -823,6 +843,8 @@ int ebus_config_cb(const pci_config_t *config)
     int i;
     uint32_t mask;
     int flags, space_code;
+    ucell virt;
+    phys_addr_t io_phys_base = 0;
 
     props[0] = 0x14;
     props[1] = 0x3f8;
@@ -855,6 +877,11 @@ int ebus_config_cb(const pci_config_t *config)
                                        config->assigned[i] & ~mask);
 
         props[ncells++] = config->sizes[i];
+
+        /* Store base of IO space for NVRAM */
+        if (io_phys_base == 0x0 && space_code == IO_SPACE) {
+            io_phys_base = pci_bus_addr_to_host_addr(space_code, config->assigned[i] & ~mask);
+        }
     }
 
     set_property(dev, "ranges", (char *)props, ncells * sizeof(props[0]));
@@ -875,6 +902,13 @@ int ebus_config_cb(const pci_config_t *config)
     push_str("mk48t59");
     fword("model");
 
+    /* OpenSolaris (e.g. Milax) requires the RTC to be pre-mapped by the PROM */
+    virt = ofmem_map_io(io_phys_base + 0x2000, 0x2000);
+    PUSH(virt);
+    fword("encode-int");
+    push_str("address");
+    fword("property");
+    
     push_str("eeprom");
     fword("device-name");
     fword("finish-device");
@@ -913,6 +947,18 @@ int usb_ohci_config_cb(const pci_config_t *config)
     ob_usb_ohci_init(config->path, 0x80000000 | config->dev);
 #endif
     return 0;
+}
+
+void ob_pci_enable_bus_master(const pci_config_t *config)
+{
+	/* Enable bus mastering for the PCI device */
+	uint16_t cmd;
+	pci_addr addr = PCI_ADDR(
+		PCI_BUS(config->dev), PCI_DEV(config->dev), PCI_FN(config->dev));
+
+	cmd = pci_config_read16(addr, PCI_COMMAND);
+	cmd |= PCI_COMMAND_BUS_MASTER;
+	pci_config_write16(addr, PCI_COMMAND, cmd);
 }
 
 static void ob_pci_add_properties(phandle_t phandle,
@@ -1025,10 +1071,9 @@ static void ob_pci_add_properties(phandle_t phandle,
 	}
 
 	pci_set_assigned_addresses(phandle, config, num_bars);
-	
-	if (is_apple()) {
+
+	if (is_apple() && is_oldworld())
 		pci_set_AAPL_address(config);
-	}
 
 	PCI_DPRINTF("\n");
 }
@@ -1157,9 +1202,9 @@ ob_pci_configure(pci_addr addr, pci_config_t *config, int num_regs, int rom_bar,
                  unsigned long *mem_base, unsigned long *io_base)
 
 {
-        uint32_t omask;
+        uint32_t omask, mask;
         uint16_t cmd;
-        int reg;
+        int reg, flags, space_code;
         pci_addr config_addr;
 
         ob_pci_configure_irq(addr, config);
@@ -1171,6 +1216,14 @@ ob_pci_configure(pci_addr addr, pci_config_t *config, int num_regs, int rom_bar,
                 ob_pci_configure_bar(addr, config, reg, config_addr,
                                      &omask, mem_base,
                                      io_base);
+
+                /* Ignore 64-bit BAR MSBs (always map in 32-bit space) */
+                pci_decode_pci_addr(config->assigned[reg],
+                                    &flags, &space_code, &mask);
+
+                if (space_code == MEMORY_SPACE_64) {
+                    reg++;
+                }
         }
 
         if (rom_bar) {
@@ -1436,27 +1489,35 @@ static void ob_pci_host_set_interrupt_map(phandle_t host)
 
 #if defined(CONFIG_PPC)
     phandle_t target_node;
+    char *path, buf[256];
 
     /* Oldworld macs do interrupt maps differently */
     if (!is_newworld())
         return;
 
+    PCI_DPRINTF("setting up interrupt map for host %x\n", host);
     dnode = dt_iterate_type(0, "open-pic");
-    if (dnode) {
+    path = get_path_from_ph(host);
+    if (dnode && path) {
         /* patch in openpic interrupt-parent properties */
-        target_node = find_dev("/pci/mac-io");
+        snprintf(buf, sizeof(buf), "%s/mac-io", path);
+        target_node = find_dev(buf);
         set_int_property(target_node, "interrupt-parent", dnode);
 
-        target_node = find_dev("/pci/mac-io/escc/ch-a");
+        snprintf(buf, sizeof(buf), "%s/mac-io/escc/ch-a", path);
+        target_node = find_dev(buf);
         set_int_property(target_node, "interrupt-parent", dnode);
 
-        target_node = find_dev("/pci/mac-io/escc/ch-b");
+        snprintf(buf, sizeof(buf), "%s/mac-io/escc/ch-b", path);
+        target_node = find_dev(buf);
         set_int_property(target_node, "interrupt-parent", dnode);
 
-        target_node = find_dev("/pci/mac-io/escc-legacy/ch-a");
+        snprintf(buf, sizeof(buf), "%s/mac-io/escc-legacy/ch-a", path);
+        target_node = find_dev(buf);
         set_int_property(target_node, "interrupt-parent", dnode);
 
-        target_node = find_dev("/pci/mac-io/escc-legacy/ch-b");
+        snprintf(buf, sizeof(buf), "%s/mac-io/escc-legacy/ch-b", path);
+        target_node = find_dev(buf);
         set_int_property(target_node, "interrupt-parent", dnode);
 
         /* QEMU only emulates 2 of the 3 ata buses currently */
@@ -1465,16 +1526,19 @@ static void ob_pci_host_set_interrupt_map(phandle_t host)
          * On g3beige they all called just ide.
          * We take 2 x ata-3 buses which seems to work for
          * at least the clients we care about */
-        target_node = find_dev("/pci/mac-io/ata-3@20000");
+        snprintf(buf, sizeof(buf), "%s/mac-io/ata-3@20000", path);
+        target_node = find_dev(buf);
         set_int_property(target_node, "interrupt-parent", dnode);
 
-        target_node = find_dev("/pci/mac-io/ata-3@21000");
+        snprintf(buf, sizeof(buf), "%s/mac-io/ata-3@21000", path);
+        target_node = find_dev(buf);
         set_int_property(target_node, "interrupt-parent", dnode);
 
-        target_node = find_dev("/pci/mac-io/via-cuda");
+        snprintf(buf, sizeof(buf), "%s/mac-io/via-cuda", path);
+        target_node = find_dev(buf);
         set_int_property(target_node, "interrupt-parent", dnode);
 
-        target_node = find_dev("/pci");
+        target_node = find_dev(path);
         set_int_property(target_node, "interrupt-parent", dnode);
     }
 #else
@@ -1509,8 +1573,8 @@ static void ob_pci_host_set_interrupt_map(phandle_t host)
                         ncells += pci_encode_phys_addr(props + ncells, 0, 0, addr, 0, 0);
                         props[ncells++] = intno;
                         props[ncells++] = dnode;
-                        props[ncells++] = arch->irqs[intno - 1];
-                        props[ncells++] = 3;
+                        props[ncells++] = arch->irqs[((intno - 1) + (addr >> 11)) & 3];
+                        props[ncells++] = 1;
 #else
                         /* Keep compiler quiet */
                         dnode = dnode;

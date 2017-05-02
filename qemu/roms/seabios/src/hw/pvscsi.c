@@ -13,10 +13,11 @@
 #include "malloc.h" // free
 #include "memmap.h" // PAGE_SHIFT, virt_to_phys
 #include "output.h" // dprintf
-#include "pci.h" // foreachpci
+#include "pcidevice.h" // foreachpci
 #include "pci_ids.h" // PCI_DEVICE_ID_VMWARE_PVSCSI
 #include "pci_regs.h" // PCI_VENDOR_ID
 #include "pvscsi.h" // pvscsi_setup
+#include "stacks.h" // run_thread
 #include "std/disk.h" // DISK_RET_SUCCESS
 #include "string.h" // memset
 #include "util.h" // usleep
@@ -166,18 +167,18 @@ pvscsi_init_rings(void *iobase, struct pvscsi_ring_dsc_s **ring_dsc)
 {
     struct PVSCSICmdDescSetupRings cmd = {0,};
 
-    struct pvscsi_ring_dsc_s *dsc = memalign_low(sizeof(*dsc), PAGE_SIZE);
+    struct pvscsi_ring_dsc_s *dsc = memalign_high(PAGE_SIZE, sizeof(*dsc));
     if (!dsc) {
         warn_noalloc();
         return;
     }
 
     dsc->ring_state =
-        (struct PVSCSIRingsState *)memalign_low(PAGE_SIZE, PAGE_SIZE);
+        (struct PVSCSIRingsState *)memalign_high(PAGE_SIZE, PAGE_SIZE);
     dsc->ring_reqs =
-        (struct PVSCSIRingReqDesc *)memalign_low(PAGE_SIZE, PAGE_SIZE);
+        (struct PVSCSIRingReqDesc *)memalign_high(PAGE_SIZE, PAGE_SIZE);
     dsc->ring_cmps =
-        (struct PVSCSIRingCmpDesc *)memalign_low(PAGE_SIZE, PAGE_SIZE);
+        (struct PVSCSIRingCmpDesc *)memalign_high(PAGE_SIZE, PAGE_SIZE);
     if (!dsc->ring_state || !dsc->ring_reqs || !dsc->ring_cmps) {
         warn_noalloc();
         return;
@@ -272,9 +273,7 @@ pvscsi_add_lun(struct pci_device *pci, void *iobase,
     plun->iobase = iobase;
     plun->ring_dsc = ring_dsc;
 
-    char *name = znprintf(16, "pvscsi %02x:%02x.%x %d:%d",
-                          pci_bdf_to_bus(pci->bdf), pci_bdf_to_dev(pci->bdf),
-                          pci_bdf_to_fn(pci->bdf), target, lun);
+    char *name = znprintf(MAXDESCSIZE, "pvscsi %pP %d:%d", pci, target, lun);
     int prio = bootprio_find_scsi_device(pci, target, lun);
     int ret = scsi_drive_setup(&plun->drive, name, prio);
     free(name);
@@ -296,27 +295,23 @@ pvscsi_scan_target(struct pci_device *pci, void *iobase,
 }
 
 static void
-init_pvscsi(struct pci_device *pci)
+init_pvscsi(void *data)
 {
-    struct pvscsi_ring_dsc_s *ring_dsc = NULL;
-    int i;
-    u16 bdf = pci->bdf;
-    void *iobase = (void*)(pci_config_readl(pci->bdf, PCI_BASE_ADDRESS_0)
-                           & PCI_BASE_ADDRESS_MEM_MASK);
+    struct pci_device *pci = data;
+    void *iobase = pci_enable_membar(pci, PCI_BASE_ADDRESS_0);
+    if (!iobase)
+        return;
+    pci_enable_busmaster(pci);
 
-    pci_config_maskw(bdf, PCI_COMMAND, 0, PCI_COMMAND_MASTER);
-
-    dprintf(1, "found pvscsi at %02x:%02x.%x, io @ %p\n",
-            pci_bdf_to_bus(bdf), pci_bdf_to_dev(bdf),
-            pci_bdf_to_fn(bdf), iobase);
+    dprintf(1, "found pvscsi at %pP, io @ %p\n", pci, iobase);
 
     pvscsi_write_cmd_desc(iobase, PVSCSI_CMD_ADAPTER_RESET, NULL, 0);
 
+    struct pvscsi_ring_dsc_s *ring_dsc = NULL;
     pvscsi_init_rings(iobase, &ring_dsc);
+    int i;
     for (i = 0; i < 7; i++)
         pvscsi_scan_target(pci, iobase, ring_dsc, i);
-
-    return;
 }
 
 void
@@ -333,6 +328,6 @@ pvscsi_setup(void)
         if (pci->vendor != PCI_VENDOR_ID_VMWARE
             || pci->device != PCI_DEVICE_ID_VMWARE_PVSCSI)
             continue;
-        init_pvscsi(pci);
+        run_thread(init_pvscsi, pci);
     }
 }

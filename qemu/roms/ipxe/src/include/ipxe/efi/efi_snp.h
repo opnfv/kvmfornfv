@@ -57,6 +57,10 @@ struct efi_snp_device {
 	EFI_HII_CONFIG_ACCESS_PROTOCOL hii;
 	/** HII package list */
 	EFI_HII_PACKAGE_LIST_HEADER *package_list;
+	/** EFI child handle for HII association */
+	EFI_HANDLE hii_child_handle;
+	/** Device path of HII child handle */
+	EFI_DEVICE_PATH_PROTOCOL *hii_child_path;
 	/** HII handle */
 	EFI_HII_HANDLE hii_handle;
 	/** Device name */
@@ -73,14 +77,14 @@ extern int efi_snp_hii_install ( struct efi_snp_device *snpdev );
 extern void efi_snp_hii_uninstall ( struct efi_snp_device *snpdev );
 extern struct efi_snp_device * find_snpdev ( EFI_HANDLE handle );
 extern struct efi_snp_device * last_opened_snpdev ( void );
-extern void efi_snp_set_claimed ( int claimed );
+extern void efi_snp_add_claim ( int delta );
 
 /**
  * Claim network devices for use by iPXE
  *
  */
 static inline void efi_snp_claim ( void ) {
-	efi_snp_set_claimed ( 1 );
+	efi_snp_add_claim ( +1 );
 }
 
 /**
@@ -88,7 +92,7 @@ static inline void efi_snp_claim ( void ) {
  *
  */
 static inline void efi_snp_release ( void ) {
-	efi_snp_set_claimed ( 0 );
+	efi_snp_add_claim ( -1 );
 }
 
 #endif /* _IPXE_EFI_SNP_H */

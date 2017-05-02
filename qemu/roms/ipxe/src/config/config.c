@@ -51,9 +51,6 @@ PROVIDE_REQUIRING_SYMBOL();
  *
  */
 
-#ifdef CONSOLE_PCBIOS
-REQUIRE_OBJECT ( bios_console );
-#endif
 #ifdef CONSOLE_SERIAL
 REQUIRE_OBJECT ( serial );
 #endif
@@ -80,12 +77,6 @@ REQUIRE_OBJECT ( vmconsole );
 #endif
 #ifdef CONSOLE_DEBUGCON
 REQUIRE_OBJECT ( debugcon );
-#endif
-#ifdef CONSOLE_VESAFB
-REQUIRE_OBJECT ( vesafb );
-#endif
-#ifdef CONSOLE_INT13
-REQUIRE_OBJECT ( int13con );
 #endif
 
 /*
@@ -191,12 +182,6 @@ REQUIRE_OBJECT ( efi_image );
 #ifdef IMAGE_SDI
 REQUIRE_OBJECT ( sdi );
 #endif
-#ifdef IMAGE_PNM
-REQUIRE_OBJECT ( pnm );
-#endif
-#ifdef IMAGE_PNG
-REQUIRE_OBJECT ( png );
-#endif
 
 /*
  * Drag in all requested commands
@@ -286,6 +271,12 @@ REQUIRE_OBJECT ( ipstat_cmd );
 #endif
 #ifdef PROFSTAT_CMD
 REQUIRE_OBJECT ( profstat_cmd );
+#endif
+#ifdef NTP_CMD
+REQUIRE_OBJECT ( ntp_cmd );
+#endif
+#ifdef CERT_CMD
+REQUIRE_OBJECT ( cert_cmd );
 #endif
 
 /*

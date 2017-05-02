@@ -87,6 +87,34 @@ getLCHS(struct drive_s *drive_gf)
     return res;
 }
 
+// Execute a "disk_op_s" request after jumping to the extra stack.
+static int
+__send_disk_op(struct disk_op_s *op_far, u16 op_seg)
+{
+    struct disk_op_s dop;
+    memcpy_far(GET_SEG(SS), &dop, op_seg, op_far, sizeof(dop));
+
+    int status = process_op(&dop);
+
+    // Update count with total sectors transferred.
+    SET_FARVAR(op_seg, op_far->count, dop.count);
+
+    return status;
+}
+
+// Execute a "disk_op_s" request (using the extra 16bit stack).
+static int
+send_disk_op(struct disk_op_s *op)
+{
+    ASSERT16();
+    if (! CONFIG_DRIVES)
+        return -1;
+    if (!CONFIG_ENTRY_EXTRASTACK)
+        // Jump on to extra stack
+        return stack_hop(__send_disk_op, op, GET_SEG(SS));
+    return process_op(op);
+}
+
 // Perform read/write/verify using old-style chs accesses
 static void noinline
 basic_access(struct bregs *regs, struct drive_s *drive_gf, u16 command)

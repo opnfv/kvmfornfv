@@ -50,3 +50,9 @@ context:
   type: Node
   name: LF
   file: /opt/scripts/pod.yaml
+  env:
+     type: script
+     prefix:  yardstick.benchmark.scenarios.compute
+     teardown:
+     -
+        kvm: disable_trace.sh

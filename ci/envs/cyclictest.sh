@@ -11,6 +11,7 @@ testName=$2 #idle_idle/stress_idle
 HOST_IP=$( getHostIP )
 pod_config='/opt/scripts/pod.yaml'
 cyclictest_context_file='/opt/kvmfornfv_cyclictest_'${testName}'.yaml'
+yardstick_prefix='/root/yardstick/yardstick/benchmark/scenarios/compute'
 
 if [ ! -f ${pod_config} ] ; then
     echo "file ${pod_config} not found"
@@ -21,6 +22,10 @@ if [ ! -f ${cyclictest_context_file} ] ; then
     echo "file ${cyclictest_context_file} not found"
     exit 1
 fi
+
+#copy the post-execute scripts to the teardown path/prefix and install yardstick
+cp /opt/scripts/disable_trace.sh ${yardstick_prefix}/disable_trace.bash
+( cd /root/yardstick ; python setup.py install )
 
 #setting up of image for launching guest vm.
 ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \

@@ -24,3 +24,6 @@ set_irq_affinity
 # Disable RT throttling
 echo -1 > /proc/sys/kernel/sched_rt_period_us
 echo -1 > /proc/sys/kernel/sched_rt_runtime_us
+
+# Disable the timer migration
+sysctl kernel.timer_migration=0

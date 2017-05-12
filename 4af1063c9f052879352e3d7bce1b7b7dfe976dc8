@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9ab8dda7_114fbe93",
+        "filename": "ci/envs/cyclictest.sh",
+        "patchSetId": 7
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2017-05-12T17:55:16Z",
+      "side": 1,
+      "message": "Can you please give a little comments why we change the .sh to .bash? That\u0027s confusing if people has no background.",
+      "revId": "4af1063c9f052879352e3d7bce1b7b7dfe976dc8",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}

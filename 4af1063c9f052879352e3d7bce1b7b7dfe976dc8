@@ -16,6 +16,24 @@
       "revId": "4af1063c9f052879352e3d7bce1b7b7dfe976dc8",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ab8dda7_3107621e",
+        "filename": "ci/envs/cyclictest.sh",
+        "patchSetId": 7
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 5765
+      },
+      "writtenOn": "2017-05-12T18:59:06Z",
+      "side": 1,
+      "message": "sure, currently yardstick will execute only *.bash scripts in the path. So modified the post execute script to .bash script.",
+      "parentUuid": "9ab8dda7_114fbe93",
+      "revId": "4af1063c9f052879352e3d7bce1b7b7dfe976dc8",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }

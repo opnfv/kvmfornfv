@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9ab8dda7_774cea42",
+        "filename": "ci/build.sh",
+        "patchSetId": 26
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 5671
+      },
+      "writtenOn": "2017-05-15T04:40:52Z",
+      "side": 1,
+      "message": "Hi Yunhong, I am checking the job name to upload the debuginfo rpm accordingly. Will remove this info on final patch.",
+      "parentUuid": "9ab8dda7_ecd1f157",
+      "revId": "da38d54103fe0f5bd08edac51684da2d5130e584",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9ab8dda7_0cd56542",
         "filename": "ci/kernel_build.sh",
         "patchSetId": 26
@@ -30,6 +48,24 @@
       "writtenOn": "2017-05-12T23:19:15Z",
       "side": 1,
       "message": "Can you please remove the ending white space?",
+      "revId": "da38d54103fe0f5bd08edac51684da2d5130e584",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ab8dda7_97471e1d",
+        "filename": "ci/kernel_build.sh",
+        "patchSetId": 26
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 5671
+      },
+      "writtenOn": "2017-05-15T04:40:52Z",
+      "side": 1,
+      "message": "Sure, will remove it.",
+      "parentUuid": "9ab8dda7_0cd56542",
       "revId": "da38d54103fe0f5bd08edac51684da2d5130e584",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false

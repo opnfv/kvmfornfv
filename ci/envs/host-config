@@ -64,9 +64,16 @@ function setTestTime {
 #Tar the log files generated during testcase execution and exit.
 function test_exit {
    exitCode=$1
+   time_stamp=$(date -u +"%Y-%m-%d_%H-%M-%S")
    cd $WORKSPACE/build_output/
    if [ -d log ];then
-      tar -czvf log-$(date -u +"%Y-%m-%d_%H-%M-%S").tar.gz log
+      tar -czvf log-${time_stamp}.tar.gz log
+      echo "uploading debugging logs to artifacts"
+      gsutil cp -r log-*.tar.gz gs://artifacts.opnfv.org/kvmfornfv/\
+      kvmfornfv_verify_debug_logs_${time_stamp} > \
+      $WORKSPACE/build_output/gsutil.log 2>&1
+      echo -e "Download the logs from artifacts using below for debugging\n
+      http://artifacts.opnfv.org/kvmfornfv/kvmfornfv_verify_debug_logs_${time_stamp}"
    fi
    exit $exitCode
 }

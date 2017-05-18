@@ -41,7 +41,6 @@ function verifyGuestImage {
 
 #disabling ftrace and collecting the logs to upload to artifact repository.
 function ftrace_disable {
-   sudo ssh root@${HOST_IP} "sh /root/workspace/scripts/disable_trace.sh"
    sudo ssh root@${HOST_IP} "cd /tmp ;  mv trace.txt cyclictest_${env}.txt"
    mkdir -p $WORKSPACE/build_output/log/kernel_trace
    scp root@${HOST_IP}:/tmp/cyclictest_${env}.txt $WORKSPACE/build_output/log/kernel_trace/
@@ -189,13 +188,14 @@ function runCyclicTest {
    sudo docker run -i -v ${volume}:/opt --net=host --name kvmfornfv_${testType}_${testName} \
    kvmfornfv:latest /bin/bash -c "cd /opt/scripts && ls; ./cyclictest.sh $testType $testName"
    cyclictest_output=$?
-   if [ "$testName" == "memorystress_idle" ];then
-      copyLogs
-   fi
 
    #Disabling ftrace after completion of executing test cases.
    if [ ${ftrace_enable} -eq '1' ]; then
       ftrace_disable
+   fi
+
+   if [ "$testName" == "memorystress_idle" ];then
+      copyLogs
    fi
 
    #Verifying the results of cyclictest

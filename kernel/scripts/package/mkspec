@@ -92,7 +92,7 @@ echo "%endif"
 echo 'mkdir -p $RPM_BUILD_ROOT'"/lib/firmware/$KERNELRELEASE"
 
 echo 'INSTALL_MOD_PATH=$RPM_BUILD_ROOT make %{?_smp_mflags} KBUILD_SRC= mod-fw= modules_install'
-echo '/opt/kvmfornfv/ci/kernel_debug.sh $RPM_BUILD_ROOT'
+echo '/opt/kvmfornfv/kernel/scripts/kernel_debug.sh $RPM_BUILD_ROOT'
 echo 'INSTALL_FW_PATH=$RPM_BUILD_ROOT'"/lib/firmware/$KERNELRELEASE"
 echo 'make INSTALL_FW_PATH=$INSTALL_FW_PATH' firmware_install
 echo "%ifarch ia64"

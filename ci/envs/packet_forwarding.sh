@@ -14,8 +14,8 @@ EXIT_TC_FAILED=1
 # DAILY - run selected TCs for defined packet sizes
 TESTCASES_DAILY='phy2phy_tput phy2phy_tput_mod_vlan pvp_tput'
 TESTPARAM_DAILY='--test-params TRAFFICGEN_PKT_SIZES=(64,128,512,1024,1518)'
-TESTCASES_SRIOV='pvp_tput'
-TESTPARAM_SRIOV='--test-params TRAFFICGEN_PKT_SIZES=(64,128,512,1024,1518)'
+TESTCASES_SRIOV='pvp_cont'
+TESTPARAM_SRIOV='--test-params TRAFFICGEN_DURATION=600;TRAFFICGEN_PKT_SIZES=(64,128)'
 
 #mounting shared directory for collecting ixia test results.
 shared_dir=$(sudo mount | grep ixia_results)
@@ -89,7 +89,7 @@ function publish_results() {
 function execute_vsperf() {
     # figure out list of TCs and execution parameters
     case $2 in
-        "daily")
+        "verify")
             TESTPARAM=$TESTPARAM_DAILY
             TESTCASES=$TESTCASES_DAILY
             ;;
@@ -109,6 +109,7 @@ function execute_vsperf() {
             TESTCASES=$TESTCASES_SRIOV
             # figure out log file name
             LOG_SUBDIR="SRIOV"
+            cd $VSPERF
             LOG_FILE="${LOG_FILE_PREFIX}_${LOG_SUBDIR}_${DATE_SUFFIX}.log"
             echo "    $VSPERF_BIN --vswitch none --vnf QemuPciPassthrough $CONF_FILE_SRIOV $TESTPARAM $TESTCASES &> $LOG_FILE"
             $VSPERF_BIN --vswitch none --vnf QemuPciPassthrough $CONF_FILE_SRIOV $TESTPARAM $TESTCASES &> $LOG_FILE
@@ -159,7 +160,7 @@ function execute_vsperf() {
     [ -d "$RES_DIR" ] && mv "$RES_DIR" "${TEST_REPORT_LOG_DIR}/${LOG_SUBDIR}" &> /dev/null
 
     # Publish test cases results to Grafana Dashboard
-    publish_results $1
+    #publish_results $1
 }
 
 #Install vsperf and set up the environment
@@ -170,11 +171,11 @@ install_qemu
 
 # execute job based on passed parameter
 case $1 in
-    "daily")
+    "verify")
         echo "========================================================"
         echo "KVM4NFV daily job executing packet forwarding test cases"
         echo "========================================================"
-        execute_vsperf OVS_with_DPDK_and_vHost_User $1
+        # execute_vsperf OVS_with_DPDK_and_vHost_User $1
         execute_vsperf SRIOV $1
         exit $EXIT
         ;;

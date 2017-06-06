@@ -15,7 +15,7 @@ EXIT_TC_FAILED=1
 TESTCASES_DAILY='phy2phy_tput phy2phy_tput_mod_vlan pvp_tput'
 TESTPARAM_DAILY='--test-params TRAFFICGEN_PKT_SIZES=(64,128,512,1024,1518)'
 TESTCASES_SRIOV='pvp_tput'
-TESTPARAM_SRIOV='--test-params TRAFFICGEN_PKT_SIZES=(64,128,512,1024,1518)'
+TESTPARAM_SRIOV='--test-params TRAFFICGEN_DURATION=600 TRAFFICGEN_PKT_SIZES=(64,128,512,1024,1518)'
 
 #mounting shared directory for collecting ixia test results.
 shared_dir=$(sudo mount | grep ixia_results)

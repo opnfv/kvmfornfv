@@ -220,3 +220,41 @@ function runCyclicTest {
       cleanup $cyclictest_output
    fi
 }
+function runLiveMigration {
+   test_env=$1
+   if [ ${test_env} == "peer-peer" ];then
+      echo "live migration is not implemented for peer to peer"
+   else
+      echo "In runLiveMigration Function"
+      #copying required files to run live migration test cases
+      ssh root@$HOST_IP "mkdir -p /root/workspace/image"
+      ssh root@$HOST_IP "mkdir -p /root/workspace/rpm"
+      ssh root@$HOST_IP "mkdir -p /root/workspace/scripts"
+      #Copying the host configuration scripts on to host
+      scp -r $WORKSPACE/ci/envs/* root@$HOST_IP:/root/workspace/scripts
+      scp -r $WORKSPACE/tests/vsperf.conf* root@$HOST_IP:/root/workspace/scripts
+      scp -r $WORKSPACE/tests/pod.yaml root@$HOST_IP:/root/workspace/scripts
+      scp -r $WORKSPACE/build_output/kernel-${KERNELRPM_VERSION}*.rpm root@$HOST_IP:/root/workspace/rpm
+      scp -r $WORKSPACE/build_output/kernel-devel-${KERNELRPM_VERSION}*.rpm root@$HOST_IP:/root/workspace/rpm
+      scp -r $WORKSPACE/build_output/qemu-${QEMURPM_VERSION}*.rpm root@$HOST_IP:/root/workspace/rpm
+      #execute host configuration script for installing kvm built kernel.
+      ssh root@$HOST_IP "cd /root/workspace/scripts ; ./host-setup0.sh"
+      ssh root@$HOST_IP "cd /root/workspace/rpm ; rpm -ivh kernel-devel-${KERNELRPM_VERSION}*.rpm"
+      ssh root@$HOST_IP "reboot"
+      sleep 10
+      connect_host
+      sleep 15
+      echo " Displaying the number of huge pages on node"
+      ssh root@$HOST_IP "cd /root/workspace/scripts;cat /sys/devices/system/node/node1/hugepages/hugepages-1048576kB/nr_hugepages"
+      echo " Displaying the free huge pages on node"
+      ssh root@$HOST_IP "cd /root/workspace/scripts;cat /sys/devices/system/node/node1/hugepages/hugepages-1048576kB/free_hugepages"
+      ssh root@$HOST_IP "cd /root/workspace/scripts;sed -i -e 's/huge_pages=2/huge_pages=10' host-config"
+      ssh root@$HOST_IP "cd /root/workspace/scripts ; ./host-setup1.sh"
+      echo "Displaying the number of free huge pages on node"
+      ssh root@$HOST_IP "cd /root/workspace/scripts;cat /sys/devices/system/node/node1/hugepages/hugepages-1048576kB/free_hugepages"
+      echo "Setting up ovs-dpdk on the host"
+      ssh root@$HOST_IP "cd /root/workspace/scripts ; ./setup_ovsdpdk.sh"
+      ssh root@$HOST_IP "cd /root/workspace/scripts ; ./host-install-qemu.sh"
+      ssh root@$HOST_IP "cd /root/workspace/scripts ; ./host-run-livemigration.sh"
+  fi
+}

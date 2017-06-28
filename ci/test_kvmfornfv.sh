@@ -18,6 +18,7 @@ cyclictest_env_verify=("idle_idle" "memorystress_idle") #cyclictest environment
 cyclictest_env_daily=("idle_idle" "cpustress_idle" "memorystress_idle" "iostress_idle")
 cyclictest_result=0 #exit code of cyclictest
 packetforward_result=0 #exit code of packet forward
+lm_env_verify=("local","peer-peer")
 source $WORKSPACE/ci/envs/host-config
 
 function packetForward {
@@ -41,6 +42,22 @@ function packetForward {
       packetforward_result=$?
    else
       echo "Incorrect test type ${test_type}"
+      exit 1
+   fi
+}
+function liveMigration {
+   #executing live migration test case on the host machine
+   test_env=$1
+   if [ ${test_env} == "peer-peer" ];then
+      echo "live migration is not implemented for peer to peer"
+   elif [ ${test_env} == "local" ];then
+      source $WORKSPACE/ci/cyclicTestTrigger.sh $HOST_IP
+      connect_host
+      #Waiting for ssh to be available for the host machine.
+      sleep 20
+      runLiveMigration ${test_env}
+   else
+      echo "Incorrect test environment"
       exit 1
    fi
 }
@@ -127,11 +144,15 @@ if [ ${test_type} == "verify" ];then
       for env in ${cyclictest_env_verify[@]}
       do
          #Executing cyclictest through yardstick.
-         cyclictest ${env}
+         #cyclictest ${env}
          sleep 10
       done
       #Execution of packet forwarding test cases.
-      packetForward
+     # packetForward
+      for env in ${lm_env_verify[@]}
+      do
+         liveMigration ${env}
+      done
    fi
    if [ ${cyclictest_result} -ne 0 ] ||  [ ${packetforward_result} -ne 0 ];then
       echo "Test case FAILED"

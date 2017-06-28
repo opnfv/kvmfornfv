@@ -220,3 +220,28 @@ function runCyclicTest {
       cleanup $cyclictest_output
    fi
 }
+function runLiveMigration {
+   test_env=$1
+   if [ ${test_env} == "peer-peer" ];then
+      echo "live migration is not implemented for peer to peer"
+   else
+      echo "In runLiveMigration Function"
+      #copying required files to run live migration test cases
+      ssh root@$HOST_IP "mkdir -p /root/workspace/image"
+      ssh root@$HOST_IP "mkdir -p /root/workspace/rpm"
+      ssh root@$HOST_IP "mkdir -p /root/workspace/scripts"
+      #Copying the host configuration scripts on to host
+      scp -r $WORKSPACE/ci/envs/* root@$HOST_IP:/root/workspace/scripts
+      scp -r $WORKSPACE/tests/vsperf.conf* root@$HOST_IP:/root/workspace/scripts
+      scp -r $WORKSPACE/build_output/kernel-${KERNELRPM_VERSION}*.rpm root@$HOST_IP:/root/workspace/rpm
+      scp -r $WORKSPACE/build_output/qemu-${QEMURPM_VERSION}*.rpm root@$HOST_IP:/root/workspace/rpm
+      #execute host configuration script for installing kvm built kernel.
+      ssh root@$HOST_IP "cd /root/workspace/scripts ; ./host-setup0.sh"
+      ssh root@$HOST_IP "reboot"
+      sleep 30
+      ssh root@$HOST_IP "cd /root/workspace/scripts ; ./host-setup1.sh"
+      ssh root@$HOST_IP "cd /root/workspace/scripts ; ./host-install-qemu.sh"
+      ssh root@$$HOST_IP "cd /root/workspace/scripts ;./setup_ovsdpdk.sh"
+      ssh root@$HOST_IP "cd /root/workspace/scripts ; ./host-run-livemigration.sh"
+  fi
+}

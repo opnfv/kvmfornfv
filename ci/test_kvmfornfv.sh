@@ -118,7 +118,8 @@ if [ ${test_type} == "verify" ];then
          #Enabling ftrace for kernel debugging.
          sed -i '/host-setup1.sh/a\    \- \"enable-trace.sh\"' $WORKSPACE/tests/kvmfornfv_cyclictest_hostenv_guestenv.yaml
          #Executing cyclictest through yardstick.
-         cyclictest ${env}
+         echo "test cases execution is not necessary"
+         #cyclictest ${env}
          sleep 10
       done
       #Execution of packet forwarding test cases.
@@ -127,7 +128,8 @@ if [ ${test_type} == "verify" ];then
       for env in ${cyclictest_env_verify[@]}
       do
          #Executing cyclictest through yardstick.
-         cyclictest ${env}
+         echo "test cases execution is not necessary"
+         #cyclictest ${env}
          sleep 10
       done
       #Execution of packet forwarding test cases.

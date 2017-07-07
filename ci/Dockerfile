@@ -1,18 +1,23 @@
 #!/bin/bash
 
-FROM centos
-RUN yum -y update && yum -y install \
+FROM ubuntu:14.04.3
+RUN apt-get update && apt-get install -y \
   git \
-  gcc \
-  gcc-c++ \
-  zlib-devel \
-  gtk2-devel \
-  glib2-devel \
-  make \
-  gettext \
-  openssl-devel \
+  fakeroot \
+  build-essential \
+  ncurses-dev xz-utils \
+  kernel-package \
   bc \
-  bison\
-  flex\
-  rpm \
-  rpm-build
+  autoconf \
+  python \
+  pkg-config \
+  zlibc \
+  zlib1g \
+  zlib1g-dev \
+  libssl-dev \
+  libglib2.0-dev \
+  libtool \
+  flex \
+  bison
+RUN echo "ALL ALL=NOPASSWD: ALL" > /etc/sudoers.d/open-sudo
+RUN chmod 0440 /etc/sudoers.d/open-sudo

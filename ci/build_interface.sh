@@ -25,6 +25,6 @@ if [ $type == "centos" ];then
    mv $tmp_output_dir/kernel-* $output_dir
 elif [ $type == "ubuntu" ];then
    # Move Kernel and Qemu Debian builds from tmp_output_dir to output_dir
-   mv $tmp_output_dir/qemu-* $output_dir
+   #mv $tmp_output_dir/qemu-* $output_dir
    mv $tmp_output_dir/linux-* $output_dir
 fi

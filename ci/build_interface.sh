@@ -27,4 +27,5 @@ elif [ $type == "ubuntu" ];then
    # Move Kernel and Qemu Debian builds from tmp_output_dir to output_dir
    mv $tmp_output_dir/qemu-* $output_dir
    mv $tmp_output_dir/linux-* $output_dir
+   #mv $output_dir/linux-image-4.4.50-rt62nfv_*.deb $output_dir/kvmfornfv-4bfeded9-kernel-4.4.50_rt62_ubuntu.x86_64.deb 
 fi

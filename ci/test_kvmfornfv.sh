@@ -20,6 +20,14 @@ cyclictest_result=0 #exit code of cyclictest
 packetforward_result=0 #exit code of packet forward
 source $WORKSPACE/ci/envs/host-config
 
+#check if any kernel rpms available for testing
+rpm_count=`ls -1 $WORKSPACE/build_output/*.rpm 2>/dev/null | wc -l`
+if [ $rpm_count = 0 ];then
+   echo "This patch is used for building kernel debian packages required by compass installer and \
+   test environment for debain packages is not available"
+   exit 0
+fi   
+
 function packetForward {
    #executing packet forwarding test cases based on the job type.
    if [ ${test_type} == "verify" ];then

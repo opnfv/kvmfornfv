@@ -21,6 +21,23 @@ function checking_apex_build() {
     fi
 }
 
+function checking_compass_build() {
+    echo ""
+    commit=`git rev-parse HEAD`
+    echo "commit id: $commit"
+    echo "Checking for presence of compass.conf in the current patch"
+    git diff-tree --no-commit-id --name-only -r ${commit} | grep compass.conf
+    result=`git diff-tree --no-commit-id --name-only -r ${commit} | grep compass.conf`
+    if [ -z "${result}" ]; then
+       echo "Does not include the file compass.conf"
+       compass_build_flag=0
+    else
+       source $WORKSPACE/ci/compass.conf
+       echo "Includes compass.conf"
+       compass_build_flag=1
+    fi
+}
+
 
 function usage() {
     echo ""
@@ -51,10 +68,18 @@ function run() {
          fi
       ;;
       ubuntu)
-         cd $WORKSPACE/ci/build_deb
-         sudo docker build -t kvm_deb .
-         sudo docker run -v $WORKSPACE:/opt/kvmfornfv -t  kvm_deb \
-                      /opt/kvmfornfv/ci/build_interface.sh $1
+         if [ ${compass_build_flag} -eq 0 ];then
+            cd $WORKSPACE/ci/build_deb
+            sudo docker build -t kvm_deb .
+            sudo docker run -v $WORKSPACE:/opt/kvmfornfv -t  kvm_deb \
+                        /opt/kvmfornfv/ci/build_interface.sh $1
+         else
+            cd $WORKSPACE/ci/
+            echo $output_dir
+            sudo docker build -t kvm_docker .
+            sudo docker run --privileged=true -v $WORKSPACE:/opt/kvmfornfv -t  kvm_docker  \
+                         /opt/kvmfornfv/ci/compass_build.sh build_output
+         fi
       ;;
       *) echo "Not supported system"; exit 1;;
    esac
@@ -111,7 +136,7 @@ done
 
 if [[ -z "$type" ]]
 then
-    type='centos'
+    type='ubuntu'
 fi
 
 if [[ -z "$output_dir" ]]
@@ -125,6 +150,7 @@ echo ""
 echo "Building for $type package in $output_dir"
 echo ""
 
+checking_compass_build
 checking_apex_build
 mkdir -p $output_dir
 build_package $type

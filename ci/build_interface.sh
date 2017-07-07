@@ -10,12 +10,12 @@ cp -r $build_dir $tmp_build_dir
 
 # Build qemu rpm packages
 cd $tmp_build_dir/qemu
-make clean
-./configure
+#make clean
+#./configure
 
 cd $tmp_build_dir
 #Build qemu package
-./ci/qemu_build.sh build_output $type
+#./ci/qemu_build.sh build_output $type
 # Build kernel packages
 ./ci/kernel_build.sh build_output $type
 
@@ -26,5 +26,6 @@ if [ $type == "centos" ];then
 elif [ $type == "ubuntu" ];then
    # Move Kernel and Qemu Debian builds from tmp_output_dir to output_dir
    mv $tmp_output_dir/qemu-* $output_dir
-   mv $tmp_output_dir/linux-* $output_dir
+   mv $tmp_output_dir/* $output_dir
+   #mv $output_dir/linux-image-4.4.50-rt62nfv_*.deb $output_dir/kvmfornfv-4bfeded9-kernel-4.4.50_rt62_ubuntu.x86_64.deb 
 fi

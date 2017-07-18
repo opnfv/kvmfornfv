@@ -20,6 +20,14 @@ cyclictest_result=0 #exit code of cyclictest
 packetforward_result=0 #exit code of packet forward
 source $WORKSPACE/ci/envs/host-config
 
+#check if any kernel rpms available for testing
+rpm_count=`ls -1 $WORKSPACE/build_output/*.rpm 2>/dev/null | wc -l`
+if [ $rpm_count = 0 ];then
+   echo "This patch is used for building kernel debian packages required by compass installer and \
+the test environment for testing debain packages is not available"
+   exit 0
+fi
+
 function packetForward {
    #executing packet forwarding test cases based on the job type.
    if [ ${test_type} == "verify" ];then
@@ -140,6 +148,8 @@ if [ ${test_type} == "verify" ];then
       test_exit 0
    fi
 elif [ ${test_type} == "daily" ];then
+   echo "Daily job test cases execution disabled temporarily"
+   exit 0
    getTestParams
    install_pcm
    if [ ${test_name} == "packet_forward" ];then
@@ -163,6 +173,8 @@ elif [ ${test_type} == "daily" ];then
             sed -i '/host-setup1.sh/a\    \- \"enable-trace.sh\"' kvmfornfv_cyclictest_hostenv_guestenv.yaml
             #Executing cyclictest through yardstick.
             cyclictest ${env}
+            #disabling ftrace and collecting the logs to upload to artifact repository.
+            ftrace_disable
             sleep 5
          done
       else

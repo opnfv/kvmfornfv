@@ -1,0 +1,7 @@
+Verified+1: jenkins-ci <jenkins-opnfv-ci@opnfv.org>
+Code-Review+2: David Chou <david.j.chou@intel.com>
+Submitted-by: David Chou <david.j.chou@intel.com>
+Submitted-at: Thu, 20 Jul 2017 19:25:10 +0000
+Reviewed-on: https://gerrit.opnfv.org/gerrit/37687
+Project: kvmfornfv
+Branch: refs/heads/master

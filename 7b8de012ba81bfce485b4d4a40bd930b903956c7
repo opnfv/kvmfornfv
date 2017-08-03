@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da33351e_00e2fb9e",
+        "filename": "ci/cyclicTestTrigger.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2017-08-03T20:34:21Z",
+      "side": 1,
+      "message": "I noticed a bunch of duplicated code here, on setUpPacketForwarding/runCyclicTest/runLiveMigration. Can we reduce the duplication?",
+      "revId": "7b8de012ba81bfce485b4d4a40bd930b903956c7",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_60ee678d",
+        "filename": "ci/cyclicTestTrigger.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2017-08-03T20:34:21Z",
+      "side": 1,
+      "message": "Do we need the vsperf.conf here? I thought it\u0027s only for the packet fowarding test.",
+      "revId": "7b8de012ba81bfce485b4d4a40bd930b903956c7",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_40f36373",
+        "filename": "ci/envs/host-run-livemigration.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2017-08-03T20:34:21Z",
+      "side": 1,
+      "message": "I\u0027d have Wei to have a look on the parameter to make sure it\u0027s what he wants. Will send a mail to him.",
+      "revId": "7b8de012ba81bfce485b4d4a40bd930b903956c7",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_a0e86f7d",
+        "filename": "ci/envs/setup_ovsdpdk.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2017-08-03T20:34:21Z",
+      "side": 1,
+      "message": "Can you please remove the ending whitespace?",
+      "revId": "7b8de012ba81bfce485b4d4a40bd930b903956c7",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_80ed6b8e",
+        "filename": "ci/envs/setup_ovsdpdk.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2017-08-03T20:34:21Z",
+      "side": 1,
+      "message": "Same here, ending white space.",
+      "revId": "7b8de012ba81bfce485b4d4a40bd930b903956c7",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}

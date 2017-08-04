@@ -148,11 +148,11 @@ if [ ${test_type} == "verify" ];then
       test_exit 0
    fi
 elif [ ${test_type} == "daily" ];then
-   echo "Daily job test cases execution disabled temporarily"
-   exit 0
    getTestParams
    install_pcm
    if [ ${test_name} == "packet_forward" ];then
+      echo "packet forwarding test cases execution disabled temporarily"
+      exit 0
       packetForward
       packet_fwd_logs
       #clean the test environment after the test case execution.

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "da33351e_19bb960f",
+        "filename": "ci/cyclicTestTrigger.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 6471
+      },
+      "writtenOn": "2017-08-05T18:42:24Z",
+      "side": 1,
+      "message": "Sure Yunhong,will handle by copying the duplication code into a common function",
+      "parentUuid": "da33351e_00e2fb9e",
+      "revId": "7b8de012ba81bfce485b4d4a40bd930b903956c7",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "da33351e_60ee678d",
         "filename": "ci/cyclicTestTrigger.sh",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2017-08-03T20:34:21Z",
       "side": 1,
       "message": "Do we need the vsperf.conf here? I thought it\u0027s only for the packet fowarding test.",
+      "revId": "7b8de012ba81bfce485b4d4a40bd930b903956c7",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_793742b1",
+        "filename": "ci/cyclicTestTrigger.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 6471
+      },
+      "writtenOn": "2017-08-05T18:42:24Z",
+      "side": 1,
+      "message": "Sorry no need of this for live migration,will remove the conf file",
+      "parentUuid": "da33351e_60ee678d",
       "revId": "7b8de012ba81bfce485b4d4a40bd930b903956c7",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false

@@ -18,6 +18,8 @@ cyclictest_env_verify=("idle_idle" "memorystress_idle") #cyclictest environment
 cyclictest_env_daily=("idle_idle" "cpustress_idle" "memorystress_idle" "iostress_idle")
 cyclictest_result=0 #exit code of cyclictest
 packetforward_result=0 #exit code of packet forward
+lm_env_verify=("peer-peer" "local")
+livemigration_result=0 #exit code of livemigration
 source $WORKSPACE/ci/envs/host-config
 
 #check if any kernel rpms available for testing
@@ -53,6 +55,31 @@ function packetForward {
    fi
 }
 
+function liveMigration {
+   #executing live migration test case on the host machine
+   test_env=$1
+   test_name=livemigration
+   echo "Test Environment ${test_env}"
+   if [ ${test_env} == "peer-peer" ];then
+      echo "live migration is not implemented for peer to peer"
+   elif [ ${test_env} == "local" ];then
+      source $WORKSPACE/ci/cyclicTestTrigger.sh $HOST_IP
+      connect_host
+      env_clean
+      #Waiting for ssh to be available for the host machine.
+      sleep 20
+      if runLiveMigration ${test_env} ${test_name};then
+         livemigration_result=`expr ${livemigration_result} + 0`
+      else
+         echo "live migration test case failed"
+         livemigration_result=`expr ${livemigration_result} + 1`  
+      fi
+   else
+      echo "Incorrect test environment for live migration"
+      exit 1
+   fi
+}
+
 function getTestParams {
    HOST_IP=$( setHostIP $test_type )
    test_time=$( setTestTime $test_type )
@@ -60,6 +87,7 @@ function getTestParams {
 
 function cyclictest {
    test_case=$1
+   test_name=cyclictest
    source $WORKSPACE/ci/cyclicTestTrigger.sh $HOST_IP $test_time $test_type $test_case
    #Verifying whether the test node is up and running
    connect_host
@@ -76,7 +104,7 @@ function cyclictest {
    #Cleaning the environment before running cyclictest through yardstick
    env_clean
    #Creating a docker image with yardstick installed and launching ubuntu docker to run yardstick cyclic testcase
-   if runCyclicTest ${ftrace_enable};then
+   if runCyclicTest ${ftrace_enable} ${test_name};then
       cyclictest_result=`expr ${cyclictest_result} + 0`
    else
       echo "Test case execution FAILED for ${test_case} environment"
@@ -140,8 +168,13 @@ if [ ${test_type} == "verify" ];then
       done
       #Execution of packet forwarding test cases.
       packetForward
+      for envi in ${lm_env_verify[@]}
+      do
+         echo "Executing Live Migration on the node"
+         liveMigration ${envi}
+      done
    fi
-   if [ ${cyclictest_result} -ne 0 ] ||  [ ${packetforward_result} -ne 0 ];then
+   if [ ${cyclictest_result} -ne 0 ] ||  [ ${packetforward_result} -ne 0 || [ ${livemigration_result} -ne 0 ];then
       echo "Test case FAILED"
       test_exit 1
    else

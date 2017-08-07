@@ -139,6 +139,21 @@ function cleanup {
    fi
 }
 
+#environment setup for executing cyclictest and live migration test cases
+function setUpEnv {
+   time_stamp=$(date +%Y%m%d%H%M%S)
+   volume=/tmp/kvmtest-${testType}-${time_stamp}
+   mkdir -p $volume/{image,rpm,scripts}
+   #copying required files to run yardstick cyclic testcase
+   cp $WORKSPACE/build_output/kernel-${KERNELRPM_VERSION}*.rpm ${volume}/rpm
+   cp $WORKSPACE/build_output/kernel-devel-${KERNELRPM_VERSION}*.rpm ${volume}/rpm
+   cp $WORKSPACE/build_output/qemu-${QEMURPM_VERSION}*.rpm ${volume}/rpm
+   cp -r $WORKSPACE/ci/envs/* ${volume}/scripts
+   cp -r $WORKSPACE/tests/kvmfornfv_cyclictest_${testName}.yaml ${volume}
+   cp -r $WORKSPACE/tests/migrate-node-context.yaml ${volume} 
+   cp -r $WORKSPACE/tests/pod.yaml ${volume}/scripts
+}
+
 #environment setup for executing packet forwarding test cases
 function setUpPacketForwarding {
    #copying required files to run packet forwarding test cases
@@ -174,15 +189,9 @@ function runCyclicTest {
       id=$(sudo docker ps -a  | head  -2 | tail -1 | awk '{print $1}'); sudo docker rm -f $id
       exit 1
    fi
-   time_stamp=$(date +%Y%m%d%H%M%S)
-   volume=/tmp/kvmtest-${testType}-${time_stamp}
-   mkdir -p $volume/{image,rpm,scripts}
-   #copying required files to run yardstick cyclic testcase
-   cp $WORKSPACE/build_output/kernel-${KERNELRPM_VERSION}*.rpm ${volume}/rpm
-   cp $WORKSPACE/build_output/qemu-${QEMURPM_VERSION}*.rpm ${volume}/rpm
-   cp -r $WORKSPACE/ci/envs/* ${volume}/scripts
-   cp -r $WORKSPACE/tests/kvmfornfv_cyclictest_${testName}.yaml ${volume}
-   cp -r $WORKSPACE/tests/pod.yaml ${volume}/scripts
+
+   #setting up the environment for cyclictest
+   setUpEnv
 
    #Launching ubuntu docker container to run yardstick
    sudo docker run -i -v ${volume}:/opt --net=host --name kvmfornfv_${testType}_${testName} \
@@ -219,4 +228,13 @@ function runCyclicTest {
    else
       cleanup $cyclictest_output
    fi
+}
+function runLiveMigration {
+   echo "In live migration function"
+   test_env=$1
+   #Setting up the environment for live migration test case
+   setUpEnv
+   #Launching ubuntu docker container to run yardstick
+   sudo docker run -i -v ${volume}:/opt --net=host --name kvmfornfv_lm_${test_env} \
+   kvmfornfv:latest /bin/bash -c "cd /opt/scripts && ls; ./lmtest.sh "
 }

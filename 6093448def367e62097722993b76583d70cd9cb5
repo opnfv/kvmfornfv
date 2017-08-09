@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da33351e_630ae8d3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2017-08-09T22:07:42Z",
+      "side": 1,
+      "message": "I think it\u0027s not disabling, but removing? Disabling means it\u0027s still there but not executed?\n\n--jyh",
+      "revId": "6093448def367e62097722993b76583d70cd9cb5",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_c30f74e0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 473
+      },
+      "writtenOn": "2017-08-09T22:07:42Z",
+      "side": 1,
+      "message": "Is it possible to give some description of the reason?",
+      "revId": "6093448def367e62097722993b76583d70cd9cb5",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}

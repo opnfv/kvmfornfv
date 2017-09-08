@@ -11,7 +11,6 @@ IRC: #opnfv-kvm
 Repository: kvmfornfv
 
 Committers:
-yunhong.jiang@intel.com
 donald.d.dugger@intel.com
 raghuveer.reddy@intel.com
 riel@redhat.com
@@ -20,6 +19,31 @@ hanweidong@huawei.com
 zhuangyuxin@huawei.com
 guangrong.xiao@intel.com
 jose.pekkarinen@nokia.com
+sundar.nadathur@intel.com
+shravanix.paladugula@intel.com
+
+
+Contributors:
+Jun Nakajima: jun.nakajima@intel.com
+John Browne: john.j.browne@intel.com
+Mike Lynch: michael.a.lynch@intel.com
+Manish Jaggi: Manish.Jaggi@caviumnetworks.com
+Kin-Yip Liu: kin-yip.liu@caviumnetworks.com
+Prakash Ramchandran: prakash.ramchandran@huawei.com
+Peng Hao: peng.hao2@zte.com.cn
+Chao Peng chao.p.peng@linux.intel.com
+Mihai (Mike) Caraman: B02008@freescale.com
+Wei Wang: wei.w.wang@intel.com
+Raghu Reddy: raghuveer.reddy@intel.com
+Swati Sharma: swatix.sharma@intel.com
+Kalyan Reddy Gundarapu: reddyx.gundarapu@intel.com
+Paul Kangil Choi : forerunner@etri.re.kr
+Yerrumsetty, RajithaX <rajithax.yerrumsetty@intel.com>
+Bathula, NavyaX <navyax.bathula@intel.com>
+
+Reviewers:
+Aric Gardner <agardner@linuxfoundation.org>
+
 
 Link to TSC approval of the project:
 Link(s) to approval of additional committers:

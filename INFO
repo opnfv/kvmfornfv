@@ -11,7 +11,6 @@ IRC: #opnfv-kvm
 Repository: kvmfornfv
 
 Committers:
-yunhong.jiang@intel.com
 donald.d.dugger@intel.com
 raghuveer.reddy@intel.com
 riel@redhat.com
@@ -20,6 +19,8 @@ hanweidong@huawei.com
 zhuangyuxin@huawei.com
 guangrong.xiao@intel.com
 jose.pekkarinen@nokia.com
+sundar.nadathur@intel.com
+shravanix.paladugula@intel.com
 
 Link to TSC approval of the project:
 Link(s) to approval of additional committers:

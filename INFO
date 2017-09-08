@@ -11,7 +11,6 @@ IRC: #opnfv-kvm
 Repository: kvmfornfv
 
 Committers:
-yunhong.jiang@intel.com
 donald.d.dugger@intel.com
 raghuveer.reddy@intel.com
 riel@redhat.com
@@ -20,7 +19,16 @@ hanweidong@huawei.com
 zhuangyuxin@huawei.com
 guangrong.xiao@intel.com
 jose.pekkarinen@nokia.com
+sundar.nadathur@intel.com
+shravanix.paladugula@intel.com
+
+Reviewers:
+Aric Gardner <agardner@linuxfoundation.org>
+
 
 Link to TSC approval of the project:
 Link(s) to approval of additional committers:
+https://lists.opnfv.org/pipermail/opnfv-tech-discuss/2017-August/017573.html
+https://lists.opnfv.org/pipermail/opnfv-tech-discuss/2017-August/017619.html
+
 Link(s) to change of PTL: http://lists.opnfv.org/pipermail/opnfv-tech-discuss/2016-April/009614.html

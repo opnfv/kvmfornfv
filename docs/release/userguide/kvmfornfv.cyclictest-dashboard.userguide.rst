@@ -313,6 +313,45 @@ IO-stress_Idle implies that IO stress is applied on the Host and no stress on th
    :width: 100%
    :align: center
 
+Packet Forwarding Results
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Understanding Kvm4nfv Grafana Dashboard
+---------------------------------------
+
+The Kvm4nfv dashboard found at http://testresults.opnfv.org/grafana/ currently supports graphical view of packet forwarding as well.
+For viewing Kvm4nfv packet forwarding dashboard use,
+
+.. code:: bash
+
+    http://testresults.opnfv.org/grafana/dashboard/db/kvmfornfv-packet-forwarding
+
+    The login details are:
+
+        Username: opnfv
+        Password: opnfv
+
+
+.. code:: bash
+
+    The JSON of the KVMFORNFV-Packet-Forwarding dashboard can be found at.,
+
+    $ git clone https://gerrit.opnfv.org/gerrit/yardstick.git
+    $ cd yardstick/dashboard
+    $ cat KVMFORNFV-Packet-Forwarding
+
+The Dashboard has five tables for each specific test-type of packet forwarding, one for each frame size.
+
+- KVM4NFV-PHY2PHY-TPUT-OVS_WITH_DPDK_AND_VHOST_USER
+- KVM4NFV-PVP-TPUT-OVS_WITH_DPDK_AND_VHOST_USER
+- KVM4NFV-PVP-TPUT-SRIOV
+- KVM4NFV-PVVP-TPUT-OVS_WITH_DPDK_AND_VHOST_USER
+- KVM4NFV-PVVP-TPUT-OVS_WITH_DPDK_AND_VHOST_USER
+
+Note:
+
+- For all graphs, X-axis is marked with time stamps, Y-axis with value in microsecond units.
+
 Future Scope
--------------
-The future work will include adding the kvmfornfv_Packet-forwarding test results into Grafana and influxdb.
+------------
+The future work will include adding new tables to packet forwarding Grafana dashboard for publishing throughput results as well.

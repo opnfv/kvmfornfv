@@ -13,7 +13,7 @@ Infrastructure(NFVI).The existing hypervisors, however, are not necessarily
 designed or targeted to meet the requirements for the NFVI.
 
 This document specifies the list of requirements that need to be met as part
-of this "NFV Hypervisors-KVM" project in Danube release.
+of this "NFV Hypervisors-KVM" project in Euphrates release.
 
 As part of this project we need to make collaborative efforts towards enabling
 the NFV features.

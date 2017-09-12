@@ -2,19 +2,19 @@
 
 .. http://creativecommons.org/licenses/by/4.0
 
-============================
-Danube OpenStack User Guide
-============================
+==============================
+Euphrates OpenStack User Guide
+==============================
 
 OpenStack is a cloud operating system developed and released by the
 `OpenStack project <https://www.openstack.org>`_.  OpenStack is used in OPNFV
 for controlling pools of compute, storage, and networking resources in a Pharos
 compliant infrastructure.
 
-OpenStack is used in Danube to manage tenants (known in OpenStack as
+OpenStack is used in Euphrates to manage tenants (known in OpenStack as
 projects),users, services, images, flavours, and quotas across the Pharos
 infrastructure.The OpenStack interface provides the primary interface for an
-operational Danube deployment and it is from the "horizon console" that an
+operational Euphrates deployment and it is from the "horizon console" that an
 OPNFV user will perform the majority of administrative and operational
 activities on the deployment.
 
@@ -26,7 +26,7 @@ details and descriptions of how to configure and interact with the OpenStack
 deployment.This guide can be used by lab engineers and operators to tune the
 OpenStack deployment to your liking.
 
-Once you have configured OpenStack to your purposes, or the Danube
+Once you have configured OpenStack to your purposes, or the Euphrates
 deployment meets your needs as deployed, an operator, or administrator, will
 find the best guidance for working with OpenStack in the
 `OpenStack administration guide <http://docs.openstack.org/user-guide-admin>`_.
@@ -46,6 +46,6 @@ and enter the username and password:
   password: admin
 
 Other methods of interacting with and configuring OpenStack,, like the REST API
-and CLI are also available in the Danube deployment, see the
+and CLI are also available in the Euphrates deployment, see the
 `OpenStack administration guide <http://docs.openstack.org/user-guide-admin>`_
 for more information on using those interfaces.

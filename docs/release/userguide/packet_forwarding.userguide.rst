@@ -33,6 +33,11 @@ Version Features
 |                             |   VSWITCHPERF software (PVP/PVVP)                 |
 |                             | - Works with IXIA Traffic Generator               |
 +-----------------------------+---------------------------------------------------+
+|                             | - Test cases involving multiple guests (PVVP/PVPV)|
+|                             |   included.                                       |
+|       Euphrates             | - Implemented Yardstick Grafana dashboard to      |
+|                             |   publish results of packet forwarding test cases |
++-----------------------------+---------------------------------------------------+
 
 VSPERF
 ------
@@ -90,7 +95,8 @@ environment and compilation of OVS, DPDK and QEMU is performed by
 script **systems/build_base_machine.sh**. It should be executed under
 user account, which will be used for vsperf execution.
 
- **Please Note:** Password-less sudo access must be configured for given user before script is executed.
+ **Please Note:** Password-less sudo access must be configured for given user before script is
+executed.
 
 Execution of installation script:
 
@@ -123,9 +129,9 @@ For CentOS 7
 
 ## Python 3 Packages
 
-To avoid file permission errors and Python version issues, use virtualenv to create an isolated environment with Python3.
-The required Python 3 packages can be found in the `requirements.txt` file in the root of the test suite.
-They can be installed in your virtual environment like so:
+To avoid file permission errors and Python version issues, use virtualenv to create an isolated
+environment with Python3. The required Python 3 packages can be found in the `requirements.txt` file
+in the root of the test suite. They can be installed in your virtual environment like so:
 
 .. code:: bash
 
@@ -150,7 +156,8 @@ To activate, simple run:
 Working Behind a Proxy
 ~~~~~~~~~~~~~~~~~~~~~~
 
-If you're behind a proxy, you'll likely want to configure this before running any of the above. For example:
+If you're behind a proxy, you'll likely want to configure this before running any of the above.
+For example:
 
 .. code:: bash
 
@@ -164,12 +171,14 @@ If you're behind a proxy, you'll likely want to configure this before running an
 
 For other OS specific activation click `this link`_:
 
-.. _this link: http://artifacts.opnfv.org/vswitchperf/colorado/configguide/installation.html#other-requirements
+.. _this link:
+http://artifacts.opnfv.org/vswitchperf/colorado/configguide/installation.html#other-requirements
 
 Traffic-Generators
 ------------------
 
-VSPERF supports many Traffic-generators. For configuring VSPERF to work with the available traffic-generator go through `this`_.
+VSPERF supports many Traffic-generators. For configuring VSPERF to work with the available traffic
+generator go through `this`_.
 
 .. _this: http://artifacts.opnfv.org/vswitchperf/colorado/configguide/trafficgen.html
 
@@ -191,7 +200,8 @@ To see the list of traffic gens from the cli:
 This guide provides the details of how to install
 and configure the various traffic generators.
 
-As KVM4NFV uses only IXIA traffic generator, it is discussed here. For complete documentation regarding traffic generators please follow this `link`_.
+As KVM4NFV uses only IXIA traffic generator, it is discussed here. For complete documentation
+regarding traffic generators please follow this `link`_.
 
 .. _link: https://gerrit.opnfv.org/gerrit/gitweb?p=vswitchperf.git;a=blob;f=docs/configguide/trafficgen.rst;h=85fc35b886d30db3b92a6b7dcce7ca742b70cbdc;hb=HEAD
 
@@ -201,8 +211,8 @@ IXIA Setup
 Hardware Requirements
 ~~~~~~~~~~~~~~~~~~~~~
 
-VSPERF requires the following hardware to run tests: IXIA traffic generator (IxNetwork), a machine that
-runs the IXIA client software and a CentOS Linux release 7.1.1503 (Core) host.
+VSPERF requires the following hardware to run tests: IXIA traffic generator (IxNetwork), a machine
+that runs the IXIA client software and a CentOS Linux release 7.1.1503 (Core) host.
 
 Installation
 ~~~~~~~~~~~~
@@ -217,11 +227,13 @@ You need to install IxNetworkTclClient$(VER_NUM)Linux.bin.tgz.
 On the IXIA client software system
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Find the IxNetwork TCL server app (start -> All Programs -> IXIA -> IxNetwork -> IxNetwork_$(VER_NUM) -> IxNetwork TCL Server)
+Find the IxNetwork TCL server app
+  - (start -> All Programs -> IXIA -> IxNetwork -> IxNetwork_$(VER_NUM) -> IxNetwork TCL Server)
   - Right click on IxNetwork TCL Server, select properties
   - Under shortcut tab in the Target dialogue box make sure there is the argument "-tclport xxxx"
 
-where xxxx is your port number (take note of this port number you will need it for the 10_custom.conf file).
+where xxxx is your port number (take note of this port number you will need it for the
+10_custom.conf file).
 
 .. figure:: images/IXIA1.png
    :name: IXIA1 setup
@@ -336,11 +348,12 @@ To delete a src subdirectory and its contents to allow you to re-clone simply us
 Configure the `./conf/10_custom.conf` file
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The supplied `10_custom.conf` file must be modified, as it contains configuration items for which there are no reasonable default values.
+The supplied `10_custom.conf` file must be modified, as it contains configuration items for which
+there are no reasonable default values.
 
-The configuration items that can be added is not limited to the initial contents. Any configuration item
-mentioned in any .conf file in `./conf` directory can be added and that item will be overridden by the custom
-configuration value.
+The configuration items that can be added is not limited to the initial contents. Any configuration
+item mentioned in any .conf file in `./conf` directory can be added and that item will be overridden
+by the custom configuration value.
 
 Using a custom settings file
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -381,7 +394,9 @@ IP addresses. l2fwd can be found in <vswitchperf_dir>/src/l2fwd
 Executing tests
 ~~~~~~~~~~~~~~~~
 
-Before running any tests make sure you have root permissions by adding the following line to /etc/sudoers:
+Before running any tests make sure you have root permissions by adding the following line to
+/etc/sudoers:
+
 .. code:: bash
 
    username ALL=(ALL)       NOPASSWD: ALL
@@ -408,7 +423,8 @@ To run all tests:
 
    ./vsperf --conf-file=user_settings.py
 
-Some tests allow for configurable parameters, including test duration (in seconds) as well as packet sizes (in bytes).
+Some tests allow for configurable parameters, including test duration (in seconds) as well as packet
+sizes (in bytes).
 
 .. code:: bash
 
@@ -467,7 +483,7 @@ In case, that VSPERF is executed in "trafficgen" mode, then configuration
 of traffic generator can be modified through ``TRAFFIC`` dictionary passed to the
 ``--test-params`` option. It is not needed to specify all values of ``TRAFFIC``
 dictionary. It is sufficient to specify only values, which should be changed.
-Detailed description of ``TRAFFIC`` dictionary can be found at: ref:`configuration-of-traffic-dictionary`.
+Detailed notes on ``TRAFFIC`` dictionary can be found at: ref:`configuration-of-traffic-dictionary`.
 
 Example of execution of VSPERF in "trafficgen" mode:
 
@@ -499,8 +515,8 @@ please refer to figure.2
    :width: 100%
    :align: center
 
-Packet Forwarding Guest Scenario
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Packet Forwarding Guest Scenario (PXP Deployment)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Here the guest is a Virtual Machine (VM) launched by using vloop_vnf provided by vsperf project
 on host/DUT using Qemu. In this latency test the time taken by the frame/packet to travel from the
@@ -511,6 +527,173 @@ The resulting latency values will define the performance of installed kernel.
    :name: Guest_Scenario
    :width: 100%
    :align: center
+
+Every testcase uses one of the supported deployment scenarios to setup test environment.
+The controller responsible for a given scenario configures flows in the vswitch to route
+traffic among physical interfaces connected to the traffic generator and virtual
+machines. VSPERF supports several deployments including PXP deployment, which can
+setup various scenarios with multiple VMs.
+
+These scenarios are realized by VswitchControllerPXP class, which can configure and
+execute given number of VMs in serial or parallel configurations. Every VM can be
+configured with just one or an even number of interfaces. In case that VM has more than
+2 interfaces, then traffic is properly routed among pairs of interfaces.
+
+Example of traffic routing for VM with 4 NICs in serial configuration:
+
+.. code-block:: console
+
+                 +------------------------------------------+
+                 |  VM with 4 NICs                          |
+                 |  +---------------+    +---------------+  |
+                 |  |  Application  |    |  Application  |  |
+                 |  +---------------+    +---------------+  |
+                 |      ^       |            ^       |      |
+                 |      |       v            |       v      |
+                 |  +---------------+    +---------------+  |
+                 |  | logical ports |    | logical ports |  |
+                 |  |   0       1   |    |   2       3   |  |
+                 +--+---------------+----+---------------+--+
+                        ^       :            ^       :
+                        |       |            |       |
+                        :       v            :       v
+        +-----------+---------------+----+---------------+----------+
+        | vSwitch   |   0       1   |    |   2       3   |          |
+        |           | logical ports |    | logical ports |          |
+        | previous  +---------------+    +---------------+   next   |
+        | VM or PHY     ^       |            ^       |     VM or PHY|
+        |   port   -----+       +------------+       +--->   port   |
+        +-----------------------------------------------------------+
+
+
+It is also possible to define different number of interfaces for each VM to better
+simulate real scenarios.
+
+The number of VMs involved in the test and the type of their connection is defined
+by deployment name as follows:
+
+  * ``pvvp[number]`` - configures scenario with VMs connected in series with
+    optional ``number`` of VMs. In case that ``number`` is not specified, then
+    2 VMs will be used.
+
+    Example of 2 VMs in a serial configuration:
+
+    .. code-block:: console
+
+       +----------------------+  +----------------------+
+       |   1st VM             |  |   2nd VM             |
+       |   +---------------+  |  |   +---------------+  |
+       |   |  Application  |  |  |   |  Application  |  |
+       |   +---------------+  |  |   +---------------+  |
+       |       ^       |      |  |       ^       |      |
+       |       |       v      |  |       |       v      |
+       |   +---------------+  |  |   +---------------+  |
+       |   | logical ports |  |  |   | logical ports |  |
+       |   |   0       1   |  |  |   |   0       1   |  |
+       +---+---------------+--+  +---+---------------+--+
+               ^       :                 ^       :
+               |       |                 |       |
+               :       v                 :       v
+       +---+---------------+---------+---------------+--+
+       |   |   0       1   |         |   3       4   |  |
+       |   | logical ports | vSwitch | logical ports |  |
+       |   +---------------+         +---------------+  |
+       |       ^       |                 ^       |      |
+       |       |       +-----------------+       v      |
+       |   +----------------------------------------+   |
+       |   |              physical ports            |   |
+       |   |      0                         1       |   |
+       +---+----------------------------------------+---+
+                  ^                         :
+                  |                         |
+                  :                         v
+       +------------------------------------------------+
+       |                                                |
+       |                traffic generator               |
+       |                                                |
+       +------------------------------------------------+
+
+* ``pvpv[number]`` - configures scenario with VMs connected in parallel with
+    optional ``number`` of VMs. In case that ``number`` is not specified, then
+    2 VMs will be used. Multistream feature is used to route traffic to particular
+    VMs (or NIC pairs of every VM). It means, that VSPERF will enable multistream
+    feaure and sets the number of streams to the number of VMs and their NIC
+    pairs. Traffic will be dispatched based on Stream Type, i.e. by UDP port,
+    IP address or MAC address.
+
+    Example of 2 VMs in a parallel configuration, where traffic is dispatched
+        based on the UDP port.
+
+    .. code-block:: console
+
+       +----------------------+  +----------------------+
+       |   1st VM             |  |   2nd VM             |
+       |   +---------------+  |  |   +---------------+  |
+       |   |  Application  |  |  |   |  Application  |  |
+       |   +---------------+  |  |   +---------------+  |
+       |       ^       |      |  |       ^       |      |
+       |       |       v      |  |       |       v      |
+       |   +---------------+  |  |   +---------------+  |
+       |   | logical ports |  |  |   | logical ports |  |
+       |   |   0       1   |  |  |   |   0       1   |  |
+       +---+---------------+--+  +---+---------------+--+
+               ^       :                 ^       :
+               |       |                 |       |
+               :       v                 :       v
+       +---+---------------+---------+---------------+--+
+       |   |   0       1   |         |   3       4   |  |
+       |   | logical ports | vSwitch | logical ports |  |
+       |   +---------------+         +---------------+  |
+       |      ^         |                 ^       :     |
+       |      |     ......................:       :     |
+       |  UDP | UDP :   |                         :     |
+       |  port| port:   +--------------------+    :     |
+       |   0  |  1  :                        |    :     |
+       |      |     :                        v    v     |
+       |   +----------------------------------------+   |
+       |   |              physical ports            |   |
+       |   |    0                               1   |   |
+       +---+----------------------------------------+---+
+                ^                               :
+                |                               |
+                :                               v
+       +------------------------------------------------+
+       |                                                |
+       |                traffic generator               |
+       |                                                |
+       +------------------------------------------------+
+
+
+PXP deployment is backward compatible with PVP deployment, where ``pvp`` is
+an alias for ``pvvp1`` and it executes just one VM.
+
+The number of interfaces used by VMs is defined by configuration option
+``GUEST_NICS_NR``. In case that more than one pair of interfaces is defined
+for VM, then:
+
+    * for ``pvvp`` (serial) scenario every NIC pair is connected in serial
+      before connection to next VM is created
+    * for ``pvpv`` (parallel) scenario every NIC pair is directly connected
+      to the physical ports and unique traffic stream is assigned to it
+
+Examples:
+
+    * Deployment ``pvvp10`` will start 10 VMs and connects them in series
+    * Deployment ``pvpv4`` will start 4 VMs and connects them in parallel
+    * Deployment ``pvpv1`` and GUEST_NICS_NR = [4] will start 1 VM with
+      4 interfaces and every NIC pair is directly connected to the
+      physical ports
+    * Deployment ``pvvp`` and GUEST_NICS_NR = [2, 4] will start 2 VMs;
+      1st VM will have 2 interfaces and 2nd VM 4 interfaces. These interfaces
+      will be connected in serial, i.e. traffic will flow as follows:
+      PHY1 -> VM1_1 -> VM1_2 -> VM2_1 -> VM2_2 -> VM2_3 -> VM2_4 -> PHY2
+
+Note: In case that only 1 or more than 2 NICs are configured for VM,
+then ``testpmd`` should be used as forwarding application inside the VM.
+As it is able to forward traffic between multiple VM NIC pairs.
+
+Note: In case of ``linux_bridge``, all NICs are connected to the same
+bridge inside the VM.
 
 Packet Forwarding SRIOV Scenario
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -622,12 +805,92 @@ PCI passthrough support.
 Note: Qemu with PCI passthrough support can be used only with PVP test
 deployment.
 
+Guest Core and Thread Binding
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+VSPERF provides options to achieve better performance by guest core binding and
+guest vCPU thread binding as well. Core binding is to bind all the qemu threads.
+Thread binding is to bind the house keeping threads to some CPU and vCPU thread to
+some other CPU, this helps to reduce the noise from qemu house keeping threads.
+
+
+.. code-block:: python
+
+   GUEST_CORE_BINDING = [('#EVAL(6+2*#VMINDEX)', '#EVAL(7+2*#VMINDEX)')]
+
+**NOTE** By default the GUEST_THREAD_BINDING will be none, which means same as
+the GUEST_CORE_BINDING, i.e. the vcpu threads are sharing the physical CPUs with
+the house keeping threads. Better performance using vCPU thread binding can be
+achieved by enabling affinity in the custom configuration file.
+
+For example, if an environment requires 28,29 to be core binded and 30,31 for
+guest thread binding to achieve better performance.
+
+.. code-block:: python
+
+   VNF_AFFINITIZATION_ON = True
+   GUEST_CORE_BINDING = [('28','29')]
+   GUEST_THREAD_BINDING = [('30', '31')]
+
+Qemu CPU features
+^^^^^^^^^^^^^^^^^
+
+QEMU default to a compatible subset of performance enhancing cpu features.
+To pass all available host processor features to the guest.
+
+.. code-block:: python
+
+   GUEST_CPU_OPTIONS = ['host,migratable=off']
+
+**NOTE** To enhance the performance, cpu features tsc deadline timer for guest,
+the guest PMU, the invariant TSC can be provided in the custom configuration file.
+
+Selection of loopback application for tests with VMs
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+To select the loopback applications which will forward packets inside VMs,
+the following parameter should be configured:
+
+.. code-block:: python
+
+     GUEST_LOOPBACK = ['testpmd']
+
+or use ``--test-params`` CLI argument:
+
+.. code-block:: console
+
+        $ ./vsperf --conf-file=<path_to_custom_conf>/10_custom.conf \
+              --test-params "GUEST_LOOPBACK=['testpmd']"
+
+Supported loopback applications are:
+
+.. code-block:: console
+
+     'testpmd'       - testpmd from dpdk will be built and used
+     'l2fwd'         - l2fwd module provided by Huawei will be built and used
+     'linux_bridge'  - linux bridge will be configured
+     'buildin'       - nothing will be configured by vsperf; VM image must
+                       ensure traffic forwarding between its interfaces
+
+Guest loopback application must be configured, otherwise traffic
+will not be forwarded by VM and testcases with VM related deployments
+will fail. Guest loopback application is set to 'testpmd' by default.
+
+**NOTE:** In case that only 1 or more than 2 NICs are configured for VM,
+then 'testpmd' should be used. As it is able to forward traffic between
+multiple VM NIC pairs.
+
+**NOTE:** In case of linux_bridge, all guest NICs are connected to the same
+bridge inside the guest.
+
 Results
 ~~~~~~~
 
-The results for the packet forwarding test cases are uploaded to artifacts.
-The link for the same can be found below
+The results for the packet forwarding test cases are uploaded to artifacts and
+also published on Yardstick Grafana dashboard.
+The links for the same can be found below
 
 .. code:: bash
 
    http://artifacts.opnfv.org/kvmfornfv.html
+   http://testresults.opnfv.org/KVMFORNFV-Packet-Forwarding

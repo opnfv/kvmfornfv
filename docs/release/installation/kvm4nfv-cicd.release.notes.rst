@@ -10,7 +10,8 @@ Release Note for KVM4NFV CICD
 Abstract
 --------
 
-This document contains the release notes for the Danube release of OPNFV when using KVM4NFV CICD process.
+This document contains the release notes for the Euphrates release of OPNFV when using KVM4NFV CICD
+process.
 
 Introduction
 ------------
@@ -33,7 +34,7 @@ Release Data
 | **Release designation**              |                                      |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
-| **Release date**                     | 2017-03-27                           |
+| **Release date**                     | 2017-10-06                           |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
 | **Purpose of the delivery**          | - Automate the KVM4VFV CICD scenario |
@@ -64,19 +65,34 @@ Feature additions
 | **JIRA REFERENCE**                   | **SLOGAN**                           |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
-| JIRA:                                | NFV Hypervisors-KVMFORNFV-34         |
+| JIRA:                                | NFV Hypervisors-KVMFORNFV-72         |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
-| JIRA:                                | NFV Hypervisors-KVMFORNFV-57         |
+| JIRA:                                | NFV Hypervisors-KVMFORNFV-73         |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
-| JIRA:                                | NFV Hypervisors-KVMFORNFV-58         |
+| JIRA:                                | NFV Hypervisors-KVMFORNFV-78         |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
-| JIRA:                                | NFV Hypervisors-KVMFORNFV-59         |
+| JIRA:                                | NFV Hypervisors-KVMFORNFV-86         |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
-| JIRA:                                | NFV Hypervisors-KVMFORNFV-60         |
+| JIRA:                                | NFV Hypervisors-KVMFORNFV-87         |
+|                                      |                                      |
++--------------------------------------+--------------------------------------+
+| JIRA:                                | NFV Hypervisors-KVMFORNFV-88         |
+|                                      |                                      |
++--------------------------------------+--------------------------------------+
+| JIRA:                                | NFV Hypervisors-KVMFORNFV-89         |
+|                                      |                                      |
++--------------------------------------+--------------------------------------+
+| JIRA:                                | VSPERF-510                           |
+|                                      |                                      |
++--------------------------------------+--------------------------------------+
+| JIRA:                                | YARDSTICK-783                        |
+|                                      |                                      |
++--------------------------------------+--------------------------------------+
+| JIRA:                                | YARDSTICK-815                        |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
 
@@ -89,7 +105,7 @@ Known issues
 | **JIRA REFERENCE**                   | **SLOGAN**                           |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
-| JIRA:                                | NFV Hypervisors-KVMFORNFV-75         |
+|                                      |                                      |
 +--------------------------------------+--------------------------------------+
 
 Workarounds
@@ -99,5 +115,5 @@ See JIRA: https://jira.opnfv.org/projects
 
 References
 ==========
-For more information on the OPNFV Danube release, please visit
-http://www.opnfv.org/danube
+For more information on the OPNFV Euphrates release, please visit
+http://www.opnfv.org/euphrates

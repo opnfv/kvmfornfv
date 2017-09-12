@@ -16,45 +16,45 @@ Scenario Overview and Description
    ./kvmfornfv.scenarios.description.rst
 
 *******************************************************
-os-nosdn-kvm_nfv_ovs_dpdk-noha Overview and Description
+os-nosdn-kvm_ovs_dpdk-noha Overview and Description
 *******************************************************
 
 .. toctree::
-   :caption: os-nosdn-kvm_nfv_ovs_dpdk-noha
+   :caption: os-nosdn-kvm_ovs_dpdk-noha
    :numbered:
    :maxdepth: 3
 
-   ./os-nosdn-kvm_nfv_ovs_dpdk-noha/os-nosdn-kvm_nfv_ovs_dpdk-noha.description.rst
+   ./os-nosdn-kvm_ovs_dpdk-noha/os-nosdn-kvm_ovs_dpdk-noha.description.rst
 
 *****************************************************
-os-nosdn-kvm_nfv_ovs_dpdk-ha Overview and Description
+os-nosdn-kvm_ovs_dpdk-ha Overview and Description
 *****************************************************
 
 .. toctree::
-   :caption: os-nosdn-kvm_nfv_ovs_dpdk-ha
+   :caption: os-nosdn-kvm_ovs_dpdk-ha
    :numbered:
    :maxdepth: 3
 
-   ./os-nosdn-kvm_nfv_ovs_dpdk-ha/os-nosdn-kvm_nfv_ovs_dpdk-ha.description.rst
+   ./os-nosdn-kvm_ovs_dpdk-ha/os-nosdn-kvm_ovs_dpdk-ha.description.rst
 
 ***********************************************************
-os-nosdn-kvm_nfv_ovs_dpdk_bar-noha Overview and Description
+os-nosdn-kvm_ovs_dpdk_bar-noha Overview and Description
 ***********************************************************
 
 .. toctree::
-   :caption: os-nosdn-kvm_nfv_ovs_dpdk_bar-noha
+   :caption: os-nosdn-kvm_ovs_dpdk_bar-noha
    :numbered:
    :maxdepth: 3
 
-   ./os-nosdn-kvm_nfv_ovs_dpdk_bar-noha/os-nosdn-kvm_nfv_ovs_dpdk_bar-noha.description.rst
+   ./os-nosdn-kvm_ovs_dpdk_bar-noha/os-nosdn-kvm_ovs_dpdk_bar-noha.description.rst
 
 *********************************************************
-os-nosdn-kvm_nfv_ovs_dpdk_bar-ha Overview and Description
+os-nosdn-kvm_ovs_dpdk_bar-ha Overview and Description
 *********************************************************
 
 .. toctree::
-   :caption: os-nosdn-kvm_nfv_ovs_dpdk_bar-ha
+   :caption: os-nosdn-kvm_ovs_dpdk_bar-ha
    :numbered:
    :maxdepth: 3
 
-   ./os-nosdn-kvm_nfv_ovs_dpdk_bar-ha/os-nosdn-kvm_nfv_ovs_dpdk_bar-ha.description.rst
+   ./os-nosdn-kvm_ovs_dpdk_bar-ha/os-nosdn-kvm_ovs_dpdk_bar-ha.description.rst

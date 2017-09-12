@@ -10,7 +10,7 @@ Release Notes
 Abstract
 ---------
 
-This document provides the release notes for Danube 1.0 release of KVM4NFV.
+This document provides the release notes for Euphrates 1.0 release of KVM4NFV.
 
 
 **Contents**
@@ -28,26 +28,29 @@ This document provides the release notes for Danube 1.0 release of KVM4NFV.
 Version history
 ---------------
 
-+--------------------+--------------------+--------------------+----------------------+
-| **Date**           | **Ver.**           | **Author**         | **Comment**          |
-|                    |                    |                    |                      |
-+--------------------+--------------------+--------------------+----------------------+
-|2016-08-22          | 0.1.0              |                    | Colorado 1.0 release |
-|                    |                    |                    |                      |
-+--------------------+--------------------+--------------------+----------------------+
-|2017-03-27          | 0.1.0              |                    | Danube 1.0 release   |
-|                    |                    |                    |                      |
-+--------------------+--------------------+--------------------+----------------------+
++--------------------+--------------------+--------------------+------------------------+
+| **Date**           | **Ver.**           | **Author**         | **Comment**            |
+|                    |                    |                    |                        |
++--------------------+--------------------+--------------------+------------------------+
+|2016-08-22          | 0.1.0              |                    | Colorado 1.0 release   |
+|                    |                    |                    |                        |
++--------------------+--------------------+--------------------+------------------------+
+|2017-03-27          | 0.1.0              |                    | Danube 1.0 release     |
+|                    |                    |                    |                        |
++--------------------+--------------------+--------------------+------------------------+
+|2017-10-06          | 0.1.0              |                    | Euphrates 1.0 release  |
+|                    |                    |                    |                        |
++--------------------+--------------------+--------------------+------------------------+
 
 Important notes
 ---------------
 
-The KVM4NFV project is currently supported on the Fuel installer.
+The KVM4NFV project is currently supported on Fuel and Apex installer.
 
 Summary
 -------
 
-This Danube 1.0 release provides *KVM4NFV* as a framework to enhance the
+This Euphrates 1.0 release provides *KVM4NFV* as a framework to enhance the
 KVM Hypervisor for NFV and OPNFV scenario testing, automated in the OPNFV
 CI pipeline, including:
 
@@ -57,9 +60,8 @@ CI pipeline, including:
 
 *   Cyclictests execution to check the latency
 
-*   “os-nosdn-kvm-ha”,“os-nosdn-kvm_nfv_ovs_dpdk-ha”,“os-nosdn-kvm_nfv_ovs_dpdk-noha”,“os-nosdn-kvm_nfv_ovs_dpdk_bar-ha”,
-    “os-nosdn-kvm_nfv_ovs_dpdk_bar-noha” Scenarios testing for ``high availability/no-high avaliability``
-    configuration using Fuel installer
+*   “os-nosdn-kvm_ovs_dpdk-ha”,“os-nosdn-kvm_ovs_dpdk-noha”, Scenarios testing for
+    ``high availability/no-high avaliability`` configuration using Apex installer
 
 * Documentation created for,
 
@@ -88,13 +90,13 @@ Release Data
 | **Repo/commit-ID**                   | kvmfornfv                            |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
-| **Release designation**              | Danube                               |
+| **Release designation**              | Euphrates                            |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
-| **Release date**                     | 2017-03-27                           |
+| **Release date**                     | 2017-10-06                           |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
-| **Purpose of the delivery**          | OPNFV Danube 1.0 Releases            |
+| **Purpose of the delivery**          | OPNFV Euphrates 1.0 Releases         |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
 
@@ -104,20 +106,22 @@ Version change
 1   Module version changes
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-This is the Danube 1.0 main release. It is based on following upstream
+This is the Euphrates 1.0 main release. It is based on following upstream
 versions:
 
 *   RT Kernel 4.4.50-rt62
 
-*   QEMU 2.6
+*   QEMU 2.9.0
 
-*   Fuel plugin based on Fuel 10.0
+*   Apex based on Openstack Ocata
 
-This is the second tracked release of KVM4NFV
+
+This is the third tracked release of KVM4NFV
 
 
 2   Document version changes
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 This is the second version of the KVM4NFV framework in OPNFV.
 
 Reason for version
@@ -130,28 +134,34 @@ Reason for version
 | **JIRA REFERENCE**                   | **SLOGAN**                           |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
-| JIRA:                                | NFV Hypervisors-KVMFORNFV-57         |
+| JIRA:                                | NFV Hypervisors-KVMFORNFV-72         |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
-| JIRA:                                | NFV Hypervisors-KVMFORNFV-58         |
+| JIRA:                                | NFV Hypervisors-KVMFORNFV-73         |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
-| JIRA:                                | NFV Hypervisors-KVMFORNFV-59         |
+| JIRA:                                | NFV Hypervisors-KVMFORNFV-78         |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
-| JIRA:                                | NFV Hypervisors-KVMFORNFV-61         |
+| JIRA:                                | NFV Hypervisors-KVMFORNFV-86         |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
-| JIRA:                                | NFV Hypervisors-KVMFORNFV-62         |
+| JIRA:                                | NFV Hypervisors-KVMFORNFV-87         |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
-| JIRA:                                | NFV Hypervisors-KVMFORNFV-63         |
+| JIRA:                                | NFV Hypervisors-KVMFORNFV-88         |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
-| JIRA:                                | NFV Hypervisors-KVMFORNFV-64         |
+| JIRA:                                | NFV Hypervisors-KVMFORNFV-89         |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
-| JIRA:                                | NFV Hypervisors-KVMFORNFV-65         |
+| JIRA:                                | VSPERF-510                           |
+|                                      |                                      |
++--------------------------------------+--------------------------------------+
+| JIRA:                                | YARDSTICK-783                        |
+|                                      |                                      |
++--------------------------------------+--------------------------------------+
+| JIRA:                                | YARDSTICK-815                        |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
 
@@ -161,29 +171,37 @@ A brief ``Description of the the JIRA tickets``:
 | **JIRA REFERENCE**                    | **DESCRIPTION**                                             |
 |                                       |                                                             |
 +---------------------------------------+-------------------------------------------------------------+
-| KVMFORNFV-57                          | CI/CD Integration into Yardstick                            |
+| KVMFORNFV-72                          | Define and integrate additional scenario - KVM+OVS+DPDK     |
+|                                       | with HA for bare metal and virtual environments             |
++---------------------------------------+-------------------------------------------------------------+
+| KVMFORNFV-73                          | Define and integrate additional scenario - KVM+OVS+DPDK     |
+|                                       | with NOHA for bare metal and virtual environments           |
 |                                       |                                                             |
 +---------------------------------------+-------------------------------------------------------------+
-| KVMFORNFV-58                          | Complete the integration of test plan into Yardstick        |
-|                                       | and Jenkins infrastructure to include latency testing       |
+| KVMFORNFV-78                          | Scenarios in Euphrates release for KVM for NFV              |
 |                                       |                                                             |
 +---------------------------------------+-------------------------------------------------------------+
-| KVMFORNFV-59                          | Enable capability to publish results on Yardstick Dashboard |
+| KVMFORNFV-86                          | Live Migration tests in kvmfornfv repository                |
 |                                       |                                                             |
 +---------------------------------------+-------------------------------------------------------------+
-| KVMFORNFV-61                          | Define and integrate additional scenario - KVM+OVS+DPDK     |
-|                                       | with HA and NOHA for baremetal and virtual environments     |
+| KVMFORNFV-87                          | Packet forwarding test type pxp - multiple guests           |
 |                                       |                                                             |
 +---------------------------------------+-------------------------------------------------------------+
-| KVMFORNFV-62                          | Define and integrate additional scenario - KVM+OVS+DPDK+BAR |
-|                                       | with HA and NOHA for bare metal and virtual environments    |
-|                                       |                                                             |
-+---------------------------------------+-------------------------------------------------------------+
-| KVMFORNFV-63                          | Setup Local fuel environment                                |
-|                                       |                                                             |
-+---------------------------------------+-------------------------------------------------------------+
-| KVMFORNFV-64                          | Fuel environment setup for local machine to debug Fuel      |
+| KVMFORNFV-88                          | Apex environment setup for local machine to debug Apex      |
 |                                       | related integration issues                                  |
+|                                       |                                                             |
++---------------------------------------+-------------------------------------------------------------+
+| KVMFORNFV-89                          | Generate kernel debug-info rpm                              |
+|                                       |                                                             |
++---------------------------------------+-------------------------------------------------------------+
+| VSPERF-510                            | KVM optimizations                                           |
+|                                       |                                                             |
++---------------------------------------+-------------------------------------------------------------+
+| YARDSTICK-783                         | To update Grafana dashboard for kvmfornfv packet forwarding |
+|                                       | test cases                                                  |
++---------------------------------------+-------------------------------------------------------------+
+| YARDSTICK-815                         | Implementation of breaktrace option for cyclictest          |
+|                                       |                                                             |
 +---------------------------------------+-------------------------------------------------------------+
 
 Deliverables
@@ -191,33 +209,19 @@ Deliverables
 
 1   Software deliverables
 ~~~~~~~~~~~~~~~~~~~~~~~~~
-* Danube 1.0 release of the KVM4NFV RPM and debian for kvm4nfv
+* Euphrates 1.0 release of the KVM4NFV RPM and debian for kvm4nfv
 
-* Added the following scenarios as part of D-Release:
+* Kernel debug-info rpm and debian is generated as part of E-release
 
-  * os-nosdn-kvm_nfv_ovs_dpdk-noha
+* Integrated the following scenarios in APEX as part of E-Release:
 
-  * os-nosdn-kvm_nfv_ovs_dpdk_bar-noha
+  * os-nosdn-kvm_ovs_dpdk-noha
 
-  * os-nosdn-kvm_nfv_ovs_dpdk-ha
-
-  * os-nosdn-kvm_nfv_ovs_dpdk_bar-ha
+  * os-nosdn-kvm_ovs_dpdk-ha
 
 * Configured influxdb and `Graphana_dashboard`_ for publishing kvm4nfv test results
 
 .. _Graphana_dashboard: http://testresults.opnfv.org/grafana/dashboard/db/kvmfornfv-cyclictest
-
-* Cyclictest test case is successfully implemented, it has the below test types.,
-
-  * idle-idle
-
-  * CPUstress-idle
-
-  * IOstress-idle
-
-  * Memorystress-idle
-
-* Implemented Noisy Neighbour feature ., cyclictest under stress testing is implemented
 
 * Packet forwarding test case is implemented and it supports the following test types currently,
 
@@ -227,11 +231,20 @@ Deliverables
 
   * Packet forwarding to Guest using SRIOV
 
-* Ftrace debugging tool is supported in D-Release. The logs collected by ftrace are stored in artifacts for future needs
+  * Packet forwarding to multiple guests
 
-* PCM Utility is part of D-Release. The future scope may include collection of read/write data and publishing in grafana
+* Breaktrace option is implemented to monitor the latency values obatined by the cyclictest
 
-* Either Apex or Fuel can be used for deployment of os-nosdn-kvm-ha scenario
+* Live Migration test case is implemented and the following values are collected:
+
+  * Total time
+
+  * Down time
+
+  * Setup time
+
+* Either Apex or Fuel can be used for deployment of os-nosdn-kvm-ha, os-nosdn-kvm_ovs_dpdk-ha and
+os-nosdn-kvm_ovs_dpdk-noha scenarios
 
 +------------------------------------------+------------------+-----------------+
 | **Scenario Name**                        | **Apex**         | **Fuel**        |
@@ -239,18 +252,16 @@ Deliverables
 +==========================================+==================+=================+
 | - os-nosdn-kvm-ha                        |     ``Y``        |     ``Y``       |
 +------------------------------------------+------------------+-----------------+
-| - os-nosdn-kvm_nfv_ovs_dpdk-noha         |                  |     ``Y``       |
+| - os-nosdn-kvm_ovs_dpdk-noha             |     ``Y``        |     ``Y``       |
 +------------------------------------------+------------------+-----------------+
-| - os-nosdn-kvm_nfv_ovs_dpdk-ha           |                  |     ``Y``       |
+| - os-nosdn-kvm_ovs_dpdk-ha               |     ``Y``        |     ``Y``       |
 +------------------------------------------+------------------+-----------------+
-| - os-nosdn-kvm_nfv_ovs_dpdk_bar-noha     |                  |     ``Y``       |
+| - os-nosdn-kvm_ovs_dpdk_bar-noha         |                  |     ``Y``       |
 +------------------------------------------+------------------+-----------------+
-| - os-nosdn-kvm_nfv_ovs_dpdk_bar-ha       |                  |     ``Y``       |
+| - os-nosdn-kvm_ovs_dpdk_bar-ha           |                  |     ``Y``       |
 +------------------------------------------+------------------+-----------------+
 
-* Future scope may include adding Apex support for all the remaining scenarios
-
-* The below documents are delivered for Danube KVM4NFV Release:
+* The below documents are delivered for Euphrates KVM4NFV Release:
 
   * User Guide
 
@@ -273,6 +284,6 @@ Deliverables
 References
 ----------
 
-For more information on the KVM4NFV Danube release, please see:
+For more information on the KVM4NFV Euphrates release, please see:
 
 https://wiki.opnfv.org/display/kvm/

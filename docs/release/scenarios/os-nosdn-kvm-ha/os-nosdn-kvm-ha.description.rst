@@ -129,5 +129,5 @@ Known Limitations, Issues and Workarounds
 References
 ----------
 
-For more information on the OPNFV Danube release, please visit
-http://www.opnfv.org/danube
+For more information on the OPNFV Euphrates release, please visit
+http://www.opnfv.org/euphrates

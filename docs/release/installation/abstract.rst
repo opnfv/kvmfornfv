@@ -7,5 +7,5 @@ Abstract
 ********
 
 This document will give the instructions to user on how to deploy available
-KVM4NFV build scenario verfied for the Danube release of the OPNFV
+KVM4NFV build scenario verfied for the Euphrates release of the OPNFV
 platform.

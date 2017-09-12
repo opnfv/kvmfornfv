@@ -33,6 +33,11 @@ Version Features
 |                             |   VSWITCHPERF software (PVP/PVVP)                 |
 |                             | - Works with IXIA Traffic Generator               |
 +-----------------------------+---------------------------------------------------+
+|                             | - Test cases involving multiple guests (PVVP) are |
+|                             |   included.                                       |
+|       Euphrates             | - Implemented Yardstick Grafana dashboard to      |
+|                             |   publish results of packet forwarding test cases |
++-----------------------------+---------------------------------------------------+
 
 VSPERF
 ------
@@ -499,8 +504,8 @@ please refer to figure.2
    :width: 100%
    :align: center
 
-Packet Forwarding Guest Scenario
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Packet Forwarding Guest Scenario (PXP Deployment)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Here the guest is a Virtual Machine (VM) launched by using vloop_vnf provided by vsperf project
 on host/DUT using Qemu. In this latency test the time taken by the frame/packet to travel from the
@@ -511,6 +516,173 @@ The resulting latency values will define the performance of installed kernel.
    :name: Guest_Scenario
    :width: 100%
    :align: center
+
+Every testcase uses one of the supported deployment scenarios to setup test environment.
+The controller responsible for a given scenario configures flows in the vswitch to route
+traffic among physical interfaces connected to the traffic generator and virtual
+machines. VSPERF supports several deployments including PXP deployment, which can
+setup various scenarios with multiple VMs.
+
+These scenarios are realized by VswitchControllerPXP class, which can configure and
+execute given number of VMs in serial or parallel configurations. Every VM can be
+configured with just one or an even number of interfaces. In case that VM has more than
+2 interfaces, then traffic is properly routed among pairs of interfaces.
+
+Example of traffic routing for VM with 4 NICs in serial configuration:
+
+.. code-block:: console
+
+                 +------------------------------------------+
+                 |  VM with 4 NICs                          |
+                 |  +---------------+    +---------------+  |
+                 |  |  Application  |    |  Application  |  |
+                 |  +---------------+    +---------------+  |
+                 |      ^       |            ^       |      |
+                 |      |       v            |       v      |
+                 |  +---------------+    +---------------+  |
+                 |  | logical ports |    | logical ports |  |
+                 |  |   0       1   |    |   2       3   |  |
+                 +--+---------------+----+---------------+--+
+                        ^       :            ^       :
+                        |       |            |       |
+                        :       v            :       v
+        +-----------+---------------+----+---------------+----------+
+        | vSwitch   |   0       1   |    |   2       3   |          |
+        |           | logical ports |    | logical ports |          |
+        | previous  +---------------+    +---------------+   next   |
+        | VM or PHY     ^       |            ^       |     VM or PHY|
+        |   port   -----+       +------------+       +--->   port   |
+        +-----------------------------------------------------------+
+
+
+It is also possible to define different number of interfaces for each VM to better
+simulate real scenarios.
+
+The number of VMs involved in the test and the type of their connection is defined
+by deployment name as follows:
+
+  * ``pvvp[number]`` - configures scenario with VMs connected in series with
+    optional ``number`` of VMs. In case that ``number`` is not specified, then
+    2 VMs will be used.
+
+    Example of 2 VMs in a serial configuration:
+
+    .. code-block:: console
+
+       +----------------------+  +----------------------+
+       |   1st VM             |  |   2nd VM             |
+       |   +---------------+  |  |   +---------------+  |
+       |   |  Application  |  |  |   |  Application  |  |
+       |   +---------------+  |  |   +---------------+  |
+       |       ^       |      |  |       ^       |      |
+       |       |       v      |  |       |       v      |
+       |   +---------------+  |  |   +---------------+  |
+       |   | logical ports |  |  |   | logical ports |  |
+       |   |   0       1   |  |  |   |   0       1   |  |
+       +---+---------------+--+  +---+---------------+--+
+               ^       :                 ^       :
+               |       |                 |       |
+               :       v                 :       v
+       +---+---------------+---------+---------------+--+
+       |   |   0       1   |         |   3       4   |  |
+       |   | logical ports | vSwitch | logical ports |  |
+       |   +---------------+         +---------------+  |
+       |       ^       |                 ^       |      |
+       |       |       +-----------------+       v      |
+       |   +----------------------------------------+   |
+       |   |              physical ports            |   |
+       |   |      0                         1       |   |
+       +---+----------------------------------------+---+
+                  ^                         :
+                  |                         |
+                  :                         v
+       +------------------------------------------------+
+       |                                                |
+       |                traffic generator               |
+       |                                                |
+       +------------------------------------------------+
+
+* ``pvpv[number]`` - configures scenario with VMs connected in parallel with
+    optional ``number`` of VMs. In case that ``number`` is not specified, then
+    2 VMs will be used. Multistream feature is used to route traffic to particular
+    VMs (or NIC pairs of every VM). It means, that VSPERF will enable multistream
+    feaure and sets the number of streams to the number of VMs and their NIC
+    pairs. Traffic will be dispatched based on Stream Type, i.e. by UDP port,
+    IP address or MAC address.
+
+    Example of 2 VMs in a parallel configuration, where traffic is dispatched
+        based on the UDP port.
+
+    .. code-block:: console
+
+       +----------------------+  +----------------------+
+       |   1st VM             |  |   2nd VM             |
+       |   +---------------+  |  |   +---------------+  |
+       |   |  Application  |  |  |   |  Application  |  |
+       |   +---------------+  |  |   +---------------+  |
+       |       ^       |      |  |       ^       |      |
+       |       |       v      |  |       |       v      |
+       |   +---------------+  |  |   +---------------+  |
+       |   | logical ports |  |  |   | logical ports |  |
+       |   |   0       1   |  |  |   |   0       1   |  |
+       +---+---------------+--+  +---+---------------+--+
+               ^       :                 ^       :
+               |       |                 |       |
+               :       v                 :       v
+       +---+---------------+---------+---------------+--+
+       |   |   0       1   |         |   3       4   |  |
+       |   | logical ports | vSwitch | logical ports |  |
+       |   +---------------+         +---------------+  |
+       |      ^         |                 ^       :     |
+       |      |     ......................:       :     |
+       |  UDP | UDP :   |                         :     |
+       |  port| port:   +--------------------+    :     |
+       |   0  |  1  :                        |    :     |
+       |      |     :                        v    v     |
+       |   +----------------------------------------+   |
+       |   |              physical ports            |   |
+       |   |    0                               1   |   |
+       +---+----------------------------------------+---+
+                ^                               :
+                |                               |
+                :                               v
+       +------------------------------------------------+
+       |                                                |
+       |                traffic generator               |
+       |                                                |
+       +------------------------------------------------+
+
+
+PXP deployment is backward compatible with PVP deployment, where ``pvp`` is
+an alias for ``pvvp1`` and it executes just one VM.
+
+The number of interfaces used by VMs is defined by configuration option
+``GUEST_NICS_NR``. In case that more than one pair of interfaces is defined
+for VM, then:
+
+    * for ``pvvp`` (serial) scenario every NIC pair is connected in serial
+      before connection to next VM is created
+    * for ``pvpv`` (parallel) scenario every NIC pair is directly connected
+      to the physical ports and unique traffic stream is assigned to it
+
+Examples:
+
+    * Deployment ``pvvp10`` will start 10 VMs and connects them in series
+    * Deployment ``pvpv4`` will start 4 VMs and connects them in parallel
+    * Deployment ``pvpv1`` and GUEST_NICS_NR = [4] will start 1 VM with
+      4 interfaces and every NIC pair is directly connected to the
+      physical ports
+    * Deployment ``pvvp`` and GUEST_NICS_NR = [2, 4] will start 2 VMs;
+      1st VM will have 2 interfaces and 2nd VM 4 interfaces. These interfaces
+      will be connected in serial, i.e. traffic will flow as follows:
+      PHY1 -> VM1_1 -> VM1_2 -> VM2_1 -> VM2_2 -> VM2_3 -> VM2_4 -> PHY2
+
+Note: In case that only 1 or more than 2 NICs are configured for VM,
+then ``testpmd`` should be used as forwarding application inside the VM.
+As it is able to forward traffic between multiple VM NIC pairs.
+
+Note: In case of ``linux_bridge``, all NICs are connected to the same
+bridge inside the VM.
 
 Packet Forwarding SRIOV Scenario
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -622,12 +794,54 @@ PCI passthrough support.
 Note: Qemu with PCI passthrough support can be used only with PVP test
 deployment.
 
+Guest Core and Thread Binding
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+VSPERF provides options to achieve better performance by guest core binding and
+guest vCPU thread binding as well. Core binding is to bind all the qemu threads.
+Thread binding is to bind the house keeping threads to some CPU and vCPU thread to
+some other CPU, this helps to reduce the noise from qemu house keeping threads.
+
+
+.. code-block:: python
+
+   GUEST_CORE_BINDING = [('#EVAL(6+2*#VMINDEX)', '#EVAL(7+2*#VMINDEX)')]
+
+**NOTE** By default the GUEST_THREAD_BINDING will be none, which means same as
+the GUEST_CORE_BINDING, i.e. the vcpu threads are sharing the physical CPUs with
+the house keeping threads. Better performance using vCPU thread binding can be
+achieved by enabling affinity in the custom configuration file.
+
+For example, if an environment requires 28,29 to be core binded and 30,31 for
+guest thread binding to achieve better performance.
+
+.. code-block:: python
+
+   VNF_AFFINITIZATION_ON = True
+   GUEST_CORE_BINDING = [('28','29')]
+   GUEST_THREAD_BINDING = [('30', '31')]
+
+Qemu CPU features
+^^^^^^^^^^^^^^^^^
+
+QEMU default to a compatible subset of performance enhancing cpu features.
+To pass all available host processor features to the guest.
+
+.. code-block:: python
+
+   GUEST_CPU_OPTIONS = ['host,migratable=off']
+
+**NOTE** To enhance the performance, cpu features tsc deadline timer for guest,
+the guest PMU, the invariant TSC can be provided in the custom configuration file.
+
 Results
 ~~~~~~~
 
-The results for the packet forwarding test cases are uploaded to artifacts.
-The link for the same can be found below
+The results for the packet forwarding test cases are uploaded to artifacts and
+also published on Yardstick Grafana dashboard.
+The links for the same can be found below
 
 .. code:: bash
 
    http://artifacts.opnfv.org/kvmfornfv.html
+   http://testresults.opnfv.org/KVMFORNFV-Packet-Forwarding

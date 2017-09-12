@@ -1,7 +1,7 @@
 .. This work is licensed under a Creative Commons Attribution 4.0 International License.
 .. http://creativecommons.org/licenses/by/4.0
 
-.. _kvmfornfv-os-nosdn-kvm_nfv_ovs_dpdk_bar-ha:
+.. _kvmfornfv-os-nosdn-kvm_ovs_dpdk_bar-ha:
 
 *********************************************************
 os-nosdn-kvm_nfv_ovs_dpdk_bar-ha Overview and Description
@@ -11,4 +11,4 @@ os-nosdn-kvm_nfv_ovs_dpdk_bar-ha Overview and Description
    :numbered:
    :maxdepth: 3
 
-   ./os-nosdn-kvm_nfv_ovs_dpdk_bar-ha.description.rst
+   ./os-nosdn-kvm_ovs_dpdk_bar-ha.description.rst

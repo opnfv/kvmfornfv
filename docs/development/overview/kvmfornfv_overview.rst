@@ -38,7 +38,7 @@ The detailed understanding of this project is organized into different sections-
   its execution.
 * **configuration guide** - This provides guidance for configuring KVM4NFV
   environment, even with the use of specific installer tools for deploying some
-  components, available in the Danube release of OPNFV.
+  components, available in the Euphrates release of OPNFV.
 * **scenarios** - This includes the sceanrios that are currently implemented in the
   kvm4nfv project,features of each scenario and a general guide to how to deploy them.
 * **userguide** - This provides the required technical assistance to the user, in

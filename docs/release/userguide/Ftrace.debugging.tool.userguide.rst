@@ -35,6 +35,10 @@ Version Features
 |       Danube                |   4.4-linux-kernel level issues               |
 |                             | - Option to disable if not required           |
 +-----------------------------+-----------------------------------------------+
+|                             | - Breaktrace option is implemented.           |
+|       Euphrates             | - Implemented post-execute script option to   |
+|                             |   disable the ftrace when it is enabled.      |
++-----------------------------+-----------------------------------------------+
 
 
 Implementation of Ftrace
@@ -231,7 +235,33 @@ The set_event file contains all the enabled events list
     To Start/Restart,
     echo 1 >tracing_on;
 
-- Once tracing is diabled, disable_trace.sh script is triggered.
+- Once tracing is disabled, disable_trace.sh script is triggered.
+
+BREAKTRACE
+----------
+- Send break trace command when latency > USEC. This is a debugging option to control the latency tracer in the realtime preemption patch. It
+is useful to track down unexpected large latencies on a system. This option does only work with following kernel config options.
+
+For kernel < 2.6.24:
+* CONFIG_PREEMPT_RT=y
+* CONFIG_WAKEUP_TIMING=y
+* CONFIG_LATENCY_TRACE=y
+* CONFIG_CRITICAL_PREEMPT_TIMING=y
+* CONFIG_CRITICAL_IRQSOFF_TIMING=y
+
+For kernel >= 2.6.24:
+* CONFIG_PREEMPT_RT=y
+* CONFIG_FTRACE
+* CONFIG_IRQSOFF_TRACER=y
+* CONFIG_PREEMPT_TRACER=y
+* CONFIG_SCHED_TRACER=y
+* CONFIG_WAKEUP_LATENCY_HIST
+
+- Kernel configuration options enabled. The USEC parameter to the -b option defines a maximum latency value, which is compared against the actual latencies of the test. Once the measured latency is higher than the given maximum, the kernel tracer and cyclictest is stopped. The trace can be read from /proc/latency_trace. Please be aware that the tracer adds significant overhead to the kernel, so the latencies will be much higher than on a kernel with latency tracing disabled.
+
+Post-execute scripts
+--------------------
+post-execute script to yardstick node context teardown is added to disable the ftrace soon after the completion of cyclictest execution throughyardstick. This option is implemented to collect only required ftrace logs for effective debugging if needed.
 
 Details of disable_trace Script
 -------------------------------

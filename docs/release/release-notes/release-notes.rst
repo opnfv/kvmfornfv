@@ -10,7 +10,7 @@ Release Notes
 Abstract
 ---------
 
-This document provides the release notes for Danube 1.0 release of KVM4NFV.
+This document provides the release notes for Euphrates 1.0 release of KVM4NFV.
 
 
 **Contents**
@@ -28,26 +28,29 @@ This document provides the release notes for Danube 1.0 release of KVM4NFV.
 Version history
 ---------------
 
-+--------------------+--------------------+--------------------+----------------------+
-| **Date**           | **Ver.**           | **Author**         | **Comment**          |
-|                    |                    |                    |                      |
-+--------------------+--------------------+--------------------+----------------------+
-|2016-08-22          | 0.1.0              |                    | Colorado 1.0 release |
-|                    |                    |                    |                      |
-+--------------------+--------------------+--------------------+----------------------+
-|2017-03-27          | 0.1.0              |                    | Danube 1.0 release   |
-|                    |                    |                    |                      |
-+--------------------+--------------------+--------------------+----------------------+
++--------------------+--------------------+--------------------+------------------------+
+| **Date**           | **Ver.**           | **Author**         | **Comment**            |
+|                    |                    |                    |                        |
++--------------------+--------------------+--------------------+------------------------+
+|2016-08-22          | 0.1.0              |                    | Colorado 1.0 release   |
+|                    |                    |                    |                        |
++--------------------+--------------------+--------------------+------------------------+
+|2017-03-27          | 0.1.0              |                    | Danube 1.0 release     |
+|                    |                    |                    |                        |
++--------------------+--------------------+--------------------+------------------------+
+|2017-10-06          | 0.1.0              |                    | Euphrates 1.0 release  |
+|                    |                    |                    |                        |
++--------------------+--------------------+--------------------+------------------------+
 
 Important notes
 ---------------
 
-The KVM4NFV project is currently supported on the Fuel installer.
+The KVM4NFV project is currently supported on Fuel and Apex installer.
 
 Summary
 -------
 
-This Danube 1.0 release provides *KVM4NFV* as a framework to enhance the
+This Euphrates 1.0 release provides *KVM4NFV* as a framework to enhance the
 KVM Hypervisor for NFV and OPNFV scenario testing, automated in the OPNFV
 CI pipeline, including:
 
@@ -57,9 +60,8 @@ CI pipeline, including:
 
 *   Cyclictests execution to check the latency
 
-*   “os-nosdn-kvm-ha”,“os-nosdn-kvm_nfv_ovs_dpdk-ha”,“os-nosdn-kvm_nfv_ovs_dpdk-noha”,“os-nosdn-kvm_nfv_ovs_dpdk_bar-ha”,
-    “os-nosdn-kvm_nfv_ovs_dpdk_bar-noha” Scenarios testing for ``high availability/no-high avaliability``
-    configuration using Fuel installer
+*   “os-nosdn-kvm_ovs_dpdk-ha”,“os-nosdn-kvm_ovs_dpdk-noha”, Scenarios testing for
+    ``high availability/no-high avaliability`` configuration using Apex installer
 
 * Documentation created for,
 
@@ -88,13 +90,13 @@ Release Data
 | **Repo/commit-ID**                   | kvmfornfv                            |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
-| **Release designation**              | Danube                               |
+| **Release designation**              | Euphrates                            |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
-| **Release date**                     | 2017-03-27                           |
+| **Release date**                     | 2017-10-06                           |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
-| **Purpose of the delivery**          | OPNFV Danube 1.0 Releases            |
+| **Purpose of the delivery**          | OPNFV Euphrates 1.0 Releases         |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
 
@@ -104,16 +106,18 @@ Version change
 1   Module version changes
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-This is the Danube 1.0 main release. It is based on following upstream
+
+This is the Euphrates 1.0 main release. It is based on following upstream
 versions:
 
 *   RT Kernel 4.4.50-rt62
 
-*   QEMU 2.6
+*   QEMU 2.9.0
 
-*   Fuel plugin based on Fuel 10.0
+*   Apex based on Openstack Ocata
 
-This is the second tracked release of KVM4NFV
+
+This is the third tracked release of KVM4NFV
 
 
 2   Document version changes
@@ -191,17 +195,13 @@ Deliverables
 
 1   Software deliverables
 ~~~~~~~~~~~~~~~~~~~~~~~~~
-* Danube 1.0 release of the KVM4NFV RPM and debian for kvm4nfv
+* Euphrates 1.0 release of the KVM4NFV RPM and debian for kvm4nfv
 
-* Added the following scenarios as part of D-Release:
+* Added the following scenarios as part of E-Release:
 
-  * os-nosdn-kvm_nfv_ovs_dpdk-noha
+  * os-nosdn-kvm_ovs_dpdk-noha
 
-  * os-nosdn-kvm_nfv_ovs_dpdk_bar-noha
-
-  * os-nosdn-kvm_nfv_ovs_dpdk-ha
-
-  * os-nosdn-kvm_nfv_ovs_dpdk_bar-ha
+  * os-nosdn-kvm_ovs_dpdk-ha
 
 * Configured influxdb and `Graphana_dashboard`_ for publishing kvm4nfv test results
 
@@ -227,11 +227,14 @@ Deliverables
 
   * Packet forwarding to Guest using SRIOV
 
-* Ftrace debugging tool is supported in D-Release. The logs collected by ftrace are stored in artifacts for future needs
+* Ftrace debugging tool is supported in D-Release. The logs collected by ftrace are stored in
+artifacts for future needs
 
-* PCM Utility is part of D-Release. The future scope may include collection of read/write data and publishing in grafana
+* PCM Utility is part of D-Release. The future scope may include collection of read/write data and
+publishing in grafana
 
-* Either Apex or Fuel can be used for deployment of os-nosdn-kvm-ha scenario
+* Either Apex or Fuel can be used for deployment of os-nosdn-kvm-ha, os-nosdn-kvm_ovs_dpdk-ha and
+os-nosdn-kvm_ovs_dpdk-noha scenarios
 
 +------------------------------------------+------------------+-----------------+
 | **Scenario Name**                        | **Apex**         | **Fuel**        |
@@ -239,18 +242,16 @@ Deliverables
 +==========================================+==================+=================+
 | - os-nosdn-kvm-ha                        |     ``Y``        |     ``Y``       |
 +------------------------------------------+------------------+-----------------+
-| - os-nosdn-kvm_nfv_ovs_dpdk-noha         |                  |     ``Y``       |
+| - os-nosdn-kvm_ovs_dpdk-noha             |     ``Y``        |     ``Y``       |
 +------------------------------------------+------------------+-----------------+
-| - os-nosdn-kvm_nfv_ovs_dpdk-ha           |                  |     ``Y``       |
+| - os-nosdn-kvm_ovs_dpdk-ha               |     ``Y``        |     ``Y``       |
 +------------------------------------------+------------------+-----------------+
-| - os-nosdn-kvm_nfv_ovs_dpdk_bar-noha     |                  |     ``Y``       |
+| - os-nosdn-kvm_ovs_dpdk_bar-noha         |                  |     ``Y``       |
 +------------------------------------------+------------------+-----------------+
-| - os-nosdn-kvm_nfv_ovs_dpdk_bar-ha       |                  |     ``Y``       |
+| - os-nosdn-kvm_ovs_dpdk_bar-ha           |                  |     ``Y``       |
 +------------------------------------------+------------------+-----------------+
 
-* Future scope may include adding Apex support for all the remaining scenarios
-
-* The below documents are delivered for Danube KVM4NFV Release:
+* The below documents are delivered for Euphrates KVM4NFV Release:
 
   * User Guide
 
@@ -273,6 +274,6 @@ Deliverables
 References
 ----------
 
-For more information on the KVM4NFV Danube release, please see:
+For more information on the KVM4NFV Euphrates release, please see:
 
 https://wiki.opnfv.org/display/kvm/

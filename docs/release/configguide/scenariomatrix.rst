@@ -12,11 +12,11 @@ scenarios. While our target is to establish parity across the installation tools
 can provide all scenarios, the practical challenge of achieving that goal for any given feature and
 release results in some disparity.
 
-Danube scenario overeview
+Euphrates scenario overeview
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
 The following table provides an overview of the installation tools and available scenario's
-in the Danube release of OPNFV.
+in the Euphrates release of OPNFV.
 
 Scenario status is indicated by a weather pattern icon. All scenarios listed with
 a weather pattern are possible to deploy and run in your environment or a Pharos lab,
@@ -37,15 +37,16 @@ Weather pattern icon legend:
 +---------------------------------------------+----------------------------------------------------------+
 
 Scenarios that are not yet in a state of "Stable, no known issues" will continue to be stabilised
-and updates will be made on the stable/danube branch. While we intend that all Danube
+and updates will be made on the stable/euphrates branch. While we intend that all Euphrates
 scenarios should be stable it is worth checking regularly to see the current status.  Due to
-our dependency on upstream communities and code some issues may not be resolved prior to the D release.
+our dependency on upstream communities and code, some issues may not be resolved prior to E release.
 
 Scenario Naming
 ^^^^^^^^^^^^^^^
 
 In OPNFV scenarios are identified by short scenario names, these names follow a scheme that
-identifies the key components and behaviours of the scenario. The rules for scenario naming are as follows:
+identifies the key components and behaviours of the scenario. The rules for scenario naming are as
+follows:
 
 .. code:: bash
 
@@ -76,7 +77,8 @@ Details of the fields are
   * **[option]:** optional
 
     * Used for the scenarios those do not fit into naming scheme.
-    * The optional field in the short scenario name should not be included if there is no optional scenario.
+    * The optional field in the short scenario name should not be included if there is no optional
+    scenario.
 
 Some examples of supported scenario names are:
 
@@ -92,38 +94,44 @@ Some examples of supported scenario names are:
 
     * This is an OpenStack deployment using OpenDaylight and OVS enabled with SFC features
 
-  * **os-nosdn-kvm_nfv_ovs_dpdk-ha**
+  * **os-nosdn-kvm_ovs_dpdk-ha**
 
-    * This is an Openstack deployment with high availability using OVS, DPDK including the OPNFV enhanced KVM hypervisor
+    * This is an Openstack deployment with high availability using OVS, DPDK including the OPNFV
+    enhanced KVM hypervisor
     * This deployment has ``3-Contoller and 2-Compute nodes``
 
-  * **os-nosdn-kvm_nfv_ovs_dpdk-noha**
+  * **os-nosdn-kvm_ovs_dpdk-noha**
 
-    * This is an Openstack deployment without high availability using OVS, DPDK including the OPNFV enhanced KVM hypervisor
+    * This is an Openstack deployment without high availability using OVS, DPDK including the OPNFV
+    enhanced KVM hypervisor
     * This deployment has ``1-Contoller and 3-Compute nodes``
 
-  * **os-nosdn-kvm_nfv_ovs_dpdk_bar-ha**
+  * **os-nosdn-kvm_ovs_dpdk_bar-ha**
 
-    * This is an Openstack deployment with high availability using OVS, DPDK including the OPNFV enhanced KVM hypervisor
+    * This is an Openstack deployment with high availability using OVS, DPDK including the OPNFV
+    enhanced KVM hypervisor
       and Barometer
     * This deployment has ``3-Contoller and 2-Compute nodes``
 
-  * **os-nosdn-kvm_nfv_ovs_dpdk_bar-noha**
+  * **os-nosdn-kvm_ovs_dpdk_bar-noha**
 
-    * This is an Openstack deployment without high availability using OVS, DPDK including the OPNFV enhanced KVM hypervisor
+    * This is an Openstack deployment without high availability using OVS, DPDK including the OPNFV
+    enhanced KVM hypervisor
       and Barometer
     * This deployment has ``1-Contoller and 3-Compute nodes``
 
 Installing your scenario
 ^^^^^^^^^^^^^^^^^^^^^^^^
 
-There are two main methods of deploying your target scenario, one method is to follow this guide which will
-walk you through the process of deploying to your hardware using scripts or ISO images, the other method is
-to set up a Jenkins slave and connect your infrastructure to the OPNFV Jenkins master.
+There are two main methods of deploying your target scenario, one method is to follow this guide
+which will walk you through the process of deploying to your hardware using scripts or ISO images,
+the other method is to set up a Jenkins slave and connect your infrastructure to the OPNFV Jenkins
+master.
 
-For the purposes of evaluation and development a number of Danube scenarios are able to be deployed
-virtually to mitigate the requirements on physical infrastructure. Details and instructions on performing
-virtual deployments can be found in the installer specific installation instructions.
+For the purposes of evaluation and development a number of Euphrates scenarios are able to be
+deployed virtually to mitigate the requirements on physical infrastructure. Details and instructions
+on performing virtual deployments can be found in the installer specific installation instructions.
 
-To set up a Jenkins slave for automated deployment to your lab, refer to the `Jenkins slave connect guide.
+To set up a Jenkins slave for automated deployment to your lab, refer to the `Jenkins slave connect
+guide.
 <http://artifacts.opnfv.org/brahmaputra.1.0/docs/opnfv-jenkins-slave-connection.brahmaputra.1.0.html>`_

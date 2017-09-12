@@ -3,7 +3,7 @@
 .. http://creativecommons.org/licenses/by/4.0
 
 ============================================
-os-nosdn-kvm_nfv_ovs_dpdk_bar-ha Description
+os-nosdn-kvm_ovs_dpdk_bar-ha Description
 ============================================
 
 Introduction
@@ -51,7 +51,8 @@ argument to deploy.py script
 
 * ``stack-extensions:`` Stack extentions are opnfv added value features in form
   of a fuel-plugin.Plugins listed in stack extensions are enabled and
-  configured. os-nosdn-kvm_ovs_dpdk_bar-noha scenario currently uses KVM-1.0.0 plugin and barometer-1.0.0 plugin.
+  configured. os-nosdn-kvm_ovs_dpdk_bar-noha scenario currently uses KVM-1.0.0 plugin and 
+  barometer-1.0.0 plugin.
 
 .. code:: bash
 
@@ -157,13 +158,17 @@ argument to deploy.py script
        editable:
          storage:
            ephemeral_ceph:
-             description: Configures Nova to store ephemeral volumes in RBD. This works best if Ceph is enabled for volumes and images, too. Enables live migration of all types of Ceph backed VMs (without this option, live migration will only work with VMs launched from Cinder volumes).
+             description: Configures Nova to store ephemeral volumes in RBD. This works best if Ceph
+             is enabled for volumes and images, too. Enables live migration of all types of Ceph
+             backed VMs (without this option, live migration will only work with VMs launched from
+             Cinder volumes).
              label: Ceph RBD for ephemeral volumes (Nova)
              type: checkbox
              value: true
              weight: 75
            images_ceph:
-             description: Configures Glance to use the Ceph RBD backend to store images. If enabled, this option will prevent Swift from installing.
+             description: Configures Glance to use the Ceph RBD backend to store images. If enabled,
+             this option will prevent Swift from installing.
              label: Ceph RBD for images (Glance)
              restrictions:
              - settings:storage.images_vcenter.value == true: Only one Glance backend could be selected.
@@ -174,7 +179,8 @@ argument to deploy.py script
 * ``dha-override-config:`` Provides information about the VM definition and
   Network config for virtual deployment.These configurations overrides
   the pod dha definition and points to the controller,compute and
-  fuel definition files. The noha_nfv-kvm_nfv-ovs-dpdk-bar_heat_ceilometer_scenario.yaml has no dha-config changes i.e., default    configuration is used.
+  fuel definition files. The noha_nfv-kvm_nfv-ovs-dpdk-bar_heat_ceilometer_scenario.yaml has no
+  dha-config changes i.e., default    configuration is used.
 
 * os-nosdn-kvm_ovs_dpdk_bar-noha scenario is successful when all the 4 Nodes are accessible,
   up and running.
@@ -210,7 +216,8 @@ Command to deploy the os-nosdn-kvm_ovs_dpdk_bar-noha scenario:
 .. code:: bash
 
         $ cd ~/fuel/ci/
-        $ sudo ./deploy.sh -f -b file:///tmp/opnfv-fuel/deploy/config -l devel-pipeline -p default -s no-ha_nfv-kvm_nfv-ovs-dpdk-bar_heat_ceilometer_scenario.yaml -i file:///tmp/opnfv.iso
+        $ sudo ./deploy.sh -f -b file:///tmp/opnfv-fuel/deploy/config -l devel-pipeline -p default \
+        -s no-ha_nfv-kvm_nfv-ovs-dpdk-bar_heat_ceilometer_scenario.yaml -i file:///tmp/opnfv.iso
 
 where,
     -b is used to specify the configuration directory
@@ -240,5 +247,5 @@ Known Limitations, Issues and Workarounds
 References
 ----------
 
-For more information on the OPNFV Danube release, please visit
-http://www.opnfv.org/Danube
+For more information on the OPNFV Euphrates release, please visit
+http://www.opnfv.org/Euphrates

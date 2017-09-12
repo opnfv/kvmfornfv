@@ -2,9 +2,9 @@
 
 .. http://creativecommons.org/licenses/by/4.0
 
-=========================================
-os-nosdn-kvm_nfv_ovs_dpdk-ha Description
-=========================================
+============================================
+os-nosdn-kvm_ovs_dpdk_bar-ha Description
+============================================
 
 Introduction
 ------------
@@ -12,13 +12,14 @@ Introduction
 .. In this section explain the purpose of the scenario and the
    types of capabilities provided
 
-The purpose of os-nosdn-kvm_ovs_dpdk-ha scenario testing is to test the
+The purpose of os-nosdn-kvm_ovs_dpdk_bar-ha scenario testing is to test the
 High Availability deployment and configuration of OPNFV software suite
 with OpenStack and without SDN software. This OPNFV software suite
 includes OPNFV KVM4NFV latest software packages for Linux Kernel and
 QEMU patches for achieving low latency. High Availability feature is achieved
 by deploying OpenStack multi-node setup with 3 controllers and 2 computes nodes.
 
+OPNFV Barometer packages is used for traffic,performance and platform monitoring.
 KVM4NFV packages will be installed on compute nodes as part of deployment.
 This scenario testcase deployment is happening on multi-node by using OPNFV Fuel deployer.
 
@@ -29,13 +30,13 @@ Scenario Components and Composition
 .. to communicate to the user the capabilities available in this scenario.
 
 This scenario deploys the High Availability OPNFV Cloud based on the
-configurations provided in ha_nfv-kvm_nfv-ovs-dpdk_heat_ceilometer_scenario.yaml.
+configurations provided in ha_nfv-kvm_nfv-ovs-dpdk-bar_heat_ceilometer_scenario.yaml.
 This yaml file contains following configurations and is passed as an
 argument to deploy.py script
 
 * ``scenario.yaml:`` This configuration file defines translation between a
-  short deployment scenario name(os-nosdn-kvm_ovs_dpdk-ha) and an actual deployment
-  scenario configuration file(ha_nfv-kvm_nfv-ovs-dpdk_heat_ceilometer_scenario.yaml)
+  short deployment scenario name(os-nosdn-kvm_ovs_dpdk_bar-ha) and an actual deployment
+  scenario configuration file(ha_nfv-kvm_nfv-ovs-dpdk-bar_heat_ceilometer_scenario.yaml)
 
 * ``deployment-scenario-metadata:`` Contains the configuration metadata like
   title,version,created,comment.
@@ -50,16 +51,22 @@ argument to deploy.py script
 
 * ``stack-extensions:`` Stack extentions are opnfv added value features in form
   of a fuel-plugin.Plugins listed in stack extensions are enabled and
-  configured. os-nosdn-kvm_ovs_dpdk-ha scenario currently uses KVM-1.0.0 plugin.
+  configured. os-nosdn-kvm_ovs_dpdk_bar-ha scenario currently uses KVM-1.0.0 plugin and barometer plugin.
 
 .. code:: bash
 
-   stack-extensions:
-      - module: fuel-plugin-kvm
-        module-config-name: fuel-nfvkvm
-        module-config-version: 1.0.0
-        module-config-override:
-          # Module config overrides
+  stack-extensions:
+     - module: fuel-plugin-kvm
+       module-config-name: fuel-nfvkvm
+       module-config-version: 1.0.0
+       module-config-override:
+        # Module config overrides
+     - module: fuel-plugin-collectd-ceilometer
+       module-config-name: fuel-barometer
+       module-config-version: 1.0.0
+       module-config-override:
+         # Module config overrides
+
 
 * ``dea-override-config:`` Used to configure the HA mode,network segmentation
   types and role to node assignments.These configurations overrides
@@ -96,7 +103,7 @@ argument to deploy.py script
      - By default, Compute uses KVM as the hypervisor
      - Uses DPDK as an interface
 
-  The below is the ``dea-override-config`` of the ha_nfv-kvm_nfv-ovs-dpdk_heat_ceilometer_scenario.yaml file.
+  The below is the ``dea-override-config`` of the ha_nfv-kvm_nfv-ovs-dpdk-bar_heat_ceilometer_scenario.yaml file.
 
 .. code:: bash
 
@@ -135,13 +142,17 @@ argument to deploy.py script
        editable:
          storage:
            ephemeral_ceph:
-             description: Configures Nova to store ephemeral volumes in RBD. This works best if Ceph is enabled for volumes and images, too. Enables live migration of all types of Ceph backed VMs (without this option, live migration will only work with VMs launched from Cinder volumes).
+             description: Configures Nova to store ephemeral volumes in RBD. This works best if Ceph
+             is enabled for volumes and images, too. Enables live migration of all types of Ceph
+             backed VMs (without this option, live migration will only work with VMs launched from
+             Cinder volumes).
              label: Ceph RBD for ephemeral volumes (Nova)
              type: checkbox
              value: true
              weight: 75
            images_ceph:
-             description: Configures Glance to use the Ceph RBD backend to store images. If enabled, this option will prevent Swift from installing.
+             description: Configures Glance to use the Ceph RBD backend to store images. If enabled,
+             this option will prevent Swift from installing.
              label: Ceph RBD for images (Glance)
              restrictions:
              - settings:storage.images_vcenter.value == true: Only one Glance backend could be selected.
@@ -154,7 +165,7 @@ argument to deploy.py script
   the pod dha definition and points to the controller,compute and
   fuel definition files.
 
-  The below is the ``dha-override-config`` of the ha_nfv-kvm_nfv-ovs-dpdk_heat_ceilometer_scenario.yaml file.
+  The below is the ``dha-override-config`` of the ha_nfv-kvm_nfv-ovs-dpdk-bar_heat_ceilometer_scenario.yaml file.
 
 .. code:: bash
 
@@ -183,37 +194,42 @@ argument to deploy.py script
        password: r00tme
 
 
-* os-nosdn-kvm_ovs_dpdk-ha scenario is successful when all the 5 Nodes are accessible,
-  up and running.
+* os-nosdn-kvm_ovs_dpdk_bar-ha scenario is successful when all the 5 Nodes are accessible, up and running.
+
 
 **Note:**
 
-* In os-nosdn-kvm_ovs_dpdk-ha scenario, OVS is installed on the compute nodes with DPDK configured
+* In os-nosdn-kvm_ovs_dpdk_bar-ha scenario, OVS is installed on the compute nodes with DPDK configured
 
-* Hugepages for DPDK are configured in the attributes_1 section of the no-ha_nfv-kvm_nfv-ovs-dpdk_heat_ceilometer_scenario.yaml
+* Baraometer plugin is also implemented along with KVM plugin
+
+* Hugepages for DPDK are configured in the attributes_1 section of the
+no-ha_nfv-kvm_nfv-ovs-dpdk_heat_ceilometer_scenario.yaml
 
 * Hugepages are only configured for compute nodes
 
 * This results in faster communication and data transfer among the compute nodes
 
+
 Scenario Usage Overview
------------------------
+------------------------
 .. Provide a brief overview on how to use the scenario and the features available to the
 .. user.  This should be an "introduction" to the userguide document, and explicitly link to it,
 .. where the specifics of the features are covered including examples and API's
 
 * The high availability feature can be acheived by executing deploy.py with
-  ha_nfv-kvm_nfv-ovs-dpdk_heat_ceilometer_scenario.yaml as an argument.
+  ha_nfv-kvm_nfv-ovs-dpdk-bar_heat_ceilometer_scenario.yaml as an argument.
 * Install Fuel Master and deploy OPNFV Cloud from scratch on Hardware
   Environment:
 
 
-Command to deploy the os-nosdn-kvm_ovs_dpdk-ha scenario:
+Command to deploy the os-nosdn-kvm_ovs_dpdk_bar-ha scenario:
 
 .. code:: bash
 
         $ cd ~/fuel/ci/
-        $ sudo ./deploy.sh -f -b file:///tmp/opnfv-fuel/deploy/config -l devel-pipeline -p default -s ha_nfv-kvm_nfv-ovs-dpdk_heat_ceilometer_scenario.yaml -i file:///tmp/opnfv.iso
+        $ sudo ./deploy.sh -f -b file:///tmp/opnfv-fuel/deploy/config -l devel-pipeline -p default \
+        -s ha_nfv-kvm_nfv-ovs-dpdk-bar_heat_ceilometer_scenario.yaml -i file:///tmp/opnfv.iso
 
 where,
     -b is used to specify the configuration directory
@@ -224,10 +240,10 @@ where,
 
 .. code:: bash
 
-          Check $ sudo ./deploy.sh -h for further information.
+         Check $ sudo ./deploy.sh -h for further information.
 
-* os-nosdn-kvm_ovs_dpdk-ha scenario can be executed from the jenkins project
-  "fuel-os-nosdn-kvm_ovs_dpdk-ha-baremetal-daily-master"
+* os-nosdn-kvm_ovs_dpdk_bar-ha scenario can be executed from the jenkins project
+  "fuel-os-nosdn-kvm_ovs_dpdk_bar-ha-baremetal-daily-master"
 * This scenario provides the High Availability feature by deploying
   3 controller,2 compute nodes and checking if all the 5 nodes
   are accessible(IP,up & running).
@@ -238,10 +254,10 @@ Known Limitations, Issues and Workarounds
 -----------------------------------------
 .. Explain any known limitations here.
 
-* Test scenario os-nosdn-kvm_ovs_dpdk-ha result is not stable.
+* Test scenario os-nosdn-kvm_ovs_dpdk_bar-ha result is not stable.
 
 References
 ----------
 
-For more information on the OPNFV Danube release, please visit
-http://www.opnfv.org/Danube
+For more information on the OPNFV Euphrates release, please visit
+http://www.opnfv.org/Euphrates

@@ -6,7 +6,7 @@ Configuration Abstract
 ======================
 
 This document provides guidance for the configurations available in the
-Danube release of OPNFV
+Euphrates release of OPNFV
 
 The release includes four installer tools leveraging different technologies;
 Apex, Compass4nfv, Fuel and JOID, which deploy components of the platform.

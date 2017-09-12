@@ -7,8 +7,8 @@
 Kvm4nfv Configuration Guide
 ***************************
 
-Danube 1.0
-------------
+Euphrates 1.0
+-------------
 
 .. toctree::
    :maxdepth: 2

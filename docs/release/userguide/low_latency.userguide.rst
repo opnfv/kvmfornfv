@@ -127,18 +127,18 @@ The above name signifies that,
 Version Features
 ~~~~~~~~~~~~~~~~
 
-+-----------------------+------------------+-----------------+
-| **Test Name**         | **Colorado**     | **Danube**      |
-|                       |                  |                 |
-+-----------------------+------------------+-----------------+
-| - Idle - Idle         |     ``Y``        |     ``Y``       |
-+-----------------------+------------------+-----------------+
-| - Cpustress - Idle    |                  |     ``Y``       |
-+-----------------------+------------------+-----------------+
-| - Memorystress - Idle |                  |     ``Y``       |
-+-----------------------+------------------+-----------------+
-| - IOstress - Idle     |                  |     ``Y``       |
-+-----------------------+------------------+-----------------+
++-----------------------+------------------+-----------------+-----------------+
+| **Test Name**         |   **Colorado**   |   **Danube**    |  **Euphrates**  |
+|                       |                  |                 |                 |
++-----------------------+------------------+-----------------+-----------------+
+| - Idle - Idle         |     ``Y``        |     ``Y``       |     ``Y``       |
++-----------------------+------------------+-----------------+-----------------+
+| - Cpustress - Idle    |                  |     ``Y``       |     ``Y``       |
++-----------------------+------------------+-----------------+-----------------+
+| - Memorystress - Idle |                  |     ``Y``       |     ``Y``       |
++-----------------------+------------------+-----------------+-----------------+
+| - IOstress - Idle     |                  |     ``Y``       |     ``Y``       |
++-----------------------+------------------+-----------------+-----------------+
 
 
 Idle-Idle test-type
@@ -186,15 +186,15 @@ is under no stress. It outputs Avg, Min and Max latency values.
 
 CPU_Stress-CPU_Stress test-type
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Not implemented for Danube release.
+Not implemented for Euphrates release.
 
 Memory_Stress-Memory_Stress test-type
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Not implemented for Danube release.
+Not implemented for Euphrates release.
 
 IO_Stress-IO_Stress test type
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Not implemented for Danube release.
+Not implemented for Euphrates release.
 
 2. Packet Forwarding Test cases
 -------------------------------

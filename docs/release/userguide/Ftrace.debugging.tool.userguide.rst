@@ -35,6 +35,10 @@ Version Features
 |       Danube                |   4.4-linux-kernel level issues               |
 |                             | - Option to disable if not required           |
 +-----------------------------+-----------------------------------------------+
+|                             | - Breaktrace option is implemented.           |
+|       Euphrates             | - Implemented post-execute script option to   |
+|                             |   disable the ftrace when it is enabled.      |
++-----------------------------+-----------------------------------------------+
 
 
 Implementation of Ftrace
@@ -56,7 +60,8 @@ Or you can mount it at run time with:
 
  mount -t debugfs nodev /sys/kernel/debug
 
-Some configurations for Ftrace are used for other purposes, like finding latency or analyzing the system. For the purpose of debugging, the kernel configuration parameters that should be enabled are:
+Some configurations for Ftrace are used for other purposes, like finding latency or analyzing the
+system. For the purpose of debugging, the kernel configuration parameters that should be enabled are:
 
 .. code:: bash
 
@@ -65,7 +70,8 @@ Some configurations for Ftrace are used for other purposes, like finding latency
     CONFIG_STACK_TRACER=y
     CONFIG_DYNAMIC_FTRACE=y
 
-The above parameters must be enabled in /boot/config-4.4.0-el7.x86_64 i.e., kernel config file for ftrace to work. If not enabled, change the parameter to ``y`` and run.,
+The above parameters must be enabled in /boot/config-4.4.0-el7.x86_64 i.e., kernel config file for
+ftrace to work. If not enabled, change the parameter to ``y`` and run.,
 
 .. code:: bash
 
@@ -85,11 +91,13 @@ The below is a list of few major files in Ftrace.
 
   ``available_tracers:``
 
-        This holds the different types of tracers that have been compiled into the kernel. The tracers listed here can be configured by echoing their name into current_tracer.
+        This holds the different types of tracers that have been compiled into the kernel.
+        The tracers listed here can be configured by echoing their name into current_tracer.
 
   ``tracing_on:``
 
-        This sets or displays whether writing to the tracering buffer is enabled. Echo 0 into this file to disable the tracer or 1 to enable it.
+        This sets or displays whether writing to the tracering buffer is enabled. Echo 0 into this
+        file to disable the tracer or 1 to enable it.
 
   ``trace:``
 
@@ -97,11 +105,13 @@ The below is a list of few major files in Ftrace.
 
   ``tracing_cpumask:``
 
-        This is a mask that lets the user only trace on specified CPUs. The format is a hex string representing the CPUs.
+        This is a mask that lets the user only trace on specified CPUs. The format is a hex string
+        representing the CPUs.
 
   ``events:``
 
-        It holds event tracepoints (also known as static tracepoints) that have been compiled into the kernel. It shows what event tracepoints exist and how they are grouped by system.
+        It holds event tracepoints (also known as static tracepoints) that have been compiled into
+        the kernel. It shows what event tracepoints exist and how they are grouped by system.
 
 
 Avaliable Tracers
@@ -125,11 +135,13 @@ Brief about a few:
 
   ``function_graph:``
 
-        Similar to the function tracer except that the function tracer probes the functions on their entry whereas the function graph tracer traces on both entry and exit of the functions.
+        Similar to the function tracer except that the function tracer probes the functions on their
+        entry whereas the function graph tracer traces on both entry and exit of the functions.
 
   ``nop:``
 
-        This is the "trace nothing" tracer. To remove tracers from tracing simply echo "nop" into current_tracer.
+        This is the "trace nothing" tracer. To remove tracers from tracing simply echo "nop" into
+        current_tracer.
 
 Examples:
 
@@ -221,7 +233,8 @@ The set_event file contains all the enabled events list
 
    sudo bash -c "echo function > $TRACEDIR/current_tracer
 
-- When tracing is turned ON by setting ``tracing_on=1``,  the ``trace`` file keeps getting append with the traced data until ``tracing_on=0`` and then ftrace_buffer gets cleared.
+- When tracing is turned ON by setting ``tracing_on=1``,  the ``trace`` file keeps getting append
+with the traced data until ``tracing_on=0`` and then ftrace_buffer gets cleared.
 
 .. code:: bash
 
@@ -231,7 +244,42 @@ The set_event file contains all the enabled events list
     To Start/Restart,
     echo 1 >tracing_on;
 
-- Once tracing is diabled, disable_trace.sh script is triggered.
+- Once tracing is disabled, disable_trace.sh script is triggered.
+
+BREAKTRACE
+----------
+- Send break trace command when latency > USEC. This is a debugging option to control the latency
+tracer in the realtime preemption patch. It is useful to track down unexpected large latencies on a
+system. This option does only work with following kernel config options.
+
+For kernel < 2.6.24:
+* CONFIG_PREEMPT_RT=y
+* CONFIG_WAKEUP_TIMING=y
+* CONFIG_LATENCY_TRACE=y
+* CONFIG_CRITICAL_PREEMPT_TIMING=y
+* CONFIG_CRITICAL_IRQSOFF_TIMING=y
+
+For kernel >= 2.6.24:
+* CONFIG_PREEMPT_RT=y
+* CONFIG_FTRACE
+* CONFIG_IRQSOFF_TRACER=y
+* CONFIG_PREEMPT_TRACER=y
+* CONFIG_SCHED_TRACER=y
+* CONFIG_WAKEUP_LATENCY_HIST
+
+- Kernel configuration options enabled. The USEC parameter to the -b option defines a maximum
+latency value, which is compared against the actual latencies of the test. Once the measured latency
+is higher than the given maximum, the kernel tracer and cyclictest is stopped. The trace can be read
+from /proc/latency_trace. Please be aware that the tracer adds significant overhead to the kernel,
+so the latencies will be much higher than on a kernel with latency tracing disabled.
+
+- Breaktrace option will enable the trace by default, suppress the tracing by using --notrace option.
+
+Post-execute scripts
+--------------------
+post-execute script to yardstick node context teardown is added to disable the ftrace soon after the
+completion of cyclictest execution throughyardstick. This option is implemented to collect only
+required ftrace logs for effective debugging if needed.
 
 Details of disable_trace Script
 -------------------------------

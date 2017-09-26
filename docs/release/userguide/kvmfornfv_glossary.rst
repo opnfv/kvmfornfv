@@ -6,8 +6,8 @@
 OPNFV Glossary
 **************
 
-Danube 1.0
-------------
+Euphrates 1.0
+-------------
 
 
 Contents
@@ -24,6 +24,11 @@ A
 Arno
 
   A river running through Tuscany and the name of the first OPNFV release.
+
+Apex
+
+   OPNFV Installation and Deployment tool based on the RDO Project's Triple-O
+   OpenStack installation tool.
 
 API
 
@@ -100,7 +105,7 @@ D
 
 Danube
 
-  Danube is the fourth release of OPNFV and also a river in Europe
+  A river in Europe and name of the Fourth OPNFV release.
 
 Data plane
 
@@ -126,6 +131,15 @@ DPI
 DSCP
 
   Differentiated Services Code Point
+
+--------
+
+E
+~
+
+Euphrates
+
+  Longest river of Western Asia and name of the fifth OPNFV release.
 
 --------
 

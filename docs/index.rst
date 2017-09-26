@@ -3,9 +3,9 @@
 
 .. _kvmfornfv-documentation:
 
-******************
-Danube 1.0 Release
-******************
+*********************
+Euphrates 1.0 Release
+*********************
 
 *************************
 Overview of Documentation
@@ -80,48 +80,48 @@ KVM4NFV Scenarios Overview and Description
    ./release/scenarios/kvmfornfv.scenarios.description.rst
 
 *******************************************************
-os-nosdn-kvm_nfv_ovs_dpdk-noha Overview and Description
+os-nosdn-kvm_ovs_dpdk-noha Overview and Description
 *******************************************************
 
 .. toctree::
-   :caption: os-nosdn-kvm_nfv_ovs_dpdk-noha
+   :caption: os-nosdn-kvm_ovs_dpdk-noha
    :numbered:
    :maxdepth: 3
 
-   ./release/scenarios/os-nosdn-kvm_nfv_ovs_dpdk-noha/os-nosdn-kvm_nfv_ovs_dpdk-noha.description.rst
+   ./release/scenarios/os-nosdn-kvm_ovs_dpdk-noha/os-nosdn-kvm_ovs_dpdk-noha.description.rst
 
 *****************************************************
-os-nosdn-kvm_nfv_ovs_dpdk-ha Overview and Description
+os-nosdn-kvm_ovs_dpdk-ha Overview and Description
 *****************************************************
 
 .. toctree::
-   :caption: os-nosdn-kvm_nfv_ovs_dpdk-ha
+   :caption: os-nosdn-kvm_ovs_dpdk-ha
    :numbered:
    :maxdepth: 3
 
-   ./release/scenarios/os-nosdn-kvm_nfv_ovs_dpdk-ha/os-nosdn-kvm_nfv_ovs_dpdk-ha.description.rst
+   ./release/scenarios/os-nosdn-kvm_ovs_dpdk-ha/os-nosdn-kvm_ovs_dpdk-ha.description.rst
 
 ***********************************************************
-os-nosdn-kvm_nfv_ovs_dpdk_bar-noha Overview and Description
+os-nosdn-kvm_ovs_dpdk_bar-noha Overview and Description
 ***********************************************************
 
 .. toctree::
-   :caption: os-nosdn-kvm_nfv_ovs_dpdk_bar-noha
+   :caption: os-nosdn-kvm_ovs_dpdk_bar-noha
    :numbered:
    :maxdepth: 3
 
-   ./release/scenarios/os-nosdn-kvm_nfv_ovs_dpdk_bar-noha/os-nosdn-kvm_nfv_ovs_dpdk_bar-noha.description.rst
+   ./release/scenarios/os-nosdn-kvm_ovs_dpdk_bar-noha/os-nosdn-kvm_ovs_dpdk_bar-noha.description.rst
 
 *********************************************************
-os-nosdn-kvm_nfv_ovs_dpdk_bar-ha Overview and Description
+os-nosdn-kvm_ovs_dpdk_bar-ha Overview and Description
 *********************************************************
 
 .. toctree::
-   :caption: os-nosdn-kvm_nfv_ovs_dpdk_bar-ha
+   :caption: os-nosdn-kvm_ovs_dpdk_bar-ha
    :numbered:
    :maxdepth: 3
 
-   ./release/scenarios/os-nosdn-kvm_nfv_ovs_dpdk_bar-ha/os-nosdn-kvm_nfv_ovs_dpdk_bar-ha.description.rst
+   ./release/scenarios/os-nosdn-kvm_ovs_dpdk_bar-ha/os-nosdn-kvm_ovs_dpdk_bar-ha.description.rst
 
 ******************
 KVM4NFV User Guide

@@ -98,7 +98,8 @@ Scenario Usage Overview
 
 .. code:: bash
 
-  sudo python deploy.py -iso ~/ISO/opnfv.iso -dea ~/CONF/hardware/dea.yaml -dha ~/CONF/hardware/dha.yaml -s /mnt/images -b pxebr -log ~/Deployment-888.log.tar.gz
+  sudo python deploy.py -iso ~/ISO/opnfv.iso -dea ~/CONF/hardware/dea.yaml -dha \
+  ~/CONF/hardware/dha.yaml -s /mnt/images -b pxebr -log ~/Deployment-888.log.tar.gz
 
 * Install Fuel Master and deploy OPNFV Cloud from scratch on Virtual
   Environment:
@@ -107,7 +108,8 @@ Scenario Usage Overview
 
 .. code:: bash
 
-  sudo python deploy.py -iso ~/ISO/opnfv.iso -dea ~/CONF/virtual/dea.yaml -dha ~/CONF/virtual/dha.yaml -s /mnt/images -log ~/Deployment-888.log.tar.gz
+  sudo python deploy.py -iso ~/ISO/opnfv.iso -dea ~/CONF/virtual/dea.yaml -dha \
+  ~/CONF/virtual/dha.yaml -s /mnt/images -log ~/Deployment-888.log.tar.gz
 
 * os-nosdn-kvm-ha scenario can be executed from the jenkins project
   "fuel-os-nosdn-kvm-ha-baremetal-daily-master"
@@ -129,5 +131,5 @@ Known Limitations, Issues and Workarounds
 References
 ----------
 
-For more information on the OPNFV Danube release, please visit
-http://www.opnfv.org/danube
+For more information on the OPNFV Euphrates release, please visit
+http://www.opnfv.org/euphrates

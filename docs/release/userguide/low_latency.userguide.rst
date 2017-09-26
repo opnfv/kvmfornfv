@@ -127,18 +127,18 @@ The above name signifies that,
 Version Features
 ~~~~~~~~~~~~~~~~
 
-+-----------------------+------------------+-----------------+
-| **Test Name**         | **Colorado**     | **Danube**      |
-|                       |                  |                 |
-+-----------------------+------------------+-----------------+
-| - Idle - Idle         |     ``Y``        |     ``Y``       |
-+-----------------------+------------------+-----------------+
-| - Cpustress - Idle    |                  |     ``Y``       |
-+-----------------------+------------------+-----------------+
-| - Memorystress - Idle |                  |     ``Y``       |
-+-----------------------+------------------+-----------------+
-| - IOstress - Idle     |                  |     ``Y``       |
-+-----------------------+------------------+-----------------+
++-----------------------+------------------+-----------------+-----------------+
+| **Test Name**         |   **Colorado**   |   **Danube**    |  **Euphrates**  |
+|                       |                  |                 |                 |
++-----------------------+------------------+-----------------+-----------------+
+| - Idle - Idle         |     ``Y``        |     ``Y``       |     ``Y``       |
++-----------------------+------------------+-----------------+-----------------+
+| - Cpustress - Idle    |                  |     ``Y``       |     ``Y``       |
++-----------------------+------------------+-----------------+-----------------+
+| - Memorystress - Idle |                  |     ``Y``       |     ``Y``       |
++-----------------------+------------------+-----------------+-----------------+
+| - IOstress - Idle     |                  |     ``Y``       |     ``Y``       |
++-----------------------+------------------+-----------------+-----------------+
 
 
 Idle-Idle test-type
@@ -165,8 +165,8 @@ Outputs Avg, Min and Max latency values.
 Memory_Stress-Idle test-type
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 In this type, the host is under memory stress where continuos memory operations are implemented to
-increase the Memory stress (Buffer stress).The cyclictest will run on the guest, where the guest is under
-no stress. It outputs Avg, Min and Max latency values.
+increase the Memory stress (Buffer stress).The cyclictest will run on the guest, where the guest is
+under no stress. It outputs Avg, Min and Max latency values.
 
 .. figure:: images/memory-stress-idle-test-type.png
    :name: memory-stress-idle test type
@@ -176,8 +176,8 @@ no stress. It outputs Avg, Min and Max latency values.
 IO_Stress-Idle test-type
 ~~~~~~~~~~~~~~~~~~~~~~~~
 The host is under constant Input/Output stress .i.e., multiple read-write operations are invoked to
-increase stress. Cyclictest will run on the guest VM that is launched on the same host, where the guest
-is under no stress. It outputs Avg, Min and Max latency values.
+increase stress. Cyclictest will run on the guest VM that is launched on the same host, where the
+guest is under no stress. It outputs Avg, Min and Max latency values.
 
 .. figure:: images/io-stress-idle-test-type.png
    :name: io-stress-idle test type
@@ -186,15 +186,15 @@ is under no stress. It outputs Avg, Min and Max latency values.
 
 CPU_Stress-CPU_Stress test-type
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Not implemented for Danube release.
+Not implemented for Euphrates release.
 
 Memory_Stress-Memory_Stress test-type
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Not implemented for Danube release.
+Not implemented for Euphrates release.
 
 IO_Stress-IO_Stress test type
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Not implemented for Danube release.
+Not implemented for Euphrates release.
 
 2. Packet Forwarding Test cases
 -------------------------------
@@ -203,9 +203,9 @@ to source after reaching its destination. This test case uses automated test-fra
 OPNFV VSWITCHPERF project and a traffic generator (IXIA is used for kvm4nfv). Only latency results
 generating test cases are triggered as a part of kvm4nfv daily job.
 
-Latency test measures the time required for a frame to travel from the originating device through the
-network to the destination device. Please note that RFC2544 Latency measurement will be superseded with
-a measurement of average latency over all successfully transferred packets or frames.
+Latency test measures the time required for a frame to travel from the originating device through
+the network to the destination device. Please note that RFC2544 Latency measurement will be
+superseded with a measurement of average latency over all successfully transferred packets or frames.
 
 Packet forwarding test cases currently supports the following test types:
 

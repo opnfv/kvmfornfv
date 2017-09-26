@@ -3,7 +3,7 @@
 .. http://creativecommons.org/licenses/by/4.0
 
 ==========================================
-os-nosdn-kvm_nfv_ovs_dpdk-noha Description
+os-nosdn-kvm_ovs_dpdk-noha Description
 ==========================================
 
 Introduction
@@ -16,11 +16,17 @@ The purpose of os-nosdn-kvm_ovs_dpdk-noha scenario testing is to test the No
 High Availability deployment and configuration of OPNFV software suite
 with OpenStack and without SDN software. This OPNFV software suite
 includes OPNFV KVM4NFV latest software packages for Linux Kernel and
-QEMU patches for achieving low latency. No High Availability feature is achieved
-by deploying OpenStack multi-node setup with 1 controller and 3 computes nodes.
+QEMU patches for achieving low latency. When deployed using Fuel, No High
+Availability feature is achieved by deploying OpenStack multi-node setup with
+1 controller and 3 computes nodes and using Apex the setup is with 1 controller
+and 1 compute.
 
 KVM4NFV packages will be installed on compute nodes as part of deployment.
-This scenario testcase deployment is happening on multi-node by using OPNFV Fuel deployer.
+This scenario testcase deployment is happening on multi-node by using OPNFV Fuel
+and Apex deployer.
+
+
+**Using Fuel Installer**
 
 Scenario Components and Composition
 ------------------------------------
@@ -151,13 +157,17 @@ argument to deploy.py script
        editable:
          storage:
            ephemeral_ceph:
-             description: Configures Nova to store ephemeral volumes in RBD. This works best if Ceph is enabled for volumes and images, too. Enables live migration of all types of Ceph backed VMs (without this option, live migration will only work with VMs launched from Cinder volumes).
+             description: Configures Nova to store ephemeral volumes in RBD. This works best if Ceph
+             is enabled for volumes and images, too. Enables live migration of all types of Ceph
+             backed VMs (without this option, live migration will only work with VMs launched from
+             Cinder volumes).
              label: Ceph RBD for ephemeral volumes (Nova)
              type: checkbox
              value: true
              weight: 75
            images_ceph:
-             description: Configures Glance to use the Ceph RBD backend to store images. If enabled, this option will prevent Swift from installing.
+             description: Configures Glance to use the Ceph RBD backend to store images. If enabled,
+             this option will prevent Swift from installing.
              label: Ceph RBD for images (Glance)
              restrictions:
              - settings:storage.images_vcenter.value == true: Only one Glance backend could be selected.
@@ -180,7 +190,8 @@ argument to deploy.py script
 
 * In os-nosdn-kvm_ovs_dpdk-noha scenario, OVS is installed on the compute nodes with DPDK configured
 
-* Hugepages for DPDK are configured in the attributes_1 section of the no-ha_nfv-kvm_nfv-ovs-dpdk_heat_ceilometer_scenario.yaml
+* Hugepages for DPDK are configured in the attributes_1 section of the
+no-ha_nfv-kvm_nfv-ovs-dpdk_heat_ceilometer_scenario.yaml
 
 * Hugepages are only configured for compute nodes
 
@@ -205,7 +216,8 @@ Command to deploy the os-nosdn-kvm_ovs_dpdk-noha scenario:
 .. code:: bash
 
         $ cd ~/fuel/ci/
-        $ sudo ./deploy.sh -f -b file:///tmp/opnfv-fuel/deploy/config -l devel-pipeline -p default -s no-ha_nfv-kvm_nfv-ovs-dpdk_heat_ceilometer_scenario.yaml -i file:///tmp/opnfv.iso
+        $ sudo ./deploy.sh -f -b file:///tmp/opnfv-fuel/deploy/config -l devel-pipeline -p default \
+        -s no-ha_nfv-kvm_nfv-ovs-dpdk_heat_ceilometer_scenario.yaml -i file:///tmp/opnfv.iso
 
 where,
     -b is used to specify the configuration directory
@@ -226,14 +238,107 @@ where,
 * Test Scenario is passed if deployment is successful and all 4 nodes have
   accessibility (IP , up & running).
 
-Known Limitations, Issues and Workarounds
------------------------------------------
-.. Explain any known limitations here.
 
-* Test scenario os-nosdn-kvm_ovs_dpdk-noha result is not stable.
+**Using Apex Installer**
+
+Scenario Components and Composition
+-----------------------------------
+.. In this section describe the unique components that make up the scenario,
+.. what each component provides and why it has been included in order
+.. to communicate to the user the capabilities available in this scenario.
+
+This scenario is composed of common OpenStack services enabled by default,
+including Nova, Neutron, Glance, Cinder, Keystone, Horizon.  Optionally and
+by default, Tacker and Congress services are also enabled.  Ceph is used as
+the backend storage to Cinder on all deployed nodes.
+
+The os-nosdn-kvm_ovs_dpdk-noha.yaml file contains following configurations and
+is passed as an argument to deploy.sh script.
+
+* ``global-params:`` Used to define the global parameter and there is only one
+  such parameter exists,i.e, ha_enabled
+
+.. code:: bash
+
+   global-params:
+     ha_enabled: false
+
+* ``deploy_options:`` Used to define the type of SDN controller, configure the
+  tacker, congress, service functioning chaining support(sfc) for ODL and ONOS,
+  configure ODL with SDNVPN support, which dataplane to use for overcloud
+  tenant networks, whether to run the kvm real time kernel (rt_kvm) in the
+  compute node(s) to reduce the network latencies caused by network function
+  virtualization and whether to install and configure fdio functionality in the
+  overcloud
+
+.. code:: bash
+
+   deploy_options:
+     sdn_controller: false
+     tacker: true
+     congress: true
+     sfc: false
+     vpn: false
+     rt_kvm: true
+     dataplane: ovs_dpdk
+
+* ``performance:`` Used to set performance options on specific roles. The valid
+  roles are 'Compute', 'Controller' and 'Storage', and the valid sections are
+  'kernel' and 'nova'
+
+.. code:: bash
+
+   performance:
+     Controller:
+       kernel:
+         hugepages: 1024
+         hugepagesz: 2M
+     Compute:
+       kernel:
+         hugepagesz: 2M
+         hugepages: 2048
+         intel_iommu: 'on'
+         iommu: pt
+       ovs:
+         socket_memory: 1024
+         pmd_cores: 2
+         dpdk_cores: 1
+
+Scenario Usage Overview
+-----------------------
+.. Provide a brief overview on how to use the scenario and the features available to the
+.. user.  This should be an "introduction" to the userguide document, and explicitly link to it,
+.. where the specifics of the features are covered including examples and API's
+
+* The high availability feature can be acheived by executing deploy.sh with
+  os-nosdn-kvm_ovs_dpdk-noha.yaml as an argument.
+
+* Build the undercloud and overcloud images as mentioned below:
+
+.. code:: bash
+
+   cd ~/apex/build/
+   make images-clean
+   make images
+
+* Command to deploy os-nosdn-kvm_ovs_dpdk-noha scenario:
+
+.. code:: bash
+
+   cd ~/apex/ci/
+   ./clean.sh
+   ./dev_dep_check.sh
+   ./deploy.sh -v --ping-site <ping_ip-address> --dnslookup-site <dns_ip-address> -n \
+   ~/apex/config/network/intc_network_settings.yaml -d ~/apex/config/deploy/os-nosdn-kvm_ovs_dpdk-noha.yaml
+
+where,
+    -v is used for virtual deployment
+    -n is used for providing the network configuration file
+    -d is used for providing the scenario configuration file
+
 
 References
 ----------
 
-For more information on the OPNFV Danube release, please visit
-http://www.opnfv.org/Danube
+For more information on the OPNFV Euphrates release, please visit
+http://www.opnfv.org/Euphrates

@@ -34,7 +34,8 @@ def publish_results(testtype):
                      "fields": {
                      "min_value": i['min_latency_ns'],
                      "avg_value": i['avg_latency_ns'],
-                     "max_value": i['max_latency_ns']
+                     "max_value": i['max_latency_ns'],
+                     "throughput": i['throughput_rx_mbps']
                      }
                  }
             ]

@@ -1,0 +1,8 @@
+Verified+1: jenkins-ci <jenkins-opnfv-ci@opnfv.org>
+Code-Review+1: Kalyan reddy Gundarapu <reddyx.gundarapu@intel.com>
+Code-Review+2: shravani paladugula <shravanix.paladugula@intel.com>
+Submitted-by: shravani paladugula <shravanix.paladugula@intel.com>
+Submitted-at: Tue, 26 Sep 2017 16:55:47 +0000
+Reviewed-on: https://gerrit.opnfv.org/gerrit/41693
+Project: kvmfornfv
+Branch: refs/heads/master

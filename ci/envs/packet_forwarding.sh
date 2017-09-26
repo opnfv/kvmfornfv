@@ -12,9 +12,9 @@ EXIT=0
 EXIT_TC_FAILED=1
 
 # DAILY - run selected TCs for defined packet sizes
-TESTCASES_DAILY='phy2phy_tput pvp_tput pvvp_tput'
+TESTCASES_DAILY='phy2phy_tput pvp_tput pvvp_tput pvpv_cont'
 TESTPARAM_DAILY='--test-params TRAFFICGEN_PKT_SIZES=(64,128,512,1024,1518)'
-TESTCASES_SRIOV='pvp_tput pvvp_tput'
+TESTCASES_SRIOV='pvp_tput'
 TESTPARAM_SRIOV='--test-params TRAFFICGEN_PKT_SIZES=(64,128,512,1024,1518)'
 
 #mounting shared directory for collecting ixia test results.
@@ -102,6 +102,7 @@ function execute_vsperf() {
     echo -e "\nExecution of VSPERF for $1"
     DATE_SUFFIX=$(date -u +"%Y-%m-%d_%H-%M-%S")
     source "$VSPERFENV_DIR"/bin/activate
+    cd $HOME/vswitchperf
     case $1 in
         "SRIOV")
             # use SRIOV specific TCs and configuration
@@ -117,7 +118,6 @@ function execute_vsperf() {
             # figure out log file name
             LOG_SUBDIR="OvsDpdkVhost"
             LOG_FILE="${LOG_FILE_PREFIX}_${LOG_SUBDIR}_${DATE_SUFFIX}.log"
-            cd $HOME/vswitchperf
             $VSPERF_BIN --list
             echo "daily test cases started"
             echo "    $VSPERF_BIN --vswitch OvsDpdkVhost --vnf QemuDpdkVhostUser $CONF_FILE $TESTPARAM $TESTCASES > $LOG_FILE"

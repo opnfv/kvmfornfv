@@ -13,6 +13,7 @@ EXIT_TC_FAILED=1
 
 # DAILY - run selected TCs for defined packet sizes
 TESTCASES_DAILY='phy2phy_tput pvp_tput pvvp_tput pvpv_cont'
+TESTCASES_DAILY='phy2phy_tput pvp_tput pvvp_tput'
 TESTPARAM_DAILY='--test-params TRAFFICGEN_PKT_SIZES=(64,128,512,1024,1518)'
 TESTCASES_SRIOV='pvp_tput'
 TESTPARAM_SRIOV='--test-params TRAFFICGEN_PKT_SIZES=(64,128,512,1024,1518)'

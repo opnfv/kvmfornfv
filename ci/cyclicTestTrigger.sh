@@ -132,15 +132,35 @@ function cleanup {
    env_clean
    host_clean
    if [ $output != 0 ];then
-      echo "Yardstick Failed.Please check cyclictest.sh"
+      echo "Yardstick Failed.Please check your testcase"
       return 1
    else
       return 0
    fi
 }
 
-function nodeSetup {
-   #copying required files to run kvmfornfv testcases
+#environment setup for executing cyclictest and live migration test cases
+function setUpEnv {
+   test=$1
+   time_stamp=$(date +%Y%m%d%H%M%S)
+   volume=/tmp/kvmtest-${testType}-${time_stamp}
+   mkdir -p $volume/{image,rpm,scripts}
+   #copying required files to run yardstick cyclic testcase
+   cp $WORKSPACE/build_output/kernel-${KERNELRPM_VERSION}*.rpm ${volume}/rpm
+   cp $WORKSPACE/build_output/kernel-devel-${KERNELRPM_VERSION}*.rpm ${volume}/rpm
+   cp $WORKSPACE/build_output/qemu-${QEMURPM_VERSION}*.rpm ${volume}/rpm
+   cp -r $WORKSPACE/ci/envs/* ${volume}/scripts
+   cp -r $WORKSPACE/tests/pod.yaml ${volume}/scripts
+   if [ "$test" == "cyclictest" ];then
+      cp -r $WORKSPACE/tests/kvmfornfv_cyclictest_${testName}.yaml ${volume}
+   else
+      cp -r $WORKSPACE/tests/migrate-node-context.yaml ${volume}
+   fi
+}
+
+#environment setup for executing packet forwarding test cases
+function setUpPacketForwarding {
+   #copying required files to run packet forwarding test cases
    ssh root@$HOST_IP "mkdir -p /root/workspace/image"
    ssh root@$HOST_IP "mkdir -p /root/workspace/rpm"
    ssh root@$HOST_IP "mkdir -p /root/workspace/scripts"
@@ -158,12 +178,6 @@ function nodeSetup {
    sleep 10
 }
 
-#environment setup for executing packet forwarding test cases
-function setUpPacketForwarding {
-   echo "Copying required files to execute packet forwarding test case"
-   nodeSetup
-}
-
 #executing packet forwarding test cases
 function runPacketForwarding {
    testType=$1
@@ -173,6 +187,7 @@ function runPacketForwarding {
 #Creating a docker image with yardstick installed and Verify the results of cyclictest
 function runCyclicTest {
    ftrace_enable=$1
+   variable=$2
    docker_image_dir=$WORKSPACE/docker_image_build
    ( cd ${docker_image_dir}; sudo docker build  -t kvmfornfv:latest --no-cache=true . )
    if [ ${?} -ne 0 ] ; then
@@ -180,15 +195,9 @@ function runCyclicTest {
       id=$(sudo docker ps -a  | head  -2 | tail -1 | awk '{print $1}'); sudo docker rm -f $id
       exit 1
    fi
-   time_stamp=$(date +%Y%m%d%H%M%S)
-   volume=/tmp/kvmtest-${testType}-${time_stamp}
-   mkdir -p $volume/{image,rpm,scripts}
-   #copying required files to run yardstick cyclic testcase
-   cp $WORKSPACE/build_output/kernel-${KERNELRPM_VERSION}*.rpm ${volume}/rpm
-   cp $WORKSPACE/build_output/qemu-${QEMURPM_VERSION}*.rpm ${volume}/rpm
-   cp -r $WORKSPACE/ci/envs/* ${volume}/scripts
-   cp -r $WORKSPACE/tests/kvmfornfv_cyclictest_${testName}.yaml ${volume}
-   cp -r $WORKSPACE/tests/pod.yaml ${volume}/scripts
+
+   #setting up the environment for cyclictest
+   setUpEnv $variable
 
    #Launching ubuntu docker container to run yardstick
    sudo docker run -i -v ${volume}:/opt --net=host --name kvmfornfv_${testType}_${testName} \
@@ -227,23 +236,21 @@ function runCyclicTest {
    fi
 }
 function runLiveMigration {
+   echo "In live migration function"
    test_env=$1
-   if [ ${test_env} == "peer-peer" ];then
-      echo "live migration is not implemented for peer to peer"
+   variable=$2
+   #Setting up the environment for live migration test case
+   setUpEnv $variable
+   #Launching ubuntu docker container to run yardstick
+   sudo docker run -i -v ${volume}:/opt --net=host --name kvmfornfv_lm_${test_env} \
+   kvmfornfv:latest /bin/bash -c "cd /opt/scripts && ls; ./lmtest.sh "
+   lmtest_result=$?
+   #Verifying the results of livemigration
+   if [ ${lmtest_result} -ne 0 ];then
+      env_clean
+      host_clean
+      return 1
    else
-      echo "In runLiveMigration Function"
-      echo "Copying required files to execute live migration"
-      nodeSetup
-      connect_host
-      sleep 15
-      echo " Displaying the number of huge pages on node"
-      ssh root@$HOST_IP "cd /root/workspace/scripts;cat /sys/devices/system/node/node1/hugepages/hugepages-1048576kB/nr_hugepages"
-      echo " Displaying the free huge pages on node"
-      ssh root@$HOST_IP "cd /root/workspace/scripts;cat /sys/devices/system/node/node1/hugepages/hugepages-1048576kB/nr_hugepages"
-      ssh root@$HOST_IP "cd /root/workspace/scripts ; ./host-setup1.sh"
-      echo "Setting up ovs-dpdk on the host"
-      ssh root@$HOST_IP "cd /root/workspace/scripts ; ./setup_ovsdpdk.sh"
-      ssh root@$HOST_IP "cd /root/workspace/scripts ; ./host-install-qemu.sh"
-      ssh root@$HOST_IP "cd /root/workspace/scripts ; ./host-run-livemigration.sh"
-  fi
+      cleanup $lmtest_result
+   fi
 }

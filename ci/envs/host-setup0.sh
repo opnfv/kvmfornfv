@@ -19,6 +19,7 @@ if [ -z $KERNEL_VERSION ];then
 fi
 rpmdir=${1:-"/root/workspace/rpm/"}
 rpmpat="kernel-${KERNEL_VERSION}*.rpm"
+rpmdev="kernel-devel-${KERNEL_VERSION}*.rpm"
 
 config_grub () {
     key=$1
@@ -31,7 +32,7 @@ config_grub () {
     fi
 }
 
-# The script's caller should passing the rpm directory that is built out from 
+# The script's caller should passing the rpm directory that is built out from
 # build.sh. The default rpmdir is the one used by yardstick scripts.
 install_kernel () {
     # Install the kernel rpm
@@ -46,7 +47,9 @@ install_kernel () {
     	exit 1
     else
     	krpm=`find "${rpmdir}" -name "${rpmpat}"`
+        kdrpm=`find "${rpmdir}" -name "${rpmdev}"`
     	rpm -ihv $krpm
+        rpm -ihv $kdrpm
     fi
 }
 

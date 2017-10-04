@@ -19,6 +19,7 @@ if [ -z $KERNEL_VERSION ];then
 fi
 rpmdir=${1:-"/root/workspace/rpm/"}
 rpmpat="kernel-${KERNEL_VERSION}*.rpm"
+rpmdev="kernel-devel-${KERNEL_VERSION}*.rpm"
 
 config_grub () {
     key=$1
@@ -46,7 +47,9 @@ install_kernel () {
     	exit 1
     else
     	krpm=`find "${rpmdir}" -name "${rpmpat}"`
+        kdrpm=`find "${rpmdir}" -name "${rpmdev}"`
     	rpm -ihv $krpm
+        rpm -ihv $kdrpm
     fi
 }
 

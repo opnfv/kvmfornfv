@@ -41,7 +41,7 @@ function run_qemusrc() {
         -device virtio-net-pci,netdev=net1,mac=$MACADDRESS1 \
         -chardev socket,id=char2,path=$VHOSTPATH2 \
         -netdev type=vhost-user,id=net2,chardev=char2,vhostforce \
-        -device virtio-net-pci,netdev=net2,mac=$MACADDRESS2 -m 1024 -mem-path /dev/hugepages \
+        -device virtio-net-pci,netdev=net2,mac=$MACADDRESS2 -m 2048 -mem-path /dev/hugepages \
         -mem-prealloc -realtime mlock=on -monitor unix:${qmp_sock_src},server,nowait \
         -balloon virtio -drive file=/root/guest1.qcow2 -vnc :1 &
   if [ ${?} -ne 0 ] ; then
@@ -56,7 +56,7 @@ function run_qemulisten() {
   -device virtio-net-pci,netdev=net1,mac=$MACADDRESS1 \
   -chardev socket,id=char2,path=$VHOSTPATH4 \
   -netdev type=vhost-user,id=net2,chardev=char2,vhostforce \
-  -device virtio-net-pci,netdev=net2,mac=$MACADDRESS2 -m 1024 -mem-path /dev/hugepages \
+  -device virtio-net-pci,netdev=net2,mac=$MACADDRESS2 -m 2048 -mem-path /dev/hugepages \
   -mem-prealloc -realtime mlock=on -monitor unix:${qmp_sock_dst},server,nowait \
   -balloon virtio -drive file=/root/guest1.qcow2 -incoming tcp:${incoming_ip}:${migrate_port} -vnc :3 &
   if [ ${?} -ne 0 ] ; then
@@ -101,8 +101,9 @@ sleep 60
 echo "Running Qemu listen"
 run_qemulisten
 sleep 60
-do_migration $qmp_sock_src $qmp_sock_dst
-if [ ${?} -ne 0 ] ; then
-   echo "Migration Failed"
-   exit 1
-fi
+echo "End of host-run-livemigration"
+#do_migration $qmp_sock_src $qmp_sock_dst
+#if [ ${?} -ne 0 ] ; then
+   #echo "Migration Failed"
+   #exit 1
+#fi

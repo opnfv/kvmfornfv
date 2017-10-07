@@ -15,7 +15,7 @@ echo "Version: $__QEMURELEASE"
 # we need to determine the NEXT version number
 # rpm -q will agree
 echo "Release: `sh mkversion`"
-echo "License: GPLv2+ and LGPLv2+ and BSD"
+echo "License: GPLv2"
 echo "Group: Development/Tools"
 echo "Vendor: The Linux Community"
 echo "URL: http://www.qemu.org"

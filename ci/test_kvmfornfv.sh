@@ -65,8 +65,12 @@ function liveMigration {
    elif [ ${test_env} == "local" ];then
       source $WORKSPACE/ci/cyclicTestTrigger.sh $HOST_IP
       connect_host
+      #Update pod.yaml with IP
+      cd $WORKSPACE/tests/
+      sed -ri "s/[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}/${HOST_IP}/" pod.yaml
+      #Cleaning the environment before running Livemigration through yardstick
       env_clean
-      #Waiting for ssh to be available for the host machine.
+      #Waiting for ssh to be available for the host machine
       sleep 20
       if runLiveMigration ${test_env} ${test_name};then
          livemigration_result=`expr ${livemigration_result} + 0`

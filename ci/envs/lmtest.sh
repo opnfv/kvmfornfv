@@ -57,9 +57,6 @@ EOF
 #   updateConfDaily
 #fi
 
-echo "changing the qemu-migrate.py"
-sed -i "s/\/root\/workspace/\/root\/workspace\//g" ${yardstick_prefix}/qemu_migrate.py
-sed -i "s/host.put_file/host._put_file_shell/g" ${yardstick_prefix}/qemu_migrate.py
 
 #Running livemigration through yardstick
 echo "Executing livemigration through yardstick"

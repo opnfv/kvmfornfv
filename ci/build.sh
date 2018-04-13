@@ -56,30 +56,30 @@ function run() {
       centos)
          if [ ${apex_build_flag} -eq 0 ];then
             cd $WORKSPACE/ci/build_rpm
-            sudo docker build -t kvm_rpm .
-            sudo docker run --privileged=true -v $WORKSPACE:/opt/kvmfornfv -t  kvm_rpm \
+            docker build -t kvm_rpm .
+            docker run --privileged=true -v $WORKSPACE:/opt/kvmfornfv -t  kvm_rpm \
                          /opt/kvmfornfv/ci/build_interface.sh $1
          else
             cd $WORKSPACE/ci/
             echo $output_dir
             cp $WORKSPACE/ci/build_rpm/Dockerfile .
-            sudo docker build -t kvm_apex .
-            sudo docker run --privileged=true -v $WORKSPACE:/opt/kvmfornfv -t  kvm_apex  \
+            docker build -t kvm_apex .
+            docker run --privileged=true -v $WORKSPACE:/opt/kvmfornfv -t  kvm_apex  \
                          /opt/kvmfornfv/ci/installer_build.sh build_output apex
          fi
       ;;
       ubuntu)
          if [ ${compass_build_flag} -eq 0 ]; then
             cd $WORKSPACE/ci/build_deb
-            sudo docker build -t kvm_deb .
-            sudo docker run -v $WORKSPACE:/opt/kvmfornfv -t  kvm_deb \
+            docker build -t kvm_deb .
+            docker run -v $WORKSPACE:/opt/kvmfornfv -t  kvm_deb \
                         /opt/kvmfornfv/ci/build_interface.sh $1
          else
             cd $WORKSPACE/ci/
             echo $output_dir
             cp $WORKSPACE/ci/build_deb/Dockerfile .
-            sudo docker build -t kvm_docker .
-            sudo docker run --privileged=true -v $WORKSPACE:/opt/kvmfornfv -t  kvm_docker  \
+            docker build -t kvm_docker .
+            docker run --privileged=true -v $WORKSPACE:/opt/kvmfornfv -t  kvm_docker  \
                          /opt/kvmfornfv/ci/installer_build.sh build_output compass
          fi
       ;;
